@@ -1,0 +1,8 @@
+.folder{
+    background-color: grey;
+    color:white;
+    border-radius:10px;
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 20px auto;
+}
