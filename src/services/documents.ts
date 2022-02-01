@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
   getDownloadURL, getMetadata, listAll, ref, StorageReference,
 } from 'firebase/storage';
@@ -14,13 +15,27 @@ const getFilesDataFromList = async (items:StorageReference[]) => {
   return Promise.all(filesPromises);
 };
 
-export const getItemsFromPath = async (path:string, setFolders:Function, setFiles:Function) => {
+export const getItemsFromPath = async (path:string) => {
   const reference = ref(stg, path);
   const { prefixes, items } = await listAll(reference);
   const folders = prefixes.map((pre) => pre.name);
   const files = await getFilesDataFromList(items);
-  setFolders(folders);
-  setFiles(files);
+  return { folders, files };
+};
+
+export const setFilesAndFolders = async (
+  path:string,
+  setFolders:Function,
+  setFiles:Function,
+  setError:Function,
+) => {
+  try {
+    const { folders, files } = await getItemsFromPath(path);
+    setFolders(folders);
+    setFiles(files);
+  } catch (error) {
+    if (error instanceof FirebaseError) setError(error.message);
+  }
 };
 
 export default undefined;

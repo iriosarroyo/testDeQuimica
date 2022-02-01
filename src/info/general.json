@@ -1,0 +1,29 @@
+{
+    "cursos": [
+        {
+            "value": "eso3",
+            "text": "3º ESO"
+        },
+        {
+            "value": "eso4",
+            "text": "4º ESO"
+        },
+        {
+            "value": "bach1",
+            "text": "1º bachillerato"
+        },
+        {
+            "value": "bach2",
+            "text": "2º bachillerato"
+        }
+    ],
+    "clases": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+    ]
+}

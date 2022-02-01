@@ -1,0 +1,42 @@
+{
+    "NameLength": {
+        "code": "form/name-length",
+        "msg": "El nombre debe contener entre 1 y 30 caracteres.",
+        "name": "NameLength"
+    },
+    "SurnameLength": {
+        "code": "form/surname-length",
+        "msg": "Los apellidos deben contener entre 1 y 100 caracteres.",
+        "name": "SurnameLength"
+    },
+    "SurnameNumber": {
+        "code": "form/surname-number",
+        "msg": "Es necesario escribir dos apellidos.",
+        "name": "SurnameNumber"
+    },
+    "PermittedYear": {
+        "code": "form/permitted-year",
+        "msg": "El curso introducido no es correcto.",
+        "name": "PermittedYear"
+    },
+    "PermittedGroup": {
+        "code": "form/permitted-group",
+        "msg": "La clase introducida no es correcta.",
+        "name": "PermittedGroup"
+    },
+    "MobileNumber": {
+        "code": "form/mobile-number",
+        "msg": "El móvil debe ser un número.",
+        "name": "MobileNomber"
+    },
+    "MobileLength": {
+        "code": "form/mobile-length",
+        "msg": "El móvil debe ser un número entre 100 000 000 y 999 999 999, el +34 se presupone.",
+        "name": "MobileLength"
+    },
+    "UsernameLength": {
+        "code": "form/username-length",
+        "msg": "El nombre de usuario debe contener entre 1 y 20 caracteres.",
+        "name": "UsernameLength"
+    }
+}

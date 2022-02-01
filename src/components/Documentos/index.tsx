@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getItemsFromPath } from 'services/documents';
-import { FileData } from 'types/interfaces';
-import File from 'components/File';
-import Folder from 'components/Folder';
+import { setFilesAndFolders } from 'services/documents';
 import Info from 'components/Info';
 import Path from 'components/Path';
+import Folders from 'components/Folders';
+import Files from 'components/Files';
+import MyErrorContext from 'contexts/Error';
 
 function Documentos() {
   const folderPath = useParams()['*'] ?? '';
@@ -13,28 +13,19 @@ function Documentos() {
   const [files, setFiles] = useState([]);
   const [info, setInfo] = useState(undefined);
   const [visibilityInfo, setVisibilityInfo] = useState(false);
+  const setError = useContext(MyErrorContext);
 
   useEffect(() => {
-    getItemsFromPath(folderPath, setFolders, setFiles);
+    setFilesAndFolders(folderPath, setFolders, setFiles, setError);
   }, [folderPath]);
 
   const path = window.location.pathname.replace(/\/$/, '');
   return (
     <>
       <Path path={path} />
-      {folders.map((name:string) => {
-        const url = `${path}/${name}`;
-        return <Folder key={url} name={name} url={url} />;
-      })}
-      {files.map((file:FileData) => (
-        <File
-          key={file.fullPath}
-          fileData={{ ...file }}
-          infoSetter={setInfo}
-          visibilitySetter={setVisibilityInfo}
-        />
-      ))}
-      {visibilityInfo ? <Info fileData={info} visibilitySetter={setVisibilityInfo} /> : null}
+      <Folders path={path} folders={folders} />
+      <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
+      {visibilityInfo && <Info fileData={info} visibilitySetter={setVisibilityInfo} /> }
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { logOut } from 'services/user';
 import './Navbar.css';
 
 function Navbar() {
@@ -8,32 +9,7 @@ function Navbar() {
       <NavLink to="/inicio">Inicio</NavLink>
       <NavLink to="/documentos">Documentos</NavLink>
       <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Perfil</NavLink>
-      <NavLink to="/perfil">Último</NavLink>
+      <button type="button" onClick={logOut}>Cerrar Sesión</button>
     </nav>
   );
 }
