@@ -1,5 +1,5 @@
 import { FullMetadata } from 'firebase/storage';
-import { Dispatch, SetStateAction } from 'react';
+import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 
 export interface FolderData{
     name:string,
@@ -20,7 +20,7 @@ export type MyErrorContextType = Dispatch<SetStateAction<undefined>> |
                                  any
 
 interface FormErrorObject{
-    msg: string,
+    message: string,
     code: string,
     name: string
 }
@@ -43,3 +43,20 @@ export interface NewUserFormError{
     usernameError: FormError,
     yearError: FormError,
   }
+
+export interface FieldProps{
+  className:string | undefined,
+  id:string | undefined,
+  onChange:ChangeEventHandler,
+  required?:boolean,
+  value: string,
+}
+export interface InputProps extends FieldProps{
+  max?:string,
+  min?:string,
+  type?:string,
+}
+
+export interface SelectProps extends FieldProps{
+  options:({value:string, text:string}|string)[]
+}

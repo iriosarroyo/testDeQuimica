@@ -33,7 +33,7 @@ const checkMobile = (mobile:string):FormError => {
 };
 
 const checkUsername = async (username:string):Promise<FormError> => {
-  if (username.length < 1 || username.length > 20) return errors.NameLength;
+  if (username.length < 1 || username.length > 20) return errors.UsernameLength;
   return undefined;
 };
 

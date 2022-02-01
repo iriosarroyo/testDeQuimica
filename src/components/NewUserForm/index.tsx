@@ -1,10 +1,14 @@
+import Input from 'components/Input';
 import MyErrorContext from 'contexts/Error';
 import React, {
   ChangeEvent, FormEvent, useContext, useState,
 } from 'react';
+import { writeUserInfo } from 'services/database';
 import checkNewUserForm from 'services/formChecks';
 import { NewUserFormError, NewUserFormData } from 'types/interfaces';
+import general from 'info/general.json';
 import './NewUserForm.css';
+import Select from 'components/Select';
 
 const defaultFormState:NewUserFormData = {
   group: '',
@@ -22,6 +26,16 @@ const defaultErrorState:NewUserFormError = {
   surnameError: undefined,
   usernameError: undefined,
   yearError: undefined,
+};
+
+const anyErrorsInData = async (data:NewUserFormData, setError:Function, setErrorForm:Function) => {
+  const errors = await checkNewUserForm(data);
+  const errorsArray = Object.values(errors);
+  if (errorsArray.every((x) => x === undefined)) return false;
+  const msg = errorsArray.find((x) => x !== undefined)?.message;
+  setErrorForm(errors);
+  setError(msg);
+  return true;
 };
 
 export default function NewUserForm() {
@@ -55,37 +69,32 @@ export default function NewUserForm() {
 
   const handleSubmit = async (event:FormEvent) => {
     event.preventDefault();
-    const errors = await checkNewUserForm(formDataTrim);
-    const errorsArray = Object.values(errors);
-    if (errorsArray.some((x) => x !== undefined)) {
-      setErrorForm(errors);
-      const msg = errorsArray.find((x) => x !== undefined)?.msg;
-      return setError(msg);
-    }
-    return console.log(formDataTrim);
+    if (await anyErrorsInData(formDataTrim, setError, setErrorForm)) return;
+    const writeError = await writeUserInfo(formDataTrim);
+    if (writeError) setError(writeError.message);
   };
+
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" className={nameError && 'incorrectField'} id="name" onChange={handleChange} value={name} required />
-      <input type="text" className={surnameError && 'incorrectField'} id="surname" onChange={handleChange} value={surname} required />
-      <select id="year" className={yearError && 'incorrectField'} onChange={handleChange} value={year} required>
-        <option value=""> </option>
-        <option value="eso3">3º ESO</option>
-        <option value="eso4">4º ESO</option>
-        <option value="bach1">1º bachillerato</option>
-        <option value="bach2">2º bachillerato</option>
-      </select>
-      <select id="group" className={groupError && 'incorrectField'} onChange={handleChange} value={group} required>
-        <option value=""> </option>
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="G">G</option>
-      </select>
-      <input
+      <Input className={nameError && 'incorrectField'} id="name" onChange={handleChange} value={name} required />
+      <Input className={surnameError && 'incorrectField'} id="surname" onChange={handleChange} value={surname} required />
+      <Select
+        id="year"
+        className={yearError && 'incorrectField'}
+        onChange={handleChange}
+        value={year}
+        options={['', ...general.cursos]}
+        required
+      />
+      <Select
+        id="group"
+        className={groupError && 'incorrectField'}
+        onChange={handleChange}
+        value={group}
+        options={['', ...general.clases]}
+        required
+      />
+      <Input
         className={mobileError && 'incorrectField'}
         type="number"
         min="100000000"
@@ -94,7 +103,7 @@ export default function NewUserForm() {
         onChange={handleChange}
         value={mobile}
       />
-      <input type="text" className={usernameError && 'incorrectField'} id="username" onChange={handleChange} value={username} required />
+      <Input className={usernameError && 'incorrectField'} id="username" onChange={handleChange} value={username} required />
       <button type="submit">Guardar Datos</button>
     </form>
   );
