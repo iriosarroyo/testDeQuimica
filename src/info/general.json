@@ -25,5 +25,19 @@
         "E",
         "F",
         "G"
+    ],
+    "colorModes": [
+        "phases",
+        "cpk",
+        "density",
+        "boil",
+        "melt",
+        "molar_heat",
+        "electron_affinity",
+        "electronegativity_pauling",
+        "discover",
+        "isotopes",
+        "atomic_mass",
+        "number"
     ]
 }

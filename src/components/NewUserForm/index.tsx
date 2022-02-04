@@ -32,9 +32,9 @@ const anyErrorsInData = async (data:NewUserFormData, setError:Function, setError
   const errors = await checkNewUserForm(data);
   const errorsArray = Object.values(errors);
   if (errorsArray.every((x) => x === undefined)) return false;
-  const msg = errorsArray.find((x) => x !== undefined)?.message;
+  const esteError = errorsArray.find((x) => x !== undefined);
   setErrorForm(errors);
-  setError(msg);
+  setError(esteError);
   return true;
 };
 
@@ -76,34 +76,52 @@ export default function NewUserForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input className={nameError && 'incorrectField'} id="name" onChange={handleChange} value={name} required />
-      <Input className={surnameError && 'incorrectField'} id="surname" onChange={handleChange} value={surname} required />
-      <Select
-        id="year"
-        className={yearError && 'incorrectField'}
+      <Input
+        className={nameError && 'incorrectField'}
+        id="name"
         onChange={handleChange}
-        value={year}
-        options={['', ...general.cursos]}
+        value={name}
+        required
+      />
+      <Input
+        className={surnameError && 'incorrectField'}
+        id="surname"
+        onChange={handleChange}
+        value={surname}
         required
       />
       <Select
-        id="group"
-        className={groupError && 'incorrectField'}
+        className={yearError && 'incorrectField'}
+        id="year"
         onChange={handleChange}
-        value={group}
+        options={['', ...general.cursos]}
+        value={year}
+        required
+      />
+      <Select
+        className={groupError && 'incorrectField'}
+        id="group"
+        onChange={handleChange}
         options={['', ...general.clases]}
+        value={group}
         required
       />
       <Input
         className={mobileError && 'incorrectField'}
-        type="number"
-        min="100000000"
-        max="999999999"
         id="mobile"
+        max="999999999"
+        min="100000000"
         onChange={handleChange}
+        type="number"
         value={mobile}
       />
-      <Input className={usernameError && 'incorrectField'} id="username" onChange={handleChange} value={username} required />
+      <Input
+        className={usernameError && 'incorrectField'}
+        id="username"
+        onChange={handleChange}
+        value={username}
+        required
+      />
       <button type="submit">Guardar Datos</button>
     </form>
   );

@@ -1,0 +1,54 @@
+{
+  "atomic_mass": {
+    "min": 1.008,
+    "max": 294
+  },
+  "boil": {
+    "min": 4.222,
+    "max": 6203
+  },
+  "density": {
+    "min": 0.08988,
+    "max": 40.7
+  },
+  "melt": {
+    "min": 0.95,
+    "max": 3915
+  },
+  "molar_heat": {
+    "min": 8.517,
+    "max": 62.7
+  },
+  "number": {
+    "min": 1,
+    "max": 118
+  },
+  "period": {
+    "min": 1,
+    "max": 7
+  },
+  "xpos": {
+    "min": 1,
+    "max": 18
+  },
+  "ypos": {
+    "min": 1,
+    "max": 10
+  },
+  "electron_affinity": {
+    "min": -223.22,
+    "max": 348.575
+  },
+  "electronegativity_pauling": {
+    "min": 0.79,
+    "max": 3.98
+  },
+  "discover": {
+    "min": -8000,
+    "max": 2010
+  },
+  "isotopes": {
+    "min": 1,
+    "max": 40
+  }
+}

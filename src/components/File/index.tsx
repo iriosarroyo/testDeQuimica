@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from 'components/Button';
 import React, { MouseEvent } from 'react';
 import { determineContentType } from '../../services/toolsForData';
 import { FileData } from '../../types/interfaces';
+import './File.css';
 
 function File({ fileData, infoSetter, visibilitySetter }:
     {fileData:FileData, infoSetter:Function, visibilitySetter:Function}) {
@@ -13,16 +15,17 @@ function File({ fileData, infoSetter, visibilitySetter }:
     visibilitySetter(true);
   };
   return (
-    <a href={url} target="_blank" rel="noreferrer">
-      <div>
+    <a className="file" href={url} target="_blank" rel="noreferrer">
+      <div className="iconFile">
         <FontAwesomeIcon icon={`file-${format}`} />
       </div>
-      <div>
+      <div className="nameFile">
         {name}
       </div>
-      <button type="button" onClick={handleClick}>
+      <Button className="infoFile" onClick={handleClick}>
         <FontAwesomeIcon icon="info-circle" />
-      </button>
+      </Button>
+      <div className="tooltipFile">{name}</div>
     </a>
   );
 }

@@ -1,0 +1,5 @@
+.hola div{
+  min-height: 25px;
+  display:grid;
+  grid-template-columns: auto 70px 60px;
+}

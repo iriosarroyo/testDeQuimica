@@ -1,7 +1,9 @@
 .folder{
-    background-color: grey;
-    color:white;
-    border-radius:10px;
+    background-color: var(--bg2-color);
+    text-decoration: none;
+    color:var(--font2-color);
+    border-radius:25px;
+    padding: 10px 15px;
     display: grid;
     column-gap: 5px;
     grid-template-columns: 20px auto;

@@ -1,0 +1,48 @@
+.userIcon{
+  border-radius: 50%;
+  width:44px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: var(--bg-color);
+  color:var(--font2-color);
+  border: 2px solid var(--bg-color);
+}
+.userIcon:hover{
+  border-color: #e8eaed14;
+}
+
+.userIcon img{
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.undefinedIcon{
+  background-color: var(--bg2-color);
+  font-size: 20px;
+}
+
+.dropUserIcon{
+  align-items: center;
+  background-color: var(--bg2-color);
+  display:flex;
+  flex-direction: column;
+  height: 90px;
+  width: 150px;
+  justify-content: space-around;
+  position: absolute;
+  z-index: 1;
+  right: 0px;
+  top:50px;
+  border-radius: 0 0 15px 15px;
+}
+
+.dropUserIcon button{
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  padding: 5px 15px;
+  border-radius: 25px;
+}

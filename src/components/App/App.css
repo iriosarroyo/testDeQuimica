@@ -2,8 +2,26 @@
   text-align: center;
   height: 100%;
   width: 100%;
+}
+
+.loggedIn {
+  text-align: center;
+  height: 100vh;
+  width: 100%;
   display: grid;
-  grid-template-columns: 200px minmax(auto, calc(100% - 210px));
+  grid-template-areas: 'header header'
+                       'menu main'
+                       'menu footer';
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 50px 1fr max-content;
+  overflow: hidden;
+}
+
+.myFooter{
+  grid-area: footer;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  
 }
 
 .App-logo {
@@ -12,14 +30,40 @@
 
 }
 
+.generalHeader {
+  position:sticky;
+  top:0;
+  grid-area: header;
+  display:grid;
+  align-items: center;
+  grid-template-columns: max-content auto max-content;
+  padding: 0px 10px 0px 0px;
+  column-gap: 5px;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+}
+
 .principal{
     width: 100%;
-    max-width: 500px;
-    margin: 50px auto;
-    text-align: justify;
-    padding: 4px 10px;
-    box-shadow: 0em 0em 100px -50px black;
-    overflow: hidden;
+    text-align: center;
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    padding: 0px;
+    color: var(--bg2-color);
+    background-color: var(--font2-color);
+    overflow-y: scroll;
+}
+
+.mainText{
+  max-width: max(500px, 60%);
+  width: 100%;
+  text-align: justify;
+}
+
+.listaPlaceHolder{
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {

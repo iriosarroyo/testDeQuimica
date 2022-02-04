@@ -21,12 +21,12 @@ function Documentos() {
 
   const path = window.location.pathname.replace(/\/$/, '');
   return (
-    <>
+    <div className="mainText">
       <Path path={path} />
       <Folders path={path} folders={folders} />
       <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
       {visibilityInfo && <Info fileData={info} visibilitySetter={setVisibilityInfo} /> }
-    </>
+    </div>
   );
 }
 export default Documentos;

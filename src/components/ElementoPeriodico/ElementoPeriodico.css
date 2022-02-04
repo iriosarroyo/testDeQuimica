@@ -1,0 +1,30 @@
+g{
+  cursor:pointer;
+}
+.gas rect{
+  fill:red;
+}
+
+.gas text{
+  fill:white;
+}
+
+.liquid rect{
+  fill:blue;
+}
+.liquid text{
+  fill:white;
+}
+
+.solid rect{
+  fill:lightgray;
+}
+.solid text{
+  fill:black;
+}
+.no-data rect{
+  fill: orange;
+}
+.no-data text{
+  fill:white;
+}

@@ -34,7 +34,7 @@ export const setFilesAndFolders = async (
     setFolders(folders);
     setFiles(files);
   } catch (error) {
-    if (error instanceof FirebaseError) setError(error.message);
+    if (error instanceof FirebaseError) setError(error);
   }
 };
 

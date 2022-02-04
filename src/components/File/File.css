@@ -1,0 +1,84 @@
+.fa-file-pdf{
+  color:#ad0b00;
+}
+.fa-file-word{
+  color:#3fa0e6;
+}
+.fa-file-image{
+  color:white;
+}
+.fa-file-powerpoint{
+  color:#cb4525;
+}
+.fa-file-alt{
+  color:black;
+}
+
+.file{
+  position: relative;
+  display: grid;
+  max-width: 100%;
+  text-decoration: none;
+  grid-template-columns: max-content auto max-content;
+  column-gap: 5px;
+  background-color: var(--bg-color);
+  height: 40px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.tooltipFile{
+  position:absolute;
+  font-size: 0.9em;
+  display: none;
+  align-items: center;
+  padding: 5px 15px;
+  top: 40px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  width:max-content;
+  line-height: normal;
+  text-align: left;
+  max-width: 100%;
+  border-radius: 25px;
+  height: auto;
+  z-index: 1;
+  color: var(--font2-color);
+  background-color: var(--bg2-color);
+}
+
+.file:hover .tooltipFile{
+  display:flex;
+}
+
+.iconFile{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 5px;
+  font-size: 20px;
+}
+
+.nameFile{
+  color: var(--font-color);
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.infoFile{
+  cursor: help;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px 0 5px;
+  font-size: 20px;
+  background-color: inherit;
+}

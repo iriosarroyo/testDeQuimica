@@ -1,0 +1,9 @@
+.elementDetails{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 20px;
+}
+
+.elementDetails span:first-child{
+  font-weight: bold;
+}

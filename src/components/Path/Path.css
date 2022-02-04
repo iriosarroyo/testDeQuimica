@@ -1,0 +1,17 @@
+.pathItem>a{
+  color: var(--bg2-color);
+}
+
+.pathItem {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 5px;
+  padding-right: 5px;
+  align-items: center;
+  justify-items: center;
+}
+
+.path{
+  display: flex;
+  flex-wrap: wrap;
+}

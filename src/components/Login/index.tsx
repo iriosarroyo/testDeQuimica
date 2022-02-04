@@ -1,6 +1,8 @@
 import { logIn } from 'services/user';
-import React from 'react';
+import React, { useContext } from 'react';
+import MyErrorContext from 'contexts/Error';
 
 export default function Login() {
-  return <button type="button" onClick={logIn}>Iniciar Sesión</button>;
+  const setError = useContext(MyErrorContext);
+  return <button type="button" onClick={() => logIn(setError)}>Iniciar Sesión</button>;
 }
