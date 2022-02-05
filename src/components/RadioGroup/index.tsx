@@ -8,15 +8,16 @@ export default function RadioGroup({
   {options:{value:string, text:string}[], groupValue:string|undefined,
   setter:Function}) {
   return (
-    <div className="radioGroup">
+    <ul className="unlisted radioGroup">
       {options.map(({ value, text }) => (
         <Radio
+          key={value}
           value={value}
           text={text}
           setter={setter}
           groupValue={groupValue}
         />
       ))}
-    </div>
+    </ul>
   );
 }

@@ -3,6 +3,7 @@
     text-decoration: none;
     color:var(--font2-color);
     border-radius:25px;
+    align-items: center;
     padding: 10px 15px;
     display: grid;
     column-gap: 5px;

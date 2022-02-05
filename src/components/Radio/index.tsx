@@ -14,12 +14,12 @@ export default function Radio({
     else setter(undefined);
   };
   return (
-    <div className="radioButton">
+    <li className="radioButton">
       <Button onClick={handleClick}>
         {groupValue === value ? <FontAwesomeIcon icon="check-circle" />
           : <FontAwesomeIcon icon={['fas', 'circle']} />}
         <div dangerouslySetInnerHTML={{ __html: decodeHTML(text) }} />
       </Button>
-    </div>
+    </li>
   );
 }

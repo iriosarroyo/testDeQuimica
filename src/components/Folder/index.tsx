@@ -6,12 +6,14 @@ import { FolderData } from '../../types/interfaces';
 
 function Folder({ name, url }:FolderData) {
   return (
-    <Link className="folder" to={url}>
-      <div>
-        <FontAwesomeIcon icon="folder" />
-      </div>
-      <div>{name}</div>
-    </Link>
+    <li>
+      <Link className="folder" to={url}>
+        <div>
+          <FontAwesomeIcon icon="folder" />
+        </div>
+        <div>{name}</div>
+      </Link>
+    </li>
   );
 }
 

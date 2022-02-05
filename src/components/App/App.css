@@ -60,6 +60,7 @@
   max-width: max(500px, 60%);
   width: 100%;
   text-align: justify;
+  padding: 5px 15px;
 }
 
 .listaPlaceHolder{
@@ -120,4 +121,12 @@
   /* animation: slider-text 30s infinite linear; */
 }
 
+.unlisted {
+  margin:0;
+  padding:0;
 
+}
+
+.unlisted li{
+  list-style: none;
+}

@@ -4,11 +4,11 @@ import './Folders.css';
 
 export default function Folders({ folders, path }:{folders:string[], path:string}) {
   return (
-    <div className="folderGroup">
+    <ul className="unlisted folderGroup">
       {folders.map((name:string) => {
         const url = `${path}/${name}`;
         return <Folder key={url} name={name} url={url} />;
       })}
-    </div>
+    </ul>
   );
 }

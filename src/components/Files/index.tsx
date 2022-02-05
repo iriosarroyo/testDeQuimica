@@ -6,7 +6,7 @@ import './Files.css';
 export default function Files({ files, setInfo, setVisibilityInfo }:
     {files:FileData[], setInfo:Function, setVisibilityInfo:Function}) {
   return (
-    <div className="fileGroup">
+    <ul className="unlisted fileGroup">
       {files.map((file:FileData) => (
         <File
           key={file.fullPath}
@@ -15,6 +15,6 @@ export default function Files({ files, setInfo, setVisibilityInfo }:
           visibilitySetter={setVisibilityInfo}
         />
       ))}
-    </div>
+    </ul>
   );
 }

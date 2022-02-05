@@ -15,18 +15,20 @@ function File({ fileData, infoSetter, visibilitySetter }:
     visibilitySetter(true);
   };
   return (
-    <a className="file" href={url} target="_blank" rel="noreferrer">
-      <div className="iconFile">
-        <FontAwesomeIcon icon={`file-${format}`} />
-      </div>
-      <div className="nameFile">
-        {name}
-      </div>
-      <Button className="infoFile" onClick={handleClick}>
-        <FontAwesomeIcon icon="info-circle" />
-      </Button>
-      <div className="tooltipFile">{name}</div>
-    </a>
+    <li>
+      <a className="file" href={url} target="_blank" rel="noreferrer">
+        <div className="iconFile">
+          <FontAwesomeIcon icon={`file-${format}`} />
+        </div>
+        <div className="nameFile">
+          {name}
+        </div>
+        <Button className="infoFile" onClick={handleClick}>
+          <FontAwesomeIcon icon="info-circle" />
+        </Button>
+        <div className="tooltipFile">{name}</div>
+      </a>
+    </li>
   );
 }
 
