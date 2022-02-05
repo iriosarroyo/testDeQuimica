@@ -28,6 +28,10 @@ const defaultErrorState:NewUserFormError = {
   yearError: undefined,
 };
 
+const defaultData = {
+  velocidad: 1,
+};
+
 const anyErrorsInData = async (data:NewUserFormData, setError:Function, setErrorForm:Function) => {
   const errors = await checkNewUserForm(data);
   const errorsArray = Object.values(errors);
@@ -70,7 +74,7 @@ export default function NewUserForm() {
   const handleSubmit = async (event:FormEvent) => {
     event.preventDefault();
     if (await anyErrorsInData(formDataTrim, setError, setErrorForm)) return;
-    const writeError = await writeUserInfo(formDataTrim);
+    const writeError = await writeUserInfo({ ...formDataTrim, ...defaultData });
     if (writeError) setError(writeError.message);
   };
 

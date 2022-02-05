@@ -56,3 +56,9 @@ export const getInicioWithSetters = async (setValue:Function, setError:Function)
   if (error) return setError(error);
   return setValue(inicio);
 };
+
+export const getFrasesCuriosasWithSetters = async (callback:Function, setError:Function) => {
+  const [frases, error] = await readDDBB('inicio/datosCuriosos');
+  if (error) return setError(error);
+  return callback(Object.values(frases));
+};

@@ -3,6 +3,7 @@ import {
   ChangeEventHandler, Dispatch, MouseEventHandler, SetStateAction,
 } from 'react';
 import maxAndMin from 'info/maxAndMinTabla.json';
+import { User } from 'firebase/auth';
 
 export interface FolderData{
     name:string,
@@ -114,3 +115,19 @@ export interface PreguntaTestDeQuimica{
   tema:string,
   year:string
 }
+
+export interface userDDBB{
+  group:string,
+  mobile:string,
+  name:string,
+  surname:string,
+  username:string,
+  velocidad:number,
+  year:string
+}
+
+export interface CompleteUser extends User{
+  userDDBB:userDDBB,
+}
+
+export type MyUser = CompleteUser | undefined
