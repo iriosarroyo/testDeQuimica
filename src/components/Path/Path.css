@@ -13,5 +13,9 @@
 
 .path{
   display: flex;
+  padding: 10px 0;
   flex-wrap: wrap;
+  position: sticky;
+  top:0;
+  background-color: var(--font2-color);
 }
