@@ -1,0 +1,25 @@
+.shortcut{
+  display: contents;
+}
+
+.shortcutGroup{
+  max-width: 500px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(1fr, max-content) 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.shortcutCombination{
+  grid-column: 1;
+}
+
+.shortcutCombination span{
+  white-space: pre;
+}
+
+.shortcutDescription{
+  text-align: justify;
+  grid-column: 2;
+}

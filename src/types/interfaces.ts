@@ -4,6 +4,7 @@ import {
 } from 'react';
 import maxAndMin from 'info/maxAndMinTabla.json';
 import { User } from 'firebase/auth';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface FolderData{
     name:string,
@@ -131,3 +132,21 @@ export interface CompleteUser extends User{
 }
 
 export type MyUser = CompleteUser | undefined
+
+export interface Shortcut{
+  shortcut: string,
+  description: string,
+  shift?:string,
+  action: 'goTo' | 'showFront',
+  url?:string,
+  // eslint-disable-next-line no-undef
+  element?: () => JSX.Element
+}
+
+export interface PaginaObject extends Shortcut{
+  url:string,
+  text:string,
+  icon:IconProp,
+}
+
+export type Paginas = PaginaObject[];

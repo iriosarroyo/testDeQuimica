@@ -1,9 +1,10 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { PaginaObject } from 'types/interfaces';
 
-export default function NavItem({ url, text, icon }:{url:string, text:string, icon:IconProp}) {
+export default function NavItem({ item }:{item:PaginaObject}) {
+  const { text, url, icon } = item;
   return (
     <li>
       <NavLink title={text} to={url}>

@@ -6,9 +6,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { authState } from 'services/user';
 
 const Login = loadable(() => import('../Login'));
-const LoggedIn = loadable(() => import('../LoggedIn'));
 const NewUserForm = loadable(() => import('../NewUserForm'));
 const Header = loadable(() => import('../Header'));
+const LoggedIn = loadable(() => import('../LoggedIn'), {
+  fallback: <Header />,
+});
 
 export default function ContentApp() {
   const [user, setUser]:[any, Function] = useState<User|undefined>(undefined);

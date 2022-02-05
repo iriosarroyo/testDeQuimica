@@ -130,3 +130,50 @@
 .unlisted li{
   list-style: none;
 }
+
+
+.frontElement{
+  position:fixed;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bgReducedOpacity-color);
+}
+
+.frontElement>div{
+  background-color: var(--font2-color);
+  padding: 15px 30px;
+  border-radius: 25px;
+  color: var(--bg2-color);
+  text-align: left;
+  max-height: calc(100% - 20px);
+  overflow-y: auto;
+  margin: 5px 10px;
+
+}
+
+.frontElement>button{
+  position: absolute;
+  top:0;
+  right:0;
+  background: none;
+  color: var(--font-color);
+  font-size: 30px;
+}
+
+kbd {
+  background-color: var(--bg-color);
+  border-radius: 3px;
+  border: 1px solid var(--bgReducedOpacity-color);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 2px 0 0 rgb(255 255 255 / 70%) inset;
+  color: var(--font-color);
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
