@@ -1,7 +1,17 @@
 import React from 'react';
 import { FileData } from 'types/interfaces';
-import File from 'components/File';
+import File, { LoadingFile } from 'components/File';
 import './Files.css';
+
+export function LoadingFiles() {
+  return (
+    <ul className="unlisted fileGroup">
+      <LoadingFile />
+      <LoadingFile />
+      <LoadingFile />
+    </ul>
+  );
+}
 
 export default function Files({ files, setInfo, setVisibilityInfo }:
     {files:FileData[], setInfo:Function, setVisibilityInfo:Function}) {

@@ -28,11 +28,13 @@ export const setFilesAndFolders = async (
   setFolders:Function,
   setFiles:Function,
   setError:Function,
+  onEnd?:Function,
 ) => {
   try {
     const { folders, files } = await getItemsFromPath(path);
     setFolders(folders);
     setFiles(files);
+    if (onEnd) onEnd();
   } catch (error) {
     if (error instanceof FirebaseError) setError(error);
   }
