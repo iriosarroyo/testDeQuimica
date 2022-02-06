@@ -2,6 +2,7 @@
   text-align: center;
   height: 100%;
   width: 100%;
+  background-color: var(--font2-color);
 }
 
 .loggedIn {
@@ -34,6 +35,7 @@
   position:sticky;
   top:0;
   grid-area: header;
+  z-index: 3;
   display:grid;
   align-items: center;
   grid-template-columns: max-content auto max-content;
@@ -44,33 +46,132 @@
 }
 
 .principal{
-    width: 100%;
-    text-align: center;
-    grid-area: main;
-    display: flex;
-    justify-content: center;
-    font-weight: 400;
-    padding: 0px;
-    color: var(--bg2-color);
-    background-color: var(--font2-color);
-    overflow-y: scroll;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  font-weight: 400;
+  padding: 0px;
+  color: var(--bg2-color);
+  background-color: var(--font2-color);
+  overflow-y: auto;
 }
+
 
 .mainText{
   max-width: max(500px, 60%);
   width: 100%;
   text-align: justify;
+  height: max-content;
   padding: 5px 15px;
+}
+
+.displayDocs{
+  display: grid;
+  text-align: left;
+  width: 100%;
+  max-height: 100%;
+  grid-template-areas: "path path"
+                       "filesfolders info";
+  grid-template-columns: 100% 0;
+  grid-template-rows: max-content 1fr;
+  overflow: hidden;
+}
+
+.displayDocs>.foldersAndFilesContainer{
+  grid-area:filesfolders;
+}
+.displayDocs>.path{
+  grid-area: path;
+}
+.displayDocs>.infoDocs{
+  grid-area: info;
+}
+.infoDocs{
+  width: 100%;
+  max-height: 100%;
+  position: relative;
+  border-left: 2px solid var(--bg2-color);
+  box-shadow: 10px 0px 20px 0px var(--bg2-color);
+  background-color: var(--bg3-color);
+  color:var(--font2-color);
+  padding: 5px 10px;
+  overflow: hidden;
+}
+.infoDocs a{
+  color:var(--font2-color);
+
+}
+.displayDocs.displayedInfoDocs{
+  grid-template-columns: 1fr 250px
+}
+.displayedInfoDocs .folderGroup,
+.displayedInfoDocs .fileGroup{
+  overflow: hidden;
+}
+.foldersAndFilesContainer{
+  overflow-y: auto;
+  display: grid;
+  padding: 0px 15px;
+  width:100%;
+  grid-template-columns: min(max(500px, 60%), 100%);
+  grid-template-rows: max-content max-content;
+  justify-content: center;
+}
+
+.infoDocs>button{
+  position: absolute;
+  background: none;
+  top: 0;
+  right:0;
+  font-size: 30px;
+  color:var(--font2-color);
+}
+.infoDocs>ul{
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.titleInfo{
+  display: block;
+  padding: 2px 0;
+  margin-top: 5px;
+}
+
+a.dataInfo{
+  overflow-wrap: break-word;
+}
+
+.dataInfo>svg{
+  margin-right: 5px;
+}
+
+@media (max-width: 500px) {
+  .displayDocs.displayedInfoDocs{
+    grid-template-columns: 0 1fr
+  }
 }
 
 .listaPlaceHolder{
   width: 100%;
 }
 
+.generalContentLoader{
+  padding: 15px 0;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+
+  .displayDocs{
+    transition: all 500ms;
+  }
+
 
   @keyframes slider-text {
     from {

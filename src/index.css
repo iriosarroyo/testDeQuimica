@@ -1,28 +1,39 @@
 :root{
   --bg-dark-mode: #44546A;
+  --bg2-dark-mode:#9db4d5;
+  --bg3-dark-mode:#798AA3;
   --bgReducedOpacity-dark-mode: #44546ac4;
   --font-dark-mode: #b2cce5; 
-  --bg2-dark-mode:#9db4d5;
   --font2-dark-mode: #1c2833;
+  --font2-fore-dark-mode: #2d4052;
+
   --bg-light-mode: #67A0C6;
-  --bgReducedOpacity-light-mode: #67A0C6c4;
   --bg2-light-mode: #1c2833;
+  --bg3-light-mode: #20403E;
+  --bgReducedOpacity-light-mode: #67A0C6c4;
   --font-light-mode: #070707;  
   --font2-light-mode: #ddd;  
-  --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
+  --font2-fore-light-mode: #c4c4c4;  
+
   --bg-color: var(--bg-dark-mode);
   --bg2-color: var(--bg2-dark-mode);
+  --bg3-color: var(--bg3-dark-mode);
+  --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
   --font-color: var(--font-dark-mode);
   --font2-color: var(--font2-dark-mode);
+  --font2-fore-color: var(--font2-fore-dark-mode);
 }
 
 @media (prefers-color-scheme: light){
   :root{
     --bg-color: var(--bg-light-mode);
     --bg2-color: var(--bg2-light-mode);
+    --bg3-color: var(--bg3-light-mode);
+    --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
     --font-color: var(--font-light-mode);
     --font2-color: var(--font2-light-mode);
-    --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
+    --font2-fore-color: var(--font2-fore-light-mode);
+
   }
 }
 body {

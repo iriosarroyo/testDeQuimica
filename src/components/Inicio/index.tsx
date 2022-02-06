@@ -4,9 +4,9 @@ import React, {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import { getFrasesCuriosasWithSetters, getInicioWithSetters } from 'services/database';
-import { List } from 'react-content-loader';
 import setFooter from 'hooks/setFooter';
 import UserContext from 'contexts/User';
+import GeneralContentLoader from 'components/GeneralContentLoader';
 
 const changeAnimation = (
   estaRef:RefObject<HTMLDivElement>,
@@ -63,12 +63,8 @@ function Inicio() {
             <div dangerouslySetInnerHTML={{ __html: text.content }} />
           </>
         )
-        : (
-          <>
-            <List className="listaPlaceHolder" />
-            <List className="listaPlaceHolder" />
-          </>
-        )
+        : <GeneralContentLoader />
+
     }
 
     </div>

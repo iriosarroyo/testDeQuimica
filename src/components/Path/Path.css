@@ -1,5 +1,5 @@
 .pathItem>a{
-  color: var(--bg2-color);
+  color: var(--font2-color);
 }
 
 .pathItem {
@@ -13,9 +13,13 @@
 
 .path{
   display: flex;
-  padding: 10px 0;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--bg2-color);
   flex-wrap: wrap;
   position: sticky;
   top:0;
-  background-color: var(--font2-color);
+  z-index: 2;
+  background-color: var(--bg3-color);
+  color:var(--font2-color);
+
 }

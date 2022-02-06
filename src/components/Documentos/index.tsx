@@ -24,24 +24,28 @@ function Documentos() {
   const [info, setInfo] = useState(undefined);
   const [visibilityInfo, setVisibilityInfo] = useState(false);
   const setError = useContext(MyErrorContext);
+  const infoDisplayed = visibilityInfo ? 'displayedInfoDocs' : '';
 
   useEffect(() => {
     setLoading(true);
+    setVisibilityInfo(false);
     setFilesAndFolders(folderPath, setFolders, setFiles, setError, () => setLoading(false));
   }, [folderPath]);
 
   const path = window.location.pathname.replace(/\/$/, '');
   return (
-    <div className="mainText">
+    <div className={`displayDocs ${infoDisplayed}`}>
       <Path path={path} />
-      {loading ? <LoadingDocuments />
-        : (
-          <>
-            <Folders path={path} folders={folders} />
-            <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
-            {visibilityInfo && <Info fileData={info} visibilitySetter={setVisibilityInfo} /> }
-          </>
-        )}
+      <div className="foldersAndFilesContainer">
+        {loading ? <LoadingDocuments />
+          : (
+            <>
+              <Folders path={path} folders={folders} />
+              <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
+            </>
+          )}
+      </div>
+      {visibilityInfo && <Info fileData={info} visibilitySetter={setVisibilityInfo} /> }
     </div>
   );
 }
