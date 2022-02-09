@@ -88,15 +88,16 @@ export default function ElementoPeriodico({
         y={y + h / 2}
         textAnchor="middle"
         dominantBaseline="middle"
+        fontSize="16px"
       >
         {symbol}
       </text>
       <text
         x={x + w - 2}
-        y={y}
+        y={y + 2}
         textAnchor="end"
         dominantBaseline="hanging"
-        fontSize="0.7em"
+        fontSize="12px"
       >
         {number}
       </text>
@@ -105,7 +106,7 @@ export default function ElementoPeriodico({
         y={y + h}
         textAnchor="middle"
         dominantBaseline="text-after-edge"
-        fontSize="0.7em"
+        fontSize="12px"
       >
         {numberToRepresent}
       </text>

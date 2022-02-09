@@ -1,6 +1,6 @@
-.radioButton>button{
+.radioButton > button {
   background-color: inherit;
-  color:inherit;
+  color: inherit;
   width: 100%;
   display: grid;
   text-align: left;
@@ -10,13 +10,12 @@
   align-items: center;
 }
 
-
-.radioButton .fa-circle path{
-  fill:var(--font2-color);
+.radioButton .fa-circle path {
+  fill: var(--font2-color);
   stroke: var(--bg2-color);
   stroke-width: 35px;
 }
 
-.radioButton>button:hover .fa-circle path{
-  fill:var(--bg-color);
+.radioButton > button:hover path {
+  fill: var(--bg-color);
 }

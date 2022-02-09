@@ -45,6 +45,13 @@ export const setPreguntaById = async (setter:Function, id:string) => {
   setter(await getPreguntaById(id));
 };
 
+export const setMultiplePregsByIds = async (setter:Function, ids:Set<string>) => {
+  const uniqueIds = Array.from(ids).filter((id, idx, self) => self.indexOf(id) === idx);
+  const promises = uniqueIds.map(getPreguntaById);
+  const preguntas = await Promise.all(promises);
+  setter(preguntas);
+};
+
 export const getInicio = async () => {
   const [currentInicio, error] = await readDDBB('inicio/active');
   if (error) return [undefined, error];

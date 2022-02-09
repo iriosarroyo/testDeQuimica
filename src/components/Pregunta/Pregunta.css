@@ -1,11 +1,13 @@
-.enunciadoPregunta{
+.enunciadoPregunta {
   margin: 0;
 }
 
-.itemGroupPregunta{
+.itemGroupPregunta {
   padding: 5px 0;
 }
 
-.pregunta{
+.pregunta {
   padding: 15px 10px;
+  width: max(500px, 60%);
+  max-width: 100%;
 }

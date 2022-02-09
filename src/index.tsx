@@ -52,6 +52,12 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
+window.addEventListener('resize', () => document
+  .documentElement
+  .style
+  .setProperty('--vh', `${window.innerHeight / 100}px`));
+// window.addEventListener('resize', () => alert(`${window.innerHeight / 100}px`));
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

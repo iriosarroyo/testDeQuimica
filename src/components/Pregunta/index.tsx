@@ -1,21 +1,30 @@
 import ItemPregunta from 'components/ItemPregunta';
 import RadioGroup from 'components/RadioGroup';
-import React, { useState } from 'react';
+import React from 'react';
+
 import decodeHTML from 'services/decodeHTML';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import './Pregunta.css';
 
-export default function Pregunta({ objPreg }:
-  {objPreg:PreguntaTestDeQuimica}) {
-  const [valueGroup, setValue]:[string|undefined, Function] = useState(undefined);
+export default function Pregunta({
+  idx, objPreg, myRef, setValue,
+}:
+  {idx: number,
+    objPreg:PreguntaTestDeQuimica,
+    myRef:(el:HTMLDivElement)=>void,
+    setValue:Function}) {
   const {
-    pregunta, opciones, id, tema, year,
+    pregunta, opciones, id, tema, year, answer,
   } = objPreg;
+
   const estasOpciones = Object.values(opciones)
     .map(({ id: value, value: text }) => ({ value, text }));
   return (
-    <div className="pregunta">
-      <h4 className="enunciadoPregunta" dangerouslySetInnerHTML={{ __html: decodeHTML(pregunta) }} />
+    <div className="pregunta" id={id} ref={myRef}>
+      <h4
+        className="enunciadoPregunta"
+        dangerouslySetInnerHTML={{ __html: `${idx + 1}) ${decodeHTML(pregunta)}` }}
+      />
       <div className="itemGroupPregunta">
         {id && <ItemPregunta title="Id: " text={id} />}
         {tema && <ItemPregunta title="Tema: " text={tema} /> }
@@ -23,8 +32,8 @@ export default function Pregunta({ objPreg }:
       </div>
       <RadioGroup
         options={estasOpciones}
-        groupValue={valueGroup}
-        setter={setValue}
+        groupValue={answer}
+        setter={(val:string) => setValue(val, idx)}
       />
     </div>
   );

@@ -18,6 +18,8 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.tsx'] }],
     'import/extensions': ['error', 'never'],
     'no-plusplus': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
   settings: {
     'import/resolver': {

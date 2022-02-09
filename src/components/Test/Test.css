@@ -1,0 +1,126 @@
+.test {
+  height: 100%;
+  display: flex;
+  overflow-y: hidden;
+  width: 100%;
+  flex-direction: column;
+}
+
+.testBar {
+  display: flex;
+  position: sticky;
+  top: 0;
+  flex-wrap: wrap;
+  background-color: var(--bg3-color);
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.testBarGroup {
+  display: flex;
+  flex: 1 1 max-content;
+  flex-wrap: wrap;
+  column-gap: 5px;
+  width: 100%;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.testBarChild {
+  padding: 5px 0;
+}
+.testBarObject {
+  display: block;
+  user-select: none;
+  width: max-content;
+  font-size: 1em;
+  padding: 5px 15px;
+  border-radius: 25px;
+  background-color: var(--font2-color);
+  color: var(--bg2-color);
+}
+
+.testButtonFooter {
+  padding: 5px 15px;
+  user-select: none;
+  font-size: 1em;
+  border-radius: 25px;
+  background-color: var(--font-color);
+  color: var(--bg-color);
+}
+
+.testCuadrado,
+.testDobleCuadrado {
+  border-radius: 5px;
+  border: 1.5px solid var(--font-color);
+  background-color: var(--font-color);
+  color: var(--bg-color);
+}
+
+.testCuadrado {
+  width: 40px;
+  height: 40px;
+  margin: 2px;
+}
+.testDobleCuadrado {
+  width: 50px;
+  min-height: 50px;
+  height: 50%;
+  font-size: 30px;
+}
+
+.testNavegacion {
+  display: grid;
+  align-items: center;
+  grid-template-areas: "left cuadrados right";
+  grid-template-columns: 50px 1fr 50px;
+  column-gap: 10px;
+}
+
+.testCuadradosContainer {
+  grid-area: cuadrados;
+}
+
+.offsetleft {
+  grid-area: left;
+}
+
+.offsetright {
+  grid-area: right;
+}
+
+.testCuadrado.activeCuadrado {
+  background-color: var(--font2-color);
+  color: var(--bg2-color);
+}
+
+.testCuadrado.answeredCuadrado {
+  background-color: var(--bg3-color);
+  color: var(--font2-color);
+}
+
+.testPreguntasContainer {
+  text-align: left;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+  margin: auto;
+}
+
+.testBarObject > svg {
+  margin-right: 5px;
+}
+
+.noTimeLeft {
+  animation: noTime 2000ms infinite ease-in-out;
+}
+
+@keyframes noTime {
+  50% {
+    background-color: var(--bg-red-color);
+  }
+}

@@ -10,7 +10,12 @@ export default function TablaPeriodica({ properties }:{properties:any}) {
     color, log, invert, colorNumber, temp, handleClick,
   } = properties;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={CELL_SIZE_W * 18} height={CELL_SIZE_H * 11}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={CELL_SIZE_W * 18}
+      height={CELL_SIZE_H * 11}
+      viewBox={`0 0 ${CELL_SIZE_W * 18} ${CELL_SIZE_H * 11}`}
+    >
       {Object.values(elementosTabla).map((el) => (
         <ElementoPeriodico
           colorMode={color}

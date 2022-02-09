@@ -1,64 +1,103 @@
-:root{
-  --bg-dark-mode: #44546A;
-  --bg2-dark-mode:#9db4d5;
-  --bg3-dark-mode:#798AA3;
+:root {
+  --bg-dark-mode: #44546a;
+  --bg2-dark-mode: #9db4d5;
+  --bg3-dark-mode: #798aa3;
   --bgReducedOpacity-dark-mode: #44546ac4;
-  --font-dark-mode: #b2cce5; 
+  --bg-red-dark-mode: #800000;
+  --font-dark-mode: #b2cce5;
   --font2-dark-mode: #1c2833;
   --font2-fore-dark-mode: #2d4052;
+  --font-red-dark-mode: #ff9494;
 
-  --bg-light-mode: #67A0C6;
+  --bg-light-mode: #67a0c6;
   --bg2-light-mode: #1c2833;
-  --bg3-light-mode: #20403E;
-  --bgReducedOpacity-light-mode: #67A0C6c4;
-  --font-light-mode: #070707;  
-  --font2-light-mode: #ddd;  
-  --font2-fore-light-mode: #c4c4c4;  
+  --bg3-light-mode: #20403e;
+  --bgReducedOpacity-light-mode: #67a0c6c4;
+  --bg-red-light-mode: #ff7f7f;
+  --font-light-mode: #070707;
+  --font2-light-mode: #ddd;
+  --font2-fore-light-mode: #c4c4c4;
+  --font-red-light-mode: #c50101;
 
   --bg-color: var(--bg-dark-mode);
   --bg2-color: var(--bg2-dark-mode);
   --bg3-color: var(--bg3-dark-mode);
   --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
+  --bg-red-color: var(--bg-red-dark-mode);
   --font-color: var(--font-dark-mode);
   --font2-color: var(--font2-dark-mode);
   --font2-fore-color: var(--font2-fore-dark-mode);
+  --font-red-color: var(--font-red-dark-mode);
+
+  --vh: 1vh;
 }
 
-@media (prefers-color-scheme: light){
-  :root{
+@media (prefers-color-scheme: light) {
+  :root {
     --bg-color: var(--bg-light-mode);
     --bg2-color: var(--bg2-light-mode);
     --bg3-color: var(--bg3-light-mode);
     --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
+    --bg-red-color: var(--bg-red-light-mode);
     --font-color: var(--font-light-mode);
     --font2-color: var(--font2-light-mode);
     --font2-fore-color: var(--font2-fore-light-mode);
-
+    --font-red-color: var(--font-red-light-mode);
   }
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-*, *::after, *::before{
-    box-sizing: border-box;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
-a{
+a {
   color: var(--bg2-color);
 }
+* {
+  scrollbar-color: #aaa #555;
+  scrollbar-width: 10px;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  max-width: 10px;
+  max-height: 10px;
+}
 
-html, body, #root{
-    min-height: 100vh;
-    width: 100%;
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bbb;
+}
+
+#root {
+  height: 100vh;
+  /*  height: calc(100 * var(--vh, 1vh)); */
+  width: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

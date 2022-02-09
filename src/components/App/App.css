@@ -2,41 +2,41 @@
   text-align: center;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   background-color: var(--font2-color);
 }
 
 .loggedIn {
   text-align: center;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: grid;
-  grid-template-areas: 'header header'
-                       'menu main'
-                       'menu footer';
+  grid-template-areas:
+    "header header"
+    "menu main"
+    "menu footer";
   grid-template-columns: min-content 1fr;
-  grid-template-rows: 50px 1fr max-content;
+  grid-template-rows: 50px minmax(0, 1fr) max-content;
   overflow: hidden;
 }
 
-.myFooter{
+.myFooter {
   grid-area: footer;
   background-color: var(--bg-color);
   color: var(--font-color);
-  
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-
 }
 
 .generalHeader {
-  position:sticky;
-  top:0;
+  position: sticky;
+  top: 0;
   grid-area: header;
   z-index: 3;
-  display:grid;
+  display: grid;
   align-items: center;
   grid-template-columns: max-content auto max-content;
   padding: 0px 10px 0px 0px;
@@ -45,7 +45,7 @@
   color: var(--font-color);
 }
 
-.principal{
+.principal {
   max-width: 100%;
   width: 100%;
   text-align: center;
@@ -59,8 +59,7 @@
   overflow-y: auto;
 }
 
-
-.mainText{
+.mainText {
   max-width: max(500px, 60%);
   width: 100%;
   text-align: justify;
@@ -68,99 +67,99 @@
   padding: 5px 15px;
 }
 
-.displayDocs{
+.displayDocs {
   display: grid;
   text-align: left;
   width: 100%;
   max-height: 100%;
-  grid-template-areas: "path path"
-                       "filesfolders info";
+  grid-template-areas:
+    "path path"
+    "filesfolders info";
   grid-template-columns: 100% 0;
   grid-template-rows: max-content 1fr;
   overflow: hidden;
 }
 
-.displayDocs>.foldersAndFilesContainer{
-  grid-area:filesfolders;
+.displayDocs > .foldersAndFilesContainer {
+  grid-area: filesfolders;
 }
-.displayDocs>.path{
+.displayDocs > .path {
   grid-area: path;
 }
-.displayDocs>.infoDocs{
+.displayDocs > .infoDocs {
   grid-area: info;
 }
-.infoDocs{
+.infoDocs {
   width: 100%;
   max-height: 100%;
   position: relative;
   border-left: 2px solid var(--bg2-color);
   box-shadow: 10px 0px 20px 0px var(--bg2-color);
   background-color: var(--bg3-color);
-  color:var(--font2-color);
+  color: var(--font2-color);
   padding: 5px 10px;
   overflow: hidden;
 }
-.infoDocs a{
-  color:var(--font2-color);
-
+.infoDocs a {
+  color: var(--font2-color);
 }
-.displayDocs.displayedInfoDocs{
-  grid-template-columns: 1fr 250px
+.displayDocs.displayedInfoDocs {
+  grid-template-columns: 1fr 250px;
 }
 .displayedInfoDocs .folderGroup,
-.displayedInfoDocs .fileGroup{
+.displayedInfoDocs .fileGroup {
   overflow: hidden;
 }
-.foldersAndFilesContainer{
+.foldersAndFilesContainer {
   overflow-y: auto;
   display: grid;
   padding: 0px 15px;
-  width:100%;
+  width: 100%;
   grid-template-columns: min(max(500px, 60%), 100%);
   grid-template-rows: max-content max-content;
   justify-content: center;
 }
 
-.infoDocs>button{
+.infoDocs > button {
   position: absolute;
   background: none;
   top: 0;
-  right:0;
+  right: 0;
   font-size: 30px;
-  color:var(--font2-color);
+  color: var(--font2-color);
 }
-.infoDocs>ul{
+.infoDocs > ul {
   height: 100%;
   overflow-y: auto;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 
-.titleInfo{
+.titleInfo {
   display: block;
   padding: 2px 0;
   margin-top: 5px;
 }
 
-a.dataInfo{
+a.dataInfo {
   overflow-wrap: break-word;
 }
 
-.dataInfo>svg{
+.dataInfo > svg {
   margin-right: 5px;
 }
 
 @media (max-width: 500px) {
-  .displayDocs.displayedInfoDocs{
-    grid-template-columns: 0 1fr
+  .displayDocs.displayedInfoDocs {
+    grid-template-columns: 0 1fr;
   }
 }
 
-.listaPlaceHolder{
+.listaPlaceHolder {
   width: 100%;
 }
 
-.generalContentLoader{
-  padding: 15px 0;
+.generalContentLoader {
+  padding: 15px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -168,17 +167,16 @@ a.dataInfo{
     animation: App-logo-spin infinite 20s linear;
   }
 
-  .displayDocs{
+  .displayDocs {
     transition: all 500ms;
   }
-
 
   @keyframes slider-text {
     from {
       transform: translate(100%, 0);
     }
     to {
-      transform: translate(-100%, 0)
+      transform: translate(-100%, 0);
     }
   }
 }
@@ -207,14 +205,14 @@ a.dataInfo{
   }
 }
 
-.sliderTextContainer{
+.sliderTextContainer {
   width: 100%;
   height: 25px;
   position: relative;
   overflow-x: hidden;
 }
 
-.sliderText{
+.sliderText {
   position: absolute;
   min-width: 100%;
   white-space: nowrap;
@@ -223,29 +221,28 @@ a.dataInfo{
 }
 
 .unlisted {
-  margin:0;
-  padding:0;
-
+  margin: 0;
+  padding: 0;
 }
 
-.unlisted li{
+.unlisted li {
   list-style: none;
 }
 
-
-.frontElement{
-  position:fixed;
-  display:flex;
+.frontElement {
+  position: fixed;
+  display: flex;
   align-items: center;
   justify-content: center;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 50;
   background-color: var(--bgReducedOpacity-color);
 }
 
-.frontElement>div{
+.frontElement > div {
   background-color: var(--font2-color);
   padding: 15px 30px;
   border-radius: 25px;
@@ -254,13 +251,12 @@ a.dataInfo{
   max-height: calc(100% - 20px);
   overflow-y: auto;
   margin: 5px 10px;
-
 }
 
-.frontElement>button{
+.frontElement > button {
   position: absolute;
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   background: none;
   color: var(--font-color);
   font-size: 30px;

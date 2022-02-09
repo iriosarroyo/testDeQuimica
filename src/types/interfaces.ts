@@ -114,7 +114,11 @@ export interface PreguntaTestDeQuimica{
   id:string,
   pregunta: string,
   tema:string,
-  year:string
+  year:string,
+  answer?:string,
+  active?:boolean,
+  'inView'?:boolean,
+
 }
 
 export interface userDDBB{

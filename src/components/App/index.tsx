@@ -7,6 +7,7 @@ import shortcuts from 'info/shortcuts';
 import { Shortcut } from 'types/interfaces';
 import { useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
+import FrontContext from 'contexts/Front';
 
 const Front = loadable(() => import('../Front'));
 
@@ -53,11 +54,13 @@ function App() {
 
   return (
     <MyErrorContext.Provider value={setError}>
-      <div className="App">
-        <ContentApp />
-        {error && <MyError error={error} setError={setError} />}
-        {frontElement && <Front setChildren={setFrontElement}>{frontElement}</Front>}
-      </div>
+      <FrontContext.Provider value={setFrontElement}>
+        <div className="App">
+          <ContentApp />
+          {error && <MyError error={error} setError={setError} />}
+          {frontElement && <Front setChildren={setFrontElement}>{frontElement}</Front>}
+        </div>
+      </FrontContext.Provider>
     </MyErrorContext.Provider>
 
   );
