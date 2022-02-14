@@ -3,12 +3,56 @@
 /* eslint-disable no-import-assign */
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import tabla1 from 'info/tablaPeriodica copy.json';
-import tabla2 from 'info/masDatosTabla.json';
+/* import tabla1 from 'info/tablaPeriodica copy.json';
+import tabla2 from 'info/masDatosTabla.json'; */
 import './temp.css';
 
 import elementosTabla from 'info/tablaPeriodica.json';
 
+const elem = {
+  radius: ['calculated',
+    'empirical',
+    'covalent',
+    'vanderwaals'],
+  conductivity: [
+    'thermal',
+    'electric',
+  ],
+  abundance: [
+    'universe',
+    'solar',
+    'meteor',
+    'crust',
+    'ocean',
+    'human',
+  ],
+  heat: [
+    'specific',
+    'vaporization',
+    'fusion',
+  ],
+  quantum: [
+    'l',
+    'm',
+    'n',
+  ],
+
+};
+
+/* Object.entries(elementosTabla).forEach(([, v]) => {
+  if (v.phase.toLowerCase() === 'gas') return;
+  // v.density *= 1000;
+  Object.entries(v).forEach(([k2]) => {
+    if (!(k2 in elem)) return;
+    if (elementosTabla[k][k2] === null) elementosTabla[k][k2] = {};
+    elem[k2].forEach((i) => {
+      if (!(i in elementosTabla[k][k2])) elementosTabla[k][k2][i] = null;
+    });
+  });
+}); */
+
+console.log(elementosTabla);
+/*
 const convertEveryElementToNumber = (obj) => {
   try {
     return Object.entries(obj)
@@ -37,21 +81,27 @@ Object.entries(tabla1).forEach(([key, val]) => {
       ...val, series, oxidation, radius, discover, conductivity, abundance, heat, quantum, isotopes,
     };
   } catch (e) { console.error(e); }
-});
+}); */
 
-console.log(result);
-
-const maxAndMin = Object.values(elementosTabla).reduce((acum, curr) => {
+const setMinAndMax = (curr, acum) => {
   Object.entries(curr).forEach(([key, val]) => {
     if (typeof val === 'number') {
       acum[key] ??= { min: Infinity, max: -Infinity };
       const { min, max } = acum[key];
       if (min > val) acum[key].min = val;
       if (max < val) acum[key].max = val;
+    } else if (typeof val === 'object') {
+      try {
+        acum[key] ??= {};
+        acum[key] = setMinAndMax(val, acum[key]);
+      } catch (e) {}
     }
   });
   return acum;
-}, {});
+};
+
+const maxAndMin = Object.values(elementosTabla)
+  .reduce((acum, curr) => setMinAndMax(curr, acum), {});
 console.log(maxAndMin);
 //  export default undefined; */
 /* let commonProp = [];

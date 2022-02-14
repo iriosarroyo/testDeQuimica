@@ -1,3 +1,251 @@
-.range{
-  width:80%;
+.range {
+  width: 80%;
+}
+
+.tablaPeriodicaEditor {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    "tablaHeader"
+    ".";
+  grid-template-rows: max-content 1fr;
+  overflow: hidden;
+}
+
+.tablaPeriodicaHeader {
+  grid-area: tablaHeader;
+}
+
+.tablaPeriodicaContainer {
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.tablaPeriodicaContainer svg {
+  padding: 15px;
+  max-width: 1200px;
+}
+
+.tablaPeriodicaHeader {
+  position: relative;
+  background-color: var(--bg3-color);
+  color: var(--font2-color);
+  display: grid;
+  column-gap: 5px;
+  grid-template-columns: 1fr max-content;
+}
+
+.tablaHeadergroup1 {
+  display: grid;
+  align-items: center;
+  min-height: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, max-content));
+  column-gap: 5px;
+}
+
+.tablaPeriodicaHeader *::after {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 2;
+  background-color: var(--font2-color);
+  border: 0.5px solid var(--bg2-color);
+  color: var(--bg2-color);
+  border-radius: 15px;
+  font-size: 0.85em;
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.tablaPeriodicaEditor * {
+  position: relative;
+}
+.tablaPeriodicaEditor *:hover::after {
+  display: block;
+}
+
+.modoTitle::after {
+  content: "Elige el modo de colorear la tabla periódica. Selecciona un elemento del desplegable.";
+}
+
+.modoInvertir::after {
+  content: "Invierte los colores. Si está seleccionado, los colores más claros representan números más altos.";
+}
+.modoLogaritmo::after {
+  content: "Utiliza una escala logarítmica para crear el gradiente.";
+}
+.tablaHeadergroup1 select {
+  outline: none;
+  padding: 5px 10px;
+  height: max-content;
+  background-color: var(--font2-color);
+  color: var(--bg2-color);
+  border-radius: 25px;
+}
+.tablaHeadergroup1 svg {
+  margin-right: 5px;
+}
+
+.tablaHeadergroup1 label {
+  cursor: pointer;
+}
+
+.tablaHeadergroup2 {
+  display: flex;
+  align-items: center;
+}
+.tablaHeadergroup2 > button {
+  background-color: var(--font2-color);
+  color: var(--bg2-color);
+  font-size: 25px;
+  border-radius: 50%;
+  margin: 2.5px;
+  height: 45px;
+  width: 45px;
+}
+
+#dropdownTempButton::after {
+  content: "Cambia la temperatura para ver cómo afecta al estado de los elementos. Pulsa play para que cambie automáticamente. Ten en cuenta que el térmometro usa una escala logarítmica.";
+  font-size: 13.6px;
+  margin-left: -150px;
+}
+#dropdownColorButton::after {
+  content: "Cambia el color del gradiente a tu gusto. Pulsa play para que cambie automáticamente. Los números indican el ángulo en grados que se forma con la vertical.";
+  font-size: 13.6px;
+  margin-left: -150px;
+}
+.colorPickerContainer,
+.temperatureContainer {
+  border-radius: 25px;
+  color: var(--bg2-color);
+  background-color: var(--font2-color);
+  border: 1px solid var(--bg2-color);
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 10px;
+  grid-column-end: -1;
+  z-index: 2;
+}
+
+.displayedColorPicker ~ .colorPickerContainer,
+.displayedTemperature ~ .temperatureContainer {
+  display: block;
+}
+
+.temperatureContainer progress::-moz-progress-bar {
+  background: red;
+}
+.temperatureContainer progress::-webkit-progress-value {
+  background: red;
+}
+.temperatureContainerprogress {
+  color: red;
+}
+
+.colorPicker > .selector {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  top: 20px;
+  left: 95px;
+  width: 10px; /*important for code, as radius height should be equal */
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.temperaturePicker {
+  background-color: inherit;
+  padding: 0;
+}
+
+.colorPicker {
+  --ligth: 50%;
+  --sat: 80%;
+  position: relative;
+  background: conic-gradient(
+    hsl(0, var(--sat), var(--ligth)),
+    hsl(15, var(--sat), var(--ligth)),
+    hsl(30, var(--sat), var(--ligth)),
+    hsl(45, var(--sat), var(--ligth)),
+    hsl(60, var(--sat), var(--ligth)),
+    hsl(75, var(--sat), var(--ligth)),
+    hsl(90, var(--sat), var(--ligth)),
+    hsl(105, var(--sat), var(--ligth)),
+    hsl(120, var(--sat), var(--ligth)),
+    hsl(135, var(--sat), var(--ligth)),
+    hsl(150, var(--sat), var(--ligth)),
+    hsl(165, var(--sat), var(--ligth)),
+    hsl(180, var(--sat), var(--ligth)),
+    hsl(195, var(--sat), var(--ligth)),
+    hsl(210, var(--sat), var(--ligth)),
+    hsl(225, var(--sat), var(--ligth)),
+    hsl(240, var(--sat), var(--ligth)),
+    hsl(255, var(--sat), var(--ligth)),
+    hsl(270, var(--sat), var(--ligth)),
+    hsl(285, var(--sat), var(--ligth)),
+    hsl(300, var(--sat), var(--ligth)),
+    hsl(315, var(--sat), var(--ligth)),
+    hsl(330, var(--sat), var(--ligth)),
+    hsl(345, var(--sat), var(--ligth)),
+    hsl(360, var(--sat), var(--ligth))
+  );
+  /* background-position: center;
+    background-repeat: no-repeat;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/c7/Blended_colour_wheel.svg);
+  transform: rotateX(180deg) rotateZ(360deg); */
+  border-radius: 50%;
+  width: 200px; /*important for code*/
+  height: 200px; /*important for code*/
+  background-size: 100%;
+  padding: 0;
+}
+.playPauseButton {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.colorPicker > .angle {
+  position: absolute;
+  display: flex;
+  row-gap: 5px;
+  flex-direction: column;
+  justify-content: center;
+  cursor: default;
+  align-items: center;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  width: 150px; /*important for code, as radius height should be equal */
+  height: 150px;
+  color: var(--bg2-color);
+  background-color: var(--font2-color);
+  border-radius: 50%;
+}
+
+.angle > input,
+.temperatureContainer input {
+  color: inherit;
+  font: inherit;
+  background-color: inherit;
+  border: 1px solid var(--bg2-color);
+  border-radius: 5px;
+  width: 50px;
+}
+
+.temperatureContainer input {
+  width: 60px;
 }

@@ -19,6 +19,7 @@ import {
   faCheckCircle,
   faCircle,
   faCalendarDay,
+  faHSquare,
 } from '@fortawesome/free-solid-svg-icons';
 // import reportWebVitals from './reportWebVitals';
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
@@ -41,6 +42,7 @@ library.add(
   farCircle,
   faCheckCircle,
   faCalendarDay,
+  faHSquare,
 );
 
 ReactDOM.render(

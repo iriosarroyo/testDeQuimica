@@ -26,7 +26,16 @@ const paginas:Paginas = [
     shortcut: 'Ctrl+Alt+D',
     shift: 'Ctrl+Shift+Alt+D',
     action: 'goTo',
-    description: 'Abre la página de <em>Test de Hoy</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+    description: 'Abre la página de <em>Documentos</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/tablaPeriodica',
+    text: 'Tabla Periódica',
+    icon: 'h-square',
+    shortcut: 'Ctrl+Alt+P',
+    shift: 'Ctrl+Shift+Alt+P',
+    action: 'goTo',
+    description: 'Abre la página de <em>Tabla Periódica</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

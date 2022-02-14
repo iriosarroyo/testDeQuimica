@@ -40,8 +40,7 @@
     },
     "discover": 1766,
     "conductivity": {
-      "thermal": 0.1805,
-      "electric": null
+      "thermal": 0.1805
     },
     "abundance": {
       "universe": 75,
@@ -100,21 +99,17 @@
     "radius": {
       "calculated": 31,
       "covalent": 32,
-      "vanderwaals": 140,
-      "empirical": null
+      "vanderwaals": 140
     },
     "discover": 1895,
     "conductivity": {
-      "thermal": 0.1513,
-      "electric": null
+      "thermal": 0.1513
     },
     "abundance": {
       "universe": 23,
       "solar": 23,
       "crust": 5.5e-7,
-      "ocean": 7.2e-10,
-      "meteor": null,
-      "human": null
+      "ocean": 7.2e-10
     },
     "heat": {
       "specific": 5193.1,
@@ -134,7 +129,7 @@
     "atomic_mass": 6.94,
     "boil": 1603,
     "category": "alkali metal",
-    "density": 534,
+    "density": 0.534,
     "discovered_by": "Johan August Arfwedson",
     "melt": 453.65,
     "molar_heat": 24.86,
@@ -201,7 +196,7 @@
     "atomic_mass": 9.01218315,
     "boil": 2742,
     "category": "alkaline earth metal",
-    "density": 1850,
+    "density": 1.85,
     "discovered_by": "Louis Nicolas Vauquelin",
     "melt": 1560,
     "molar_heat": 16.443,
@@ -235,8 +230,7 @@
     "radius": {
       "calculated": 112,
       "empirical": 105,
-      "covalent": 90,
-      "vanderwaals": null
+      "covalent": 90
     },
     "discover": 1797,
     "conductivity": {
@@ -269,7 +263,7 @@
     "atomic_mass": 10.81,
     "boil": 4200,
     "category": "metalloid",
-    "density": 2080,
+    "density": 2.08,
     "discovered_by": "Joseph Louis Gay-Lussac",
     "melt": 2349,
     "molar_heat": 11.087,
@@ -304,8 +298,7 @@
     "radius": {
       "calculated": 87,
       "empirical": 85,
-      "covalent": 82,
-      "vanderwaals": null
+      "covalent": 82
     },
     "discover": 1808,
     "conductivity": {
@@ -338,7 +331,7 @@
     "atomic_mass": 12.011,
     "boil": 3915,
     "category": "polyatomic nonmetal",
-    "density": 1821,
+    "density": 1.821,
     "discovered_by": "Ancient Egypt",
     "melt": 3915,
     "molar_heat": 8.517,
@@ -450,8 +443,7 @@
     },
     "discover": 1772,
     "conductivity": {
-      "thermal": 0.02583,
-      "electric": null
+      "thermal": 0.02583
     },
     "abundance": {
       "universe": 0.1,
@@ -522,8 +514,7 @@
     },
     "discover": 1774,
     "conductivity": {
-      "thermal": 0.02658,
-      "electric": null
+      "thermal": 0.02658
     },
     "abundance": {
       "universe": 1,
@@ -595,8 +586,7 @@
     },
     "discover": 1886,
     "conductivity": {
-      "thermal": 0.0277,
-      "electric": null
+      "thermal": 0.0277
     },
     "abundance": {
       "universe": 0.00004,
@@ -664,21 +654,17 @@
     "radius": {
       "calculated": 38,
       "covalent": 69,
-      "vanderwaals": 154,
-      "empirical": null
+      "vanderwaals": 154
     },
     "discover": 1898,
     "conductivity": {
-      "thermal": 0.0491,
-      "electric": null
+      "thermal": 0.0491
     },
     "abundance": {
       "universe": 0.13,
       "solar": 0.1,
       "crust": 3e-7,
-      "ocean": 1.2e-8,
-      "meteor": null,
-      "human": null
+      "ocean": 1.2e-8
     },
     "heat": {
       "specific": 1030,
@@ -698,7 +684,7 @@
     "atomic_mass": 22.989769282,
     "boil": 1156.09,
     "category": "alkali metal",
-    "density": 968,
+    "density": 0.968,
     "discovered_by": "Humphry Davy",
     "melt": 370.944,
     "molar_heat": 28.23,
@@ -774,7 +760,7 @@
     "atomic_mass": 24.305,
     "boil": 1363,
     "category": "alkaline earth metal",
-    "density": 1738,
+    "density": 1.738,
     "discovered_by": "Joseph Black",
     "melt": 923,
     "molar_heat": 24.869,
@@ -851,7 +837,7 @@
     "atomic_mass": 26.98153857,
     "boil": 2743,
     "category": "post-transition metal",
-    "density": 2700,
+    "density": 2.7,
     "discovered_by": null,
     "melt": 933.47,
     "molar_heat": 24.2,
@@ -895,8 +881,7 @@
     "radius": {
       "calculated": 118,
       "empirical": 125,
-      "covalent": 118,
-      "vanderwaals": null
+      "covalent": 118
     },
     "discover": 1825,
     "conductivity": {
@@ -929,7 +914,7 @@
     "atomic_mass": 28.085,
     "boil": 3538,
     "category": "metalloid",
-    "density": 2329,
+    "density": 2.329,
     "discovered_by": "Jöns Jacob Berzelius",
     "melt": 1687,
     "molar_heat": 19.789,
@@ -1008,7 +993,7 @@
     "atomic_mass": 30.9737619985,
     "boil": 553.7,
     "category": "polyatomic nonmetal",
-    "density": 1823,
+    "density": 1.823,
     "discovered_by": "Hennig Brand",
     "melt": 317.3,
     "molar_heat": 23.824,
@@ -1088,7 +1073,7 @@
     "atomic_mass": 32.06,
     "boil": 717.8,
     "category": "polyatomic nonmetal",
-    "density": 2070,
+    "density": 2.07,
     "discovered_by": "Ancient china",
     "melt": 388.36,
     "molar_heat": 22.75,
@@ -1305,16 +1290,13 @@
     },
     "discover": 1894,
     "conductivity": {
-      "thermal": 0.01772,
-      "electric": null
+      "thermal": 0.01772
     },
     "abundance": {
       "universe": 0.02,
       "solar": 0.007,
       "crust": 0.00015,
-      "ocean": 0.000045,
-      "meteor": null,
-      "human": null
+      "ocean": 0.000045
     },
     "heat": {
       "specific": 520.33,
@@ -1334,7 +1316,7 @@
     "atomic_mass": 39.09831,
     "boil": 1032,
     "category": "alkali metal",
-    "density": 862,
+    "density": 0.862,
     "discovered_by": "Humphry Davy",
     "melt": 336.7,
     "molar_heat": 29.6,
@@ -1419,7 +1401,7 @@
     "atomic_mass": 40.0784,
     "boil": 1757,
     "category": "alkaline earth metal",
-    "density": 1550,
+    "density": 1.55,
     "discovered_by": "Humphry Davy",
     "melt": 1115,
     "molar_heat": 25.929,
@@ -1471,8 +1453,7 @@
     "radius": {
       "calculated": 194,
       "empirical": 180,
-      "covalent": 174,
-      "vanderwaals": null
+      "covalent": 174
     },
     "discover": 1808,
     "conductivity": {
@@ -1505,7 +1486,7 @@
     "atomic_mass": 44.9559085,
     "boil": 3109,
     "category": "transition metal",
-    "density": 2985,
+    "density": 2.985,
     "discovered_by": "Lars Fredrik Nilson",
     "melt": 1814,
     "molar_heat": 25.52,
@@ -1558,8 +1539,7 @@
     "radius": {
       "calculated": 184,
       "empirical": 160,
-      "covalent": 144,
-      "vanderwaals": null
+      "covalent": 144
     },
     "discover": 1879,
     "conductivity": {
@@ -1571,8 +1551,7 @@
       "solar": 0.000004,
       "meteor": 0.00064,
       "crust": 0.0026,
-      "ocean": 1.5e-10,
-      "human": null
+      "ocean": 1.5e-10
     },
     "heat": {
       "specific": 567,
@@ -1592,7 +1571,7 @@
     "atomic_mass": 47.8671,
     "boil": 3560,
     "category": "transition metal",
-    "density": 4506,
+    "density": 4.506,
     "discovered_by": "William Gregor",
     "melt": 1941,
     "molar_heat": 25.06,
@@ -1646,8 +1625,7 @@
     "radius": {
       "calculated": 176,
       "empirical": 140,
-      "covalent": 136,
-      "vanderwaals": null
+      "covalent": 136
     },
     "discover": 1791,
     "conductivity": {
@@ -1659,8 +1637,7 @@
       "solar": 0.0004,
       "meteor": 0.054,
       "crust": 0.66,
-      "ocean": 1e-7,
-      "human": null
+      "ocean": 1e-7
     },
     "heat": {
       "specific": 520,
@@ -1680,7 +1657,7 @@
     "atomic_mass": 50.94151,
     "boil": 3680,
     "category": "transition metal",
-    "density": 6000,
+    "density": 6,
     "discovered_by": "Andrés Manuel del Río",
     "melt": 2183,
     "molar_heat": 24.89,
@@ -1735,8 +1712,7 @@
     "radius": {
       "calculated": 171,
       "empirical": 135,
-      "covalent": 125,
-      "vanderwaals": null
+      "covalent": 125
     },
     "discover": 1801,
     "conductivity": {
@@ -1769,7 +1745,7 @@
     "atomic_mass": 51.99616,
     "boil": 2944,
     "category": "transition metal",
-    "density": 7190,
+    "density": 7.19,
     "discovered_by": "Louis Nicolas Vauquelin",
     "melt": 2180,
     "molar_heat": 23.35,
@@ -1825,8 +1801,7 @@
     "radius": {
       "calculated": 166,
       "empirical": 140,
-      "covalent": 127,
-      "vanderwaals": null
+      "covalent": 127
     },
     "discover": 1797,
     "conductivity": {
@@ -1859,7 +1834,7 @@
     "atomic_mass": 54.9380443,
     "boil": 2334,
     "category": "transition metal",
-    "density": 7210,
+    "density": 7.21,
     "discovered_by": "Torbern Olof Bergman",
     "melt": 1519,
     "molar_heat": 26.32,
@@ -1916,8 +1891,7 @@
     "radius": {
       "calculated": 161,
       "empirical": 140,
-      "covalent": 139,
-      "vanderwaals": null
+      "covalent": 139
     },
     "discover": 1774,
     "conductivity": {
@@ -1950,7 +1924,7 @@
     "atomic_mass": 55.8452,
     "boil": 3134,
     "category": "transition metal",
-    "density": 7874,
+    "density": 7.874,
     "discovered_by": "5000 BC",
     "melt": 1811,
     "molar_heat": 25.1,
@@ -2008,8 +1982,7 @@
     "radius": {
       "calculated": 156,
       "empirical": 140,
-      "covalent": 125,
-      "vanderwaals": null
+      "covalent": 125
     },
     "discover": -2000,
     "conductivity": {
@@ -2042,7 +2015,7 @@
     "atomic_mass": 58.9331944,
     "boil": 3200,
     "category": "transition metal",
-    "density": 8900,
+    "density": 8.9,
     "discovered_by": "Georg Brandt",
     "melt": 1768,
     "molar_heat": 24.81,
@@ -2101,8 +2074,7 @@
     "radius": {
       "calculated": 152,
       "empirical": 135,
-      "covalent": 126,
-      "vanderwaals": null
+      "covalent": 126
     },
     "discover": 1735,
     "conductivity": {
@@ -2135,7 +2107,7 @@
     "atomic_mass": 58.69344,
     "boil": 3003,
     "category": "transition metal",
-    "density": 8908,
+    "density": 8.908,
     "discovered_by": "Axel Fredrik Cronstedt",
     "melt": 1728,
     "molar_heat": 26.07,
@@ -2229,7 +2201,7 @@
     "atomic_mass": 63.5463,
     "boil": 2835,
     "category": "transition metal",
-    "density": 8960,
+    "density": 8.96,
     "discovered_by": "Middle East",
     "melt": 1357.77,
     "molar_heat": 24.44,
@@ -2324,7 +2296,7 @@
     "atomic_mass": 65.382,
     "boil": 1180,
     "category": "transition metal",
-    "density": 7140,
+    "density": 7.14,
     "discovered_by": "India",
     "melt": 692.68,
     "molar_heat": 25.47,
@@ -2411,7 +2383,7 @@
     "atomic_mass": 69.7231,
     "boil": 2673,
     "category": "post-transition metal",
-    "density": 5910,
+    "density": 5.91,
     "discovered_by": "Lecoq de Boisbaudran",
     "melt": 302.9146,
     "molar_heat": 25.86,
@@ -2460,8 +2432,7 @@
       "solar": 0.000004,
       "meteor": 0.00076,
       "crust": 0.0019,
-      "ocean": 3e-9,
-      "human": null
+      "ocean": 3e-9
     },
     "heat": {
       "specific": 371,
@@ -2481,7 +2452,7 @@
     "atomic_mass": 72.6308,
     "boil": 3106,
     "category": "metalloid",
-    "density": 5323,
+    "density": 5.323,
     "discovered_by": "Clemens Winkler",
     "melt": 1211.4,
     "molar_heat": 23.222,
@@ -2518,8 +2489,7 @@
     "radius": {
       "calculated": 125,
       "empirical": 125,
-      "covalent": 122,
-      "vanderwaals": null
+      "covalent": 122
     },
     "discover": 1886,
     "conductivity": {
@@ -2531,8 +2501,7 @@
       "solar": 0.00002,
       "meteor": 0.0021,
       "crust": 0.00014,
-      "ocean": 6e-9,
-      "human": null
+      "ocean": 6e-9
     },
     "heat": {
       "specific": 321.4,
@@ -2552,7 +2521,7 @@
     "atomic_mass": 74.9215956,
     "boil": 887,
     "category": "metalloid",
-    "density": 5727,
+    "density": 5.727,
     "discovered_by": "Bronze Age",
     "melt": 887,
     "molar_heat": 24.64,
@@ -2603,8 +2572,7 @@
       "meteor": 0.00018,
       "crust": 0.00021,
       "ocean": 2.3e-7,
-      "human": 0.000005,
-      "solar": null
+      "human": 0.000005
     },
     "heat": {
       "specific": 328,
@@ -2624,7 +2592,7 @@
     "atomic_mass": 78.9718,
     "boil": 958,
     "category": "polyatomic nonmetal",
-    "density": 4810,
+    "density": 4.81,
     "discovered_by": "Jöns Jakob Berzelius",
     "melt": 494,
     "molar_heat": 25.363,
@@ -2668,16 +2636,14 @@
     },
     "discover": 1817,
     "conductivity": {
-      "thermal": 0.52,
-      "electric": null
+      "thermal": 0.52
     },
     "abundance": {
       "universe": 0.000003,
       "meteor": 0.0013,
       "crust": 0.000005,
       "ocean": 4.5e-8,
-      "human": 0.000005,
-      "solar": null
+      "human": 0.000005
     },
     "heat": {
       "specific": 321.2,
@@ -2697,7 +2663,7 @@
     "atomic_mass": 79.904,
     "boil": 332,
     "category": "diatomic nonmetal",
-    "density": 3102.7999999999997,
+    "density": 3.1028,
     "discovered_by": "Antoine Jérôme Balard",
     "melt": 265.8,
     "molar_heat": null,
@@ -2750,8 +2716,7 @@
       "meteor": 0.00012,
       "crust": 0.0003,
       "ocean": 0.0067,
-      "human": 0.00029,
-      "solar": null
+      "human": 0.00029
     },
     "heat": {
       "specific": 947.3,
@@ -2833,21 +2798,16 @@
     "radius": {
       "calculated": 88,
       "covalent": 110,
-      "vanderwaals": 202,
-      "empirical": null
+      "vanderwaals": 202
     },
     "discover": 1898,
     "conductivity": {
-      "thermal": 0.00943,
-      "electric": null
+      "thermal": 0.00943
     },
     "abundance": {
       "universe": 0.000004,
       "crust": 1.5e-8,
-      "ocean": 2.1e-8,
-      "solar": null,
-      "meteor": null,
-      "human": null
+      "ocean": 2.1e-8
     },
     "heat": {
       "specific": 248.05,
@@ -2867,7 +2827,7 @@
     "atomic_mass": 85.46783,
     "boil": 961,
     "category": "alkali metal",
-    "density": 1532,
+    "density": 1.532,
     "discovered_by": "Robert Bunsen",
     "melt": 312.45,
     "molar_heat": 31.06,
@@ -2910,8 +2870,7 @@
     "radius": {
       "calculated": 265,
       "empirical": 235,
-      "covalent": 211,
-      "vanderwaals": null
+      "covalent": 211
     },
     "discover": 1861,
     "conductivity": {
@@ -2944,7 +2903,7 @@
     "atomic_mass": 87.621,
     "boil": 1650,
     "category": "alkaline earth metal",
-    "density": 2640,
+    "density": 2.64,
     "discovered_by": "William Cruickshank (chemist)",
     "melt": 1050,
     "molar_heat": 26.4,
@@ -2988,8 +2947,7 @@
     "radius": {
       "calculated": 219,
       "empirical": 200,
-      "covalent": 192,
-      "vanderwaals": null
+      "covalent": 192
     },
     "discover": 1790,
     "conductivity": {
@@ -3022,7 +2980,7 @@
     "atomic_mass": 88.905842,
     "boil": 3203,
     "category": "transition metal",
-    "density": 4472,
+    "density": 4.472,
     "discovered_by": "Johan Gadolin",
     "melt": 1799,
     "molar_heat": 26.53,
@@ -3067,8 +3025,7 @@
     "radius": {
       "calculated": 212,
       "empirical": 180,
-      "covalent": 162,
-      "vanderwaals": null
+      "covalent": 162
     },
     "discover": 1794,
     "conductivity": {
@@ -3080,8 +3037,7 @@
       "solar": 0.000001,
       "meteor": 0.00019,
       "crust": 0.0029,
-      "ocean": 1.3e-9,
-      "human": null
+      "ocean": 1.3e-9
     },
     "heat": {
       "specific": 298,
@@ -3101,7 +3057,7 @@
     "atomic_mass": 91.2242,
     "boil": 4650,
     "category": "transition metal",
-    "density": 6520,
+    "density": 6.52,
     "discovered_by": "Martin Heinrich Klaproth",
     "melt": 2128,
     "molar_heat": 25.36,
@@ -3140,8 +3096,7 @@
     "radius": {
       "calculated": 206,
       "empirical": 155,
-      "covalent": 148,
-      "vanderwaals": null
+      "covalent": 148
     },
     "discover": 1789,
     "conductivity": {
@@ -3174,7 +3129,7 @@
     "atomic_mass": 92.906372,
     "boil": 5017,
     "category": "transition metal",
-    "density": 8570,
+    "density": 8.57,
     "discovered_by": "Charles Hatchett",
     "melt": 2750,
     "molar_heat": 24.6,
@@ -3214,8 +3169,7 @@
     "radius": {
       "calculated": 198,
       "empirical": 145,
-      "covalent": 137,
-      "vanderwaals": null
+      "covalent": 137
     },
     "discover": 1801,
     "conductivity": {
@@ -3227,8 +3181,7 @@
       "solar": 4e-7,
       "meteor": 0.000019,
       "crust": 0.0017,
-      "ocean": 1e-10,
-      "human": null
+      "ocean": 1e-10
     },
     "heat": {
       "specific": 265,
@@ -3248,7 +3201,7 @@
     "atomic_mass": 95.951,
     "boil": 4912,
     "category": "transition metal",
-    "density": 10280,
+    "density": 10.28,
     "discovered_by": "Carl Wilhelm Scheele",
     "melt": 2896,
     "molar_heat": 24.06,
@@ -3311,8 +3264,7 @@
     "radius": {
       "calculated": 190,
       "empirical": 145,
-      "covalent": 145,
-      "vanderwaals": null
+      "covalent": 145
     },
     "discover": 1781,
     "conductivity": {
@@ -3345,7 +3297,7 @@
     "atomic_mass": 98,
     "boil": 4538,
     "category": "transition metal",
-    "density": 11000,
+    "density": 11,
     "discovered_by": "Emilio Segrè",
     "melt": 2430,
     "molar_heat": 24.27,
@@ -3381,8 +3333,7 @@
     "radius": {
       "calculated": 183,
       "empirical": 135,
-      "covalent": 156,
-      "vanderwaals": null
+      "covalent": 156
     },
     "discover": 1937,
     "conductivity": {
@@ -3415,7 +3366,7 @@
     "atomic_mass": 101.072,
     "boil": 4423,
     "category": "transition metal",
-    "density": 12450,
+    "density": 12.45,
     "discovered_by": "Karl Ernst Claus",
     "melt": 2607,
     "molar_heat": 24.06,
@@ -3451,8 +3402,7 @@
     "radius": {
       "calculated": 178,
       "empirical": 130,
-      "covalent": 126,
-      "vanderwaals": null
+      "covalent": 126
     },
     "discover": 1844,
     "conductivity": {
@@ -3464,8 +3414,7 @@
       "solar": 5e-7,
       "meteor": 0.000081,
       "crust": 9.9e-8,
-      "ocean": 7e-11,
-      "human": null
+      "ocean": 7e-11
     },
     "heat": {
       "specific": 238,
@@ -3485,7 +3434,7 @@
     "atomic_mass": 102.905502,
     "boil": 3968,
     "category": "transition metal",
-    "density": 12410,
+    "density": 12.41,
     "discovered_by": "William Hyde Wollaston",
     "melt": 2237,
     "molar_heat": 24.98,
@@ -3521,8 +3470,7 @@
     "radius": {
       "calculated": 173,
       "empirical": 135,
-      "covalent": 135,
-      "vanderwaals": null
+      "covalent": 135
     },
     "discover": 1803,
     "conductivity": {
@@ -3533,9 +3481,7 @@
       "universe": 6e-8,
       "solar": 2e-7,
       "meteor": 0.000018,
-      "crust": 7e-8,
-      "ocean": null,
-      "human": null
+      "crust": 7e-8
     },
     "heat": {
       "specific": 240,
@@ -3555,7 +3501,7 @@
     "atomic_mass": 106.421,
     "boil": 3236,
     "category": "transition metal",
-    "density": 12023,
+    "density": 12.023,
     "discovered_by": "William Hyde Wollaston",
     "melt": 1828.05,
     "molar_heat": 25.98,
@@ -3602,9 +3548,7 @@
       "universe": 2e-7,
       "solar": 3e-7,
       "meteor": 0.000066,
-      "crust": 6.3e-7,
-      "ocean": null,
-      "human": null
+      "crust": 6.3e-7
     },
     "heat": {
       "specific": 240,
@@ -3624,7 +3568,7 @@
     "atomic_mass": 107.86822,
     "boil": 2435,
     "category": "transition metal",
-    "density": 10490,
+    "density": 10.49,
     "discovered_by": "unknown, before 5000 BC",
     "melt": 1234.93,
     "molar_heat": 25.35,
@@ -3673,8 +3617,7 @@
       "solar": 1e-7,
       "meteor": 0.000014,
       "crust": 0.0000079,
-      "ocean": 1e-8,
-      "human": null
+      "ocean": 1e-8
     },
     "heat": {
       "specific": 235,
@@ -3694,7 +3637,7 @@
     "atomic_mass": 112.4144,
     "boil": 1040,
     "category": "transition metal",
-    "density": 8650,
+    "density": 8.65,
     "discovered_by": "Karl Samuel Leberecht Hermann",
     "melt": 594.22,
     "molar_heat": 26.02,
@@ -3764,7 +3707,7 @@
     "atomic_mass": 114.8181,
     "boil": 2345,
     "category": "post-transition metal",
-    "density": 7310,
+    "density": 7.31,
     "discovered_by": "Ferdinand Reich",
     "melt": 429.7485,
     "molar_heat": 26.74,
@@ -3814,8 +3757,7 @@
       "solar": 4e-7,
       "meteor": 0.0000044,
       "crust": 0.000016,
-      "ocean": 1e-11,
-      "human": null
+      "ocean": 1e-11
     },
     "heat": {
       "specific": 233,
@@ -3835,7 +3777,7 @@
     "atomic_mass": 118.7107,
     "boil": 2875,
     "category": "post-transition metal",
-    "density": 7365,
+    "density": 7.365,
     "discovered_by": "unknown, before 3500 BC",
     "melt": 505.08,
     "molar_heat": 27.112,
@@ -3907,7 +3849,7 @@
     "atomic_mass": 121.7601,
     "boil": 1908,
     "category": "metalloid",
-    "density": 6697,
+    "density": 6.697,
     "discovered_by": "unknown, before 3000 BC",
     "melt": 903.78,
     "molar_heat": 25.23,
@@ -3946,8 +3888,7 @@
     "radius": {
       "calculated": 133,
       "empirical": 145,
-      "covalent": 138,
-      "vanderwaals": null
+      "covalent": 138
     },
     "discover": -3000,
     "conductivity": {
@@ -3959,8 +3900,7 @@
       "solar": 1e-7,
       "meteor": 0.000012,
       "crust": 0.00002,
-      "ocean": 2e-8,
-      "human": null
+      "ocean": 2e-8
     },
     "heat": {
       "specific": 207,
@@ -3980,7 +3920,7 @@
     "atomic_mass": 127.603,
     "boil": 1261,
     "category": "metalloid",
-    "density": 6240,
+    "density": 6.24,
     "discovered_by": "Franz-Joseph Müller von Reichenstein",
     "melt": 722.66,
     "molar_heat": 25.73,
@@ -4031,10 +3971,7 @@
     "abundance": {
       "universe": 9e-7,
       "meteor": 0.00021,
-      "crust": 9.9e-8,
-      "solar": null,
-      "ocean": null,
-      "human": null
+      "crust": 9.9e-8
     },
     "heat": {
       "specific": 201,
@@ -4054,7 +3991,7 @@
     "atomic_mass": 126.904473,
     "boil": 457.4,
     "category": "diatomic nonmetal",
-    "density": 4933,
+    "density": 4.933,
     "discovered_by": "Bernard Courtois",
     "melt": 386.85,
     "molar_heat": null,
@@ -4103,8 +4040,7 @@
       "meteor": 0.000025,
       "crust": 0.000049,
       "ocean": 0.000006,
-      "human": 0.00002,
-      "solar": null
+      "human": 0.00002
     },
     "heat": {
       "specific": 429,
@@ -4160,21 +4096,16 @@
     "radius": {
       "calculated": 108,
       "covalent": 130,
-      "vanderwaals": 216,
-      "empirical": null
+      "vanderwaals": 216
     },
     "discover": 1898,
     "conductivity": {
-      "thermal": 0.00565,
-      "electric": null
+      "thermal": 0.00565
     },
     "abundance": {
       "universe": 0.000001,
       "crust": 2e-9,
-      "ocean": 5e-10,
-      "solar": null,
-      "meteor": null,
-      "human": null
+      "ocean": 5e-10
     },
     "heat": {
       "specific": 158.32,
@@ -4194,7 +4125,7 @@
     "atomic_mass": 132.905451966,
     "boil": 944,
     "category": "alkali metal",
-    "density": 1930,
+    "density": 1.93,
     "discovered_by": "Robert Bunsen",
     "melt": 301.7,
     "molar_heat": 32.21,
@@ -4231,8 +4162,7 @@
     "radius": {
       "calculated": 298,
       "empirical": 260,
-      "covalent": 225,
-      "vanderwaals": null
+      "covalent": 225
     },
     "discover": 1860,
     "conductivity": {
@@ -4265,7 +4195,7 @@
     "atomic_mass": 137.3277,
     "boil": 2118,
     "category": "alkaline earth metal",
-    "density": 3510,
+    "density": 3.51,
     "discovered_by": "Carl Wilhelm Scheele",
     "melt": 1000,
     "molar_heat": 28.07,
@@ -4302,8 +4232,7 @@
     "radius": {
       "calculated": 253,
       "empirical": 215,
-      "covalent": 198,
-      "vanderwaals": null
+      "covalent": 198
     },
     "discover": 1808,
     "conductivity": {
@@ -4336,7 +4265,7 @@
     "atomic_mass": 138.905477,
     "boil": 3737,
     "category": "lanthanide",
-    "density": 6162,
+    "density": 6.162,
     "discovered_by": "Carl Gustaf Mosander",
     "melt": 1193,
     "molar_heat": 27.11,
@@ -4374,9 +4303,7 @@
     "oxidation": "2,3c",
     "radius": {
       "empirical": 195,
-      "covalent": 169,
-      "calculated": null,
-      "vanderwaals": null
+      "covalent": 169
     },
     "discover": 1839,
     "conductivity": {
@@ -4388,8 +4315,7 @@
       "solar": 2e-7,
       "meteor": 0.000028,
       "crust": 0.0034,
-      "ocean": 3.4e-10,
-      "human": null
+      "ocean": 3.4e-10
     },
     "heat": {
       "specific": 195,
@@ -4409,7 +4335,7 @@
     "atomic_mass": 140.1161,
     "boil": 3716,
     "category": "lanthanide",
-    "density": 6770,
+    "density": 6.77,
     "discovered_by": "Martin Heinrich Klaproth",
     "melt": 1068,
     "molar_heat": 26.94,
@@ -4447,10 +4373,7 @@
     "series": "Lanthanoid",
     "oxidation": "2,3c,4c",
     "radius": {
-      "empirical": 185,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1803,
     "conductivity": {
@@ -4462,8 +4385,7 @@
       "solar": 4e-7,
       "meteor": 0.000075,
       "crust": 0.006,
-      "ocean": 1.2e-10,
-      "human": null
+      "ocean": 1.2e-10
     },
     "heat": {
       "specific": 192,
@@ -4483,7 +4405,7 @@
     "atomic_mass": 140.907662,
     "boil": 3403,
     "category": "lanthanide",
-    "density": 6770,
+    "density": 6.77,
     "discovered_by": "Carl Auer von Welsbach",
     "melt": 1208,
     "molar_heat": 27.2,
@@ -4521,9 +4443,7 @@
     "oxidation": "2,3c,4",
     "radius": {
       "calculated": 247,
-      "empirical": 185,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1885,
     "conductivity": {
@@ -4535,8 +4455,7 @@
       "solar": 1e-7,
       "meteor": 0.0000098,
       "crust": 0.00086,
-      "ocean": 6e-11,
-      "human": null
+      "ocean": 6e-11
     },
     "heat": {
       "specific": 193,
@@ -4556,7 +4475,7 @@
     "atomic_mass": 144.2423,
     "boil": 3347,
     "category": "lanthanide",
-    "density": 7010,
+    "density": 7.01,
     "discovered_by": "Carl Auer von Welsbach",
     "melt": 1297,
     "molar_heat": 27.45,
@@ -4593,9 +4512,7 @@
     "oxidation": "2,3c",
     "radius": {
       "calculated": 206,
-      "empirical": 185,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1885,
     "conductivity": {
@@ -4607,8 +4524,7 @@
       "solar": 3e-7,
       "meteor": 0.00005,
       "crust": 0.0033,
-      "ocean": 2.8e-10,
-      "human": null
+      "ocean": 2.8e-10
     },
     "heat": {
       "specific": 190,
@@ -4628,7 +4544,7 @@
     "atomic_mass": 145,
     "boil": 3273,
     "category": "lanthanide",
-    "density": 7260,
+    "density": 7.26,
     "discovered_by": "Chien Shiung Wu",
     "melt": 1315,
     "molar_heat": null,
@@ -4665,9 +4581,7 @@
     "oxidation": "3c",
     "radius": {
       "calculated": 205,
-      "empirical": 185,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1945,
     "conductivity": {
@@ -4684,8 +4598,7 @@
     },
     "heat": {
       "vaporization": 290,
-      "fusion": 7.7,
-      "specific": null
+      "fusion": 7.7
     },
     "quantum": {
       "l": 3,
@@ -4700,7 +4613,7 @@
     "atomic_mass": 150.362,
     "boil": 2173,
     "category": "lanthanide",
-    "density": 7520,
+    "density": 7.52,
     "discovered_by": "Lecoq de Boisbaudran",
     "melt": 1345,
     "molar_heat": 29.54,
@@ -4737,9 +4650,7 @@
     "oxidation": "2,3c",
     "radius": {
       "calculated": 238,
-      "empirical": 185,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1879,
     "conductivity": {
@@ -4751,8 +4662,7 @@
       "solar": 1e-7,
       "meteor": 0.000017,
       "crust": 0.0006,
-      "ocean": 4.5e-11,
-      "human": null
+      "ocean": 4.5e-11
     },
     "heat": {
       "specific": 196,
@@ -4772,7 +4682,7 @@
     "atomic_mass": 151.9641,
     "boil": 1802,
     "category": "lanthanide",
-    "density": 5264,
+    "density": 5.264,
     "discovered_by": "Eugène-Anatole Demarçay",
     "melt": 1099,
     "molar_heat": 27.66,
@@ -4809,9 +4719,7 @@
     "oxidation": "2c,3c",
     "radius": {
       "calculated": 231,
-      "empirical": 185,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 185
     },
     "discover": 1901,
     "conductivity": {
@@ -4823,8 +4731,7 @@
       "solar": 5e-8,
       "meteor": 0.0000059,
       "crust": 0.00018,
-      "ocean": 1.3e-11,
-      "human": null
+      "ocean": 1.3e-11
     },
     "heat": {
       "specific": 182,
@@ -4844,7 +4751,7 @@
     "atomic_mass": 157.253,
     "boil": 3273,
     "category": "lanthanide",
-    "density": 7900,
+    "density": 7.9,
     "discovered_by": "Jean Charles Galissard de Marignac",
     "melt": 1585,
     "molar_heat": 37.03,
@@ -4881,9 +4788,7 @@
     "oxidation": "1,2,3c",
     "radius": {
       "calculated": 233,
-      "empirical": 180,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 180
     },
     "discover": 1880,
     "conductivity": {
@@ -4895,8 +4800,7 @@
       "solar": 2e-7,
       "meteor": 0.000023,
       "crust": 0.00052,
-      "ocean": 7e-11,
-      "human": null
+      "ocean": 7e-11
     },
     "heat": {
       "specific": 240,
@@ -4916,7 +4820,7 @@
     "atomic_mass": 158.925352,
     "boil": 3396,
     "category": "lanthanide",
-    "density": 8230,
+    "density": 8.23,
     "discovered_by": "Carl Gustaf Mosander",
     "melt": 1629,
     "molar_heat": 28.91,
@@ -4953,9 +4857,7 @@
     "oxidation": "1,3c,4",
     "radius": {
       "calculated": 225,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1843,
     "conductivity": {
@@ -4967,8 +4869,7 @@
       "solar": 1e-8,
       "meteor": 0.0000039,
       "crust": 0.000093,
-      "ocean": 1.4e-11,
-      "human": null
+      "ocean": 1.4e-11
     },
     "heat": {
       "specific": 182,
@@ -4988,7 +4889,7 @@
     "atomic_mass": 162.5001,
     "boil": 2840,
     "category": "lanthanide",
-    "density": 8540,
+    "density": 8.54,
     "discovered_by": "Lecoq de Boisbaudran",
     "melt": 1680,
     "molar_heat": 27.7,
@@ -5025,9 +4926,7 @@
     "oxidation": "2,3c",
     "radius": {
       "calculated": 228,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1886,
     "conductivity": {
@@ -5039,8 +4938,7 @@
       "solar": 2e-7,
       "meteor": 0.000027,
       "crust": 0.00062,
-      "ocean": 9.1e-11,
-      "human": null
+      "ocean": 9.1e-11
     },
     "heat": {
       "specific": 167,
@@ -5060,7 +4958,7 @@
     "atomic_mass": 164.930332,
     "boil": 2873,
     "category": "lanthanide",
-    "density": 8790,
+    "density": 8.79,
     "discovered_by": "Marc Delafontaine",
     "melt": 1734,
     "molar_heat": 27.15,
@@ -5097,9 +4995,7 @@
     "oxidation": "3c",
     "radius": {
       "calculated": 226,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1878,
     "conductivity": {
@@ -5111,8 +5007,7 @@
       "solar": 0,
       "meteor": 0.0000059,
       "crust": 0.00012,
-      "ocean": 2.2e-11,
-      "human": null
+      "ocean": 2.2e-11
     },
     "heat": {
       "specific": 165,
@@ -5132,7 +5027,7 @@
     "atomic_mass": 167.2593,
     "boil": 3141,
     "category": "lanthanide",
-    "density": 9066,
+    "density": 9.066,
     "discovered_by": "Carl Gustaf Mosander",
     "melt": 1802,
     "molar_heat": 28.12,
@@ -5169,9 +5064,7 @@
     "oxidation": "3c",
     "radius": {
       "calculated": 226,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1842,
     "conductivity": {
@@ -5183,8 +5076,7 @@
       "solar": 1e-7,
       "meteor": 0.000018,
       "crust": 0.0003,
-      "ocean": 9e-11,
-      "human": null
+      "ocean": 9e-11
     },
     "heat": {
       "specific": 168,
@@ -5204,7 +5096,7 @@
     "atomic_mass": 168.934222,
     "boil": 2223,
     "category": "lanthanide",
-    "density": 9320,
+    "density": 9.32,
     "discovered_by": "Per Teodor Cleve",
     "melt": 1818,
     "molar_heat": 27.03,
@@ -5241,9 +5133,7 @@
     "oxidation": "2,3c",
     "radius": {
       "calculated": 222,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1879,
     "conductivity": {
@@ -5255,8 +5145,7 @@
       "solar": 2e-8,
       "meteor": 0.0000029,
       "crust": 0.000045,
-      "ocean": 2e-11,
-      "human": null
+      "ocean": 2e-11
     },
     "heat": {
       "specific": 160,
@@ -5276,7 +5165,7 @@
     "atomic_mass": 173.0451,
     "boil": 1469,
     "category": "lanthanide",
-    "density": 6900,
+    "density": 6.9,
     "discovered_by": "Jean Charles Galissard de Marignac",
     "melt": 1097,
     "molar_heat": 26.74,
@@ -5313,9 +5202,7 @@
     "oxidation": "2,3c",
     "radius": {
       "calculated": 222,
-      "empirical": 175,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1878,
     "conductivity": {
@@ -5327,8 +5214,7 @@
       "solar": 1e-7,
       "meteor": 0.000018,
       "crust": 0.00028,
-      "ocean": 8e-11,
-      "human": null
+      "ocean": 8e-11
     },
     "heat": {
       "specific": 154,
@@ -5348,7 +5234,7 @@
     "atomic_mass": 174.96681,
     "boil": 3675,
     "category": "lanthanide",
-    "density": 9841,
+    "density": 9.841,
     "discovered_by": "Georges Urbain",
     "melt": 1925,
     "molar_heat": 26.86,
@@ -5387,8 +5273,7 @@
     "radius": {
       "calculated": 217,
       "empirical": 175,
-      "covalent": 160,
-      "vanderwaals": null
+      "covalent": 160
     },
     "discover": 1907,
     "conductivity": {
@@ -5400,8 +5285,7 @@
       "solar": 1e-7,
       "meteor": 0.0000029,
       "crust": 0.000056,
-      "ocean": 1.5e-11,
-      "human": null
+      "ocean": 1.5e-11
     },
     "heat": {
       "specific": 154,
@@ -5421,7 +5305,7 @@
     "atomic_mass": 178.492,
     "boil": 4876,
     "category": "transition metal",
-    "density": 13310,
+    "density": 13.31,
     "discovered_by": "Dirk Coster",
     "melt": 2506,
     "molar_heat": 25.73,
@@ -5459,8 +5343,7 @@
     "radius": {
       "calculated": 208,
       "empirical": 155,
-      "covalent": 150,
-      "vanderwaals": null
+      "covalent": 150
     },
     "discover": 1923,
     "conductivity": {
@@ -5472,8 +5355,7 @@
       "solar": 1e-7,
       "meteor": 0.000017,
       "crust": 0.00033,
-      "ocean": 8e-10,
-      "human": null
+      "ocean": 8e-10
     },
     "heat": {
       "specific": 144,
@@ -5493,7 +5375,7 @@
     "atomic_mass": 180.947882,
     "boil": 5731,
     "category": "transition metal",
-    "density": 16690,
+    "density": 16.69,
     "discovered_by": "Anders Gustaf Ekeberg",
     "melt": 3290,
     "molar_heat": 25.36,
@@ -5529,8 +5411,7 @@
     "radius": {
       "calculated": 200,
       "empirical": 145,
-      "covalent": 138,
-      "vanderwaals": null
+      "covalent": 138
     },
     "discover": 1802,
     "conductivity": {
@@ -5541,9 +5422,7 @@
       "universe": 8e-9,
       "meteor": 0.000002,
       "crust": 0.00017,
-      "ocean": 2e-10,
-      "solar": null,
-      "human": null
+      "ocean": 2e-10
     },
     "heat": {
       "specific": 140,
@@ -5563,7 +5442,7 @@
     "atomic_mass": 183.841,
     "boil": 6203,
     "category": "transition metal",
-    "density": 19250,
+    "density": 19.25,
     "discovered_by": "Carl Wilhelm Scheele",
     "melt": 3695,
     "molar_heat": 24.27,
@@ -5599,8 +5478,7 @@
     "radius": {
       "calculated": 193,
       "empirical": 135,
-      "covalent": 146,
-      "vanderwaals": null
+      "covalent": 146
     },
     "discover": 1783,
     "conductivity": {
@@ -5612,8 +5490,7 @@
       "solar": 4e-7,
       "meteor": 0.000012,
       "crust": 0.00011,
-      "ocean": 1.2e-8,
-      "human": null
+      "ocean": 1.2e-8
     },
     "heat": {
       "specific": 132,
@@ -5633,7 +5510,7 @@
     "atomic_mass": 186.2071,
     "boil": 5869,
     "category": "transition metal",
-    "density": 21020,
+    "density": 21.02,
     "discovered_by": "Masataka Ogawa",
     "melt": 3459,
     "molar_heat": 25.48,
@@ -5671,8 +5548,7 @@
     "radius": {
       "calculated": 188,
       "empirical": 135,
-      "covalent": 159,
-      "vanderwaals": null
+      "covalent": 159
     },
     "discover": 1925,
     "conductivity": {
@@ -5684,8 +5560,7 @@
       "solar": 1e-8,
       "meteor": 0.0000049,
       "crust": 2.6e-7,
-      "ocean": 1e-10,
-      "human": null
+      "ocean": 1e-10
     },
     "heat": {
       "specific": 137,
@@ -5705,7 +5580,7 @@
     "atomic_mass": 190.233,
     "boil": 5285,
     "category": "transition metal",
-    "density": 22590,
+    "density": 22.59,
     "discovered_by": "Smithson Tennant",
     "melt": 3306,
     "molar_heat": 24.7,
@@ -5741,8 +5616,7 @@
     "radius": {
       "calculated": 185,
       "empirical": 130,
-      "covalent": 128,
-      "vanderwaals": null
+      "covalent": 128
     },
     "discover": 1803,
     "conductivity": {
@@ -5753,9 +5627,7 @@
       "universe": 3e-7,
       "solar": 2e-7,
       "meteor": 0.000066,
-      "crust": 1.8e-7,
-      "ocean": null,
-      "human": null
+      "crust": 1.8e-7
     },
     "heat": {
       "specific": 130,
@@ -5775,7 +5647,7 @@
     "atomic_mass": 192.2173,
     "boil": 4403,
     "category": "transition metal",
-    "density": 22560,
+    "density": 22.56,
     "discovered_by": "Smithson Tennant",
     "melt": 2719,
     "molar_heat": 25.1,
@@ -5811,8 +5683,7 @@
     "radius": {
       "calculated": 180,
       "empirical": 135,
-      "covalent": 137,
-      "vanderwaals": null
+      "covalent": 137
     },
     "discover": 1803,
     "conductivity": {
@@ -5823,9 +5694,7 @@
       "universe": 2e-7,
       "solar": 2e-7,
       "meteor": 0.000054,
-      "crust": 4e-8,
-      "ocean": null,
-      "human": null
+      "crust": 4e-8
     },
     "heat": {
       "specific": 131,
@@ -5845,7 +5714,7 @@
     "atomic_mass": 195.0849,
     "boil": 4098,
     "category": "transition metal",
-    "density": 21450,
+    "density": 21.45,
     "discovered_by": "Antonio de Ulloa",
     "melt": 2041.4,
     "molar_heat": 25.86,
@@ -5893,9 +5762,7 @@
       "universe": 5e-7,
       "solar": 9e-7,
       "meteor": 0.000098,
-      "crust": 0.0000037,
-      "ocean": null,
-      "human": null
+      "crust": 0.0000037
     },
     "heat": {
       "specific": 133,
@@ -5915,7 +5782,7 @@
     "atomic_mass": 196.9665695,
     "boil": 3243,
     "category": "transition metal",
-    "density": 19300,
+    "density": 19.3,
     "discovered_by": "Middle East",
     "melt": 1337.33,
     "molar_heat": 25.418,
@@ -5985,7 +5852,7 @@
     "atomic_mass": 200.5923,
     "boil": 629.88,
     "category": "transition metal",
-    "density": 13534,
+    "density": 13.534,
     "discovered_by": "unknown, before 2000 BCE",
     "melt": 234.321,
     "molar_heat": 27.983,
@@ -6035,8 +5902,7 @@
       "solar": 0.000002,
       "meteor": 0.000025,
       "crust": 0.0000067,
-      "ocean": 5e-9,
-      "human": null
+      "ocean": 5e-9
     },
     "heat": {
       "specific": 139.5,
@@ -6056,7 +5922,7 @@
     "atomic_mass": 204.38,
     "boil": 1746,
     "category": "post-transition metal",
-    "density": 11850,
+    "density": 11.85,
     "discovered_by": "William Crookes",
     "melt": 577,
     "molar_heat": 26.32,
@@ -6106,8 +5972,7 @@
       "solar": 1e-7,
       "meteor": 0.0000078,
       "crust": 0.000053,
-      "ocean": 1e-10,
-      "human": null
+      "ocean": 1e-10
     },
     "heat": {
       "specific": 129,
@@ -6127,7 +5992,7 @@
     "atomic_mass": 207.21,
     "boil": 2022,
     "category": "post-transition metal",
-    "density": 11340,
+    "density": 11.34,
     "discovered_by": "Middle East",
     "melt": 600.61,
     "molar_heat": 26.65,
@@ -6200,7 +6065,7 @@
     "atomic_mass": 208.980401,
     "boil": 1837,
     "category": "post-transition metal",
-    "density": 9780,
+    "density": 9.78,
     "discovered_by": "Claude François Geoffroy",
     "melt": 544.7,
     "molar_heat": 25.52,
@@ -6240,8 +6105,7 @@
     "radius": {
       "calculated": 143,
       "empirical": 160,
-      "covalent": 146,
-      "vanderwaals": null
+      "covalent": 146
     },
     "discover": 1400,
     "conductivity": {
@@ -6253,8 +6117,7 @@
       "solar": 0.000001,
       "meteor": 0.0000069,
       "crust": 0.0000025,
-      "ocean": 2e-9,
-      "human": null
+      "ocean": 2e-9
     },
     "heat": {
       "specific": 122,
@@ -6274,7 +6137,7 @@
     "atomic_mass": 209,
     "boil": 1235,
     "category": "post-transition metal",
-    "density": 9196,
+    "density": 9.196,
     "discovered_by": "Pierre Curie",
     "melt": 527,
     "molar_heat": 26.4,
@@ -6308,27 +6171,20 @@
     "oxidation": "-2c,2c,4c,6",
     "radius": {
       "calculated": 135,
-      "empirical": 190,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 190
     },
     "discover": 1898,
     "conductivity": {
-      "electric": 2.3,
-      "thermal": null
+      "electric": 2.3
     },
     "abundance": {
       "universe": 0,
       "ocean": 2e-18,
-      "human": 0,
-      "solar": null,
-      "meteor": null,
-      "crust": null
+      "human": 0
     },
     "heat": {
       "vaporization": 100,
-      "fusion": 13,
-      "specific": null
+      "fusion": 13
     },
     "quantum": {
       "l": 1,
@@ -6343,7 +6199,7 @@
     "atomic_mass": 210,
     "boil": 610,
     "category": "metalloid",
-    "density": 6350,
+    "density": 6.35,
     "discovered_by": "Dale R. Corson",
     "melt": 575,
     "molar_heat": null,
@@ -6376,28 +6232,22 @@
     "series": "Metalloid",
     "oxidation": "-1c,1c,3,5,7",
     "radius": {
-      "calculated": 127,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
+      "calculated": 127
     },
     "discover": 1940,
     "conductivity": {
-      "thermal": 2,
-      "electric": null
+      "thermal": 2
     },
     "abundance": {
       "universe": 0,
       "meteor": 0,
       "crust": 0,
       "ocean": 0,
-      "human": 0,
-      "solar": null
+      "human": 0
     },
     "heat": {
       "vaporization": 40,
-      "fusion": 6,
-      "specific": null
+      "fusion": 6
     },
     "quantum": {
       "l": 1,
@@ -6446,22 +6296,15 @@
     "oxidation": "2c",
     "radius": {
       "calculated": 120,
-      "covalent": 145,
-      "empirical": null,
-      "vanderwaals": null
+      "covalent": 145
     },
     "discover": 1900,
     "conductivity": {
-      "thermal": 0.00361,
-      "electric": null
+      "thermal": 0.00361
     },
     "abundance": {
       "universe": 0,
-      "ocean": 6e-20,
-      "solar": null,
-      "meteor": null,
-      "crust": null,
-      "human": null
+      "ocean": 6e-20
     },
     "heat": {
       "specific": 93.65,
@@ -6481,7 +6324,7 @@
     "atomic_mass": 223,
     "boil": 950,
     "category": "alkali metal",
-    "density": 1870,
+    "density": 1.87,
     "discovered_by": "Marguerite Perey",
     "melt": 300,
     "molar_heat": null,
@@ -6514,29 +6357,16 @@
     "cpk-hex": "420066",
     "series": "Alkali",
     "oxidation": "1c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1939,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
-      "human": 0,
-      "solar": null,
-      "meteor": null,
-      "crust": null,
-      "ocean": null
+      "human": 0
     },
     "heat": {
       "vaporization": 65,
-      "fusion": 2,
-      "specific": null
+      "fusion": 2
     },
     "quantum": {
       "l": 0,
@@ -6551,7 +6381,7 @@
     "atomic_mass": 226,
     "boil": 2010,
     "category": "alkaline earth metal",
-    "density": 5500,
+    "density": 5.5,
     "discovered_by": "Pierre Curie",
     "melt": 1233,
     "molar_heat": null,
@@ -6586,10 +6416,7 @@
     "series": "Alkaline",
     "oxidation": "2c",
     "radius": {
-      "empirical": 215,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 215
     },
     "discover": 1898,
     "conductivity": {
@@ -6600,9 +6427,7 @@
       "universe": 0,
       "crust": 9.9e-12,
       "ocean": 1e-15,
-      "human": 1e-13,
-      "solar": null,
-      "meteor": null
+      "human": 1e-13
     },
     "heat": {
       "specific": 92,
@@ -6622,7 +6447,7 @@
     "atomic_mass": 227,
     "boil": 3500,
     "category": "actinide",
-    "density": 10000,
+    "density": 10,
     "discovered_by": "Friedrich Oskar Giesel",
     "melt": 1500,
     "molar_heat": 27.2,
@@ -6657,23 +6482,16 @@
     "series": "Actinoid",
     "oxidation": "2,3c",
     "radius": {
-      "empirical": 195,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 195
     },
     "discover": 1899,
     "conductivity": {
-      "thermal": 12,
-      "electric": null
+      "thermal": 12
     },
     "abundance": {
       "universe": 0,
       "solar": 0,
-      "human": 0,
-      "meteor": null,
-      "crust": null,
-      "ocean": null
+      "human": 0
     },
     "heat": {
       "specific": 120,
@@ -6693,7 +6511,7 @@
     "atomic_mass": 232.03774,
     "boil": 5061,
     "category": "actinide",
-    "density": 11724,
+    "density": 11.724,
     "discovered_by": "Jöns Jakob Berzelius",
     "melt": 2023,
     "molar_heat": 26.23,
@@ -6730,10 +6548,7 @@
     "series": "Actinoid",
     "oxidation": "2,3,4c",
     "radius": {
-      "empirical": 180,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 180
     },
     "discover": 1829,
     "conductivity": {
@@ -6766,7 +6581,7 @@
     "atomic_mass": 231.035882,
     "boil": 4300,
     "category": "actinide",
-    "density": 15370,
+    "density": 15.37,
     "discovered_by": "William Crookes",
     "melt": 1841,
     "molar_heat": null,
@@ -6800,10 +6615,7 @@
     "series": "Actinoid",
     "oxidation": "2,3,4,5c",
     "radius": {
-      "empirical": 180,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 180
     },
     "discover": 1913,
     "conductivity": {
@@ -6814,9 +6626,7 @@
       "universe": 0,
       "crust": 9.9e-13,
       "ocean": 2e-23,
-      "human": 0,
-      "solar": null,
-      "meteor": null
+      "human": 0
     },
     "heat": {
       "specific": 99.1,
@@ -6836,7 +6646,7 @@
     "atomic_mass": 238.028913,
     "boil": 4404,
     "category": "actinide",
-    "density": 19100,
+    "density": 19.1,
     "discovered_by": "Martin Heinrich Klaproth",
     "melt": 1405.3,
     "molar_heat": 27.665,
@@ -6872,9 +6682,7 @@
     "oxidation": "2,3,4,5,6c",
     "radius": {
       "empirical": 175,
-      "vanderwaals": 186,
-      "calculated": null,
-      "covalent": null
+      "vanderwaals": 186
     },
     "discover": 1789,
     "conductivity": {
@@ -6907,7 +6715,7 @@
     "atomic_mass": 237,
     "boil": 4447,
     "category": "actinide",
-    "density": 20450,
+    "density": 20.45,
     "discovered_by": "Edwin McMillan",
     "melt": 912,
     "molar_heat": 29.46,
@@ -6941,10 +6749,7 @@
     "series": "Actinoid",
     "oxidation": "3,4,5c,6,7",
     "radius": {
-      "empirical": 175,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1940,
     "conductivity": {
@@ -6961,8 +6766,7 @@
     },
     "heat": {
       "vaporization": 335,
-      "fusion": 10,
-      "specific": null
+      "fusion": 10
     },
     "quantum": {
       "l": 2,
@@ -6977,7 +6781,7 @@
     "atomic_mass": 244,
     "boil": 3505,
     "category": "actinide",
-    "density": 19816,
+    "density": 19.816,
     "discovered_by": "Glenn T. Seaborg",
     "melt": 912.5,
     "molar_heat": 35.5,
@@ -7011,10 +6815,7 @@
     "series": "Actinoid",
     "oxidation": "3,4c,5,6,7,8",
     "radius": {
-      "empirical": 175,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1940,
     "conductivity": {
@@ -7030,9 +6831,7 @@
       "human": 0
     },
     "heat": {
-      "vaporization": 325,
-      "specific": null,
-      "fusion": null
+      "vaporization": 325
     },
     "quantum": {
       "l": 3,
@@ -7047,7 +6846,7 @@
     "atomic_mass": 243,
     "boil": 2880,
     "category": "actinide",
-    "density": 12000,
+    "density": 12,
     "discovered_by": "Glenn T. Seaborg",
     "melt": 1449,
     "molar_heat": 62.7,
@@ -7081,15 +6880,11 @@
     "series": "Actinoid",
     "oxidation": "2,3c,4,5,6",
     "radius": {
-      "empirical": 175,
-      "calculated": null,
-      "covalent": null,
-      "vanderwaals": null
+      "empirical": 175
     },
     "discover": 1944,
     "conductivity": {
-      "thermal": 10,
-      "electric": null
+      "thermal": 10
     },
     "abundance": {
       "universe": 0,
@@ -7099,11 +6894,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": 3,
@@ -7117,7 +6908,7 @@
     "atomic_mass": 247,
     "boil": 3383,
     "category": "actinide",
-    "density": 13510,
+    "density": 13.51,
     "discovered_by": "Glenn T. Seaborg",
     "melt": 1613,
     "molar_heat": null,
@@ -7150,17 +6941,9 @@
     "cpk-hex": "785ce3",
     "series": "Actinoid",
     "oxidation": "3c,4",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1944,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7169,11 +6952,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": -2,
@@ -7187,7 +6966,7 @@
     "atomic_mass": 247,
     "boil": 2900,
     "category": "actinide",
-    "density": 14780,
+    "density": 14.78,
     "discovered_by": "Lawrence Berkeley National Laboratory",
     "melt": 1259,
     "molar_heat": null,
@@ -7220,16 +6999,10 @@
     "cpk-hex": "8a4fe3",
     "series": "Actinoid",
     "oxidation": "3c,4",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1949,
     "conductivity": {
-      "thermal": 10,
-      "electric": null
+      "thermal": 10
     },
     "abundance": {
       "universe": 0,
@@ -7239,11 +7012,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": -2,
@@ -7257,7 +7026,7 @@
     "atomic_mass": 251,
     "boil": 1743,
     "category": "actinide",
-    "density": 15100,
+    "density": 15.1,
     "discovered_by": "Lawrence Berkeley National Laboratory",
     "melt": 1173,
     "molar_heat": null,
@@ -7290,17 +7059,9 @@
     "cpk-hex": "a136d4",
     "series": "Actinoid",
     "oxidation": "2,3c,4",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1950,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7309,11 +7070,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": -1,
@@ -7327,7 +7084,7 @@
     "atomic_mass": 252,
     "boil": 1269,
     "category": "actinide",
-    "density": 8840,
+    "density": 8.84,
     "discovered_by": "Lawrence Berkeley National Laboratory",
     "melt": 1133,
     "molar_heat": null,
@@ -7360,17 +7117,9 @@
     "cpk-hex": "b31fd4",
     "series": "Actinoid",
     "oxidation": "2,3c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1952,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7379,11 +7128,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": 0,
@@ -7430,17 +7175,9 @@
     "cpk-hex": "b31fba",
     "series": "Actinoid",
     "oxidation": "2,3c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1952,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7449,11 +7186,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": 1,
@@ -7500,17 +7233,9 @@
     "cpk-hex": "b30da6",
     "series": "Actinoid",
     "oxidation": "2,3c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1955,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7519,11 +7244,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": 2,
@@ -7570,17 +7291,9 @@
     "cpk-hex": "bd0d87",
     "series": "Actinoid",
     "oxidation": "2c,3",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1958,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7589,11 +7302,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 3,
       "m": 3,
@@ -7640,17 +7349,9 @@
     "cpk-hex": "c70066",
     "series": "Actinoid",
     "oxidation": "3c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1961,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7659,11 +7360,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": -1,
@@ -7677,7 +7374,7 @@
     "atomic_mass": 267,
     "boil": 5800,
     "category": "transition metal",
-    "density": 23200,
+    "density": 23.2,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 2400,
     "molar_heat": null,
@@ -7710,17 +7407,9 @@
     "cpk-hex": "cc0059",
     "series": "Transition",
     "oxidation": "4c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1964,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7729,11 +7418,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": -1,
@@ -7747,7 +7432,7 @@
     "atomic_mass": 268,
     "boil": null,
     "category": "transition metal",
-    "density": 29300,
+    "density": 29.3,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": null,
     "molar_heat": null,
@@ -7778,17 +7463,9 @@
     "cpk-hex": "d1004f",
     "series": "Transition",
     "oxidation": "5c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1967,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7797,11 +7474,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 0,
@@ -7815,7 +7488,7 @@
     "atomic_mass": 269,
     "boil": null,
     "category": "transition metal",
-    "density": 35000,
+    "density": 35,
     "discovered_by": "Lawrence Berkeley National Laboratory",
     "melt": null,
     "molar_heat": null,
@@ -7846,17 +7519,9 @@
     "cpk-hex": "d90045",
     "series": "Transition",
     "oxidation": "6c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1974,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7865,11 +7530,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 1,
@@ -7883,7 +7544,7 @@
     "atomic_mass": 270,
     "boil": null,
     "category": "transition metal",
-    "density": 37100,
+    "density": 37.1,
     "discovered_by": "Gesellschaft für Schwerionenforschung",
     "melt": null,
     "molar_heat": null,
@@ -7914,17 +7575,9 @@
     "cpk-hex": "e00038",
     "series": "Transition",
     "oxidation": "7c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1981,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -7933,11 +7586,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 2,
@@ -7951,7 +7600,7 @@
     "atomic_mass": 269,
     "boil": null,
     "category": "transition metal",
-    "density": 40700,
+    "density": 40.7,
     "discovered_by": "Gesellschaft für Schwerionenforschung",
     "melt": 126,
     "molar_heat": null,
@@ -7982,17 +7631,9 @@
     "cpk-hex": "e6002e",
     "series": "Transition",
     "oxidation": "8c",
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1984,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8001,11 +7642,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": -2,
@@ -8019,7 +7656,7 @@
     "atomic_mass": 278,
     "boil": null,
     "category": "unknown, probably transition metal",
-    "density": 37400,
+    "density": 37.4,
     "discovered_by": "Gesellschaft für Schwerionenforschung",
     "melt": null,
     "molar_heat": null,
@@ -8050,17 +7687,9 @@
     "cpk-hex": "eb0026",
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1982,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8069,11 +7698,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": -1,
@@ -8087,7 +7712,7 @@
     "atomic_mass": 281,
     "boil": null,
     "category": "unknown, probably transition metal",
-    "density": 34800,
+    "density": 34.8,
     "discovered_by": "Gesellschaft für Schwerionenforschung",
     "melt": null,
     "molar_heat": null,
@@ -8118,17 +7743,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1994,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8137,11 +7754,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 1,
@@ -8155,7 +7768,7 @@
     "atomic_mass": 282,
     "boil": null,
     "category": "unknown, probably transition metal",
-    "density": 28700,
+    "density": 28.7,
     "discovered_by": "Gesellschaft für Schwerionenforschung",
     "melt": null,
     "molar_heat": null,
@@ -8186,17 +7799,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1994,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8205,11 +7810,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 1,
@@ -8254,17 +7855,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1996,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8273,11 +7866,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 2,
       "m": 2,
@@ -8291,7 +7880,7 @@
     "atomic_mass": 286,
     "boil": 1430,
     "category": "unknown, probably transition metal",
-    "density": 16000,
+    "density": 16,
     "discovered_by": "RIKEN",
     "melt": 700,
     "molar_heat": null,
@@ -8322,17 +7911,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 2004,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8341,11 +7922,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": -1,
@@ -8359,7 +7936,7 @@
     "atomic_mass": 289,
     "boil": 420,
     "category": "post-transition metal",
-    "density": 14000,
+    "density": 14,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 340,
     "molar_heat": null,
@@ -8390,17 +7967,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 1998,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8409,11 +7978,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": 0,
@@ -8427,7 +7992,7 @@
     "atomic_mass": 289,
     "boil": 1400,
     "category": "unknown, probably post-transition metal",
-    "density": 13500,
+    "density": 13.5,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 670,
     "molar_heat": null,
@@ -8458,17 +8023,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 2004,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8477,11 +8034,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": 1,
@@ -8495,7 +8048,7 @@
     "atomic_mass": 293,
     "boil": 1085,
     "category": "unknown, probably post-transition metal",
-    "density": 12900,
+    "density": 12.9,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 709,
     "molar_heat": null,
@@ -8526,17 +8079,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 2000,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8545,11 +8090,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": -1,
@@ -8563,7 +8104,7 @@
     "atomic_mass": 294,
     "boil": 883,
     "category": "unknown, probably metalloid",
-    "density": 7170,
+    "density": 7.17,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 723,
     "molar_heat": null,
@@ -8594,17 +8135,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 2010,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8613,11 +8146,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": 0,
@@ -8631,7 +8160,7 @@
     "atomic_mass": 294,
     "boil": 450,
     "category": "unknown, predicted to be noble gas",
-    "density": 4950,
+    "density": 4.95,
     "discovered_by": "Joint Institute for Nuclear Research",
     "melt": 325,
     "molar_heat": null,
@@ -8662,17 +8191,9 @@
     "cpk-hex": null,
     "series": "Unknown",
     "oxidation": null,
-    "radius": {
-      "calculated": null,
-      "empirical": null,
-      "covalent": null,
-      "vanderwaals": null
-    },
+    "radius": null,
     "discover": 2006,
-    "conductivity": {
-      "thermal": null,
-      "electric": null
-    },
+    "conductivity": null,
     "abundance": {
       "universe": 0,
       "solar": 0,
@@ -8681,11 +8202,7 @@
       "ocean": 0,
       "human": 0
     },
-    "heat": {
-      "specific": null,
-      "vaporization": null,
-      "fusion": null
-    },
+    "heat": null,
     "quantum": {
       "l": 1,
       "m": 1,

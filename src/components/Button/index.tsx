@@ -8,7 +8,8 @@ interface ButtonProps{
   className?: string | undefined,
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined,
   children:any,
-  nextref?: MutableRefObject<any>
+  nextref?: MutableRefObject<any>,
+  [key:string]:any
 }
 
 function getClase(clase:string|undefined) {
@@ -18,10 +19,21 @@ function getClase(clase:string|undefined) {
 }
 
 export default function Button({
-  type, className, children, onClick, nextref,
+  type, className, children, onClick, nextref, ...rest
 }:ButtonProps) {
   const clase = getClase(className);
-  return <button type={type} ref={nextref} onClick={onClick} className={clase}>{children}</button>;
+  return (
+    <button
+      type={type}
+      ref={nextref}
+      onClick={onClick}
+      className={clase}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...rest}
+    >
+      {children}
+    </button>
+  );
 }
 
 Button.defaultProps = {

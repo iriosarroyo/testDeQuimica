@@ -1,30 +1,112 @@
-g{
-  cursor:pointer;
+.tablaPeriodica g {
+  cursor: pointer;
 }
-.gas rect{
-  fill:red;
+.gas rect {
+  fill: var(--bg3-color);
 }
-
-.gas text{
-  fill:white;
-}
-
-.liquid rect{
-  fill:blue;
-}
-.liquid text{
-  fill:white;
+.gas text {
+  fill: var(--font2-color);
 }
 
-.solid rect{
-  fill:lightgray;
+.liquid rect {
+  fill: var(--bg-color);
 }
-.solid text{
-  fill:black;
+.liquid text {
+  fill: var(--font-color);
 }
-.no-data rect{
-  fill: orange;
+
+.solid rect {
+  fill: #468c88;
 }
-.no-data text{
-  fill:white;
+.solid text {
+  fill: black;
+}
+
+.nonmetal rect {
+  fill: lightgray;
+}
+
+.nonmetal text {
+  fill: black;
+}
+
+.alkali.metal rect {
+  fill: lightcoral;
+}
+
+.alkali.metal text {
+  fill: black;
+}
+.alkaline.earth.metal rect {
+  fill: lightsalmon;
+}
+
+.alkaline.earth.metal text {
+  fill: black;
+}
+
+.metalloid rect {
+  fill: lightgreen;
+}
+
+.metalloid text {
+  fill: black;
+}
+.post-transition.metal rect {
+  fill: lightcyan;
+}
+
+.post-transition.metal text {
+  fill: black;
+}
+.transition.metal rect {
+  fill: lightblue;
+}
+
+.transition.metal text {
+  fill: black;
+}
+.lanthanide rect {
+  fill: lightgoldenrodyellow;
+}
+
+.lanthanide text {
+  fill: black;
+}
+.actinide rect {
+  fill: lightpink;
+}
+
+.actinide text {
+  fill: black;
+}
+.noble.gas rect {
+  fill: lightslategray;
+}
+
+.noble.gas text {
+  fill: white;
+}
+
+.no-data rect {
+  opacity: 0.5;
+  fill: #333;
+}
+.no-data text {
+  opacity: 0.5;
+  fill: white;
+}
+rect.generalRect {
+  fill: var(--font2-color);
+  stroke: var(--bg2-color);
+}
+
+.generalStroke {
+  stroke: var(--bg2-color);
+}
+
+text.generalText,
+.generalText {
+  fill: var(--bg2-color) !important;
+  opacity: 1;
 }

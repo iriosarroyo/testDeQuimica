@@ -5,6 +5,7 @@ import {
 import maxAndMin from 'info/maxAndMinTabla.json';
 import { User } from 'firebase/auth';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import tablaJSON from 'info/tablaPeriodica.json';
 
 export interface FolderData{
     name:string,
@@ -67,9 +68,18 @@ export interface SelectProps extends FieldProps{
   options:({value:string, text:string}|string)[]
 }
 
+type keysOfTabla = keyof typeof tablaJSON;
+export type PeriodicElement = typeof tablaJSON[keysOfTabla]
+type isObject<T> = T extends {[key:string]:number} ? keyof T : never;
+type periodicKeys = keyof PeriodicElement
+export type subPeridicTypes = isObject<PeriodicElement[periodicKeys]>
+export type radius = PeriodicElement['radius']
+/*
 export interface PeriodicElement {
   'cpk-hex':string | null
   atomic_mass:number,
+  appearance:string,
+  category:string,
   boil:number|null,
   density:number|null,
   electron_affinity:number|null,
@@ -82,13 +92,19 @@ export interface PeriodicElement {
   xpos:number,
   ypos:number,
 }
+*/
+export type LimitsPerElement = typeof maxAndMin;
+type keyMinMax = keyof LimitsPerElement;
+type hasChildren<T> = T extends {min:number, max:number} ? never : keyof T
+type withChildren = hasChildren<LimitsPerElement[keyMinMax]>
 
-export type LimitsPerElement = typeof maxAndMin
 export type GradientColorsTypes = keyof LimitsPerElement & keyof PeriodicElement
-export type ColorMode = 'cpk' | 'phases' | GradientColorsTypes;
+export type subColorsType = withChildren & subPeridicTypes
+export type ColorMode = 'category' | 'cpk' | 'phases' | GradientColorsTypes;
 
 export interface ElementoPeriodicoProps {
   colorMode:ColorMode,
+  subColorMode: subColorsType | undefined,
   colorNumber: number,
   elementData:PeriodicElement,
   h:number,
