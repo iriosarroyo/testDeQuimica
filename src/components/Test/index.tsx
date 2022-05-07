@@ -210,7 +210,7 @@ function HeaderTest() {
   );
 }
 
-export default function Test({ ids, unaPorUna }:{ids?:Set<string>, unaPorUna?:boolean}) {
+export default function Test({ ids, unaPorUna }:{ids?:Set<string>, unaPorUna:boolean}) {
   const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
   const [active, setActive] = useState<number>(0);
   const childrenRef = useRef<HTMLDivElement[]>([]);
@@ -302,5 +302,4 @@ Test.defaultProps = {
     'id0464',
     'id0664',
   ]),
-  unaPorUna: false,
 };

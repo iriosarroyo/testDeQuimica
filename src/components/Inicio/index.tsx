@@ -22,12 +22,9 @@ const changeAnimation = (
   }
 };
 
-function InicioFooter() {
+function InicioFooter({ velocidad }:{velocidad:number}) {
   const ref = useRef<HTMLDivElement>(null);
   const setError = useContext(MyErrorContext);
-  const { userDDBB } = useContext(UserContext) ?? { userDDBB: { velocidad: 1 } };
-  const { velocidad } = userDDBB;
-
   useEffect(() => {
     const callback = (frases:string[]) => {
       if (ref.current) {
@@ -36,7 +33,7 @@ function InicioFooter() {
       }
     };
     getFrasesCuriosasWithSetters(callback, setError);
-  }, []);
+  }, [velocidad]);
 
   return (
     <div className="sliderTextContainer">
@@ -48,7 +45,9 @@ function InicioFooter() {
 function Inicio() {
   const [text, setText] = useState<any>(undefined);
   const setError = useContext(MyErrorContext);
-  setFooter(<InicioFooter />);
+  const { userDDBB } = useContext(UserContext) ?? { userDDBB: { velocidad: 1 } };
+  const { velocidad } = userDDBB;
+  setFooter(<InicioFooter velocidad={velocidad} />, [velocidad]);
 
   useEffect(() => {
     getInicioWithSetters(setText, setError);

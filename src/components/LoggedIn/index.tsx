@@ -4,8 +4,8 @@ import Header from 'components/Header';
 import Navbar from 'components/Navbar';
 import FooterContext from 'contexts/Footer';
 import UserContext from 'contexts/User';
-import React, { useContext, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 const Perfil = loadable(() => import('../Perfil'), {
   fallback: <GeneralContentLoader />,
@@ -23,6 +23,10 @@ const TestDeHoy = loadable(() => import('../Test'), {
   fallback: <GeneralContentLoader />,
 });
 
+const Ajustes = loadable(() => import('../Ajustes'), {
+  fallback: <GeneralContentLoader />,
+});
+
 const navContractDefault = window.innerWidth <= 500;
 const localNavValue = localStorage.getItem('TestDeQuimica_NavContract');
 const getInitialNavValue = () => {
@@ -35,10 +39,13 @@ export default function LoggedIn() {
   const user = useContext(UserContext);
   const [navContract, setNav] = useState(initialNavValue);
   const [childrenFooter, setChildrenFooter] = useState(null);
+  const location = useLocation();
   const handleClick = () => {
     localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
     setNav(!navContract);
   };
+  useEffect(() => setChildrenFooter(null), [location.pathname]);
+
   return (
     <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>
       <FooterContext.Provider value={setChildrenFooter}>
@@ -52,7 +59,8 @@ export default function LoggedIn() {
                 <Route path="/documentos/*" element={<Documentos />} />
                 <Route path="/perfil" element={<Perfil />} />
                 <Route path="/tablaPeriodica" element={<TablaEditor />} />
-                <Route path="/testDeHoy" element={<TestDeHoy />} />
+                <Route path="/testDeHoy" element={<TestDeHoy unaPorUna={!!user?.userDDBB.unaPorUna} />} />
+                <Route path="/ajustes" element={<Ajustes />} />
               </Routes>
             )
             : <GeneralContentLoader />}

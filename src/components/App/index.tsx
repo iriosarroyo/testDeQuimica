@@ -52,6 +52,8 @@ function App() {
     (event) => handleKeyDown(event, functions),
   ), []);
 
+  document.body.dataset.mode = localStorage.getItem('mode') ?? 'null';
+
   return (
     <MyErrorContext.Provider value={setError}>
       <FrontContext.Provider value={setFrontElement}>

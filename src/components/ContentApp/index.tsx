@@ -13,6 +13,10 @@ export default function ContentApp() {
   const [user, setUser]:[any, Function] = useState<User|undefined>(undefined);
   const setError = useContext(MyErrorContext);
   const { userDDBB } = user ?? {};
+  if (userDDBB?.mode) {
+    document.body.dataset.mode = userDDBB?.mode;
+    localStorage.setItem('mode', userDDBB?.mode);
+  }
   useEffect(() => authState(setUser, setError), []);
   if (user === null) return <Login />;
   if (userDDBB || user === undefined) {

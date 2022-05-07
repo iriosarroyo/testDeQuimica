@@ -9,7 +9,7 @@ import './temp.css';
 
 import elementosTabla from 'info/tablaPeriodica.json';
 
-const elem = {
+/* const elem = {
   radius: ['calculated',
     'empirical',
     'covalent',
@@ -37,7 +37,7 @@ const elem = {
     'n',
   ],
 
-};
+}; */
 
 /* Object.entries(elementosTabla).forEach(([, v]) => {
   if (v.phase.toLowerCase() === 'gas') return;
@@ -94,14 +94,18 @@ const setMinAndMax = (curr, acum) => {
       try {
         acum[key] ??= {};
         acum[key] = setMinAndMax(val, acum[key]);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
   });
   return acum;
 };
 
-const maxAndMin = Object.values(elementosTabla)
-  .reduce((acum, curr) => setMinAndMax(curr, acum), {});
+const maxAndMin = Object.values(elementosTabla).reduce(
+  (acum, curr) => setMinAndMax(curr, acum),
+  {},
+);
 console.log(maxAndMin);
 //  export default undefined; */
 /* let commonProp = [];
@@ -213,4 +217,6 @@ export default function Comparacion() {
     </div>
   );
 } */
-export default function Comparacion() { return <div />; }
+export default function Comparacion() {
+  return <div />;
+}

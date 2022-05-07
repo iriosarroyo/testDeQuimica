@@ -45,6 +45,31 @@
     --font-red-color: var(--font-red-light-mode);
   }
 }
+
+[data-mode = dark]{
+  --bg-color: var(--bg-dark-mode);
+  --bg2-color: var(--bg2-dark-mode);
+  --bg3-color: var(--bg3-dark-mode);
+  --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
+  --bg-red-color: var(--bg-red-dark-mode);
+  --font-color: var(--font-dark-mode);
+  --font2-color: var(--font2-dark-mode);
+  --font2-fore-color: var(--font2-fore-dark-mode);
+  --font-red-color: var(--font-red-dark-mode);
+}
+
+[data-mode = light]{
+  --bg-color: var(--bg-light-mode);
+  --bg2-color: var(--bg2-light-mode);
+  --bg3-color: var(--bg3-light-mode);
+  --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
+  --bg-red-color: var(--bg-red-light-mode);
+  --font-color: var(--font-light-mode);
+  --font2-color: var(--font2-light-mode);
+  --font2-fore-color: var(--font2-fore-light-mode);
+  --font-red-color: var(--font-red-light-mode);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

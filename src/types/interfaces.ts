@@ -144,7 +144,10 @@ export interface userDDBB{
   surname:string,
   username:string,
   velocidad:number,
-  year:string
+  year:string,
+  mode: string,
+  unaPorUna: boolean,
+  notificaciones: boolean
 }
 
 export interface CompleteUser extends User{
