@@ -3,17 +3,39 @@
     display: grid;
     width: 100vw;
     height: 100vh;
+    top:0;
+    left: 0;
+    z-index: 100;
     justify-content: center;
     align-items: center;
     justify-items: center;
     align-content: center;
-    grid-template-columns: fit-content(300px);
+    grid-template-columns: 100%;
 }
 
 
 .errorGroup{
-    border-color:black;
-    border-radius: 5px;
+    border-color:var(--bg2-color);
+    color: var(--bg2-color);
+    background-color: var(--font2-color);
+    border-radius: 15px;
+    padding: 20px;
     border: 1px solid;
-    background-color: white;
+    width: max-content;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.errorGroup > details > p{
+    text-align: left;
+    font-size: .8em;
+}
+
+.errorGroup button{
+    color: var(--font2-color);
+    background-color: var(--bg2-color);
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 5px;
 }

@@ -12,7 +12,9 @@ export default function Error({ error, setError }:{error:Error, setError:Functio
         </details>
         <div>{message}</div>
         <div>
-          <button type="button" onClick={() => setError(undefined)}>Aceptar</button>
+          {// eslint-disable-next-line jsx-a11y/no-autofocus
+            <button type="button" onClick={() => setError(undefined)} autoFocus>Aceptar</button>
+}
         </div>
       </div>
     </article>

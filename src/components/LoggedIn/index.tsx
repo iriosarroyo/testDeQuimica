@@ -29,6 +29,10 @@ const Ajustes = loadable(() => import('../Ajustes'), {
   fallback: <GeneralContentLoader />,
 });
 
+const Online = loadable(() => import('../Online'), {
+  fallback: <GeneralContentLoader />,
+});
+
 const navContractDefault = window.innerWidth <= 500;
 const localNavValue = localStorage.getItem('TestDeQuimica_NavContract');
 const getInitialNavValue = () => {
@@ -70,6 +74,7 @@ export default function LoggedIn() {
                 <Route path="/tablaPeriodica" element={<TablaEditor />} />
                 <Route path="/testDeHoy" element={<TestDeHoy unaPorUna={!!user?.userDDBB.unaPorUna} />} />
                 <Route path="/ajustes" element={<Ajustes />} />
+                <Route path="/online" element={<Online />} />
               </Routes>
             )
             : <GeneralContentLoader />}

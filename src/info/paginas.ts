@@ -1,3 +1,4 @@
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Paginas } from 'types/interfaces';
 import { getShortCut } from './shortcutTools';
 
@@ -40,6 +41,19 @@ const paginas:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Documentos</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/online',
+    text: 'Online',
+    icon: faUsers,
+    id: 'goToOnline',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+O',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Online</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
   {
     url: '/tablaPeriodica',

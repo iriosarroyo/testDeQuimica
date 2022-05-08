@@ -1,5 +1,5 @@
 import {
-  get, onValue, ref, set,
+  get, onValue, push, ref, remove, set, ThenableReference,
 } from 'firebase/database';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import { auth, db } from './firebaseApp';
@@ -28,6 +28,27 @@ export const writeDDBB = async (path:string, value:any):Promise<Error|undefined>
     if (e instanceof Error) return e;
   }
   return undefined;
+};
+
+export const deleteDDBB = async (path:string):Promise<Error|undefined> => {
+  const thisRef = ref(db, path);
+  try {
+    await remove(thisRef);
+  } catch (e) {
+    if (e instanceof Error) return e;
+  }
+  return undefined;
+};
+
+export const pushDDBB = async (path:string, value:any)
+:Promise<[ThenableReference|undefined, Error|undefined]> => {
+  const thisRef = ref(db, path);
+  try {
+    return [push(thisRef, value), undefined];
+  } catch (e) {
+    if (e instanceof Error) return [undefined, e];
+  }
+  return [undefined, undefined];
 };
 
 export const writeUserInfo = async (value:any, path = '') => {
@@ -68,4 +89,9 @@ export const getFrasesCuriosasWithSetters = async (callback:Function, setError:F
   const [frases, error] = await readDDBB('inicio/datosCuriosos');
   if (error) return setError(error);
   return callback(Object.values(frases));
+};
+
+export const existsInDDBB = (path:string) => {
+  const thisRef = ref(db, path);
+  return get(thisRef).then((snap) => snap.exists());
 };

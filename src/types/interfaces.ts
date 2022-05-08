@@ -138,6 +138,7 @@ export interface PreguntaTestDeQuimica{
 }
 
 export interface userDDBB{
+  room: string,
   group:string,
   mobile:string,
   name:string,
