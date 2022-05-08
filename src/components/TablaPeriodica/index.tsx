@@ -2,7 +2,6 @@ import ElementoPeriodico from 'components/ElementoPeriodico';
 import elementosTabla from 'info/tablaPeriodica.json';
 import general from 'info/general.json';
 import React from 'react';
-import './temp';
 import { ColorMode } from 'types/interfaces';
 import { linearInterpolation, logarithmicInterpolation } from 'services/interpolation';
 

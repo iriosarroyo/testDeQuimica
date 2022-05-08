@@ -18,7 +18,7 @@ const goTo = (shortcut:Shortcut, navigate:Function, shift:boolean) => {
 };
 
 const showFront = (shortcut:Shortcut, show:Function) => {
-  if (shortcut.element) show(shortcut.element());
+  if (shortcut.element) show({ elem: shortcut.element(), cb: () => {} });
 };
 
 const executeShortcut = (shortcut:Shortcut, functions:{[key:string]:Function}, shift = false) => {
@@ -30,21 +30,26 @@ const executeShortcut = (shortcut:Shortcut, functions:{[key:string]:Function}, s
 
 const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) => {
   const ctrl = event.ctrlKey ? 'Ctrl+' : '';
-  const shift = event.shiftKey ? 'Shift+' : '';
+  const shift = event.shiftKey;
   const alt = event.altKey ? 'Alt+' : '';
   const key = event.key.toUpperCase();
-  const keyCommand = `${ctrl}${shift}${alt}${key}`;
+  const keyCommand = `${ctrl}${alt}${key}`;
 
-  const result = shortcuts.find((x) => x.shortcut === keyCommand);
-  if (result) return executeShortcut(result, functions);
-  const resultShift = shortcuts.find((x) => x.shift && x.shift === keyCommand);
-  if (resultShift) return executeShortcut(resultShift, functions, true);
+  if (shift) {
+    const resultShift = shortcuts.find((x) => x.shift && x.shortcut === keyCommand);
+    if (resultShift) return executeShortcut(resultShift, functions, true);
+  } else {
+    const result = shortcuts.find((x) => x.shortcut === keyCommand);
+    if (result) return executeShortcut(result, functions);
+  }
   return undefined;
 };
 
 function App() {
   const [error, setError] = useState(undefined);
-  const [frontElement, setFrontElement] = useState<ReactElement|null>(null);
+  const [frontElement, setFrontElement] = useState<{elem:ReactElement|null,
+    cb:Function}>({ elem: null, cb: () => {} });
+  const { elem, cb } = frontElement;
   const navigate = useNavigate();
   const functions = { navigate, setFrontElement };
   useEffect(() => document.addEventListener(
@@ -60,7 +65,7 @@ function App() {
         <div className="App">
           <ContentApp />
           {error && <MyError error={error} setError={setError} />}
-          {frontElement && <Front setChildren={setFrontElement}>{frontElement}</Front>}
+          {elem && <Front setChildren={setFrontElement} cb={cb}>{elem}</Front>}
         </div>
       </FrontContext.Provider>
     </MyErrorContext.Provider>

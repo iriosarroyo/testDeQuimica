@@ -179,8 +179,8 @@ function TestFooter({
 
 function HeaderTest() {
   const setFront = useContext(FrontContext);
-  const setConstantes = () => setFront(<Constantes />);
-  const setTabla = () => setFront(<TablaPeriodica properties={{ color: 'phases', temp: 293 }} />);
+  const setConstantes = () => setFront({ elem: <Constantes />, cb: () => {} });
+  const setTabla = () => setFront({ elem: <TablaPeriodica properties={{ color: 'phases', temp: 293 }} />, cb: () => {} });
   return (
     <section className="testBar">
       <div className="testBarGroup">

@@ -4,6 +4,8 @@ import Header from 'components/Header';
 import Navbar from 'components/Navbar';
 import FooterContext from 'contexts/Footer';
 import UserContext from 'contexts/User';
+import shortcuts from 'info/shortcuts';
+import { setUser, updateLocalShortCuts } from 'info/shortcutTools';
 import React, { useContext, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
@@ -39,12 +41,19 @@ export default function LoggedIn() {
   const user = useContext(UserContext);
   const [navContract, setNav] = useState(initialNavValue);
   const [childrenFooter, setChildrenFooter] = useState(null);
+
+  setUser(user);
+
   const location = useLocation();
   const handleClick = () => {
     localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
     setNav(!navContract);
   };
   useEffect(() => setChildrenFooter(null), [location.pathname]);
+
+  useEffect(() => {
+    updateLocalShortCuts(shortcuts);
+  }, []);
 
   return (
     <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>

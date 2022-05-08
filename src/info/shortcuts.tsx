@@ -2,6 +2,7 @@ import loadable from '@loadable/component';
 import React from 'react';
 import { Shortcut } from 'types/interfaces';
 import paginas from './paginas';
+import { getShortCut } from './shortcutTools';
 
 const Shortcuts = loadable(() => import('../components/Shortcuts'));
 const Constantes = loadable(() => import('../components/Constantes'));
@@ -11,7 +12,11 @@ const shortcuts:Shortcut[] = [
   {
     action: 'showFront',
     description: 'Muestra los atajos de teclado.',
-    shortcut: 'Ctrl+Alt+S',
+    id: 'atajosTeclado',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+S',
     element: () => <Shortcuts />,
 
   },
@@ -19,13 +24,21 @@ const shortcuts:Shortcut[] = [
   {
     action: 'showFront',
     description: 'Muestra la Tabla Periódica.',
-    shortcut: 'Ctrl+Alt+A',
+    id: 'tablaPeriodica',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+A',
     element: () => <TablaPeriodica properties={{ color: 'phases', temp: 293 }} />,
   },
   {
     action: 'showFront',
     description: 'Muestra las constantes y cambios de unidades.',
-    shortcut: 'Ctrl+Alt+K',
+    id: 'constantes',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+K',
     element: () => <Constantes />,
   },
 ];

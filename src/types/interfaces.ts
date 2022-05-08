@@ -147,6 +147,7 @@ export interface userDDBB{
   year:string,
   mode: string,
   unaPorUna: boolean,
+  shortcuts:{[key:string]:string}
   notificaciones: boolean
 }
 
@@ -157,9 +158,11 @@ export interface CompleteUser extends User{
 export type MyUser = CompleteUser | undefined
 
 export interface Shortcut{
+  id:string,
   shortcut: string,
   description: string,
-  shift?:string,
+  default:string,
+  shift?:boolean,
   action: 'goTo' | 'showFront',
   url?:string,
   // eslint-disable-next-line no-undef

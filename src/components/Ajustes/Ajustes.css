@@ -1,0 +1,7 @@
+.oculto{
+    opacity: 0;
+    height: 0px;
+    width: 0px;
+    padding:0;
+    border:0;
+}

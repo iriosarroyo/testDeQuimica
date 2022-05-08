@@ -1,3 +1,4 @@
+import ShortcutKey from 'components/ShortcutKey';
 import shortcuts from 'info/shortcuts';
 import React from 'react';
 import './Shortcuts.css';
@@ -8,14 +9,9 @@ export default function Shortcuts() {
   return (
     <ul className="unlisted shortcutGroup">
       {shortcuts.map((x) => (
-        <li className="shortcut" key={x.shortcut}>
+        <li className="shortcut" key={x.id}>
           <div className="shortcutCombination">
-            {x.shortcut.split('+').map((key, i, shcuts) => (
-              <span key={key}>
-                <kbd>{key}</kbd>
-                {i === shcuts.length - 1 ? '' : '+'}
-              </span>
-            ))}
+            <ShortcutKey shortcut={x.shortcut} />
           </div>
           <div className="shortcutDescription" dangerouslySetInnerHTML={{ __html: x.description }} />
         </li>
