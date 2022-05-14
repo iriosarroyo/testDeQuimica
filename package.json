@@ -20,6 +20,7 @@
         "@types/react-dom": "^18.0.3",
         "contrast-color": "1.0.1",
         "firebase": "^9.7.0",
+        "random-seed": "^0.3.0",
         "react": "^18.1.0",
         "react-content-loader": "6.2.0",
         "react-dom": "^18.1.0",
@@ -53,6 +54,7 @@
         ]
     },
     "devDependencies": {
+        "@types/random-seed": "^0.3.3",
         "@typescript-eslint/eslint-plugin": "^5.22.0",
         "@typescript-eslint/parser": "^5.22.0",
         "eslint": "^8.14.0",

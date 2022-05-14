@@ -150,6 +150,8 @@ export interface userDDBB{
   unaPorUna: boolean,
   shortcuts:{[key:string]:string}
   notificaciones: boolean
+  lastTest: number,
+  temas: {[key:string]:{[key:string]:{aciertos:string, fallos:string, enBlanco:string}}}
 }
 
 export interface CompleteUser extends User{
@@ -177,3 +179,19 @@ export interface PaginaObject extends Shortcut{
 }
 
 export type Paginas = PaginaObject[];
+
+export type difficultyLevels = 'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
+export interface RoomData{
+  mode:string,
+  type:string,
+  chat: string,
+  numPregs: number,
+  difficulty: difficultyLevels,
+  tema: string,
+  repetidas:string,
+  temasPersonalizados:{[key:string]:string}
+}
+
+export interface RoomMember{
+  ready:boolean
+}

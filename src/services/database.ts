@@ -1,10 +1,14 @@
 import {
-  get, onValue, push, ref, remove, set, ThenableReference,
+  equalTo,
+  get,
+  onChildAdded,
+  onChildChanged,
+  onValue, orderByChild, push, query, ref, remove, set, ThenableReference, update,
 } from 'firebase/database';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import { auth, db } from './firebaseApp';
 
-export const readDDBB = async (path:string) => {
+export const readDDBB = async (path:string):Promise<[any, Error|undefined]> => {
   const thisRef = ref(db, path);
   try {
     const result = await get(thisRef).then((snap) => snap.val());
@@ -20,10 +24,30 @@ export const onValueDDBB = (path:string, setter:Function, setError:Function) => 
   return onValue(thisRef, (snap) => setter(snap.val()), (error) => setError(error));
 };
 
+export const onChildAddedDDBB = (path:string, setter:Function, setError:Function) => {
+  const thisRef = ref(db, path);
+  return onChildAdded(thisRef, (snap) => setter(snap.val()), (error) => setError(error));
+};
+
+export const onChildChangedDDBB = (path:string, setter:Function, setError:Function) => {
+  const thisRef = ref(db, path);
+  return onChildChanged(thisRef, (snap) => setter(snap.val()), (error) => setError(error));
+};
+
 export const writeDDBB = async (path:string, value:any):Promise<Error|undefined> => {
   const thisRef = ref(db, path);
   try {
     await set(thisRef, value);
+  } catch (e) {
+    if (e instanceof Error) return e;
+  }
+  return undefined;
+};
+
+export const updateDDBB = async (path:string, value:any):Promise<Error|undefined> => {
+  const thisRef = ref(db, path);
+  try {
+    await update(thisRef, value);
   } catch (e) {
     if (e instanceof Error) return e;
   }
@@ -94,4 +118,27 @@ export const getFrasesCuriosasWithSetters = async (callback:Function, setError:F
 export const existsInDDBB = (path:string) => {
   const thisRef = ref(db, path);
   return get(thisRef).then((snap) => snap.exists());
+};
+
+export const filterByChild = (path: string, child:string, equal:string) => {
+  const thisRef = ref(db, path);
+  const q = query(thisRef, orderByChild(child), equalTo(equal));
+  return get(q).then((snap) => snap.val());
+};
+
+const cache:{[key:string]:{[key:string]:{[key:string]:any}}} = {};
+export const filterByChildCache = (path: string, child:string, equal:string) => {
+  if (cache?.[path]?.[child]?.[equal]) return cache[path][child][equal];
+  const result = filterByChild(path, child, equal);
+  cache[path] ??= {};
+  cache[path][child] ??= {};
+  cache[path][child][equal] = result;
+  return result;
+};
+
+export const readLocal = async (path:string) => {
+  const result = localStorage.getItem(`DDBB:${path}`);
+  const ddbbVal = readDDBB(path).then(([val]) => (((val && localStorage.setItem(`DDBB:${path}`, JSON.stringify(val))), val)));
+  if (!result) return ddbbVal;
+  return JSON.parse(result);
 };

@@ -1,5 +1,5 @@
 .chatContainer{
-    --w: 25px;
+    --w: 30px;
     position:fixed;
     right: 0;
     top: 50px;
@@ -132,15 +132,17 @@
 .chatClose{
     display: grid;
     align-items: center;
+    justify-content: center;
     position: relative;
     background-color:  var(--bg2-color);
     color: var(--font2-color);
-    height: 80px;
+    height: 40px;
     font-size: 30px;
+    max-width: var(--w);
+    border-radius: 5px;
    /*  border-style: solid;
     border-right-width: 2px;
     border-color: var(--font2-color); */
-    overflow: hidden;
     
 }
 
@@ -148,18 +150,3 @@
     font-size: 16px;
 }
 
-.chatClose::before, .chatClose::after{
-    top: 0;
-    left: 0;
-    content: "";
-    position: absolute;
-    border-style: solid;
-    border-width: 0px 0 20px var(--w);
-    border-color: transparent var(--font2-color);
-}
-
-.chatClose::after{
-    top: auto;
-    bottom:0;
-    border-width: 20px 0 0px var(--w);
-}

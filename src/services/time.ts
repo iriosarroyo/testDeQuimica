@@ -13,3 +13,11 @@ export const time2String = (ms:number) => {
   return [`${horaStr}:${minStr}:${segStr}`, `PT${horaStr}H${minStr}M${segStr}S`];
 };
 export const date2String = () => {};
+
+export const getNumOfDays = (time:Date|number) => {
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  return year * 12 * 30 + month * 30 + day;
+};

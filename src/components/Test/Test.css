@@ -90,13 +90,38 @@
 }
 
 .testCuadrado.activeCuadrado {
+  position: relative;
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   background-color: var(--font2-color);
   color: var(--bg2-color);
+  z-index: 1;
 }
 
 .testCuadrado.answeredCuadrado {
   background-color: var(--bg3-color);
   color: var(--font2-color);
+}
+
+.testCuadrado.activeCuadrado.answeredCuadrado{
+  
+  background-color: var(--font2-color);
+}
+.testCuadrado.activeCuadrado.answeredCuadrado::before{
+  position: absolute;
+  content: "";
+  width: 70%;
+  height: 70%;
+  border-radius: 5px;
+  top:0;
+  left:0;
+  right:0;
+  bottom: 0;
+  z-index: -1;
+  margin:auto;
+  background-color: var(--bg3-color);
 }
 
 .testPreguntasContainer {

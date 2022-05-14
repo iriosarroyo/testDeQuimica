@@ -75,7 +75,7 @@ function CuadradoGroup({
   setActive:(idx:number)=>void, max:number, min:number, }) {
   const [offset, setOffset] = useState(0);
   const inicio = min - Math.trunc((LIMIT - (max - min)) / 2) + offset * LIMIT;
-  let start = Math.min(Math.max(inicio, 0), preguntas.length - LIMIT - 1);
+  let start = Math.max(Math.min(Math.max(inicio, 0), preguntas.length - LIMIT - 1), 0);
   if (!Number.isFinite(start)) start = startGlobal;
   startGlobal = start;
   const end = start + LIMIT + 1;
@@ -124,7 +124,6 @@ function TestFooter({
   const [observer, setObserver] = useState<IntersectionObserver|undefined>(undefined);
   const [inView, setInView] = useState<{[key:string]:boolean}>({});
   inViewGlobal = inView;
-
   const displayedQuestions = preguntas
     .map((preg, idx) => [idx, preg])
     .filter(([, preg]) => typeof preg !== 'number' && inView[preg.id])
@@ -134,10 +133,11 @@ function TestFooter({
 
   const goToSiguiente = () => {
     if (!unaPorUna) refs.current?.[firstDisplayed + 1].scrollIntoView({ behavior: 'smooth' });
-    else setActive(active + 1);
+    else setActive(Math.min(active + 1, preguntas.length - 1));
   };
   // eslint-disable-next-line no-undef
   const observerCb:IntersectionObserverCallback = (entries) => {
+    if (unaPorUna) inViewGlobal = {};
     const viewIds = entries.reduce((acum, x) => ({ ...acum, [x.target.id]: x.isIntersecting }), {});
     setInView({ ...inViewGlobal, ...viewIds });
   };
@@ -146,7 +146,7 @@ function TestFooter({
     if (observer) observer.disconnect();
     setObserver(createIntersectionObserver(thisRef.current, observerCb));
     return () => observer?.disconnect();
-  }, [thisRef]);
+  }, [thisRef, unaPorUna]);
 
   useEffect(() => {
     if (!observer) return undefined;
@@ -158,7 +158,7 @@ function TestFooter({
       });
     }
     return () => observer.disconnect();
-  }, [observer, refs, refs.current, active]);
+  }, [observer, refs, refs.current, active, unaPorUna]);
   return (
     <div>
       <CuadradoGroup
@@ -220,7 +220,6 @@ export default function Test({ ids, unaPorUna }:{ids?:Set<string>, unaPorUna:boo
     newPreguntas[idx] = { ...newPreguntas[idx], answer: value };
     setPreguntas(newPreguntas);
   };
-
   setFooter(
     <TestFooter
       preguntas={preguntas}
@@ -230,12 +229,12 @@ export default function Test({ ids, unaPorUna }:{ids?:Set<string>, unaPorUna:boo
       active={active}
       unaPorUna={!!unaPorUna}
     />,
-    [preguntas, thisRef, childrenRef.current, active],
+    [preguntas, thisRef, childrenRef.current, active, unaPorUna],
   );
 
   useEffect(() => {
     setMultiplePregsByIds(setPreguntas, ids ?? new Set<string>());
-  }, []);
+  }, [ids]);
 
   useEffect(() => {
     childrenRef.current = childrenRef.current.slice(0, preguntas.length);

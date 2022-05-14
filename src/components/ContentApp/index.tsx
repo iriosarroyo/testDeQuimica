@@ -11,6 +11,7 @@ const NewUserForm = loadable(() => import('../NewUserForm'));
 
 export default function ContentApp() {
   const [user, setUser]:[any, Function] = useState<User|undefined>(undefined);
+
   const setError = useContext(MyErrorContext);
   const { userDDBB } = user ?? {};
   if (userDDBB?.mode) {
