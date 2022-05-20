@@ -1,7 +1,7 @@
 import Select from 'components/Select';
 import TablaPeriodica from 'components/TablaPeriodica';
 import React, {
-  ChangeEvent, ChangeEventHandler, MouseEvent, useEffect, useRef, useState,
+  ChangeEvent, ChangeEventHandler, MouseEvent, useContext, useEffect, useRef, useState,
 } from 'react';
 import minMax from 'info/maxAndMinTabla.json';
 import elementosTabla from 'info/tablaPeriodica.json';
@@ -23,11 +23,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { inverseLogInterpolation, logarithmicInterpolation } from 'services/interpolation';
 import { faSquare } from '@fortawesome/free-regular-svg-icons';
+import FrontContext from 'contexts/Front';
 
 const {
   translations,
 }:{ translations:{[key:string]:{default:string, [key:string]:string}}} = general;
-const defaultElement:keyof typeof elementosTabla|undefined = undefined;
+
 const MAX_TEMP = 6500;
 const colorModes = [
   { value: 'phases', text: translations.phases.default },
@@ -349,9 +350,17 @@ function TablaPederiodicaHeader({
 }
 
 export default function TablaEditor() {
-  const [element, changeElement] = useState(defaultElement);
+  const setFront = useContext(FrontContext);
   const [animate, setAnimate] = useState<boolean>(false);
   const [animateTemp, setAnimateTemp] = useState<boolean>(false);
+  const changeElement = (element:keyof typeof elementosTabla) => setFront({
+    elem: <ElementDetails
+      goBack={() => {}}
+      elementData={elementosTabla[element]}
+    />,
+    cb: () => {},
+  });
+
   const handleClick = (event:MouseEvent<SVGElement>) => {
     const { id } = event.currentTarget;
     if (isElement(id)) changeElement(id);
@@ -433,14 +442,7 @@ export default function TablaEditor() {
     if (type === 'checkbox') result = checked;
     setProperties({ ...properties, [id]: result });
   };
-  if (element !== undefined) {
-    return (
-      <ElementDetails
-        goBack={() => changeElement(undefined)}
-        elementData={elementosTabla[element]}
-      />
-    );
-  }
+
   return (
     <div className="tablaPeriodicaEditor">
       <TablaPederiodicaHeader

@@ -29,7 +29,7 @@ function getPossibleColors(colorMode:ColorMode, hue:number, invert:boolean, log:
   }
   let intermediate = linearInterpolation(0.5, 0, 1, 20, 100);
   if (log) intermediate = logarithmicInterpolation(0.5, 0, 1, 20, 100);
-  if (invert) intermediate = 100 - intermediate + 20;
+  if (!invert) intermediate = 100 - intermediate + 20;
   const minAndMaxCol = [`hsl(${hue}, 50%, 100%)`,
     `hsl(${hue}, 50%, ${intermediate}%)`, `hsl(${hue}, 50%, 20%)`];
   if (invert) minAndMaxCol.reverse();

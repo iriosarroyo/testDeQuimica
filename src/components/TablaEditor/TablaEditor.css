@@ -22,7 +22,6 @@
   width: 100%;
   overflow-x: auto;
   display: grid;
-  align-items: center;
   justify-items: center;
 }
 
