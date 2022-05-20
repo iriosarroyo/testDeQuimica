@@ -1,3 +1,4 @@
+import { defaultUserTemas } from 'info/defaultData';
 import { CompleteUser, MyUser, RoomData } from 'types/interfaces';
 import {
   deleteDDBB, existsInDDBB, pushDDBB, readDDBB, writeDDBB, writeUserInfo,
@@ -7,7 +8,14 @@ import {
 } from './errores';
 
 export const defaultRoomConfig:RoomData = {
-  mode: 'Contrarreloj',
+  mode: 'Puntos',
+  corregirOnClick: 'No',
+  showPunt: 'No',
+  endTime: 0,
+  goBack: 'Sí',
+  inBlanco: 'Sí',
+  timePerQuestion: 3,
+  timingMode: 'Sin Temporizador',
   type: 'Público',
   chat: 'Sí',
   numPregs: 5,
@@ -24,6 +32,10 @@ export const defaultRoomConfig:RoomData = {
     tema7: 'Sí',
     tema8: 'Sí',
     tema9: 'Sí',
+  },
+  adminStats: {
+    temas: defaultUserTemas,
+    year: 'bach2',
   },
 };
 

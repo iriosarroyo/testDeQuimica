@@ -10,4 +10,34 @@
   padding: 15px 10px;
   width: max(500px, 60%);
   max-width: 100%;
+  margin-top: 10px;
+  border-radius: 25px;
+}
+
+.preguntaCorregida{
+  --border-color: var(--font-color);
+  --colorText: var(--bg-color);
+  border-color: var(--border-color);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.preguntaCorregida.preguntaCorrecta{
+  --border-color: var(--bg-color);
+  --colorText: var(--font-color)
+}
+
+.preguntaCorregida.preguntaIncorrecta{
+  --border-color: var(--bg-red-color);
+  --colorText: var(--font-color);
+}
+
+.piePregunta{
+  background-color: var(--border-color);
+  color: var(--colorText);
+  text-align: center;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border-radius: 25px;
+  color: var(--)
 }

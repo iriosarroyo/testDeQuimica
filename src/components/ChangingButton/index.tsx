@@ -33,12 +33,13 @@ export function ModoChangingButton({ text, handleChange }:{text:string, handleCh
     <ChangingButton
       className="onlineChanging"
       config={{
-        title: 'Modo del examen',
+        title: 'Puntuación',
         text,
-        values: ['Contrarreloj', 'Puntuación'],
+        values: ['Puntos', 'Aciertos', 'Fallos'],
         descriptions: [
-          'Acierta el máximo de preguntas en un tiempo a determinar.',
-          'Saca la máxima puntuación en un número de preguntas a determinar.',
+          'Tu puntuación será igual al número de aciertos menos 0.33 por el número de fallos.',
+          'Tu puntuación será igual al número de aciertos.',
+          'Tu puntuación será igual al número de fallos. Las preguntas en blanco cuentan como fallo.',
         ],
         onChange: (val:string) => handleChange(val, 'mode'),
       }}
@@ -132,6 +133,92 @@ export function RepetidasChangingButton({ text, handleChange }:
           'No aparecen aquellas preguntas que el administrador ha acertado varias veces.',
         ],
         onChange: (val:string) => handleChange(val, 'repetidas'),
+      }}
+    />
+  );
+}
+
+export function EnBlancoChangingButton({ text, handleChange }:
+  {text:string, handleChange:Function}) {
+  return (
+    <ChangingButton
+      className="onlineChanging"
+      config={{
+        title: 'En Blanco',
+        text,
+        values: ['Sí', 'No'],
+        descriptions: ['Las preguntas en blanco cuentan 0 puntos.',
+          'Las preguntas en blanco cuentan como fallos.'],
+        onChange: (val:string) => handleChange(val, 'inBlanco'),
+      }}
+    />
+  );
+}
+
+export function TimingChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+  return (
+    <ChangingButton
+      className="onlineChanging"
+      config={{
+        title: 'Temporizador',
+        text,
+        values: ['Sin Temporizador', 'Temporizador Global', 'Temporizador por Pregunta'],
+        descriptions: ['No hay cuenta atrás. Si que dispondrás de un cronometro para saber cuánto has tardado.',
+          'El examen termina cuando se acabe el temporizador.',
+          'Cuando se acabe el temporizador pasas a la siguiente pregunta. Con este modo se impide volver hacia atrás.'],
+        onChange: (val:string) => handleChange(val, 'timingMode'),
+      }}
+    />
+  );
+}
+
+export function GoBackChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+  return (
+    <ChangingButton
+      className="onlineChanging"
+      config={{
+        title: 'Volver hacia atrás',
+        text,
+        values: ['Sí', 'No'],
+        descriptions: ['Se permite volver hacia atrás.',
+          'Se impide volver hacia atrás.'],
+        onChange: (val:string) => handleChange(val, 'goBack'),
+      }}
+    />
+  );
+}
+
+export function ShowPuntChangingButton({ text, handleChange }:
+  {text:string, handleChange:Function}) {
+  return (
+    <ChangingButton
+      className="onlineChanging"
+      config={{
+        title: 'Mostrar puntuación.',
+        text,
+        values: ['Sí', 'No'],
+        descriptions: ['Se muestra la puntuación a lo largo de todo el examen. Esto activa Corregir al contestar.',
+          'Solo se muestra la puntuación al final del examen.'],
+        onChange: (val:string) => handleChange(val, 'showPunt'),
+      }}
+    />
+  );
+}
+
+export function CorregirOnClickChangingButton({ text, handleChange }:
+  {text:string, handleChange:Function}) {
+  return (
+    <ChangingButton
+      className="onlineChanging"
+      config={{
+        title: 'Corregir al contestar',
+        text,
+        values: ['Sí', 'No'],
+        descriptions: [
+          'Las preguntas se corrigen al contestar.',
+          'Las preguntas se corrigen al final del examen.',
+        ],
+        onChange: (val:string) => handleChange(val, 'corregirOnClick'),
       }}
     />
   );

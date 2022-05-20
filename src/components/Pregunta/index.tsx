@@ -6,21 +6,34 @@ import decodeHTML from 'services/decodeHTML';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import './Pregunta.css';
 
+function PiePregunta({ correcta, answer, notInBlanco }:
+  {correcta:string|undefined, answer:string|undefined, notInBlanco:boolean}) {
+  if (correcta === undefined) return null;
+  if (answer === correcta) return <div className="piePregunta">Pregunta correcta</div>;
+  if (answer === '' && !notInBlanco) return <div className="piePregunta">Pregunta en blanco</div>;
+  return <div className="piePregunta">Pregunta incorrecta</div>;
+}
+
 export default function Pregunta({
-  idx, objPreg, myRef, setValue,
+  idx, objPreg, myRef, setValue, answer, correctAnswer, notInBlanco,
 }:
   {idx: number,
     objPreg:PreguntaTestDeQuimica,
     myRef:(el:HTMLDivElement)=>void,
-    setValue:Function}) {
+    setValue:Function,
+  answer:string|undefined,
+  notInBlanco:boolean,
+correctAnswer:string|undefined}) {
   const {
-    pregunta, opciones, id, tema, year, answer,
+    pregunta, opciones, id, tema, year,
   } = objPreg;
-
   const estasOpciones = Object.values(opciones)
     .map(({ id: value, value: text }) => ({ value, text }));
+
+  let classCorregida = answer === correctAnswer ? 'preguntaCorrecta' : 'preguntaIncorrecta';
+  if (answer === '' && !notInBlanco) classCorregida = '';
   return (
-    <div className="pregunta" id={id} ref={myRef}>
+    <div className={`pregunta ${correctAnswer !== undefined && `preguntaCorregida ${classCorregida}`}`} id={id} ref={myRef}>
       <h4
         className="enunciadoPregunta"
         dangerouslySetInnerHTML={{ __html: `${idx + 1}) ${decodeHTML(pregunta)}` }}
@@ -33,8 +46,10 @@ export default function Pregunta({
       <RadioGroup
         options={estasOpciones}
         groupValue={answer}
-        setter={(val:string) => setValue(val, idx)}
+        correcta={correctAnswer}
+        setter={(val:string) => correctAnswer === undefined && setValue(val, id)}
       />
+      <PiePregunta answer={answer} correcta={correctAnswer} notInBlanco={notInBlanco} />
     </div>
   );
 }

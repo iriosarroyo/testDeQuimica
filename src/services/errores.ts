@@ -18,7 +18,7 @@ export class GrupoNoConnected extends Error {
   name = 'Conexión al grupo fallida';
 
   constructor() {
-    super('No se ha podido conectar al grupo, por favor, vuelva a intentarlo.');
+    super('No se ha podido conectar al grupo, por favor, vuelva a intentarlo. Puede ser que el grupo sea privado.');
   }
 }
 
@@ -27,5 +27,21 @@ export class UserErrorEditing extends Error {
 
   constructor(data:string) {
     super(`No se ha podido guardar "${data}" en los datos del usuario`);
+  }
+}
+
+export class GrupoNoPermission extends Error {
+  name = 'Error al acceder a los datos del grupo.';
+
+  constructor() {
+    super('Error al acceder a los datos del grupo. Puede ser que le hayan echado del grupo.');
+  }
+}
+
+export class NotEnoughQuestions extends Error {
+  name = 'No suficientes preguntas';
+
+  constructor() {
+    super('No existen suficientes preguntas que cumplan los criterios establecidos');
   }
 }

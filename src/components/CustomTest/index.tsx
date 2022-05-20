@@ -1,16 +1,33 @@
 import UserContext from 'contexts/User';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 
 import gen from 'random-seed';
 import { getNumOfDays } from 'services/time';
-import { CompleteUser, difficultyLevels, userDDBB } from 'types/interfaces';
+import {
+  CompleteUser, difficultyLevels, PreguntaTestDeQuimica, RoomData, RoomMember, userDDBB,
+} from 'types/interfaces';
 import {
   getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema,
 } from 'services/probability';
 import {
-  filterByChildCache, readLocal,
+  changeAllChildren,
+  deleteDDBB,
+  filterByChildCache, onValueDDBB, readLocal, readWithSetter, writeDDBB, writeUserInfo,
 } from 'services/database';
 import Test from 'components/Test';
+import { GrupoNoPermission, NotEnoughQuestions } from 'services/errores';
+import MyErrorContext from 'contexts/Error';
+import RoomParticipants from 'components/RoomParticipants';
+import FooterContext from 'contexts/Footer';
+import {
+  getCorregirOnClick,
+  getNotInBlanco,
+  getNumOfPregs,
+  getOnNext, getPreventPrevious,
+  getPuntType, getShowPunt, getTime, getTimeToSiguiente, getUnaPorUna,
+} from 'services/conditionsCustomTest';
 
 interface StatsPerTema{
   tema:string, punt:number, probLevel1:number, probLevel3:number
@@ -96,43 +113,43 @@ const getPosibleQuestionsFor = async (
   return Promise.all(promises);
 };
 
-const getIdsWithWeights = (
+const getPreguntasWithWeights = (
   results: { tema: string; level: number; posibleQuestions: any; }[],
   temas: userDDBB['temas'],
   rng: gen.RandomSeed,
   allQuestions: boolean,
   repeatedQuestions: boolean,
+  filterIds:string[] = [],
 ) => {
-  const yaPreguntado: string[] = [];
+  const yaPreguntado: string[] = filterIds;
+  const preguntas = results.map(({ tema, level, posibleQuestions }) => {
+    if (!posibleQuestions) { throw new NotEnoughQuestions(); }
+    const weightedIds: string[] = [];
 
-  const ids = results.map(({ tema, level, posibleQuestions }) => {
-    if (!posibleQuestions) { return 'id0001'; }
-    const weightedIds: string[] = allQuestions ? Object.keys(posibleQuestions) : [];
-    if (!allQuestions) {
-      Object.keys(posibleQuestions).forEach((id) => {
-        if (!repeatedQuestions && yaPreguntado.includes(id)) { return; }
-        const { aciertos, fallos } = temas[tema][`level${level}`];
-        const numAc = (aciertos.match(new RegExp(id, 'g')) ?? []).length;
-        const numFal = (fallos.match(new RegExp(id, 'g')) ?? []).length;
-        const weight = Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
-        weightedIds.push(...Array(weight).fill(id));
-      });
-    }
+    Object.keys(posibleQuestions).forEach((id) => {
+      if (!repeatedQuestions && yaPreguntado.includes(id)) { return; }
+      const { aciertos, fallos } = temas[tema][`level${level}`];
+      const numAc = (aciertos.match(new RegExp(id, 'g')) ?? []).length;
+      const numFal = (fallos.match(new RegExp(id, 'g')) ?? []).length;
+      const weight = allQuestions ? 1 : Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
+      weightedIds.push(...Array(weight).fill(id));
+    });
     const idx = rng.intBetween(0, weightedIds.length - 1);
-    const result = weightedIds[idx];
-    yaPreguntado.push(result);
+    const result = posibleQuestions[weightedIds[idx]];
+    yaPreguntado.push(result?.id);
     return result;
   });
-  return ids;
+  return preguntas.filter((x:any) => x !== undefined);
 };
 
-const getIds = async (
+const getPreguntas = async (
   n:number,
-  UserDDBB: userDDBB,
+  UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']},
   rng: gen.RandomSeed,
   temasSeleccionados:string[]|undefined = undefined,
   level:difficultyLevels = 'User',
   allQuestions = false, // Include questions with high number of correct
+  filterIds:string[] = [],
   repeatedQuestions = false,
 ) => {
   const { temas, year } = UserDDBB;
@@ -147,31 +164,201 @@ const getIds = async (
     temasSeleccionados !== undefined,
   );
   const results = await getPosibleQuestionsFor(n, completeStatsPerTema, rng);
-  return getIdsWithWeights(results, temas, rng, allQuestions, repeatedQuestions);
+  return getPreguntasWithWeights(results, temas, rng, allQuestions, repeatedQuestions, filterIds);
 };
 
-const getTodaysIds = async (user:CompleteUser, setter:Function) => {
+const getTodaysPreguntas = async (user:CompleteUser, setter:Function, setError:Function) => {
   const UserDDBB = user.userDDBB;
-  const ids = await getIds(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'Difícil');
-  setter(new Set(ids));
+  let preguntas;
+  try {
+    preguntas = await getPreguntas(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'Difícil');
+  } catch (e) {
+    setError(e);
+  }
+  setter(preguntas);
+};
+
+const getPreguntasWithSetter = async (
+  setter:Function,
+  setError:Function,
+  end:Function,
+  n:number,
+  UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']},
+  rng: gen.RandomSeed,
+  temasSeleccionados:string[]|undefined = undefined,
+  level:difficultyLevels = 'User',
+  allQuestions = false, // Include questions with high number of correct
+  filterIds:string[] = [],
+  repeatedQuestions = false,
+) => {
+  try {
+    const preguntas = await getPreguntas(
+      n,
+      UserDDBB,
+      rng,
+      temasSeleccionados,
+      level,
+      allQuestions,
+      filterIds,
+      repeatedQuestions,
+    );
+    setter(preguntas);
+  } catch (e) {
+    setError(e);
+    end();
+  }
 };
 
 function TestDelDia() {
   const user = useContext(UserContext)!;
+  const setError = useContext(MyErrorContext);
   const { lastTest, unaPorUna } = user.userDDBB;
   const today = getNumOfDays(Date.now());
-  const [ids, setIds] = useState<Set<string>>(new Set());
+  const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
   if (lastTest && getNumOfDays(lastTest) === today) {
     return <div />;
   } // set seed
   useEffect(() => {
-    getTodaysIds(user, setIds);
+    getTodaysPreguntas(user, setPreguntas, setError);
   }, []);
-  if (ids.size === 0) return <div />;
-  return <Test unaPorUna={unaPorUna} ids={ids} />;
+  if (preguntas.length === 0) return <div />;
+  return <Test preguntas={preguntas} unaPorUna={unaPorUna} path={`stats/${user.uid}/activeTest`} />;
 }
 
-export default function CustomTest({ type }:{type:string}) {
-  if (type === 'testDelDia') return <TestDelDia />;
-  return <div />;
+function TestPuntuacion({
+  config, seed, room, onEnd, showEndButton,
+}:
+  // eslint-disable-next-line no-undef
+  {config:RoomData, seed:number, room:string, onEnd:Function, showEndButton:boolean}) {
+  const setError = useContext(MyErrorContext);
+  const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
+  const [startTime, setStartTime] = useState(0);
+  const { username, unaPorUna } = useContext(UserContext)!.userDDBB;
+  const {
+    difficulty, repetidas, tema, temasPersonalizados, adminStats,
+  } = config;
+  const temasSeleccionados = tema === 'Personalizado'
+    ? Object.entries(temasPersonalizados).filter(([, val]) => val === 'Sí').map(([key]) => key)
+    : undefined;
+  useEffect(() => {
+    readWithSetter(`rooms/${room}/activeTest/${username}/time`, setStartTime, setError);
+    getPreguntasWithSetter(
+      setPreguntas,
+      setError,
+      onEnd,
+      getNumOfPregs(config),
+      adminStats,
+      gen.create(`${seed}`),
+      temasSeleccionados,
+      difficulty,
+      repetidas === 'Sí',
+    );
+  }, []);
+
+  const onNext = useMemo(() => async (
+    pregs:PreguntaTestDeQuimica[],
+    active:number,
+    setActive:Function,
+    isCorregido:boolean,
+  ) => {
+    if (active < pregs.length - 1) return setActive(active + 1);
+    if (isCorregido) return undefined;
+    const prevIds = pregs.map(({ id }) => id);
+    try {
+      const newPreg = await getPreguntas(
+        1,
+        adminStats,
+        gen.create(`${seed * pregs.length}`),
+        temasSeleccionados,
+        difficulty,
+        repetidas === 'Sí',
+        prevIds,
+      );
+      setPreguntas([...pregs, ...newPreg]);
+    } catch (e) {
+      setError(e);
+    }
+    return setActive(pregs.length);
+  }, [preguntas, setPreguntas]);
+  return (
+    <Test
+      preguntas={preguntas}
+      corregirOnClick={getCorregirOnClick(config)}
+      unaPorUna={getUnaPorUna(config, unaPorUna)}
+      path={`rooms/${room}/activeTest/${username}`}
+      notInBlanco={getNotInBlanco(config)}
+      preventPrevious={getPreventPrevious(config)}
+      puntType={getPuntType(config)}
+      showPunt={getShowPunt(config)}
+      time={getTime(config)}
+      timerToSiguiente={getTimeToSiguiente(config)}
+      startTime={startTime}
+      onEnd={onEnd}
+      showEndButton={showEndButton}
+      onNext={getOnNext(config) ? onNext : undefined}
+    />
+  );
 }
+
+/* function EndButton({ onEnd, isRoomAdmin, members }:
+  {onEnd:Function, isRoomAdmin: boolean, members:{[key:string]:RoomMember}}) {
+  const allMembersEnded = useMemo(() => Object.values(members).every((x) => x.done), [members]);
+  if (!isRoomAdmin || !allMembersEnded) return null;
+  return <Button onClick={() => onEnd()}>Hello</Button>;
+} */
+
+export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }:
+  {room:string, exam?:{isRoomAdmin:boolean}}) {
+  if (room === 'testDelDia') return <TestDelDia />;
+  const { username } = useContext(UserContext)!.userDDBB;
+  const [config, setConfig] = useState<RoomData>();
+  const [seed, setSeed] = useState<number>();
+  const [members, setMembers] = useState<{[key:string]:RoomMember}|null>(null);
+  const setError = useContext(MyErrorContext);
+  const setFooter = useContext(FooterContext);
+
+  const { isRoomAdmin } = exam;
+  useEffect(() => onValueDDBB(`rooms/${room}/members`, setMembers, () => {
+    setError(new GrupoNoPermission());
+    writeUserInfo(null, 'room');
+    setFooter(null);
+  }), [room]);
+
+  const onEnd = useMemo(() => async () => {
+    await changeAllChildren(`rooms/${room}/members`, { ready: false, done: false });
+    await writeDDBB(`rooms/${room}/inExam`, false);
+    await deleteDDBB(`rooms/${room}/activeTest`);
+  }, [room]);
+
+  const allMembersEnded = useMemo(() => Object
+    .values(members ?? {}).every((x) => x.done), [members]);
+
+  const showEndButton = isRoomAdmin && allMembersEnded;
+  useEffect(() => {
+    readWithSetter(`rooms/${room}/config`, setConfig);
+    readWithSetter(`rooms/${room}/seed`, setSeed);
+  }, [room]);
+
+  if (!config || seed === undefined) return <div />;
+  return (
+    <>
+      <RoomParticipants
+        isRoomAdmin={isRoomAdmin}
+        members={members ?? {}}
+        room={room}
+        username={username}
+      />
+      <TestPuntuacion
+        room={room}
+        config={config}
+        seed={seed}
+        onEnd={onEnd}
+        showEndButton={showEndButton}
+      />
+    </>
+  );
+}
+
+CustomTest.defaultProps = {
+  exam: { isRoomAdmin: false },
+};

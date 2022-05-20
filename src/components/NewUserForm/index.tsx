@@ -9,6 +9,7 @@ import { NewUserFormError, NewUserFormData } from 'types/interfaces';
 import general from 'info/general.json';
 import './NewUserForm.css';
 import Select from 'components/Select';
+import { defaultUserTemas } from 'info/defaultData';
 
 const defaultFormState:NewUserFormData = {
   group: '',
@@ -30,6 +31,8 @@ const defaultErrorState:NewUserFormError = {
 
 const defaultData = {
   velocidad: 1,
+  unaPorUna: true,
+  temas: defaultUserTemas,
 };
 
 const anyErrorsInData = async (data:NewUserFormData, setError:Function, setErrorForm:Function) => {

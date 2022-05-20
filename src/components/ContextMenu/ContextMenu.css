@@ -1,0 +1,27 @@
+.contextMenu{
+    position: fixed;
+    background-color: var(--font2-color);
+    padding: 5px 0px;
+    font-size: 0.8em;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    width: max-content;
+    border-color: var(--font-color);
+    overflow: hidden;
+}
+
+.contextMenu > li{
+    width:100%;
+}
+
+.contextButton{
+    width: 100%;
+    font-size: 1em;
+    background-color: inherit;
+    color:var(--bg2-color);
+}
+
+.contextButton:hover{
+    background-color: aliceblue;
+}

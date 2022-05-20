@@ -1,13 +1,21 @@
+.radioButton{
+  padding: 2px 0;
+}
 .radioButton > button {
   background-color: inherit;
   color: inherit;
   width: 100%;
   display: grid;
   text-align: left;
-  padding: 4px 0;
+  padding: 4px 10px;
+  border-radius: 20px;
   grid-template-columns: 20px 1fr;
   font-size: 1em;
   align-items: center;
+}
+
+.preguntaCorregida .radioButton > button {
+  cursor:default;
 }
 
 .radioButton .fa-circle path {
@@ -16,6 +24,16 @@
   stroke-width: 35px;
 }
 
-.radioButton > button:hover path {
+.pregunta:not(.preguntaCorregida) .radioButton > button:hover path {
   fill: var(--bg-color);
+}
+
+.radioButton .respuestaCorrecta {
+  background-color: var(--bg-color);
+  color: var(--font-color)
+}
+
+.radioButton .respuestaIncorrecta {
+  background-color: var(--bg-red-color);
+  color: var(--font-color)
 }

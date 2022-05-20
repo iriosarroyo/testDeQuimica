@@ -131,9 +131,10 @@ export interface PreguntaTestDeQuimica{
   pregunta: string,
   tema:string,
   year:string,
-  answer?:string,
+  nivelYTema:string,
+  /* answer?:string,
   active?:boolean,
-  'inView'?:boolean,
+  'inView'?:boolean, */
 
 }
 
@@ -182,16 +183,34 @@ export type Paginas = PaginaObject[];
 
 export type difficultyLevels = 'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
 export interface RoomData{
-  mode:string,
-  type:string,
-  chat: string,
-  numPregs: number,
+  adminStats:{
+    temas:userDDBB['temas']
+    year:userDDBB['year']
+  },
+  chat: 'Sí' | 'No',
+  corregirOnClick: 'Sí' | 'No',
   difficulty: difficultyLevels,
-  tema: string,
-  repetidas:string,
-  temasPersonalizados:{[key:string]:string}
+  endTime: number,
+  goBack: 'Sí' | 'No',
+  inBlanco: 'Sí' | 'No',
+  mode:'Puntos'|'Aciertos'|'Fallos',
+  numPregs: number,
+  repetidas: 'Sí' | 'No',
+  showPunt: 'Sí' | 'No',
+  tema: 'Administrador' | 'Personalizado',
+  temasPersonalizados:{[key:string]:string},
+  timePerQuestion: number,
+  timingMode: 'Sin Temporizador' | 'Temporizador Global' | 'Temporizador por Pregunta',
+  type:'Público' | 'Privado',
 }
 
 export interface RoomMember{
-  ready:boolean
+  ready:boolean,
+  done:boolean,
+  value?:string
+}
+
+export interface Answer{
+  current: string,
+  final?: string
 }

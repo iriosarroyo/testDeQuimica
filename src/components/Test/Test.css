@@ -45,6 +45,7 @@
   user-select: none;
   font-size: 1em;
   border-radius: 25px;
+  margin: 2px 5px;
   background-color: var(--font-color);
   color: var(--bg-color);
 }
@@ -53,14 +54,17 @@
 .testDobleCuadrado {
   border-radius: 5px;
   border: 1.5px solid var(--font-color);
-  background-color: var(--font-color);
-  color: var(--bg-color);
+  --color1: var(--font-color);
+  --color2: var(--bg-color);
+  background-color: var(--color1);
+  color: var(--color2);
 }
 
 .testCuadrado {
   width: 40px;
   height: 40px;
   margin: 2px;
+  outline: none;
 }
 .testDobleCuadrado {
   width: 50px;
@@ -89,6 +93,7 @@
   grid-area: right;
 }
 
+
 .testCuadrado.activeCuadrado {
   position: relative;
   display: inline-grid;
@@ -96,20 +101,15 @@
   justify-content: center;
   text-align: center;
   background-color: var(--font2-color);
-  color: var(--bg2-color);
   z-index: 1;
 }
 
-.testCuadrado.answeredCuadrado {
-  background-color: var(--bg3-color);
-  color: var(--font2-color);
+.answeredCuadrado {
+  --color1: var(--bg3-color);
+  --color2: var(--font2-color);
 }
 
-.testCuadrado.activeCuadrado.answeredCuadrado{
-  
-  background-color: var(--font2-color);
-}
-.testCuadrado.activeCuadrado.answeredCuadrado::before{
+.testCuadrado.activeCuadrado::before{
   position: absolute;
   content: "";
   width: 70%;
@@ -121,7 +121,7 @@
   bottom: 0;
   z-index: -1;
   margin:auto;
-  background-color: var(--bg3-color);
+  background-color: var(--color1);
 }
 
 .testPreguntasContainer {
@@ -148,4 +148,14 @@
   50% {
     background-color: var(--bg-red-color);
   }
+}
+
+.incorrectCuadrado{
+  --color1: var(--bg-red-color);
+  --color2: var(--font-color)
+}
+
+.correctCuadrado{
+  --color1: var(--bg-color);
+  --color2: var(--font-color)
 }

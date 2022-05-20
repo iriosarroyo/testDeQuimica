@@ -44,6 +44,18 @@ export const writeDDBB = async (path:string, value:any):Promise<Error|undefined>
   return undefined;
 };
 
+export const changeAllChildren = async (path:string, value:any) => {
+  const thisRef = ref(db, path);
+  try {
+    (await get(thisRef)).forEach((child) => {
+      update(child.ref, value);
+    });
+    return undefined;
+  } catch (e) {
+    return e;
+  }
+};
+
 export const updateDDBB = async (path:string, value:any):Promise<Error|undefined> => {
   const thisRef = ref(db, path);
   try {
@@ -85,6 +97,10 @@ export const getPreguntaById = async (id:string):Promise<PreguntaTestDeQuimica> 
   const [result] = await readDDBB(`preguntasTestDeQuimica/${id}`);
   return result;
 };
+export const getRespuestaById = async (id:string):Promise<string> => {
+  const [result] = await readDDBB(`respuestas/${id}`);
+  return result;
+};
 
 export const setPreguntaById = async (setter:Function, id:string) => {
   setter(await getPreguntaById(id));
@@ -95,6 +111,12 @@ export const setMultiplePregsByIds = async (setter:Function, ids:Set<string>) =>
   const promises = uniqueIds.map(getPreguntaById);
   const preguntas = await Promise.all(promises);
   setter(preguntas);
+};
+
+export const getAnswers = async (setter:Function, ids:string[]) => {
+  const promises = ids.map(getRespuestaById);
+  const respuestas = await Promise.all(promises);
+  setter(Object.fromEntries(ids.map((id, idx) => [id, respuestas[idx]])));
 };
 
 export const getInicio = async () => {
@@ -141,4 +163,10 @@ export const readLocal = async (path:string) => {
   const ddbbVal = readDDBB(path).then(([val]) => (((val && localStorage.setItem(`DDBB:${path}`, JSON.stringify(val))), val)));
   if (!result) return ddbbVal;
   return JSON.parse(result);
+};
+
+export const readWithSetter = async (path:string, setValue:Function, setError?:Function) => {
+  const [val, err] = await readDDBB(path);
+  if (err && setError) return setError(err);
+  return setValue(val);
 };

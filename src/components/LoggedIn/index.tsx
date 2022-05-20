@@ -21,7 +21,7 @@ const Documentos = loadable(() => import('../Documentos'), {
 const TablaEditor = loadable(() => import('../TablaEditor'), {
   fallback: <GeneralContentLoader />,
 });
-const TestDeHoy = loadable(() => import('../Test'), {
+const CustomTest = loadable(() => import('../CustomTest'), {
   fallback: <GeneralContentLoader />,
 });
 
@@ -47,7 +47,7 @@ export default function LoggedIn() {
   const [childrenFooter, setChildrenFooter] = useState(null);
 
   setUser(user);
-
+  console.log(user?.uid);
   const location = useLocation();
   const handleClick = () => {
     localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
@@ -72,7 +72,7 @@ export default function LoggedIn() {
                 <Route path="/documentos/*" element={<Documentos />} />
                 <Route path="/perfil" element={<Perfil />} />
                 <Route path="/tablaPeriodica" element={<TablaEditor />} />
-                <Route path="/testDeHoy" element={<TestDeHoy unaPorUna={!!user?.userDDBB.unaPorUna} />} />
+                <Route path="/testDeHoy" element={<CustomTest room="testDelDia" />} />
                 <Route path="/ajustes" element={<Ajustes />} />
                 <Route path="/online" element={<Online />} />
               </Routes>

@@ -1,0 +1,88 @@
+.participantsContainer{
+    --w: 30px;
+    position:fixed;
+    right: 0;
+    top: 50px;
+    height: calc(100vh - 50px);
+    width: max-content;
+    display: grid;
+    grid-template-columns: var(--w) max-content;
+    align-items: center;
+    grid-template-rows: 100%;
+    justify-content: right;
+    z-index: 6;
+    gap: 2px;
+}
+
+.participantesInfo{
+    color: var(--font2-color);
+    font-size: .9em;
+    text-align: left;
+    padding: 2px 5px;
+}
+
+.participantsOculto{
+    pointer-events: none;
+}
+.participantsStates{
+    width: min(calc(100vw - var(--w)), 250px);
+    height: 100%;
+    background-color: var(--bg2-color);
+    transition: all 750ms;
+}
+
+.participantsOculto .participantsStates{
+    width: 0;
+    opacity: 0;
+}
+
+.participantsClose{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    background-color:  var(--bg2-color);
+    color: var(--font2-color);
+    height: 40px;
+    font-size: 30px;
+    max-width: var(--w);
+    border-radius: 5px;
+    margin-bottom: 45px;
+   /*  border-style: solid;
+    border-right-width: 2px;
+    border-color: var(--font2-color); */
+    
+}
+.participantsOculto .participantsClose{
+    font-size: 18px;
+    pointer-events: all;
+    
+}
+
+.memberRoom{
+    background-color: var(--font2-color);
+    display: grid;
+    grid-template-columns: 30px minmax(90px, 1fr) 60px;
+    gap: 5px;
+    position: relative;
+    height: max-content;
+    max-width: 90%;
+    width: max-content;
+    padding: 5px 10px;
+    margin: 7px 20px;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.memberRoom > span{
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.memberRoom > .iconRoom{
+    overflow-x:visible;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
