@@ -20,7 +20,7 @@ import React, {
 } from 'react';
 
 import {
-  getAnswers, onValueDDBB, pushDDBB, updateDDBB, writeDDBB, writeUserInfo,
+  getAnswers, onValueDDBB, pushDDBB, readWithSetter, updateDDBB, writeDDBB, writeUserInfo,
 } from 'services/database';
 import { createIntersectionObserver } from 'services/elemenstInViewPort';
 import { GrupoNoPermission } from 'services/errores';
@@ -132,7 +132,7 @@ function TestFooter({
   showOnEnd,
   onEnd,
   thisRef, refs, active, unaPorUna, corregirExamen, answers, corrAnswers, corregido,
-  preventPrevious,
+  preventPrevious, inBlanco, setValue,
 }:
   {preguntas:PreguntaTestDeQuimica[],
   thisRef:RefObject<HTMLDivElement>,
@@ -147,7 +147,9 @@ function TestFooter({
    preventPrevious:boolean,
    onNext:Function|undefined,
    showOnEnd:boolean,
-  onEnd:Function
+  onEnd:Function,
+  inBlanco:boolean,
+  setValue:Function
   }) {
   const [observer, setObserver] = useState<IntersectionObserver|undefined>(undefined);
   const [inView, setInView] = useState<{[key:string]:boolean}>({});
@@ -160,6 +162,11 @@ function TestFooter({
   const lastDisplayed = Math.max(...displayedQuestions);
 
   const goToSiguiente = () => {
+    const lastId = preguntas[preguntas.length - 1]?.id;
+    if (preventPrevious && preguntas.length > 0 && answers[lastId]?.current === undefined) {
+      if (onNext) setValue(inBlanco ? '' : '', lastId);
+      else if (active !== preguntas.length - 1) setValue('', preguntas[active].id);
+    }
     if (!unaPorUna) refs.current?.[firstDisplayed + 1].scrollIntoView({ behavior: 'smooth' });
     else if (!onNext) setActive(Math.min(active + 1, preguntas.length - 1));
     else onNext(preguntas, active, setActive, corregido);
@@ -299,7 +306,6 @@ const addUserQuestions = () => {
       corrAnswers:{[key:string]:string},
     ) => {
       if (!ableToAdd) return;
-      console.log('ejecutado');
       const newTemas = JSON.parse(JSON.stringify(temas)); // Deep copy
       preguntas.forEach(({ nivelYTema, id }) => {
         const [tema, nivel] = nivelYTema.split('_');
@@ -307,6 +313,7 @@ const addUserQuestions = () => {
         else if (answers[id]?.current === corrAnswers[id]) newTemas[tema][`level${nivel}`].aciertos += `${id};`;
         else newTemas[tema][`level${nivel}`].fallos += `${id};`;
       });
+      console.log(newTemas, answers, corrAnswers);
       writeUserInfo(newTemas, 'temas');
       ableToAdd = false;
     },
@@ -384,6 +391,20 @@ export default function Test({
     return setCorregido(true);
   };
 
+  useEffect(() => {
+    if (!preventPrevious) return undefined;
+    const numAnswers = Object.values(answers).length;
+    console.log(numAnswers, answers);
+    if (!onNext) return setActive(numAnswers);
+    if (preguntas.length < numAnswers) onNext(preguntas, active, setActive, corregido);
+    if (preguntas.length > 0 && preguntas.length === numAnswers && path.includes('room')) {
+      readWithSetter(`${path.replace(/activeTest/g, 'members')}/done`, (val:boolean) => {
+        if (val) setCorregido(true);
+      });
+    }
+    return undefined;
+  }, [preguntas]);
+
   const setValue = (value:string, id:string) => {
     const resp = { current: value };
     if (!corregirOnClick) return writeDDBB(`${path}/preguntas/${id}`, resp);
@@ -396,7 +417,7 @@ export default function Test({
   if (allCorrected && !corregido && !onNext)corregirExamen();
 
   useEffect(() => {
-    executeAddUser(user.temas, preguntas, answers, corrAnswers);
+    if (allCorrected) executeAddUser(user.temas, preguntas, answers, corrAnswers);
   }, [corrAnswers, corregido]);
 
   useEffect(() => { setStateTime(startTime); }, [time, startTime]);
@@ -436,9 +457,11 @@ export default function Test({
       showOnEnd={showEndButton}
       thisRef={thisRef}
       unaPorUna={!!unaPorUna}
+      inBlanco={notInBlanco}
+      setValue={setValue}
     />,
     [preguntas, thisRef, childrenRef.current, active, unaPorUna, answers, corregido,
-      preventPrevious, corrAnswers, onNext, onEnd, showEndButton],
+      preventPrevious, corrAnswers, onNext, onEnd, showEndButton, notInBlanco],
   );
   const setHTMLFooter = useContext(FooterContext);
   useEffect(() => onValueDDBB(`${path}/preguntas`, (val:any) => setAnswers(val ?? {}), () => {

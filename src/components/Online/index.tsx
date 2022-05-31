@@ -162,10 +162,8 @@ const prepareForTest = async (room: string, isRoomAdmin:boolean, temas:userDDBB[
     const { timingMode, timePerQuestion, numPregs } = roomData;
     // set seed
     if ((await readDDBB(`rooms/${room}/inExam`))[0]) return;
-    writeDDBB(`rooms/${room}/inExam`, true);
     writeDDBB(`rooms/${room}/seed`, Math.random());
     writeDDBB(`rooms/${room}/config/adminStats`, { temas, year });
-    console.log(timingMode, timePerQuestion, numPregs);
     if (timingMode !== 'Temporizador Global') return;
     writeDDBB(`rooms/${room}/config/endTime`, Date.now()
     + 3000 // 3 extra waiting seconds
@@ -173,7 +171,8 @@ const prepareForTest = async (room: string, isRoomAdmin:boolean, temas:userDDBB[
   }
 };
 
-function InGroup({ room, setExam }:{room:string, setExam: Function}) {
+function InGroup({ room, setExam }:
+  {room:string, setExam: Function}) {
   const user = useContext(UserContext)!;
   const { username, temas, year } = user.userDDBB;
   const setError = useContext(MyErrorContext);
@@ -190,7 +189,13 @@ function InGroup({ room, setExam }:{room:string, setExam: Function}) {
 
   if (todosListos && timeoutListos === undefined) {
     prepareForTest(room, roomAdmin === username, temas, year, roomData);
-    timeoutListos = window.setTimeout(() => setExam({ isRoomAdmin: roomAdmin === username }), 3000);
+    timeoutListos = window.setTimeout(
+      () => {
+        setExam({ isRoomAdmin: roomAdmin === username });
+        if (roomAdmin === username) writeDDBB(`rooms/${room}/inExam`, true);
+      },
+      3000,
+    );
   }
 
   if (!todosListos && timeoutListos !== undefined) {
@@ -204,8 +209,9 @@ function InGroup({ room, setExam }:{room:string, setExam: Function}) {
     if (user.userDDBB.username !== roomAdmin || timeoutListos !== undefined) return;
     writeDDBB(`rooms/${room}/config/${param}`, value);
   };
-  const handleListo = () => {
-    writeDDBB(`rooms/${room}/members/${username}/ready`, !members?.[username]?.ready);
+  const handleListo = async () => {
+    if ((await readDDBB(`rooms/${room}/inExam`))[0]) return writeDDBB(`rooms/${room}/members/${username}/ready`, true);
+    return writeDDBB(`rooms/${room}/members/${username}/ready`, !members?.[username]?.ready);
   };
   const handleNumPregsChange = (e:ChangeEvent<HTMLInputElement>) => {
     if (user.userDDBB.username !== roomAdmin || timeoutListos !== undefined) return undefined;

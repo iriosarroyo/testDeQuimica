@@ -30,6 +30,18 @@ export function LoadingFolder() {
 }
 
 function Folder({ name, url }:FolderData) {
+  if (name === ':__RECURSOS_QUÍMICA__:') {
+    return (
+      <li>
+        <a href="https://drive.google.com/drive/folders/182DASWji_7fG5crgsYvONkjsZQWaRfsi" className="folder" target="_blank" rel="noreferrer">
+          <div>
+            <FontAwesomeIcon icon="folder" />
+          </div>
+          <div>Recursos Química</div>
+        </a>
+      </li>
+    );
+  }
   return (
     <li>
       <Link className="folder" to={url}>

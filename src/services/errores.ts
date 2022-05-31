@@ -45,3 +45,11 @@ export class NotEnoughQuestions extends Error {
     super('No existen suficientes preguntas que cumplan los criterios establecidos');
   }
 }
+
+export class WriteDDBBError extends Error {
+  name = 'Escribir Base de datos';
+
+  constructor() {
+    super('Error al escribir en la base de datos');
+  }
+}

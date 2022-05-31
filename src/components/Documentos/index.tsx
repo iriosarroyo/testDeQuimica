@@ -37,13 +37,20 @@ function Documentos() {
     <div className={`displayDocs ${infoDisplayed}`}>
       <Path path={path} />
       <div className="foldersAndFilesContainer">
-        {loading ? <LoadingDocuments />
+        {// eslint-disable-next-line no-nested-ternary
+        loading ? <LoadingDocuments />
           : (
-            <>
-              <Folders path={path} folders={folders} />
-              <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
-            </>
-          )}
+            folderPath === ''
+              ? <Folders path="/documentos" folders={['Documentos', ':__RECURSOS_QUÍMICA__:']} />
+              : (
+                <>
+                  <Folders path={path} folders={folders} />
+                  <Files files={files} setInfo={setInfo} setVisibilityInfo={setVisibilityInfo} />
+                </>
+              )
+
+          )
+}
       </div>
       {visibilityInfo && <Info fileData={info} visibilitySetter={setVisibilityInfo} /> }
     </div>

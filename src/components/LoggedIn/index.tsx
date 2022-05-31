@@ -4,6 +4,7 @@ import Header from 'components/Header';
 import Navbar from 'components/Navbar';
 import FooterContext from 'contexts/Footer';
 import UserContext from 'contexts/User';
+import { getAuth } from 'firebase/auth';
 import shortcuts from 'info/shortcuts';
 import { setUser, updateLocalShortCuts } from 'info/shortcutTools';
 import React, { useContext, useEffect, useState } from 'react';
@@ -47,7 +48,7 @@ export default function LoggedIn() {
   const [childrenFooter, setChildrenFooter] = useState(null);
 
   setUser(user);
-  console.log(user?.uid);
+  console.log(user?.uid, getAuth());
   const location = useLocation();
   const handleClick = () => {
     localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);

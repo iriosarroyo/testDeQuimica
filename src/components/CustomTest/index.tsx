@@ -14,7 +14,7 @@ import {
 import {
   changeAllChildren,
   deleteDDBB,
-  filterByChildCache, onValueDDBB, readLocal, readWithSetter, writeDDBB, writeUserInfo,
+  filterByChildCache, onValueDDBB, readDDBB, readLocal, readWithSetter, writeDDBB, writeUserInfo,
 } from 'services/database';
 import Test from 'components/Test';
 import { GrupoNoPermission, NotEnoughQuestions } from 'services/errores';
@@ -167,8 +167,25 @@ const getPreguntas = async (
   return getPreguntasWithWeights(results, temas, rng, allQuestions, repeatedQuestions, filterIds);
 };
 
-const getTodaysPreguntas = async (user:CompleteUser, setter:Function, setError:Function) => {
-  const UserDDBB = user.userDDBB;
+const getTodaysPreguntas = async (
+  user:CompleteUser,
+  setter:Function,
+  setError:Function,
+  setStart:Function,
+  path:string,
+  newTest:boolean = false,
+) => {
+  let UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']};
+  if (newTest) {
+    await writeDDBB(path, { temas: user.userDDBB.temas, time: 0 });
+    await writeUserInfo(Date.now(), 'lastTest');
+    UserDDBB = user.userDDBB;
+  } else {
+    const [temas]:[userDDBB['temas'], Error|undefined] = await readDDBB(`${path}/temas`);
+    const [time] = await readDDBB(`${path}/time`);
+    setStart(time ?? 0);
+    UserDDBB = { temas, year: user.userDDBB.year };
+  }
   let preguntas;
   try {
     preguntas = await getPreguntas(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'Difícil');
@@ -213,16 +230,22 @@ function TestDelDia() {
   const user = useContext(UserContext)!;
   const setError = useContext(MyErrorContext);
   const { lastTest, unaPorUna } = user.userDDBB;
+  const [startTime, setStartTime] = useState(0);
   const today = getNumOfDays(Date.now());
   const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
-  if (lastTest && getNumOfDays(lastTest) === today) {
-    return <div />;
-  } // set seed
+  const path = `stats/${user.uid}/activeTest`;
   useEffect(() => {
-    getTodaysPreguntas(user, setPreguntas, setError);
+    getTodaysPreguntas(
+      user,
+      setPreguntas,
+      setError,
+      setStartTime,
+      path,
+      !(lastTest && getNumOfDays(lastTest) === today), // new test a.k.a.: has done test yet?
+    );
   }, []);
   if (preguntas.length === 0) return <div />;
-  return <Test preguntas={preguntas} unaPorUna={unaPorUna} path={`stats/${user.uid}/activeTest`} />;
+  return <Test preguntas={preguntas} unaPorUna={unaPorUna} path={path} startTime={startTime} />;
 }
 
 function TestPuntuacion({
@@ -264,11 +287,12 @@ function TestPuntuacion({
     if (active < pregs.length - 1) return setActive(active + 1);
     if (isCorregido) return undefined;
     const prevIds = pregs.map(({ id }) => id);
+    console.log(prevIds);
     try {
       const newPreg = await getPreguntas(
         1,
         adminStats,
-        gen.create(`${seed * pregs.length}`),
+        gen.create(`${seed * (pregs.length + 1)}`),
         temasSeleccionados,
         difficulty,
         repetidas === 'Sí',

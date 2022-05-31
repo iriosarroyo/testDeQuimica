@@ -38,5 +38,10 @@
         "code": "form/username-length",
         "message": "El nombre de usuario debe contener entre 1 y 20 caracteres.",
         "name": "UsernameLength"
+    },
+    "UsernameExists": {
+        "code": "form/username-exists",
+        "message": "El nombre de usuario ya existe. Elija uno diferente.",
+        "name": "UsernameExists"
     }
 }

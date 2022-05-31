@@ -1,3 +1,53 @@
-.incorrectField{
-    border: 1px solid red;
+.newUserGroup > .incorrectField{
+    outline: 2px solid var(--bg-red-color);
+}
+
+.newUserGroup > input,
+.newUserGroup > select,
+.newUserForm > button{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border:none;
+    border-radius: 20px;
+    padding: 7px 15px;
+    width: 200px;
+    max-width: 100%;
+    font-size: 1em;
+   
+}
+.newUserGroup > strong{
+    color:var(--bg2-color);
+    padding: 10px 0;
+    display: block;
+}
+
+.newUserGroup > input:focus,
+.newUserGroup > select:focus{
+    outline: var(--font-color) solid 2px;
+}
+.newUserGroup{
+    height: max-content;
+}
+.newUserInputs{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+    column-gap: 25px;
+    row-gap: 10px;
+    overflow: auto;
+    width: 100%;
+    height: max-content;
+    max-height: 100%;
+}
+
+
+.newUserForm{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    grid-template-rows: max-content 1fr max-content;
+    row-gap: 10px;
+    padding: 10px 20px;
+    color:var(--bg2-color);
+    overflow-y: auto;
 }
