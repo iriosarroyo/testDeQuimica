@@ -7,6 +7,7 @@ import { getFrasesCuriosasWithSetters, getInicioWithSetters } from 'services/dat
 import setFooter from 'hooks/setFooter';
 import UserContext from 'contexts/User';
 import GeneralContentLoader from 'components/GeneralContentLoader';
+import SearchCmd from 'services/commands';
 
 const changeAnimation = (
   estaRef:RefObject<HTMLDivElement>,
@@ -52,15 +53,17 @@ function Inicio() {
   useEffect(() => {
     getInicioWithSetters(setText, setError);
   }, []);
+  useEffect(() => document.querySelector('#searchCursor')?.scrollIntoView(), [text]);
+  useEffect(() => {
+    if (text !== undefined) return SearchCmd.onSearch('Inicio', 'Inicio', text.content, (val:string) => setText({ content: val }));
+    return () => {};
+  }, [text === undefined]);
   return (
     <div className="inicio mainText">
       {
       text
         ? (
-          <>
-            <h2>{text.title}</h2>
-            <div dangerouslySetInnerHTML={{ __html: text.content }} />
-          </>
+          <div dangerouslySetInnerHTML={{ __html: text.content }} />
         )
         : <GeneralContentLoader />
 

@@ -7,6 +7,7 @@ import React, {
   ChangeEvent, KeyboardEvent, useContext, useEffect, useRef, useState,
 } from 'react';
 import { writeUserInfo } from 'services/database';
+import Toast from 'services/toast';
 import { MyUser, Shortcut } from 'types/interfaces';
 import './Ajustes.css';
 
@@ -20,16 +21,20 @@ const saveVelGen = () => {
 
 const saveVel = saveVelGen();
 
+const FUN_KEYS = ['F2', 'F4', 'F8', 'F9'];
 const PERMITTED_KEYS = ['Q', 'W', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ',
-  'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '-'];
+  'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '-', ...FUN_KEYS];
+const COMB_KEYS = ['Control', 'Shift', 'Alt', 'Meta', 'Escape'];
 
 function ShortCutsPopUp({ shortcut }:{shortcut:Shortcut}) {
   const ref = useRef<HTMLInputElement>(null);
   const handleKeyDown = (e:KeyboardEvent<HTMLInputElement>) => {
+    if (COMB_KEYS.includes(e.key)) return undefined;
     e.stopPropagation();
-    if (!PERMITTED_KEYS.includes(e.key.toUpperCase())) return;
-    writeUserInfo(`Ctrl+Alt+${e.key.toUpperCase()}`, `shortcuts/${shortcut.id}`);
-    localStorage.setItem(`shortcut-${shortcut.id}`, `Ctrl+Alt+${e.key.toUpperCase()}`);
+    if (!PERMITTED_KEYS.includes(e.key.toUpperCase())) return Toast.addMsg('Combinación no permitida.', 5000);
+    const sc = FUN_KEYS.includes(e.key) ? e.key : `Ctrl+Alt+${e.key.toUpperCase()}`;
+    writeUserInfo(sc, `shortcuts/${shortcut.id}`);
+    return localStorage.setItem(`shortcut-${shortcut.id}`, sc);
   };
   const handleFocusOut = () => {
     if (ref && ref.current) ref.current.focus();
@@ -50,7 +55,7 @@ function ShortCutsPopUp({ shortcut }:{shortcut:Shortcut}) {
         <span><ShortcutKey shortcut={shortcut.default} /></span>
       </div>
       <div>
-        <strong>Atajo por actual: </strong>
+        <strong>Atajo actual: </strong>
         <span><ShortcutKey shortcut={shortcut.shortcut} /></span>
       </div>
       <input type="text" ref={ref} onBlur={handleFocusOut} onKeyDown={handleKeyDown} readOnly className="oculto" />

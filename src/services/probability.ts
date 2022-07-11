@@ -1,4 +1,5 @@
 import { difficultyLevels, userDDBB } from 'types/interfaces';
+import { readLocal } from './database';
 
 const probabilityLevelGen = (max:number, deviation:number) => {
   const root2PI = Math.sqrt(2 * Math.PI);
@@ -46,16 +47,17 @@ const countAciertosYFallos = (
   return { aciertos: aciertosCount, fallos: fallosCount };
 };
 
-const getPuntuacionLevel1 = (aciertosYFallos:userDDBB['temas']['']['']) => {
+export const getPuntuacionLevel1 = (aciertosYFallos:userDDBB['temas']['']['']) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
   return Math.min(2, getRawPuntuacion(aciertos, fallos));
 };
-const getPuntuacionLevel2 = (aciertosYFallos:userDDBB['temas']['']['']) => {
+export const getPuntuacionLevel2 = (aciertosYFallos:userDDBB['temas']['']['']) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
   return Math.min(6, getRawPuntuacion(aciertos, fallos));
 };
 const getPuntuacionLevel3 = (aciertosYFallos:userDDBB['temas']['']['']) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
+  console.log(Math.min(10, getRawPuntuacion(aciertos, fallos)), aciertos, fallos);
   return Math.min(10, getRawPuntuacion(aciertos, fallos));
 };
 
@@ -64,4 +66,11 @@ export const getPuntuacionDelTema = (puntPorLevel:userDDBB['temas']['']) => {
   const level2 = getPuntuacionLevel2(puntPorLevel.level2);
   const level3 = getPuntuacionLevel3(puntPorLevel.level3);
   return Math.min(10, level1 + level2 + level3);
+};
+
+export const getTemasInOrder = async (year: string) => {
+  const orderTemas = await readLocal(`general/ordenDeTemas/${year}`);
+  const orderTemasEntries:[string, number][] = Object.entries(orderTemas);
+  orderTemasEntries.sort((a, b) => a[1] - b[1]);
+  return orderTemasEntries.map((x) => x[0]);
 };

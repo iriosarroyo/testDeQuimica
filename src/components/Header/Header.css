@@ -1,4 +1,5 @@
 .iconContainer{
+  overflow: hidden;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -8,6 +9,7 @@
   aspect-ratio: 1;
   background-color: var(--bg-color);
   color: var(--font-color);
+  outline: none;
 }
 
 .iconContainer:hover{

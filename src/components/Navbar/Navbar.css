@@ -41,6 +41,35 @@
   overflow: hidden;
 }
 
+.adminTitle{
+  user-select: none;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  height: 42px;
+  transition: 600ms all;
+}
+.menu hr{
+  color: var(--font2-color);
+  background-color: var(--font2-color);
+  border-width: 0;
+  height: 1px;
+}
+
+.menu hr:first-of-type{
+  margin-bottom: 3px;
+}
+
+.menu hr:nth-of-type(2){
+  margin-top: 1px;
+}
+
+.menuContracted .adminTitle{
+  height: 0px;
+  padding: 0;
+  opacity: 0;
+}
+
 .menuContracted .menuText {
   opacity: 0;
   visibility: hidden;

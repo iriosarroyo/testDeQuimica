@@ -1,0 +1,48 @@
+{
+    "testDeHoy3tests":{
+        "id": "testDeHoy3tests",
+        "description": "Completa 3 \"Test del día\" seguidos, sin saltarte un día.",
+        "stars":1
+    },
+    "testDeHoy5tests":{
+        "id": "testDeHoy3tests",
+        "description": "Completa 5 \"Test del día\" seguidos, sin saltarte un día.",
+        "stars":2
+    },
+    "testDeHoy7tests":{
+        "id": "testDeHoy3tests",
+        "description": "Completa una semana entera de \"Test del día\" seguidos, sin saltarte un día.",
+        "stars":3
+    },
+    "inicioMensajes":{
+        "id": "inicioMensajes",
+        "description":"Lee 50 datos curiosos (mensajes que aparecen en el pie de página de Inicio).",
+        "stars":1
+    },
+    "documentosFormulario":{
+        "id": "documentosFormulario",
+        "description":"Descárgate el documento 'Formulario de olimpiadas' del apartado Documentos.",
+        "stars":1
+    },
+    "documentosRecursos":{
+        "id": "documentosRecursos",
+        "description":"Accede a la carpeta de RECURSOS QUÍMICA desde el apartado Documentos.",
+        "stars":1
+    },
+    "puntuacionesUn10":{
+        "id": "puntuacionesUn10",
+        "description": "Consigue una puntuación de 10 en un tema.",
+        "stars":2
+    },
+    "puntuacionesDos10":{
+        "id": "puntuacionesDos10",
+        "description": "Consigue una puntuación de 10 en dos temas.",
+        "stars":3
+    },
+    "puntuacionesTres10":{
+        "id": "puntuacionesTres10",
+        "description": "Consigue una puntuación de 10 en tres temas.",
+        "stars":3
+    }
+
+}

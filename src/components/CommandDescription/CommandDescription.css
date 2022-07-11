@@ -1,0 +1,20 @@
+.cmdDescription > h4{
+    margin: 5px 0px;
+    font-size: 1.05em;
+}
+
+.cmdDescription ul{
+    padding-left: 20px;
+    list-style-type: square;
+}
+
+.cmdDescription li{
+    margin-bottom: 5px;
+    list-style: square;
+    max-width: 100px;
+    width: max-content;
+}
+
+.cmdDescription li > *{
+    display: block;
+}

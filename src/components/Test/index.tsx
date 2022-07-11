@@ -12,6 +12,7 @@ import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
 import setFooter from 'hooks/setFooter';
+import { copyAllCmd, copyCmd } from 'info/myCommands';
 import React, {
   useEffect, useRef, useState,
   RefObject,
@@ -473,6 +474,17 @@ export default function Test({
   useEffect(() => {
     childrenRef.current = childrenRef.current.slice(0, preguntas.length);
   }, [preguntas]);
+
+  useEffect(() => {
+    if (preguntas.length === 0) return undefined;
+    const type = preventPrevious && !corregido
+      ? [preguntas[active].id]
+      : preguntas.map((x) => x.id);
+    const copyRm = copyCmd(preguntas, type);
+    const copyAllRm = copyAllCmd(preventPrevious && !corregido ? [preguntas[active]] : preguntas);
+    return () => { copyRm(); copyAllRm(); };
+  }, [preguntas, active, corregido, preventPrevious]);
+
   const activeId = preguntas[active]?.id;
   return (
     <div className="test" ref={thisRef}>

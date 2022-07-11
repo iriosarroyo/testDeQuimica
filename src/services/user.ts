@@ -3,6 +3,7 @@ import {
 } from 'firebase/auth';
 import { onValueDDBB, readDDBB } from './database';
 import { auth } from './firebaseApp';
+import { createSocket, disconnectSocket } from './socket';
 
 export const getUserFromDDBB = async (setUserDDBB:Function, setError:Function, path = '') => {
   const { currentUser } = auth;
@@ -25,12 +26,23 @@ export const authState = (setUser:Function, setError:Function) => {
   let off = () => {};
   onAuthStateChanged(
     auth,
-    (user) => {
+    async (user) => {
       if (!user) {
         setUser(user);
         off();
         off = () => {};
-      } else off = onValueUser(user, (userDDBB:any) => setUser({ userDDBB, ...user }), setError);
+      } else {
+        await user.getIdToken().then(createSocket);
+        const setValueOff = onValueUser(
+          user,
+          (userDDBB:any) => setUser({ userDDBB, ...user }),
+          setError,
+        );
+        off = () => {
+          setValueOff();
+          disconnectSocket();
+        };
+      }
     },
     (error) => setError(error),
   );

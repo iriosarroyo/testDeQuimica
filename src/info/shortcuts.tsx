@@ -43,4 +43,13 @@ const shortcuts:Shortcut[] = [
   },
 ];
 
+export const removeShortCut = (id:string) => {
+  const idx = shortcuts.findIndex((x) => x.id === id);
+  if (idx !== -1) shortcuts.splice(idx);
+};
+export const addShortCut = (sc:Shortcut) => {
+  shortcuts.push(sc);
+  return () => removeShortCut(sc.id);
+};
+
 export default shortcuts;

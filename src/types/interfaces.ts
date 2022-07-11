@@ -139,6 +139,7 @@ export interface PreguntaTestDeQuimica{
 }
 
 export interface userDDBB{
+  admin: boolean,
   room: string,
   group:string,
   mobile:string,
@@ -167,7 +168,7 @@ export interface Shortcut{
   description: string,
   default:string,
   shift?:boolean,
-  action: 'goTo' | 'showFront',
+  action: 'goTo' | 'showFront'| ((shift?:boolean) => void),
   url?:string,
   // eslint-disable-next-line no-undef
   element?: () => JSX.Element

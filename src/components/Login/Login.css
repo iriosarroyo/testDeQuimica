@@ -1,0 +1,94 @@
+.logInButton{
+    border-radius: 20px;
+    padding: 5px 20px;
+    background-color: var(--logo-bg);
+    color: var(--logo-fg);
+    max-width: 90%;
+    display: grid;
+    grid-template-columns: 20px auto;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.googleLogo{
+    width: 20px;
+}
+
+.logo{
+    height: min-content;
+    width: min(90%, 381.715px);
+    max-height: 50%;
+}
+
+.loginContainer{
+    height: 100%;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+}
+
+.slide{
+    scroll-snap-align: start;
+   
+}
+
+.slideGroup{
+    display: grid;
+    grid-auto-rows: 100%;
+    height: 100%;
+}
+
+.pagesButtonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.pagesButtonLogIn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--logo-bg);
+    color: var(--logo-fg);
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 7px;
+    width: min(30%, 150px);
+}
+
+#login{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#historia{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+    align-items: center;
+}
+
+.panelGroup{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.panel{
+    background-color: var(--logo-bg);
+    color: var(--logo-fg);
+    border-radius: 25px;
+    width: max(30%, 250px);
+    text-align: left;
+    padding: 5px 10px;
+}
+
+.panelText > h4{
+    text-align: center;
+    font-size: 1.1em;
+}

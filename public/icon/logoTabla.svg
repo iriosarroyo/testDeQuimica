@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" version="1.1" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" font-size="40px"
+  fill="none">
+  <rect width="600" y="-240" height="1000" fill="#ddd" />
+  <g font-family="calibri" fill="white">
+    <rect fill="#0085c8" x="0" y="0" width="120" height="120" />
+    <text x="60" y="60" text-anchor="middle" dominant-baseline="middle">K</text>
+    <text x="118" y="4" text-anchor="end" dominant-baseline="hanging" font-size="0.5em">19</text>
+    <text x="60" y="120" text-anchor="middle" dominant-baseline="text-after-edge" font-size="0.5em">39.1</text>
+  </g>
+  <g font-family="calibri" fill="white">
+    <rect fill="black" x="240" y="0" width="120" height="120" />
+    <text x="300" y="60" text-anchor="middle" dominant-baseline="middle">I</text>
+    <text x="358" y="4" text-anchor="end" dominant-baseline="hanging" font-size="0.5em">53</text>
+    <text x="300" y="120" text-anchor="middle" dominant-baseline="text-after-edge" font-size="0.5em">126.9</text>
+  </g>
+  <g font-family="calibri" fill="white">
+    <rect fill="#e00024" x="480" y="0" width="120" height="120" />
+    <text x="540" y="60" text-anchor="middle" dominant-baseline="middle">Mt</text>
+    <text x="598" y="4" text-anchor="end" dominant-baseline="hanging" font-size="0.5em">109</text>
+    <text x="540" y="120" text-anchor="middle" dominant-baseline="text-after-edge" font-size="0.5em">276</text>
+  </g>
+  <g font-family="calibri" fill="white">
+    <rect fill="#f1c400" x="120" y="120" width="120" height="120" />
+    <text x="180" y="180" text-anchor="middle" dominant-baseline="middle">Es</text>
+    <text x="238" y="124" text-anchor="end" dominant-baseline="hanging" font-size="0.5em">99</text>
+    <text x="180" y="240" text-anchor="middle" dominant-baseline="text-after-edge" font-size="0.5em">252</text>
+  </g>
+  <g font-family="calibri" fill="white">
+    <rect fill="#009e3d" x="360" y="120" width="120" height="120" />
+    <text x="420" y="180" text-anchor="middle" dominant-baseline="middle">Th</text>
+    <text x="478" y="124" text-anchor="end" dominant-baseline="hanging" font-size="0.5em">90</text>
+    <text x="420" y="240" text-anchor="middle" dominant-baseline="text-after-edge" font-size="0.5em">232</text>
+  </g>
+</svg>

@@ -11,7 +11,11 @@ type FrontProps = {
 }
 
 export default function Front({ children, setChildren, cb }:PropsWithChildren<FrontProps>) {
-  const handleKeyDown = (event:KeyboardEvent) => (event.key === 'Escape' ? setChildren({ elem: null, cb: () => {} }) : undefined);
+  const clearFront = () => {
+    setChildren({ elem: null, cb: () => {} });
+    cb();
+  };
+  const handleKeyDown = (event:KeyboardEvent) => (event.key === 'Escape' ? clearFront() : undefined);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (ref.current) ref.current.focus();
@@ -23,12 +27,11 @@ export default function Front({ children, setChildren, cb }:PropsWithChildren<Fr
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      onDoubleClick={() => setChildren({ elem: null, cb: () => {} })}
+      onDoubleClick={() => clearFront()}
     >
       <div>{children}</div>
       <Button onClick={() => {
-        setChildren({ elem: null, cb: () => {} });
-        cb();
+        clearFront();
       }}
       >
         <FontAwesomeIcon icon={faTimes} />

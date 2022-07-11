@@ -9,12 +9,12 @@ import {
   CompleteUser, difficultyLevels, PreguntaTestDeQuimica, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
 import {
-  getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema,
+  getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema, getTemasInOrder,
 } from 'services/probability';
 import {
   changeAllChildren,
   deleteDDBB,
-  filterByChildCache, onValueDDBB, readDDBB, readLocal, readWithSetter, writeDDBB, writeUserInfo,
+  filterByChildCache, onValueDDBB, readDDBB, readWithSetter, writeDDBB, writeUserInfo,
 } from 'services/database';
 import Test from 'components/Test';
 import { GrupoNoPermission, NotEnoughQuestions } from 'services/errores';
@@ -54,13 +54,6 @@ const getLevel = (statsPerTema:CompleteStatsPerTema, rng: gen.RandomSeed) => {
   if (random < probLevel1) return 1;
   if (random > 1 - probLevel3) return 3;
   return 2;
-};
-
-const getTemasInOrder = async (year: string) => {
-  const orderTemas = await readLocal(`general/ordenDeTemas/${year}`);
-  const orderTemasEntries:[string, number][] = Object.entries(orderTemas);
-  orderTemasEntries.sort((a, b) => a[1] - b[1]);
-  return orderTemasEntries.map((x) => x[0]);
 };
 
 const getStatPerTema = (

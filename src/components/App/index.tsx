@@ -8,6 +8,9 @@ import { Shortcut } from 'types/interfaces';
 import { useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
 import FrontContext from 'contexts/Front';
+import SearchCmd from 'services/commands';
+import paginas from 'info/paginas';
+import Toast from 'services/toast';
 
 const Front = loadable(() => import('../Front'));
 
@@ -25,6 +28,7 @@ const executeShortcut = (shortcut:Shortcut, functions:{[key:string]:Function}, s
   const { navigate, setFrontElement } = functions;
   if (shortcut.action === 'goTo') return goTo(shortcut, navigate, shift);
   if (shortcut.action === 'showFront') return showFront(shortcut, setFrontElement);
+  if (typeof shortcut.action === 'function') return shortcut.action(shift);
   return undefined;
 };
 
@@ -34,7 +38,7 @@ const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) =
   const alt = event.altKey ? 'Alt+' : '';
   const key = event.key.toUpperCase();
   const keyCommand = `${ctrl}${alt}${key}`;
-
+  console.log(keyCommand);
   if (shift) {
     const resultShift = shortcuts.find((x) => x.shift && x.shortcut === keyCommand);
     if (resultShift) return executeShortcut(resultShift, functions, true);
@@ -45,13 +49,60 @@ const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) =
   return undefined;
 };
 
+const goToCommand = (navigate:Function) => (path:string, newPage:boolean) => {
+  const finalPath = `/${path === 'inicio' ? '' : path}`;
+  if (newPage) return window.open(finalPath, '_blank');
+  return navigate(finalPath);
+};
+
+const getPosiblePaths = () => paginas.map((x) => (x.url === '/' ? 'inicio' : x.url.slice(1)));
+const addCommands = (navigate:Function, show:Function) => {
+  const cmdsOff = [SearchCmd.addCommand(
+    'goTo',
+    'Ve a un apartado de la página web.',
+    goToCommand(navigate),
+    {
+      name: 'url',
+      optional: false,
+      type: getPosiblePaths(),
+      desc: ' Elige el apartado de la página al que navegar.',
+    },
+
+    {
+      name: 'nuevaPestaña',
+      optional: true,
+      type: ['boolean'],
+      default: 'false',
+      desc: 'Decide si abrirlo en una nueva pestaña.',
+    },
+  ),
+
+  SearchCmd.addCommand(
+    'show',
+    'Muestra en pantalla la tabla periódica, constantes...',
+    (id:string) => {
+      const sc = shortcuts.find((x) => x.id === id);
+      if (sc !== undefined) showFront(sc, show);
+    },
+    {
+      name: 'elemento',
+      desc: 'Elige el elemento a mostrar.',
+      optional: false,
+      type: shortcuts.filter((x) => x.action === 'showFront').map((x) => x.id),
+    },
+  )];
+  return () => cmdsOff.forEach((off) => off());
+};
 function App() {
   const [error, setError] = useState(undefined);
+  const [toast, setToast] = useState<string|undefined>(undefined);
   const [frontElement, setFrontElement] = useState<{elem:ReactElement|null,
     cb:Function}>({ elem: null, cb: () => {} });
   const { elem, cb } = frontElement;
   const navigate = useNavigate();
   const functions = { navigate, setFrontElement };
+  Toast.setterFn = (val:string|undefined) => setToast(val);
+  useEffect(() => addCommands(navigate, setFrontElement), []);
   useEffect(() => document.addEventListener(
     'keydown',
     (event) => handleKeyDown(event, functions),
@@ -66,6 +117,7 @@ function App() {
           <ContentApp />
           {error && <MyError error={error} setError={setError} />}
           {elem && <Front setChildren={setFrontElement} cb={cb}>{elem}</Front>}
+          {toast && <div className="toast">{toast}</div>}
         </div>
       </FrontContext.Provider>
     </MyErrorContext.Provider>

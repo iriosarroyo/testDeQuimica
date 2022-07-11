@@ -7,7 +7,10 @@ export default function NavItem({ item }:{item:PaginaObject}) {
   const { text, url, icon } = item;
   return (
     <li>
-      <NavLink title={text} to={url}>
+      <NavLink
+        title={text}
+        to={url}
+      >
         <div className="menuIcon">
           <FontAwesomeIcon icon={icon} />
         </div>

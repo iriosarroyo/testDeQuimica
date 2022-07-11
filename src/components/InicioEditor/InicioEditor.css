@@ -1,0 +1,21 @@
+.inicioEditor{
+    width: min(850px, 100%);
+    padding: 10px 10px;
+    padding-top: 20px;
+    position: relative;
+}
+
+.savedIconContainer{
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: 2;
+    background-color: var(--bg-color);
+    height: 40px;
+    width: 40px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+}

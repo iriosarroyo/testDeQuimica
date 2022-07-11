@@ -1,0 +1,66 @@
+.puntuacionesPerTema{
+    max-width: max(500px, 60%);
+    width: 100%;
+    height: max-content;
+    padding: 25px;
+}
+
+.gridPuntuacionesPerTema{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.puntuacionTemaProgress{
+    width: 100%;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: 5px;
+    padding: 5px 10px;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+}
+
+.progressPuntuacionesContainer{
+    --h: 20px;
+    position: relative;
+    height: var(--h);
+    width: 100%;
+    border-radius:var(--h);
+    overflow: hidden;
+    background-color: var(--font2-color);
+}
+
+.progressPuntuacionesContainer > div{
+    position: absolute;
+    top:0;
+    left:0;
+    height: 100%;
+    border-radius: var(--h);
+}
+
+.progressLevel1{
+    background-color: red;
+    z-index: 3;
+}
+
+.progressLevel2{
+    background-color: green;
+    z-index: 2;
+
+}
+.progressLevel3{
+    background-color: blue;
+    z-index: 1;
+
+}
+.puntuacionProgress{
+    z-index: 4;
+    width: 100%;
+    text-align: center;
+    color:white;
+    display: grid;
+    align-content: center;
+}

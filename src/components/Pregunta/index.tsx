@@ -1,6 +1,10 @@
 import ItemPregunta from 'components/ItemPregunta';
 import RadioGroup from 'components/RadioGroup';
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
+
+import SearchCmd from 'services/commands';
 
 import decodeHTML from 'services/decodeHTML';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
@@ -27,16 +31,17 @@ correctAnswer:string|undefined}) {
   const {
     pregunta, opciones, id, tema, year,
   } = objPreg;
+  const [text, setText] = useState(`${idx + 1}) ${decodeHTML(pregunta)}`);
   const estasOpciones = Object.values(opciones)
-    .map(({ id: value, value: text }) => ({ value, text }));
-
+    .map(({ id: value, value: texto }) => ({ value, text: texto }));
+  SearchCmd.searchHook('Preguntas', id, text, (val:string) => setText(val), [], [text]);
   let classCorregida = answer === correctAnswer ? 'preguntaCorrecta' : 'preguntaIncorrecta';
   if (answer === '' && !notInBlanco) classCorregida = '';
   return (
     <div className={`pregunta ${correctAnswer !== undefined && `preguntaCorregida ${classCorregida}`}`} id={id} ref={myRef}>
       <h4
         className="enunciadoPregunta"
-        dangerouslySetInnerHTML={{ __html: `${idx + 1}) ${decodeHTML(pregunta)}` }}
+        dangerouslySetInnerHTML={{ __html: text }}
       />
       <div className="itemGroupPregunta">
         {id && <ItemPregunta title="Id: " text={id} />}
@@ -44,6 +49,7 @@ correctAnswer:string|undefined}) {
         {year && <ItemPregunta title="Año: " text={year} /> }
       </div>
       <RadioGroup
+        id={id}
         options={estasOpciones}
         groupValue={answer}
         correcta={correctAnswer}

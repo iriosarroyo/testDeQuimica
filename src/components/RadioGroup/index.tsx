@@ -3,10 +3,10 @@ import React from 'react';
 import './RadioGroup.css';
 
 export default function RadioGroup({
-  options, groupValue, setter, correcta,
+  options, groupValue, setter, correcta, id,
 }:
   {options:{value:string, text:string}[], groupValue:string|undefined, correcta:string|undefined
-  setter:Function}) {
+  setter:Function, id:string}) {
   return (
     <ul className="unlisted radioGroup">
       {options.map(({ value, text }) => (
@@ -17,6 +17,7 @@ export default function RadioGroup({
           setter={setter}
           groupValue={groupValue}
           correcta={correcta}
+          id={id}
         />
       ))}
     </ul>

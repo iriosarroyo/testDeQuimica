@@ -1,4 +1,6 @@
-import { faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEdit, faFilePen, faGraduationCap, faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 import { Paginas } from 'types/interfaces';
 import { getShortCut } from './shortcutTools';
 
@@ -56,6 +58,19 @@ const paginas:Paginas = [
     description: 'Abre la página de <em>Online</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
   {
+    url: '/puntuaciones',
+    text: 'Puntuaciones',
+    icon: faGraduationCap,
+    id: 'goToPuntuaciones',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+Q',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Puntuaciones</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
     url: '/tablaPeriodica',
     text: 'Tabla Periódica',
     icon: 'h-square',
@@ -67,6 +82,35 @@ const paginas:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Tabla Periódica</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+];
+
+export const paginasAdmin:Paginas = [
+  {
+    url: '/admin/editarInicio',
+    text: 'Admin Inicio',
+    icon: faEdit,
+    id: 'goToAdmin',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+Q',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Inicio</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/admin/editarPreguntas',
+    text: 'Editar Preguntas',
+    icon: faFilePen,
+    id: 'goToEditarPreguntas',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+C',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Editar Preguntas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

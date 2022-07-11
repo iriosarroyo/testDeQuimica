@@ -8,6 +8,9 @@
   --font2-dark-mode: #1c2833;
   --font2-fore-dark-mode: #2d4052;
   --font-red-dark-mode: #ff9494;
+  --logo-fg-dark-mode:#222831;
+  --logo-bg-dark-mode:#eee;
+
 
   --bg-light-mode: #67a0c6;
   --bg2-light-mode: #1c2833;
@@ -18,6 +21,8 @@
   --font2-light-mode: #ddd;
   --font2-fore-light-mode: #c4c4c4;
   --font-red-light-mode: #c50101;
+  --logo-fg-light-mode:#eee;
+  --logo-bg-light-mode:#222831;
 
   --bg-color: var(--bg-dark-mode);
   --bg2-color: var(--bg2-dark-mode);
@@ -28,6 +33,9 @@
   --font2-color: var(--font2-dark-mode);
   --font2-fore-color: var(--font2-fore-dark-mode);
   --font-red-color: var(--font-red-dark-mode);
+
+  --logo-bg: var(--logo-bg-dark-mode);
+  --logo-fg: var(--logo-fg-dark-mode);
 
   --vh: 1vh;
 }
@@ -43,6 +51,8 @@
     --font2-color: var(--font2-light-mode);
     --font2-fore-color: var(--font2-fore-light-mode);
     --font-red-color: var(--font-red-light-mode);
+    --logo-bg: var(--logo-bg-light-mode);
+    --logo-fg: var(--logo-fg-light-mode);
   }
 }
 
@@ -56,6 +66,8 @@
   --font2-color: var(--font2-dark-mode);
   --font2-fore-color: var(--font2-fore-dark-mode);
   --font-red-color: var(--font-red-dark-mode);
+  --logo-bg: var(--logo-bg-dark-mode);
+  --logo-fg: var(--logo-fg-dark-mode);
 }
 
 [data-mode = light]{
@@ -68,6 +80,8 @@
   --font2-color: var(--font2-light-mode);
   --font2-fore-color: var(--font2-fore-light-mode);
   --font-red-color: var(--font-red-light-mode);
+  --logo-bg: var(--logo-bg-light-mode);
+  --logo-fg: var(--logo-fg-light-mode);
 }
 
 body {
@@ -77,6 +91,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.bgLogo{
+  fill:var(--logo-bg);
+}
+
+.fgLogo{
+  fill:var(--logo-fg);
+}
+
+
+.qLogo{
+  animation: rotateQ 1s linear 0s 1 normal none;
+}
+
+@keyframes rotateQ {
+  0% {
+    transform: rotate(-45deg);
+  }
+  40%{
+    transform: rotate(40deg);
+  }
+  50%{
+    transform: rotate(45deg);
+  }
+  60%{
+    transform: rotate(40deg);
+  }
+ 
 }
 
 *,
