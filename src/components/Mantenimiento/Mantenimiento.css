@@ -1,0 +1,6 @@
+.mantenimiento{
+    height: 100%;
+    overflow: auto;
+    padding: 5px 10px;
+    color: var(--bg2-color);
+}

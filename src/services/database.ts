@@ -7,6 +7,7 @@ import {
 } from 'firebase/database';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import { auth, db } from './firebaseApp';
+import { getFromSocketUID } from './socket';
 
 export const readDDBB = async (path:string):Promise<[any, Error|undefined]> => {
   const thisRef = ref(db, path);
@@ -170,3 +171,5 @@ export const readWithSetter = async (path:string, setValue:Function, setError?:F
   if (err && setError) return setError(err);
   return setValue(val);
 };
+
+export const setMantenimiento = (state:boolean) => getFromSocketUID('main:mantenimiento', state);

@@ -18,9 +18,20 @@ export default function Puntuaciones() {
       <p>
         Las puntuaciones en cada tema se calculan multiplicando el número de aciertos por 0,25 y
         restando el número de fallos por 0,05. Hay un bonus de 0,5 por cada 10 preguntas acertadas y
-        de 1 punto por cada 100 preguntas acertadas. Las preguntas de nivel 1, en rojo, como máximo
-        pueden aportar una puntuación de 2 puntos y las de nivel 2, en verde, tienen el máximo en 6
-        puntos. Las preguntas de nivel 3, pueden aportar todos los puntos.
+        de 1 punto por cada 100 preguntas acertadas. Las preguntas de
+        {' '}
+        <span className="level1Text">nivel 1</span>
+        {' '}
+        como máximo
+        pueden aportar una puntuación de 2 puntos y las de
+        {' '}
+        <span className="level2Text">nivel 2</span>
+        {' '}
+        tienen el máximo en 6
+        puntos. Las preguntas de
+        {' '}
+        <span className="level3Text">nivel 3</span>
+        , pueden aportar todos los puntos.
       </p>
       <p>
         El orden en el que aparecen los temas, es el orden establecido por el administrador y

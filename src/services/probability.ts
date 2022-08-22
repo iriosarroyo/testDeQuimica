@@ -57,7 +57,6 @@ export const getPuntuacionLevel2 = (aciertosYFallos:userDDBB['temas']['']['']) =
 };
 const getPuntuacionLevel3 = (aciertosYFallos:userDDBB['temas']['']['']) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
-  console.log(Math.min(10, getRawPuntuacion(aciertos, fallos)), aciertos, fallos);
   return Math.min(10, getRawPuntuacion(aciertos, fallos));
 };
 

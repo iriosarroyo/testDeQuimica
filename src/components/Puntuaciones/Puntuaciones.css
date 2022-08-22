@@ -3,6 +3,9 @@
     width: 100%;
     height: max-content;
     padding: 25px;
+    --level-1-color:var(--bg-red-light-mode);
+    --level-2-color:var(--bg3-dark-mode);
+    --level-3-color:var(--bg-light-mode);
 }
 
 .gridPuntuacionesPerTema{
@@ -41,18 +44,28 @@
     border-radius: var(--h);
 }
 
+.level1Text{
+    color: var(--level-1-color);
+}
+.level2Text{
+    color: var(--level-2-color);
+}
+.level3Text{
+    color: var(--level-3-color);
+}
+
 .progressLevel1{
-    background-color: red;
+    background-color: var(--level-1-color);
     z-index: 3;
 }
 
 .progressLevel2{
-    background-color: green;
+    background-color: var(--level-2-color);
     z-index: 2;
 
 }
 .progressLevel3{
-    background-color: blue;
+    background-color: var(--level-3-color);
     z-index: 1;
 
 }

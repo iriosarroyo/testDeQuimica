@@ -1,4 +1,10 @@
 import { useEffect } from 'react';
+import {
+  CompleteUser, FileData, FolderData, PreguntaTestDeQuimica,
+} from 'types/interfaces';
+import { getAllDocumentsAndFolders } from './documents';
+import { sendLogroUpdate } from './logros';
+import { getFromSocketUID } from './socket';
 import Toast from './toast';
 
 interface Param{
@@ -29,8 +35,43 @@ class Commands {
 
   searchMemo:{id:string, value:string}[] = [];
 
+  documents:(FileData|FolderData)[] = [];
+
+  preguntas: PreguntaTestDeQuimica[] | null = null;
+
   removeCommand(name:string) {
     this.commands = this.commands.filter((x) => x.name !== name);
+  }
+
+  updateFilesInDocs(prevPath:string, newFile:FileData) {
+    this.documents = this.documents.map((x) => (('fullPath' in x && x.fullPath === prevPath) ? newFile : x));
+    this.documents.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  removeFileOrFolder(fullPath:string) {
+    this.documents = this.documents.filter((x) => (!x.url.endsWith(fullPath)
+      && (!('fullPath' in x) || !x.fullPath.startsWith(fullPath))));
+  }
+
+  addItemToDocs(item:FileData|FolderData) {
+    if (this.documents.length === 0) return;
+    this.documents = [...this.documents, item];
+    this.documents.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  updateFolder(prevPath:string, newPath:string, name:string) {
+    this.documents = this.documents.map((elem) => {
+      if (elem.url.endsWith(prevPath)) return { url: newPath, name };
+      if (!('fullPath' in elem)) return elem;
+      if (elem.fullPath.startsWith(prevPath)) return { ...elem, fullPath: `${newPath}/${elem.name}` };
+      return elem;
+    });
+    this.documents.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  setPreguntasTest(pregs:{[key:string]:PreguntaTestDeQuimica}|PreguntaTestDeQuimica[]) {
+    const newPregs = Array.isArray(pregs) ? pregs : Object.values(pregs);
+    this.preguntas = newPregs;
   }
 
   addCommand(name:string, desc:string, fn:Function, ...params:Param[]) {
@@ -43,8 +84,9 @@ class Commands {
 
   addParamsToCommand(cmdName:string, ...params:Param[]) {
     const cmd = this.commands.find((x) => x.name === cmdName);
-    if (cmd === undefined) throw new Error(`El comando "${cmdName}" no existe`);
+    if (cmd === undefined) return new Error(`El comando "${cmdName}" no existe`);
     cmd.params = [...cmd.params, ...params];
+    return undefined;
   }
 
   removeTypes(cmdName:string, paramName:string, ...types:string[]) {
@@ -72,14 +114,43 @@ class Commands {
     return [cmd.fn(...parameters), undefined];
   }
 
-  runCommand(value:string) {
+  runCommand(value:string, user:CompleteUser) {
     const [cmd, ...params] = value.split(' ');
     const [, error] = this.execCommand(cmd.replace('/', ''), params);
     if (error !== undefined) Toast.addMsg(error, 5000);
+    if (error === undefined) sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
+  }
+
+  onSearchPreguntas(cb:Function) {
+    this.lastIdSearch = 'EditorPreguntas';
+    const callback = (e: Event) => {
+      const { detail } = e as CustomEvent<{result:[]}>;
+      const { result } = detail;
+      cb(result);
+    };
+    document.addEventListener('commands:search', callback, false);
+    return () => {
+      document.removeEventListener('commands:search', callback);
+    };
+  }
+
+  onSearchDocuments(cb:Function) {
+    this.lastIdSearch = 'Documents';
+    const callback = (e: Event) => {
+      const { detail } = e as CustomEvent<{result:[]}>;
+      const { result } = detail;
+      cb(result);
+    };
+    document.addEventListener('commands:search', callback, false);
+    return () => {
+      document.removeEventListener('commands:search', callback);
+    };
   }
 
   // eslint-disable-next-line no-undef
   onSearch(idSearch:string, idValue:string, value:string, cb:Function) {
+    if (idSearch === 'Documents') return this.onSearchDocuments(cb);
+    if (idSearch === 'EditorPreguntas') return this.onSearchPreguntas(cb);
     if (idSearch !== this.lastIdSearch) {
       this.searchMemo = [];
       this.lastIdSearch = idSearch;
@@ -132,11 +203,12 @@ class Commands {
   }
 
   static createRegExp(value:string) {
-    let finalVal = Commands.HtmlEncode(value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
-    finalVal = finalVal.replace(' ', '( |(&nbsp;))').replace(/á|a/g, '(á|a)').replace(/é|e/g, '(é|e)').replace(/í|i/g, '(í|i)')
-      .replace(/ó|o/g, '(ó|o)')
-      .replace(/ú|ü|u/g, '(ú|ü|u)')
-      .replace(/n|ñ/g, '(n|ñ)');
+    let finalVal = Commands.HtmlEncode(value.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&'));
+    finalVal = finalVal.replace(/á|a/g, '(á|a|&aacute;)').replace(/é|e/g, '(é|e|&eacute;)').replace(/í|i/g, '(í|i|&iacute;)')
+      .replace(/ó|o/g, '(ó|o|&oacute;)')
+      .replace(/ú|ü|u/g, '(ú|ü|u|&uacute;|&uuml;)')
+      .replace(/n|ñ/g, '(n|ñ|&ntilde;)')
+      .replace(' ', '( |(&nbsp;))');
     return new RegExp(`(${finalVal})(?![^<]*>)`, 'i');
   }
 
@@ -166,22 +238,63 @@ class Commands {
     return this.search(value);
   }
 
+  async runPreguntasSearch(val:string) {
+    if (this.preguntas === null) {
+      this.preguntas = Object.values((await getFromSocketUID('main:allQuestions'))?.[0] as {[key:string]:PreguntaTestDeQuimica});
+    }
+    const result = val === '' ? [] : this.preguntas.filter((preg) => {
+      const regexp = Commands.createRegExp(val);
+      const {
+        id, level, tema, pregunta, year, opciones,
+      } = preg;
+      const searchIn = [
+        id,
+        level,
+        tema,
+        pregunta,
+        year,
+        ...Object.values(opciones).map(({ value }) => value),
+      ];
+      return searchIn.some((item) => regexp.test(item));
+    }).map(({ id }) => id);
+    const event = new CustomEvent('commands:search', { detail: { result } });
+    document.dispatchEvent(event);
+  }
+
+  async runDocumentSearch(value:string) {
+    if (this.documents.length === 0) {
+      this.documents = await getAllDocumentsAndFolders();
+      this.documents.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    const result = value === '' ? null : this.documents.filter((doc) => Commands.createRegExp(value).test(doc.name));
+    const event = new CustomEvent('commands:search', { detail: { result } });
+    document.dispatchEvent(event);
+  }
+
   runSearch(value:string) {
+    if (this.lastIdSearch === 'Documents') {
+      this.runDocumentSearch(value);
+      return;
+    }
+    if (this.lastIdSearch === 'EditorPreguntas') {
+      this.runPreguntasSearch(value);
+      return;
+    }
     const previousId = this.searchMemo[this.searchParams.item]?.id;
     if (value !== this.lastSearch) {
       this.searchParams = DEFAULT_SEARCH_PARAMS;
       this.lastSearch = value;
     }
     const searchResult = this.search(value);
-    if (searchResult === undefined) console.log('No se ha encontrado resultados');
+    if (searchResult === undefined) Toast.addMsg('No se ha encontrado resultados', 3000);
     const { html, id } = searchResult ?? { html: '', id: undefined };
     const event = new CustomEvent('commands:search', { detail: { html, id, previousId } });
     document.dispatchEvent(event);
   }
 
-  runSearchOrCommand(value:string) {
+  runSearchOrCommand(value:string, user:CompleteUser) {
     const trimmed = value.trim();
-    if (trimmed.startsWith('/')) return this.runCommand(trimmed);
+    if (trimmed.startsWith('/')) return this.runCommand(trimmed, user);
     return this.runSearch(value);
   }
 

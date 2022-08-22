@@ -22,7 +22,7 @@ export default function CommandDescription({ cmd }:{cmd:Comando}) {
         </strong>
         <ul>
           {cmd.params.map((param) => (
-            <li>
+            <li key={param.name}>
               <span>
                 <em>
                   {param.name}

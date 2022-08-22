@@ -12,6 +12,7 @@
   --logo-bg-dark-mode:#eee;
 
 
+  --prin-color: #67a0c6;
   --bg-light-mode: #67a0c6;
   --bg2-light-mode: #1c2833;
   --bg3-light-mode: #20403e;
@@ -82,6 +83,10 @@
   --font-red-color: var(--font-red-light-mode);
   --logo-bg: var(--logo-bg-light-mode);
   --logo-fg: var(--logo-fg-light-mode);
+}
+
+.hidden{
+  display: none!important;
 }
 
 body {

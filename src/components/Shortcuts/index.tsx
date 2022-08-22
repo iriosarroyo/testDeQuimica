@@ -3,8 +3,6 @@ import shortcuts from 'info/shortcuts';
 import React from 'react';
 import './Shortcuts.css';
 
-console.log('importado');
-
 export default function Shortcuts() {
   return (
     <ul className="unlisted shortcutGroup">

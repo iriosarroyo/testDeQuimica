@@ -19,7 +19,7 @@ export const copyWithStyle = (text:string) => {
 
   selection?.removeAllRanges();
   selection?.addRange(range);
-  console.log(document.execCommand('copy'));
+  document.execCommand('copy');
   window.getSelection()?.removeAllRanges();
   elem.remove();
   Toast.addMsg('Texto copiado al portapapeles', 5000);
@@ -93,7 +93,6 @@ export const copyAllQuestions = (questions:PreguntaTestDeQuimica[], whatsapp:boo
   strAllQ += '</ol>';
   if (whatsapp) strAllQ = translateToWhatsapp(strAllQ, true);
   copyWithStyle(strAllQ);
-  console.log(strAllQ);
 };
 
 export const copyQuestion = (question:PreguntaTestDeQuimica, whatsapp:boolean) => {

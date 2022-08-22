@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useContext } from 'react';
 import './Folder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentLoader from 'react-content-loader';
+import { sendLogroUpdate } from 'services/logros';
+import UserContext from 'contexts/User';
 import { FolderData } from '../../types/interfaces';
 
 export function LoadingFolder() {
@@ -28,12 +30,21 @@ export function LoadingFolder() {
     </li>
   );
 }
-
-function Folder({ name, url }:FolderData) {
+interface FolderProps extends FolderData{
+  onContextMenu: Function
+}
+function Folder({ name, url, onContextMenu }:FolderProps) {
+  const user = useContext(UserContext)!;
   if (name === ':__RECURSOS_QUÍMICA__:') {
     return (
       <li>
-        <a href="https://drive.google.com/drive/folders/182DASWji_7fG5crgsYvONkjsZQWaRfsi" className="folder" target="_blank" rel="noreferrer">
+        <a
+          href="https://drive.google.com/drive/folders/182DASWji_7fG5crgsYvONkjsZQWaRfsi"
+          className="folder"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => sendLogroUpdate('recursos', user.userDDBB.logros?.recursos)}
+        >
           <div>
             <FontAwesomeIcon icon="folder" />
           </div>
@@ -44,7 +55,11 @@ function Folder({ name, url }:FolderData) {
   }
   return (
     <li>
-      <Link className="folder" to={url}>
+      <Link
+        className="folder"
+        to={url}
+        onContextMenu={(e) => onContextMenu(e, name, url.replace('/admin/documentos/', ''), 'folder')}
+      >
         <div>
           <FontAwesomeIcon icon="folder" />
         </div>

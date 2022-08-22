@@ -2,7 +2,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
-import React from 'react';
+import UserContext from 'contexts/User';
+import React, { useContext, useEffect, useState } from 'react';
+import { renameFile } from 'services/documents';
+import { updateDownloadedDocs } from 'services/logros';
 import { determineContentType, sizeToString } from '../../services/toolsForData';
 import { FileData } from '../../types/interfaces';
 
@@ -14,12 +17,18 @@ const dictionaryIcon = {
   alt: 'Formato desconocido',
 };
 
-function Info({ fileData, visibilitySetter }:
-    {fileData:FileData|undefined, visibilitySetter:Function}) {
+function Info({
+  fileData, visibilitySetter, admin, onFileUpdate, files,
+}:
+    {fileData:FileData|undefined, visibilitySetter:Function, admin:boolean,
+       onFileUpdate:Function, files:FileData[]|undefined}) {
   if (fileData === undefined) return null;
   const {
-    name, contentType, size, timeCreated, updated, url,
+    name, contentType, size, timeCreated, updated, url, fullPath,
   } = { ...fileData };
+  const user = useContext(UserContext)!;
+  const [nameValue, setNameValue] = useState(name);
+  useEffect(() => setNameValue(name), [name]);
   const format = contentType ?? '';
   const formatDecodified = determineContentType(format);
   const formatIcon:IconProp = `file-${formatDecodified}`;
@@ -35,7 +44,22 @@ function Info({ fileData, visibilitySetter }:
       <ul className="unlisted">
         <li>
           <strong className="titleInfo">Nombre:</strong>
-          <div className="dataInfo">{name}</div>
+          { !admin ? <div className="dataInfo">{name}</div>
+            : (
+              <form
+                className="infoChangeFileName"
+                onSubmit={(e) => renameFile(
+                  e,
+                  fullPath,
+                  nameValue,
+                  (newpath:string) => onFileUpdate(fullPath, newpath),
+                  files,
+                )}
+              >
+                <input type="text" value={nameValue} onChange={(e) => setNameValue(e.currentTarget.value)} />
+                <Button type="submit">Guardar Nombre</Button>
+              </form>
+            )}
         </li>
         <li>
           <strong className="titleInfo">Formato:</strong>
@@ -58,7 +82,7 @@ function Info({ fileData, visibilitySetter }:
         </li>
         <li>
           <strong className="titleInfo">URL:</strong>
-          <a className="dataInfo" href={url} target="_blank" rel="noreferrer">{url}</a>
+          <a className="dataInfo" href={url} target="_blank" rel="noreferrer" onClick={(e) => updateDownloadedDocs(e, user, name)}>{url}</a>
         </li>
       </ul>
     </aside>

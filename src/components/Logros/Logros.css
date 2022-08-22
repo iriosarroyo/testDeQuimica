@@ -1,0 +1,54 @@
+.logroSlide{
+    border-radius: 10px;
+    padding: 7px 15px;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    display: grid;
+    grid-template-columns: 50px auto;
+    align-items: center;
+    column-gap: 7px;
+    overflow: hidden;
+}
+
+.logroTitle{
+    margin: 5px 0;
+}
+
+.logroDesc{
+    font-size: .9em;
+}
+
+.logrosGroupContent{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 60%), 1fr));
+    column-gap: 10px;
+    row-gap: 5px;
+}
+
+.logrosSection{
+    max-width: max(600px, 60%);
+    width: 100%;
+    padding: 5px 10px;
+    height: max-content;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.logroValue{
+    font-size: .8em;
+}
+
+.logroBar{
+    margin: 2px auto;
+    width: 90%;
+    height: 15px;
+    border-radius: 10px;
+    background-color: var(--font2-color);
+    overflow: hidden;
+}
+
+.logroProgress{
+    height: 100%;
+    background-color: var(--prin-color);
+}

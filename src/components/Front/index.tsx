@@ -7,10 +7,14 @@ import React, {
 
 type FrontProps = {
   setChildren:Function,
-  cb: Function
+  cb: Function,
+  unableFocus?: boolean
 }
 
-export default function Front({ children, setChildren, cb }:PropsWithChildren<FrontProps>) {
+export default function Front({
+  children, setChildren, cb, unableFocus,
+}:
+  PropsWithChildren<FrontProps>) {
   const clearFront = () => {
     setChildren({ elem: null, cb: () => {} });
     cb();
@@ -18,7 +22,7 @@ export default function Front({ children, setChildren, cb }:PropsWithChildren<Fr
   const handleKeyDown = (event:KeyboardEvent) => (event.key === 'Escape' ? clearFront() : undefined);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (ref.current) ref.current.focus();
+    if (ref.current && !unableFocus) ref.current.focus();
   }, [ref.current]);
   return (
     <div
@@ -39,3 +43,7 @@ export default function Front({ children, setChildren, cb }:PropsWithChildren<Fr
     </div>
   );
 }
+
+Front.defaultProps = {
+  unableFocus: false,
+};

@@ -5,3 +5,59 @@
     padding:0;
     border:0;
 }
+
+.ajustes{
+    text-align: left;
+    padding: 10px 5px;
+    height: max-content;
+}
+
+
+.shortcutAjusteElement{
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(min-content, 150px);
+    column-gap: 5px;
+    padding: 1px 6px;
+}
+
+.shortcutAjusteElement > div:first-child{
+    text-align: left;
+}
+.shortcutAjusteElement > strong{
+    text-align: center;
+}
+
+.shortcutCombination{
+    background-color: inherit;
+    color: inherit;
+    border-top: 1px solid var(--bg2-color);
+}
+
+.styledInputAjustes{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border-radius: 15px;
+    padding: 3px 10px;
+    border:none;
+}
+
+.styledInputAjustes:focus{
+    outline: 1px solid var(--bg-color);
+
+}
+
+.titleAjustes{
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.formAjuste > label{
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-gap: 5px;
+    align-items: center;
+}
+
+.formAjuste input[type=radio]{
+    display: none;
+}

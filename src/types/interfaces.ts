@@ -6,6 +6,7 @@ import maxAndMin from 'info/maxAndMinTabla.json';
 import { User } from 'firebase/auth';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import tablaJSON from 'info/tablaPeriodica.json';
+import logrosJSON from 'info/logros.json';
 
 export interface FolderData{
     name:string,
@@ -132,12 +133,19 @@ export interface PreguntaTestDeQuimica{
   tema:string,
   year:string,
   nivelYTema:string,
+  level:'1'|'2'|'3',
   /* answer?:string,
   active?:boolean,
   'inView'?:boolean, */
 
 }
-
+export type LogrosIds = keyof typeof logrosJSON;
+export type LogrosKeys = 'numberOf10' | 'testDeHoySeguidos' | 'mensajes' | 'formulario' | 'recursos'
+| 'downloadedDocs' | 'testsDone' | 'onlineDone' | 'testDeHoyMaxPunt' | 'preguntasDone'
+| 'groupsCreated' | 'groupsJoined' | 'commandsExecuted'
+export const logrosTypes = ['General', 'Test De Hoy', 'Documentos', 'Online'] as const;
+export type LogrosTypes = typeof logrosTypes[number];
+export type Logro = {value:number, data?:any}|undefined
 export interface userDDBB{
   admin: boolean,
   room: string,
@@ -150,9 +158,11 @@ export interface userDDBB{
   year:string,
   mode: string,
   unaPorUna: boolean,
-  shortcuts:{[key:string]:string}
+  shortcuts:{[key:string]:string},
   notificaciones: boolean
   lastTest: number,
+  stars:number,
+  logros:{[key in LogrosKeys]:Logro}|undefined
   temas: {[key:string]:{[key:string]:{aciertos:string, fallos:string, enBlanco:string}}}
 }
 
@@ -161,6 +171,16 @@ export interface CompleteUser extends User{
 }
 
 export type MyUser = CompleteUser | undefined
+
+export interface Logros{
+  description:string,
+  id:LogrosIds,
+  name:string,
+  stars:number,
+  key:LogrosKeys,
+  value:number,
+  type: LogrosTypes
+}
 
 export interface Shortcut{
   id:string,

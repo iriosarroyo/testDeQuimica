@@ -82,10 +82,10 @@ export default function RoomParticipants({
       {(contextMenu && mate) && (
       <ContextMenu
         style={styleContex}
+        items={[{ text: `Hacer a ${mate} administrador`, action: () => changeAdmin(mate) },
+          { text: `Expulsar a ${mate} del grupo`, action: () => deleteMember(mate) }]}
         setContextMenu={setContextMenu}
-        member={mate}
-        changeAdministrador={changeAdmin}
-        eliminarMember={deleteMember}
+        classOfElem=".memberRoom"
       />
       ) }
     </div>

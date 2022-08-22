@@ -8,27 +8,9 @@ import { getInicioWithSetters } from 'services/database';
 import { setValueSocket } from 'services/socket';
 import UserContext from 'contexts/User';
 import './InicioEditor.css';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import {
-  faArrowRight, faArrowRightArrowLeft, faFloppyDisk, faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const insertArrow = (editor:TinyEditor) => {
-  editor.execCommand('InsertHTML', false, '&#8594;');
-};
-
-const insertDobleArrow = (editor:TinyEditor) => {
-  editor.execCommand('InsertHTML', false, '&rlarr;');
-};
-
-const addIcon = (editor:TinyEditor, name:string, iconDef:IconDefinition) => {
-  const { icon } = iconDef;
-  const [,, ,, path] = icon;
-  editor.ui.registry.addIcon(name, `<svg style="font-size:24px" viewBox="0 0 512 512" width="24" height="24">
-    <path d="${path}"/>
-  </svg>`);
-};
+import editorSetUp from 'services/editorSetUp';
 
 export default function InicioEditor() {
   const user = useContext(UserContext)!;
@@ -37,10 +19,11 @@ export default function InicioEditor() {
   const [saved, setSaved] = useState(true);
   useEffect(() => {
     getInicioWithSetters(setText, () => {});
-    document.addEventListener('saved:main:inicio:content', () => {
-      console.log('saved');
-      setSaved(true);
-    }, false);
+    document.addEventListener(
+      'saved:main:inicio:content',
+      () => setSaved(true),
+      false,
+    );
   }, []);
   const manageKeyUp = (_:any, editor:TinyEditor) => {
     if (saved) setSaved(false);
@@ -80,22 +63,7 @@ export default function InicioEditor() {
           skin: user.userDDBB.mode === 'dark' ? 'oxide-dark' : 'oxide',
           content_css: user.userDDBB.mode,
           setup: (editor:TinyEditor) => {
-            editor.shortcuts.add('meta+l', 'Añadir subíndice', 'subscript');
-            editor.shortcuts.add('meta+m', 'Añadir superíndice', 'superscript');
-            editor.shortcuts.add('meta+0', 'Añadir flecha', () => insertArrow(editor));
-            editor.shortcuts.add('meta+q', 'Añadir doble flecha', () => insertDobleArrow(editor));
-            addIcon(editor, 'arrow', faArrowRight);
-            addIcon(editor, 'doubleArrow', faArrowRightArrowLeft);
-            editor.ui.registry.addButton('insertArrow', {
-              icon: 'arrow',
-              tooltip: 'Añadir flecha',
-              onAction: () => { insertArrow(editor); },
-            });
-            editor.ui.registry.addButton('insertDoubleArrow', {
-              icon: 'doubleArrow',
-              tooltip: 'Añadir doble flecha',
-              onAction: () => { insertDobleArrow(editor); },
-            });
+            editorSetUp(editor);
           },
           help_tabs: ['shortcuts',
             'keyboardnav'],

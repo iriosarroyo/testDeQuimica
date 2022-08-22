@@ -1,4 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, {
+  ReactElement, useEffect, useMemo, useState,
+} from 'react';
 import './App.css';
 import MyError from 'components/MyError';
 import MyErrorContext from 'contexts/Error';
@@ -11,8 +13,11 @@ import FrontContext from 'contexts/Front';
 import SearchCmd from 'services/commands';
 import paginas from 'info/paginas';
 import Toast from 'services/toast';
+import { onValueDDBB } from 'services/database';
+import { arrowsEvent, createSwipeEvent } from 'services/customEvents';
 
 const Front = loadable(() => import('../Front'));
+const Mantenimiento = loadable(() => import('../Mantenimiento'));
 
 const goTo = (shortcut:Shortcut, navigate:Function, shift:boolean) => {
   if (!shortcut.url) return undefined;
@@ -38,7 +43,6 @@ const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) =
   const alt = event.altKey ? 'Alt+' : '';
   const key = event.key.toUpperCase();
   const keyCommand = `${ctrl}${alt}${key}`;
-  console.log(keyCommand);
   if (shift) {
     const resultShift = shortcuts.find((x) => x.shift && x.shortcut === keyCommand);
     if (resultShift) return executeShortcut(resultShift, functions, true);
@@ -96,17 +100,31 @@ const addCommands = (navigate:Function, show:Function) => {
 function App() {
   const [error, setError] = useState(undefined);
   const [toast, setToast] = useState<string|undefined>(undefined);
+  const [mantenimiento, setMantenimiento] = useState(false);
   const [frontElement, setFrontElement] = useState<{elem:ReactElement|null,
-    cb:Function}>({ elem: null, cb: () => {} });
-  const { elem, cb } = frontElement;
+    cb:Function, unableFocus?:boolean}>({ elem: null, cb: () => {} });
+  const { elem, cb, unableFocus } = frontElement;
   const navigate = useNavigate();
   const functions = { navigate, setFrontElement };
   Toast.setterFn = (val:string|undefined) => setToast(val);
-  useEffect(() => addCommands(navigate, setFrontElement), []);
-  useEffect(() => document.addEventListener(
-    'keydown',
-    (event) => handleKeyDown(event, functions),
-  ), []);
+  useMemo(() => addCommands(navigate, setFrontElement), []);
+  useEffect(
+    () => {
+      const callback = (event:KeyboardEvent) => handleKeyDown(event, functions);
+      document.addEventListener('keydown', callback);
+      return () => document.removeEventListener('keydown', callback);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const unSubRight = createSwipeEvent('swiperight', -200);
+    const unSubLeft = createSwipeEvent('swipeleft', 200);
+    const unSubArrows = arrowsEvent();
+    return () => { unSubRight(); unSubLeft(); unSubArrows(); };
+  }, []);
+
+  useEffect(() => onValueDDBB('mantenimiento', setMantenimiento, setError), []);
 
   document.body.dataset.mode = localStorage.getItem('mode') ?? 'null';
 
@@ -114,9 +132,17 @@ function App() {
     <MyErrorContext.Provider value={setError}>
       <FrontContext.Provider value={setFrontElement}>
         <div className="App">
-          <ContentApp />
+          {mantenimiento ? <Mantenimiento /> : <ContentApp />}
           {error && <MyError error={error} setError={setError} />}
-          {elem && <Front setChildren={setFrontElement} cb={cb}>{elem}</Front>}
+          {elem && (
+          <Front
+            setChildren={setFrontElement}
+            cb={cb}
+            unableFocus={unableFocus}
+          >
+            {elem}
+          </Front>
+          )}
           {toast && <div className="toast">{toast}</div>}
         </div>
       </FrontContext.Provider>

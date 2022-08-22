@@ -21,7 +21,7 @@ function ChatMessages({ room, myRef, scrollToBottom }:
   const ref = useRef<HTMLDivElement>(null);
   const setError = useContext(MyErrorContext);
   useEffect(() => {
-    const hello = (a:any) => { setMsgs(a); console.log(a); };
+    const hello = (a:any) => { setMsgs(a); };
     return onValueDDBB(`rooms/${room}/chat`, hello, setError);
   }, []);
 

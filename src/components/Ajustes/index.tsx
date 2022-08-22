@@ -1,3 +1,6 @@
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCircleDot } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import ShortcutKey from 'components/ShortcutKey';
 import FrontContext from 'contexts/Front';
@@ -63,6 +66,9 @@ function ShortCutsPopUp({ shortcut }:{shortcut:Shortcut}) {
   );
 }
 
+const CHECKED_ICON = faCircleDot;
+const UNCHECKED_ICON = faCircle;
+
 export default function Ajustes() {
   const user = useContext<MyUser>(UserContext);
   const setPopUp = useContext(FrontContext);
@@ -109,63 +115,88 @@ export default function Ajustes() {
     if (short) setPopUp({ elem: <ShortCutsPopUp shortcut={short} />, cb: () => setShortId(null) });
     else setPopUp({ elem: null, cb: () => {} });
   }, [shortId, user?.userDDBB.shortcuts]);
-
   return (
     <div className="ajustes">
       <div>
-        <h3>Modo</h3>
-        <form>
+        <h3 className="titleAjustes">Modo</h3>
+        <form className="formAjuste">
           <label htmlFor="darkMode">
             <input type="radio" id="darkMode" onChange={handleChange} name="mode" value="dark" checked={mode === 'dark'} />
-            Modo Oscuro
+            <FontAwesomeIcon icon={
+              mode === 'dark' ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>Modo Oscuro</span>
           </label>
           <label htmlFor="lightMode">
             <input type="radio" id="lightMode" onChange={handleChange} name="mode" value="light" checked={mode === 'light'} />
-            Modo Claro
+            <FontAwesomeIcon icon={
+              mode === 'light' ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>Modo Claro</span>
           </label>
           <label htmlFor="defaultMode">
-            <input type="radio" id="lightMode" onChange={handleChange} name="mode" value="null" checked={mode === 'null'} />
-            Modo por defecto (se usará el del sistema)
+            <input type="radio" id="defaultMode" onChange={handleChange} name="mode" value="null" checked={mode === 'null'} />
+            <FontAwesomeIcon icon={
+              mode === 'null' ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>Modo por defecto (se usará el del sistema)</span>
           </label>
         </form>
       </div>
       <div>
-        <h3>Mostrar preguntas</h3>
-        <form>
+        <h3 className="titleAjustes">Mostrar preguntas</h3>
+        <form className="formAjuste">
           <label htmlFor="unaPorUna">
             <input type="radio" id="unaPorUna" onChange={handleUnaPorUna} name="unaPorUna" value="true" checked={unaPorUna} />
-            De una en una (solo se mostrará una preguntá a la vez).
+            <FontAwesomeIcon icon={
+              unaPorUna ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>De una en una (solo se mostrará una preguntá a la vez).</span>
           </label>
           <label htmlFor="enBloque">
             <input type="radio" id="enBloque" onChange={handleUnaPorUna} name="unaPorUna" value="false" checked={!unaPorUna} />
-            En Bloque (Se mostrarán todas las preguntas a la vez).
+            <FontAwesomeIcon icon={
+              !unaPorUna ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>En Bloque (Se mostrarán todas las preguntas a la vez).</span>
           </label>
         </form>
       </div>
       <div>
-        <h3>Velocidad de mensajes</h3>
+        <h3 className="titleAjustes">Velocidad de mensajes</h3>
         <div>
           Determina la velocidad de los mensajes de los piés de página.
           (Medido en px avanzados en 10ms)
         </div>
-        <input type="number" min="0" step="0.5" value={vel} onChange={handleVelocidad} />
+        <input className="styledInputAjustes" type="number" min="0" step="0.5" value={vel} onChange={handleVelocidad} />
       </div>
-      <div>
-        <h3>Notificaciones</h3>
+      <div hidden>
+        <h3 className="titleAjustes">Notificaciones</h3>
         <div>
           Activa las notificaciones (color azul) o desactívalas
         </div>
         <input type="checkbox" checked={notificaciones} onChange={handleNotificaciones} />
       </div>
       <div>
-        <h3>Atajos de teclado</h3>
+        <h3 className="titleAjustes">Atajos de teclado</h3>
         <ul className="unlisted">
+          <li className="shortcutAjusteElement">
+            <strong>Descripción</strong>
+            <strong>Atajo de teclado</strong>
+          </li>
           {shortcuts.map((shortcut) => (
             <li key={shortcut.id}>
-              <Button className="shortcutCombination" onClick={() => handleClick(shortcut)}>
-                <ShortcutKey shortcut={shortcut.shortcut} />
+              <Button className="shortcutAjusteElement shortcutCombination" onClick={() => handleClick(shortcut)}>
+                <div dangerouslySetInnerHTML={{ __html: shortcut.description }} />
+                <div>
+                  <ShortcutKey shortcut={shortcut.shortcut} />
+                </div>
               </Button>
-              <div dangerouslySetInnerHTML={{ __html: shortcut.description }} />
             </li>
           ))}
         </ul>

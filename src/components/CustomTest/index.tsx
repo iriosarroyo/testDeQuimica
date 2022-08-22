@@ -280,7 +280,6 @@ function TestPuntuacion({
     if (active < pregs.length - 1) return setActive(active + 1);
     if (isCorregido) return undefined;
     const prevIds = pregs.map(({ id }) => id);
-    console.log(prevIds);
     try {
       const newPreg = await getPreguntas(
         1,

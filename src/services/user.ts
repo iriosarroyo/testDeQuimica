@@ -20,7 +20,7 @@ export const onValueUser = (user:User, setUserDDBB:Function, setError:Function, 
 };
 const provider = new GoogleAuthProvider();
 export const logIn = async (setError:Function) => signInWithPopup(auth, provider)
-  .catch((e) => setError(e));
+  .catch((e) => (e.code === 'auth/popup-closed-by-user' || setError(e)));
 
 export const authState = (setUser:Function, setError:Function) => {
   let off = () => {};

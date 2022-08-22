@@ -8,37 +8,46 @@ import setFooter from 'hooks/setFooter';
 import UserContext from 'contexts/User';
 import GeneralContentLoader from 'components/GeneralContentLoader';
 import SearchCmd from 'services/commands';
+import { CompleteUser } from 'types/interfaces';
+import { sendLogroUpdate } from 'services/logros';
 
 const changeAnimation = (
   estaRef:RefObject<HTMLDivElement>,
-  frases:string[],
+  frases:string[]|null,
   velocidad:number,
+  user?:CompleteUser,
 ) => {
   const ref = estaRef;
-  if (ref.current) {
+  if (ref.current && frases) {
     ref.current.style.animation = 'none';
     ref.current.textContent = frases[Math.trunc(Math.random() * frases.length)];
     const duration = (2 * ref.current.clientWidth) / (100 * velocidad);
     ref.current.style.animation = `slider-text ${duration}s linear 2s`;
+    if (user) sendLogroUpdate('mensajes', user.userDDBB.logros?.mensajes);
   }
 };
 
 function InicioFooter({ velocidad }:{velocidad:number}) {
+  const user = useContext(UserContext)!;
+  const [frases, setFrases] = useState<string[]|null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const setError = useContext(MyErrorContext);
   useEffect(() => {
-    const callback = (frases:string[]) => {
-      if (ref.current) {
-        changeAnimation(ref, frases, velocidad);
-        ref.current.addEventListener('animationend', () => changeAnimation(ref, frases, velocidad));
-      }
+    const callback = (fr:string[]) => {
+      setFrases(fr);
     };
     getFrasesCuriosasWithSetters(callback, setError);
-  }, [velocidad]);
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      changeAnimation(ref, frases, velocidad);
+    }
+  }, [frases, velocidad]);
 
   return (
     <div className="sliderTextContainer">
-      <div ref={ref} className="sliderText" />
+      <div ref={ref} onAnimationEnd={() => changeAnimation(ref, frases, velocidad, user)} className="sliderText" />
     </div>
   );
 }
@@ -46,7 +55,7 @@ function InicioFooter({ velocidad }:{velocidad:number}) {
 function Inicio() {
   const [text, setText] = useState<any>(undefined);
   const setError = useContext(MyErrorContext);
-  const { userDDBB } = useContext(UserContext) ?? { userDDBB: { velocidad: 1 } };
+  const { userDDBB } = useContext(UserContext)! ?? { userDDBB: { velocidad: 1 } };
   const { velocidad } = userDDBB;
   setFooter(<InicioFooter velocidad={velocidad} />, [velocidad]);
 

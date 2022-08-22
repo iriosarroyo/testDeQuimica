@@ -1,0 +1,43 @@
+.clasificacionContainer{
+    width: min(600px, 100%);
+    padding: 7px 10px;
+    height: max-content;
+}
+.gridClasificacion{
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 80px;
+    column-gap: 10px;
+}
+
+.clasificacionTableHeader{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}
+.clasificacionTableHeader > button{
+    color: inherit;
+    background-color: inherit;
+    font-weight: bold;
+}
+
+.clasificacionItem:last-child{
+    border-radius: 0 0 10px 10px;
+}
+
+.clasificacionItem{
+    color: var(--font2-color);
+}
+.clasificacionItem:nth-child(2n){
+    background-color:var(--bg2-color); 
+}
+.clasificacionItem:nth-child(2n+1){
+    background-color:var(--bg3-color); 
+}
+
+.clasificacionItemUser{
+    text-align: left;
+    padding-left: 5px;
+    overflow: hidden;
+}

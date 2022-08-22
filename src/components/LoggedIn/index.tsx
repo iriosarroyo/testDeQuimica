@@ -1,22 +1,29 @@
 import loadable from '@loadable/component';
 import GeneralContentLoader from 'components/GeneralContentLoader';
 import Header from 'components/Header';
+import LogroComplete from 'components/LogroCompleted';
 import Navbar from 'components/Navbar';
 import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
+import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
-import { getAuth } from 'firebase/auth';
 import { paginasAdmin } from 'info/paginas';
-import shortcuts from 'info/shortcuts';
-import { getUser, setUser, updateLocalShortCuts } from 'info/shortcutTools';
-import React, { useContext, useEffect, useState } from 'react';
+import shortcuts, { addShortCut, removeShortCut } from 'info/shortcuts';
+import {
+  getShortCut, getUser, setUser, updateLocalShortCuts,
+} from 'info/shortcutTools';
+import React, {
+  useContext, useEffect, useState, useMemo,
+} from 'react';
+
 import {
   Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
 import SearchCmd from 'services/commands';
-import { writeUserInfo } from 'services/database';
+import { setMantenimiento, writeUserInfo } from 'services/database';
 import reqTokenMessaging, { messagingListener, sendNotification } from 'services/notifications';
 import { connectToRoom, createRoom, exitRoom } from 'services/rooms';
+import { eventListenerSocket } from 'services/socket';
 import Toast from 'services/toast';
 
 const Perfil = loadable(() => import('../Perfil'), {
@@ -48,6 +55,13 @@ const Puntuaciones = loadable(() => import('../Puntuaciones'), {
 });
 
 const Admin = loadable(() => import('../Admin'), {
+  fallback: <GeneralContentLoader />,
+});
+
+const Logros = loadable(() => import('../Logros'), {
+  fallback: <GeneralContentLoader />,
+});
+const Clasificacion = loadable(() => import('../Clasificacion'), {
   fallback: <GeneralContentLoader />,
 });
 
@@ -137,30 +151,44 @@ const addLoggedInCommands = (navigate:Function, setError:Function) => {
 export default function LoggedIn() {
   const user = useContext(UserContext);
   const setError = useContext(MyErrorContext);
+  const setFront = useContext(FrontContext);
   const [navContract, setNav] = useState(initialNavValue);
   const [childrenFooter, setChildrenFooter] = useState(null);
   const navigate = useNavigate();
-
   setUser(user);
   useEffect(
     () => (user === undefined ? undefined : addLoggedInCommands(navigate, setError)),
     [user === undefined],
   );
-  console.log(user?.uid, getAuth());
+  useEffect(() => {
+    if (user?.userDDBB.admin) shortcuts.push(...paginasAdmin);
+  }, [user?.userDDBB.admin]);
   const location = useLocation();
-  const handleClick = () => {
-    localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
-    setNav(!navContract);
-  };
+  const handleClick = useMemo(() => {
+    const fn = () => {
+      localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
+      setNav(!navContract);
+    };
+    removeShortCut('navMenu');
+    addShortCut({
+      action: () => { fn(); },
+      description: 'Expande o contrae el menú lateral.',
+      id: 'navMenu',
+      get shortcut() {
+        return getShortCut(this);
+      },
+      default: 'Ctrl+Alt+Z',
+    });
+    return fn;
+  }, [navContract]);
   useEffect(() => setChildrenFooter(null), [location.pathname]);
-
   useEffect(() => {
     updateLocalShortCuts(shortcuts);
   }, []);
 
   useEffect(() => {
     if (user?.userDDBB.year !== undefined) {
-      reqTokenMessaging(user?.userDDBB.year).then(() => messagingListener());
+      reqTokenMessaging(user?.userDDBB.year).then(() => messagingListener(setFront));
     }
   }, [user?.userDDBB.year]);
 
@@ -170,8 +198,7 @@ export default function LoggedIn() {
       try {
         offTypes = SearchCmd.addTypeToParam('goTo', 'url', ...paginasAdmin.map((x) => x.url.slice(1)));
       } catch (e) {
-        console.log(e);
-        // a
+        setError(e);
       }
       const offSend = SearchCmd.addCommand(
         'sendNotification',
@@ -197,11 +224,36 @@ export default function LoggedIn() {
           default: 'all',
         },
       );
-      return () => { offTypes(); offSend(); };
+
+      const offMantenimiento = SearchCmd.addCommand(
+        'setMantenimiento',
+        'Modifica el estado de mantenimiento de la página',
+        setMantenimiento,
+        {
+          name: 'estado',
+          desc: 'Activa (true) o desactiva (false) el estado de mantenimiento.',
+          optional: false,
+          type: ['boolean'],
+        },
+      );
+      return () => { offTypes(); offSend(); offMantenimiento(); };
     }
 
     return undefined;
   }, [user?.userDDBB.admin]);
+
+  useEffect(() => {
+    let result = () => {};
+    if (user?.userDDBB) {
+      result = eventListenerSocket('onLogroCompletion', (logroId:string) => {
+        setFront({
+          elem: <LogroComplete logroId={logroId} />,
+          cb: () => {},
+        });
+      });
+    }
+    return result;
+  }, [user?.userDDBB === undefined]);
 
   return (
     <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>
@@ -220,6 +272,8 @@ export default function LoggedIn() {
                 <Route path="/ajustes" element={<Ajustes />} />
                 <Route path="/online" element={<Online />} />
                 <Route path="/puntuaciones" element={<Puntuaciones />} />
+                <Route path="/logros" element={<Logros starsAndLogros={user.userDDBB} />} />
+                <Route path="/clasificacion" element={<Clasificacion />} />
                 <Route path="/admin/*" element={<Admin />} />
               </Routes>
             )

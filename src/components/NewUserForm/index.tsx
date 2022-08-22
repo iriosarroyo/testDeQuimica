@@ -35,6 +35,8 @@ const defaultData = {
   velocidad: 1,
   unaPorUna: true,
   temas: defaultUserTemas,
+  logros: { mensajes: { value: 0 } },
+  stars: 0,
 };
 
 const anyErrorsInData = async (data:NewUserFormData, setError:Function, setErrorForm:Function) => {

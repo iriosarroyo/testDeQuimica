@@ -1,11 +1,14 @@
 import { logIn } from 'services/user';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyErrorContext from 'contexts/Error';
 import { ReactComponent as Logo } from 'logo.svg';
 import { ReactComponent as GoogleLogo } from 'logoGoogle.svg';
 import Button from 'components/Button';
 import './Login.css';
 import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDay, faCopy, faUsers } from '@fortawesome/free-solid-svg-icons';
+import Toast from 'services/toast';
 
 function GoToLogin() {
   return <a href="#login" className="pagesButtonLogIn">Iniciar Sesión</a>;
@@ -13,43 +16,119 @@ function GoToLogin() {
 
 export default function Login() {
   const setError = useContext(MyErrorContext);
+  const [cookies, setCookies] = useState(localStorage.getItem('cookies') === 'true');
+  const acceptCookies = () => {
+    localStorage.setItem('cookies', 'true');
+    setCookies(true);
+  };
   const location = useLocation();
   useEffect(() => {
     if (location.hash !== '') document.querySelector(location.hash)?.scrollIntoView();
   }, []);
   return (
     <div className="loginContainer">
+      {!cookies && (
+      <div className="cookies">
+        <span>Esta página utiliza cookies. Antes de iniciar sesión debes aceptar las cookies.</span>
+        <Button onClick={acceptCookies}>Aceptar las cookies</Button>
+      </div>
+      )}
       <div className="slideGroup">
         <div className="slide" id="login">
           <Logo />
-          <Button className="logInButton" onClick={() => logIn(setError)}>
+          <Button
+            className="logInButton"
+            onClick={() => {
+              if (localStorage.getItem('cookies') !== 'true') {
+                Toast.addMsg('Debes aceptar antes las cookies.', 5000);
+                return;
+              }
+              logIn(setError);
+            }}
+          >
             <GoogleLogo className="googleLogo" />
             <span>Iniciar sesión con Google</span>
           </Button>
           <div className="pagesButtonContainer">
             <a href="#Retamar" className="pagesButtonLogIn">Retamar</a>
             <a href="#laPagina" className="pagesButtonLogIn">La página web</a>
-            <a href="#historia" className="pagesButtonLogIn">Últimos Años</a>
+            <a href="#historia" className="pagesButtonLogIn hidden">Últimos Años</a>
           </div>
         </div>
         <div className="slide" id="Retamar">
-          Second slide
-          <GoToLogin />
+          <div className="slideContent">
+            <a
+              className="backgroundRetamar"
+              href="https://www.retamar.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                alt="Escudo Retamar"
+                src="/logoRetamar.png"
+              />
+            </a>
+            <h2>
+              Esta es la página web de preparación para las Olimpiadas de Química del
+              {' '}
+              <a
+                href="https://www.retamar.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Colegio Retamar
+              </a>
+              .
+            </h2>
+            <GoToLogin />
+          </div>
         </div>
         <div className="slide" id="laPagina">
-          Ideas:
-          - Retamar
-          - Qué se puede hacer?
-          - Años anteriores
-          <GoToLogin />
+          <div className="slideContent">
+            <h2>Aquí podrás encontrar:</h2>
+            <div className="panelGroup">
+              <div className="panel">
+                <div className="panelImg">
+                  <FontAwesomeIcon icon={faCalendarDay} />
+                </div>
+                <div className="panelText">
+                  <h4>Test Del Día</h4>
+                  <p> Un test nuevo cada día con 5 preguntas de olimpiadas anteriores.</p>
+                </div>
+              </div>
+              <div className="panel">
+                <div className="panelImg">
+                  <FontAwesomeIcon icon={faUsers} />
+                </div>
+                <div className="panelText">
+                  <h4>Online</h4>
+                  <p>
+                    Un modo para competir contra tus amigos
+                    resolviendo preguntas de olimpiadas.
+
+                  </p>
+                </div>
+              </div>
+              <div className="panel">
+                <div className="panelImg">
+                  <FontAwesomeIcon icon={faCopy} />
+                </div>
+                <div className="panelText">
+                  <h4>Documentos</h4>
+                  <p>Podrás descagarte archivos con apuntes para las olimpiadas y mucho más.</p>
+                </div>
+              </div>
+            </div>
+            <GoToLogin />
+          </div>
         </div>
-        <div className="slide" id="historia">
+        <div className="slide" id="historia" hidden>
           <div className="panelGroup">
             <div className="panel">
               <div className="panelImg">
-                <img src="" alt="" />
+                <img src="/madrid.png" alt="Madrid" />
               </div>
-              <div className="panelText">
+              <div className="panelText" hidden>
                 <h4>Olimpiadas 2020</h4>
                 <strong>Olimpiada Local</strong>
                 <ul>

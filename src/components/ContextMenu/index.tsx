@@ -3,18 +3,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import './ContextMenu.css';
 
 export default function ContextMenu({
-  style, setContextMenu, changeAdministrador, eliminarMember, member,
+  style, setContextMenu, items, classOfElem,
 }:
     {style:React.CSSProperties,
     setContextMenu:Function,
-     changeAdministrador:Function, eliminarMember:Function, member:string }) {
+    items:{text:string, action:Function}[]
+     classOfElem:string}) {
   const ref = useRef<HTMLUListElement>(null);
   const [myStyle, setStyle] = useState(style);
 
   useEffect(() => {
     const listener = (e:MouseEvent) => {
       if (!(e.target instanceof HTMLElement) && !(e.target instanceof SVGElement)) return;
-      if (e.type === 'contextmenu' && e.target.closest('.memberRoom') !== null) return;
+      if (e.type === 'contextmenu' && e.target.closest(classOfElem) !== null) return;
       if (e.target.closest('.contextMenu') !== null) return;
       setContextMenu(null);
     };
@@ -48,24 +49,21 @@ export default function ContextMenu({
 
   return (
     <ul ref={ref} onContextMenu={(e) => e.preventDefault()} className="unlisted contextMenu" style={myStyle}>
-      <li>
-        <Button className="contextButton" onClick={() => changeAdministrador(member)}>
-          Hacer a
-          {' '}
-          {member}
-          {' '}
-          administrador
-        </Button>
-      </li>
-      <li>
-        <Button className="contextButton" onClick={() => eliminarMember(member)}>
-          Expulsar a
-          {' '}
-          {member}
-          {' '}
-          del grupo
-        </Button>
-      </li>
+      {
+        items.map((elem) => (
+          <li key={elem.text}>
+            <Button
+              className="contextButton"
+              onClick={(e) => {
+                elem.action(e);
+                setContextMenu(null);
+              }}
+            >
+              {elem.text}
+            </Button>
+          </li>
+        ))
+}
     </ul>
   );
 }

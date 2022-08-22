@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
-import React, { MouseEvent } from 'react';
+import UserContext from 'contexts/User';
+import React, { MouseEvent, useContext } from 'react';
 import ContentLoader from 'react-content-loader';
+import { updateDownloadedDocs } from 'services/logros';
 import { determineContentType } from '../../services/toolsForData';
 import { FileData } from '../../types/interfaces';
 import './File.css';
@@ -30,9 +32,14 @@ export function LoadingFile() {
   );
 }
 
-function File({ fileData, infoSetter, visibilitySetter }:
-    {fileData:FileData, infoSetter:Function, visibilitySetter:Function}) {
-  const { url, name, contentType = '' } = fileData;
+function File({
+  fileData, infoSetter, visibilitySetter, onContextMenu,
+}:
+    {fileData:FileData, infoSetter:Function, visibilitySetter:Function, onContextMenu:Function}) {
+  const user = useContext(UserContext)!;
+  const {
+    url, name, contentType = '', fullPath,
+  } = fileData;
   const format = determineContentType(contentType);
   const handleClick = (event:MouseEvent) => {
     event.preventDefault();
@@ -41,7 +48,14 @@ function File({ fileData, infoSetter, visibilitySetter }:
   };
   return (
     <li>
-      <a className="file" href={url} target="_blank" rel="noreferrer">
+      <a
+        className="file"
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => updateDownloadedDocs(e, user, name)}
+        onContextMenu={(e) => { onContextMenu(e, name, fullPath, 'file'); }}
+      >
         <div className="iconFile">
           <FontAwesomeIcon icon={`file-${format}`} />
         </div>

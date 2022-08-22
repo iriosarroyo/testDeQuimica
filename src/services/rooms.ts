@@ -6,6 +6,7 @@ import {
 import {
   GrupoNoConnected, GrupoNoExiste, SinNombreDeUsuario, UserErrorEditing,
 } from './errores';
+import { sendLogroUpdate } from './logros';
 
 export const defaultRoomConfig:RoomData = {
   mode: 'Puntos',
@@ -51,6 +52,7 @@ export const createRoom = async (user:MyUser, setError:Function) => {
   } catch (e) {
     setError(new UserErrorEditing('el grupo'));
   }
+  sendLogroUpdate('groupsCreated', user.userDDBB.logros?.groupsCreated);
   return key;
 };
 
@@ -68,6 +70,7 @@ export const connectToRoom = async (user:CompleteUser, room:string) => {
     const writeError = await writeDDBB(`rooms/${room}/members/${username}`, { ready: false });
     if (writeError) throw new GrupoNoConnected();
     await writeUserInfo(room, 'room');
+    sendLogroUpdate('groupsJoined', user.userDDBB.logros?.groupsJoined);
   } catch (e) {
     throw new GrupoNoConnected();
   }

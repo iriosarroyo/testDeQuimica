@@ -13,8 +13,10 @@ export function LoadingFiles() {
   );
 }
 
-export default function Files({ files, setInfo, setVisibilityInfo }:
-    {files:FileData[], setInfo:Function, setVisibilityInfo:Function}) {
+export default function Files({
+  files, setInfo, setVisibilityInfo, onContextMenu,
+}:
+    {files:FileData[], setInfo:Function, setVisibilityInfo:Function, onContextMenu:Function}) {
   return (
     <ul className="unlisted fileGroup">
       {files.map((file:FileData) => (
@@ -23,6 +25,7 @@ export default function Files({ files, setInfo, setVisibilityInfo }:
           fileData={{ ...file }}
           infoSetter={setInfo}
           visibilitySetter={setVisibilityInfo}
+          onContextMenu={onContextMenu}
         />
       ))}
     </ul>

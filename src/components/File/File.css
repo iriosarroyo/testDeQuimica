@@ -11,7 +11,7 @@
   color:#cb4525;
 }
 .fa-file-alt{
-  color:black;
+  color:var(--font2-color);
 }
 
 .file{
@@ -21,10 +21,11 @@
   text-decoration: none;
   grid-template-columns: max-content auto max-content;
   column-gap: 5px;
-  background-color: var(--bg-color);
+  background-color: var(--bg2-color);
   height: 40px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid var(--bg3-color);
+  border-bottom: 1px solid var(--bg3-color);
+  color:var(--font2-color);
 }
 
 .tooltipFile{
@@ -62,7 +63,7 @@
 }
 
 .nameFile{
-  color: var(--font-color);
+  color: var(--font2-color);
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -81,4 +82,5 @@
   padding: 0px 10px 0 5px;
   font-size: 20px;
   background-color: inherit;
+  color: var(--font2-color);
 }

@@ -2,12 +2,14 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import CommandDescription from 'components/CommandDescription';
+import UserContext from 'contexts/User';
 import { addShortCut } from 'info/shortcuts';
 import { getShortCut } from 'info/shortcutTools';
 import React, {
   ChangeEvent, FormEvent, KeyboardEvent, useState,
   useRef,
   useEffect,
+  useContext,
 } from 'react';
 
 import SearchCmd, { Comando } from 'services/commands';
@@ -15,6 +17,7 @@ import './Search.css';
 
 export default function Search() {
   const [search, setSearch] = useState('');
+  const user = useContext(UserContext)!;
   const ref = useRef<HTMLInputElement>(null);
   const [autocomplete, setAutocomplete] = useState<
     {text:string, desc:string, cmd?:Comando}[]>([]);
@@ -59,7 +62,7 @@ export default function Search() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (autocomplete.length !== 0) return;
-    SearchCmd.runSearchOrCommand(search);
+    SearchCmd.runSearchOrCommand(search, user);
   };
   const handleKeyUp = (event:KeyboardEvent<HTMLInputElement>) => {
     const { value, selectionStart } = event.currentTarget;

@@ -1,5 +1,6 @@
 import {
-  faEdit, faFilePen, faGraduationCap, faUsers,
+  faArrowDown19,
+  faEdit, faFilePen, faGraduationCap, faRankingStar, faUpload, faUsers, faVialCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { Paginas } from 'types/interfaces';
 import { getShortCut } from './shortcutTools';
@@ -71,6 +72,32 @@ const paginas:Paginas = [
     description: 'Abre la página de <em>Puntuaciones</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
   {
+    url: '/logros',
+    text: 'Logros',
+    icon: faVialCircleCheck,
+    id: 'goToLogro',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+L',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Logros</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/clasificacion',
+    text: 'Clasificación',
+    icon: faRankingStar,
+    id: 'goToClasificacion',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+X',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Clasificación</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
     url: '/tablaPeriodica',
     text: 'Tabla Periódica',
     icon: 'h-square',
@@ -94,7 +121,7 @@ export const paginasAdmin:Paginas = [
     get shortcut() {
       return getShortCut(this);
     },
-    default: 'Ctrl+Alt+Q',
+    default: 'Ctrl+Alt+N',
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Inicio</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
@@ -111,6 +138,32 @@ export const paginasAdmin:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Editar Preguntas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/admin/documentos',
+    text: 'Documentos (admin)',
+    icon: faUpload,
+    id: 'goToAdminDocumentos',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+W',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Documentos(admin)</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/admin/ordenarTemas',
+    text: 'Ordenar Temas',
+    icon: faArrowDown19,
+    id: 'goToOrdenarTemas',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+R',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Ordenar Temas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

@@ -1,11 +1,12 @@
 import { io, Socket } from 'socket.io-client';
+import { getUid } from './uniqueId';
 
 let socket:Socket;
 export const getSocket = () => socket;
 
 export const disconnectSocket = () => socket && socket.disconnect();
 
-export const getFromSocket = (listener:string, ...params:any[]) => new Promise((res) => {
+export const getFromSocket = (listener:string, ...params:any[]) => new Promise<any>((res) => {
   const listenerFn = (...args:any[]) => {
     if (args.length === 1) res(args[0]);
     else if (args.length === 0) res(undefined);
@@ -15,6 +16,25 @@ export const getFromSocket = (listener:string, ...params:any[]) => new Promise((
   socket.on(listener, listenerFn);
   socket.emit(listener, ...params);
 });
+
+// more secure
+export const getFromSocketUID = (listener:string, ...params:any[]) => new Promise<any>((res) => {
+  const clientUID = getUid();
+  const listenerFn = (...args:any[]) => {
+    if (args.length === 1) res(args[0]);
+    else if (args.length === 0) res(undefined);
+    else res(args);
+    socket.off(listener, listenerFn);
+  };
+  socket.on(`${listener}:${clientUID}`, listenerFn);
+  socket.emit(listener, clientUID, ...params);
+});
+
+export const eventListenerSocket = (listener:string, cb:Function) => {
+  const callback = (...params: any[]) => cb(...params);
+  socket.on(listener, callback);
+  return () => socket.off(listener, callback);
+};
 
 const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
   ? window.location.origin.replace(':3000', ':3001')
@@ -37,13 +57,17 @@ const onValueGenerator = () => {
     clearTimeout(timers[path]);
     timers[path] = window.setTimeout(() => {
       if (JSON.stringify(lastSave[path]) !== JSON.stringify(value)) socket.emit(path, value);
+      else {
+        const event = new CustomEvent(`saved:${path}`, { detail: value });
+        document.dispatchEvent(event);
+      }
     }, timer);
     lastSet[path] = value;
     if (listeners[path]) return value;
     socket.on(path, (val) => {
       lastSave[path] = val;
       if (JSON.stringify(lastSave[path]) === JSON.stringify(lastSet[path])) {
-        const event = new Event(`saved:${path}`);
+        const event = new CustomEvent(`saved:${path}`, { detail: val });
         document.dispatchEvent(event);
       }
     });

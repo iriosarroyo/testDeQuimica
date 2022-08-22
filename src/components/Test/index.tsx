@@ -25,6 +25,7 @@ import {
 } from 'services/database';
 import { createIntersectionObserver } from 'services/elemenstInViewPort';
 import { GrupoNoPermission } from 'services/errores';
+import { updateLogrosTest } from 'services/logros';
 import { Answer, PreguntaTestDeQuimica, userDDBB } from 'types/interfaces';
 import './Test.css';
 
@@ -106,13 +107,19 @@ function CuadradoGroup({
   );
 }
 
-const eventNextAndBefore = (goNext:Function, goPrev: Function) => {
+const eventNextAndBefore = (goNext:() => any, goPrev: () => any) => {
   const listener = (e:KeyboardEvent) => {
     if (e.key === 'ArrowRight') goNext();
     if (e.key === 'ArrowLeft') goPrev();
   };
   document.addEventListener('keydown', listener);
-  return () => document.removeEventListener('keydown', listener);
+  document.addEventListener('swiperight', goPrev);
+  document.addEventListener('swipeleft', goNext);
+  return () => {
+    document.removeEventListener('keydown', listener);
+    document.removeEventListener('swiperight', goPrev);
+    document.removeEventListener('swipeleft', goNext);
+  };
 };
 
 const stateGoToSiguiente = () => {
@@ -295,6 +302,22 @@ function HeaderTest({
   );
 }
 
+const calcularPuntuacion = (
+  answers:{[key:string]:Answer|undefined},
+  corrAnswers:{[key:string]:string},
+  puntType:'Puntos'|'Aciertos'|'Fallos'|undefined,
+) => {
+  const { aciertos: ac, fallos: fa } = Object.entries(corrAnswers)
+    .reduce(({ fallos, aciertos }, [id, ans]) => {
+      if (ans === answers[id]?.final) return { fallos, aciertos: aciertos + 1 };
+      if (answers[id]?.final !== '') return { fallos: fallos + 1, aciertos };
+      return { fallos, aciertos };
+    }, { fallos: 0, aciertos: 0 });
+  if (puntType === 'Aciertos') return ac;
+  if (puntType === 'Fallos') return fa;
+  return Math.round((ac - fa * 0.33) * 100) / 100;
+};
+
 const addUserQuestions = () => {
   let ableToAdd = false;
 
@@ -305,6 +328,9 @@ const addUserQuestions = () => {
       preguntas:PreguntaTestDeQuimica[],
       answers:{[key:string]:Answer|undefined},
       corrAnswers:{[key:string]:string},
+      path:string,
+      user:userDDBB,
+      puntType:'Puntos'|'Aciertos'|'Fallos'|undefined,
     ) => {
       if (!ableToAdd) return;
       const newTemas = JSON.parse(JSON.stringify(temas)); // Deep copy
@@ -314,8 +340,8 @@ const addUserQuestions = () => {
         else if (answers[id]?.current === corrAnswers[id]) newTemas[tema][`level${nivel}`].aciertos += `${id};`;
         else newTemas[tema][`level${nivel}`].fallos += `${id};`;
       });
-      console.log(newTemas, answers, corrAnswers);
       writeUserInfo(newTemas, 'temas');
+      updateLogrosTest(user, !path.includes('room'), preguntas.length, calcularPuntuacion(answers, corrAnswers, puntType));
       ableToAdd = false;
     },
   };
@@ -357,17 +383,7 @@ export default function Test({
     [corrAnswers, preguntas],
   );
 
-  const calcPunt = useMemo(() => {
-    const { aciertos: ac, fallos: fa } = Object.entries(corrAnswers)
-      .reduce(({ fallos, aciertos }, [id, ans]) => {
-        if (ans === answers[id]?.final) return { fallos, aciertos: aciertos + 1 };
-        if (answers[id]?.final !== '') return { fallos: fallos + 1, aciertos };
-        return { fallos, aciertos };
-      }, { fallos: 0, aciertos: 0 });
-    if (puntType === 'Aciertos') return ac;
-    if (puntType === 'Fallos') return fa;
-    return Math.round((ac - fa * 0.33) * 100) / 100;
-  }, [corrAnswers]);
+  const calcPunt = useMemo(() => calcularPuntuacion(answers, corrAnswers, puntType), [corrAnswers]);
 
   const corregirExamen = () => {
     if (preguntas.length === 0) return undefined;
@@ -395,7 +411,6 @@ export default function Test({
   useEffect(() => {
     if (!preventPrevious) return undefined;
     const numAnswers = Object.values(answers).length;
-    console.log(numAnswers, answers);
     if (!onNext) return setActive(numAnswers);
     if (preguntas.length < numAnswers) onNext(preguntas, active, setActive, corregido);
     if (preguntas.length > 0 && preguntas.length === numAnswers && path.includes('room')) {
@@ -418,7 +433,9 @@ export default function Test({
   if (allCorrected && !corregido && !onNext)corregirExamen();
 
   useEffect(() => {
-    if (allCorrected) executeAddUser(user.temas, preguntas, answers, corrAnswers);
+    if (allCorrected) {
+      executeAddUser(user.temas, preguntas, answers, corrAnswers, path, user, puntType);
+    }
   }, [corrAnswers, corregido]);
 
   useEffect(() => { setStateTime(startTime); }, [time, startTime]);

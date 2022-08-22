@@ -1,0 +1,122 @@
+.optionQuestionEditor{
+    display: grid;
+    grid-template-columns: 25px auto 25px;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.mce-content-body{
+    text-align: left;
+    outline: none;
+    padding: 0;
+    margin:0;
+}
+
+
+.removeQuestionEditor{
+    color: var(--bg-red-color);
+    background-color: inherit;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addOptionQuestionEditor{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    display: grid;
+    grid-template-columns: max-content auto;
+    column-gap: 5px;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 0 auto;
+    font-size: .8em;
+}
+
+.optionButtonQuestionEditor{
+    background-color: inherit;
+    color:var(--bg2-color);
+}
+
+.categoryQuestionEditor{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    display: inline-grid;
+    grid-template-columns: auto 25px;
+    align-items: center;
+    padding: 5px 0 5px 10px;
+    border-radius: 20px;
+    column-gap: 5px;
+    font-size: .9em;
+    overflow: hidden;
+    margin: 0 5px;
+}
+
+.inlineTitle{
+    display: inline;
+    margin-right: 5px;
+}
+
+.questionEditorContainer{
+    text-align: left;
+    width: min(600px, 100%);
+    padding: 5px 10px;
+    margin: 0 auto;
+}
+
+.savedIconQuestionEditor{
+    position: sticky;
+    margin-left: auto;
+    right: 5px;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.editorTitle{
+    margin: 0;
+}
+.editorQuestionGroup{
+    margin: 3px 0;
+}
+.selectEditorQuestion, .inputCategoriasEditor,
+.footerEditorQuestion > button{
+    background-color: var(--bg2-color);
+    color:var(--font2-color);
+    border-radius: 15px;
+    padding: 3px 10px;
+    outline:none;
+    border: none;
+}
+
+.inputCategoriasEditor{
+    width: 100%;
+}
+
+.footerEditorQuestion > button{
+    margin: 4px 8px;
+}
+
+.inputCategoriasEditor::placeholder{
+    color:var(--font2-color);
+    opacity: 0.8;
+}
+.inputCategoriasEditor:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:var(--font2-color);
+}
+   
+.inputCategoriasEditor::-ms-input-placeholder { /* Microsoft Edge */
+    color:var(--font2-color);
+}

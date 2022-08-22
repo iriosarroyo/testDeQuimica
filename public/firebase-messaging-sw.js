@@ -1,5 +1,6 @@
-importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js');
+/* eslint-disable no-undef */
+importScripts('https://www.gstatic.com/firebasejs/9.9.3/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.9.3/firebase-messaging-compat.js');
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCKHffDCCEKPpxgKOTGck_qAqS4BphXp-4',
@@ -16,16 +17,14 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage(messaging, (payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
-  const notificationTitle = 'Background Message Title';
+  const { body, title } = payload.notification;
   const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png',
+    body,
   };
 
   window.self.registration.showNotification(
-    notificationTitle,
+    title,
     notificationOptions,
   );
 });

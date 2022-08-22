@@ -1,0 +1,15 @@
+.extraElem{
+    height: 20px;
+}
+
+.orderingElem{
+    padding: 7px 15px;
+    border-radius: 5px;
+    margin: 2px 0px;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+}
+
+.draggingElem{
+    opacity: .6;
+}
