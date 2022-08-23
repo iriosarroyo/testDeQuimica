@@ -12,13 +12,13 @@ function GeneralPiece() {
       preserveAspectRatio="none"
       width="100%"
       backgroundColor={
-  getComputedStyle(document.documentElement)
-    .getPropertyValue('--font2-color')
-}
+        getComputedStyle(document.documentElement)
+          .getPropertyValue('--bg2-color')
+      }
       foregroundColor={
-  getComputedStyle(document.documentElement)
-    .getPropertyValue('--font2-fore-color')
-}
+        getComputedStyle(document.documentElement)
+          .getPropertyValue('--font2-color')
+      }
       viewBox="0 0 100 100"
     >
       { Array(iterations).fill(null).map((x, i, arra) => {

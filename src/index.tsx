@@ -2,48 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faFileAlt,
-  faFilePdf,
-  faFileWord,
-  faFilePowerpoint,
-  faFileImage,
-  faFolder,
-  faAngleRight,
-  faInfoCircle,
-  faBars,
-  faUser,
-  faHome,
-  faArchive,
-  faCheckCircle,
-  faCircle,
-  faCalendarDay,
-  faHSquare,
-} from '@fortawesome/free-solid-svg-icons';
 // import reportWebVitals from './reportWebVitals';
-import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 import App from './components/App';
-
-library.add(
-  faFileAlt,
-  faFilePdf,
-  faFileWord,
-  faFilePowerpoint,
-  faFileImage,
-  faFolder,
-  faAngleRight,
-  faInfoCircle,
-  faBars,
-  faUser,
-  faHome,
-  faArchive,
-  faCircle,
-  farCircle,
-  faCheckCircle,
-  faCalendarDay,
-  faHSquare,
-);
 
 const root = createRoot(document.getElementById('root')!);
 

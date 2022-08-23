@@ -63,7 +63,8 @@
 
 .questionEditorContainer{
     text-align: left;
-    width: min(600px, 100%);
+    max-width: min(600px, 100%);
+    width: 100%;
     padding: 5px 10px;
     margin: 0 auto;
 }

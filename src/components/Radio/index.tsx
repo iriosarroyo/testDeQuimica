@@ -1,3 +1,5 @@
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import React, { useState } from 'react';
@@ -25,8 +27,8 @@ export default function Radio({
   return (
     <li className="radioButton">
       <Button onClick={handleClick} className={className}>
-        {groupValue === value ? <FontAwesomeIcon icon="check-circle" />
-          : <FontAwesomeIcon icon={['fas', 'circle']} />}
+        {groupValue === value ? <FontAwesomeIcon icon={faCheckCircle} />
+          : <FontAwesomeIcon icon={faCircle} />}
         <div dangerouslySetInnerHTML={{ __html: decodeHTML(textOpt) }} />
       </Button>
     </li>

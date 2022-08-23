@@ -1,3 +1,6 @@
+import {
+  faFileAlt, faFileImage, faFilePdf, faFilePowerpoint, faFileWord,
+} from '@fortawesome/free-solid-svg-icons';
 import { FirebaseError } from 'firebase/app';
 import {
   getDownloadURL, getMetadata, listAll, ref, StorageReference,
@@ -8,6 +11,7 @@ import SearchCmd from './commands';
 import { stg } from './firebaseApp';
 import { getFromSocket, getFromSocketUID, getSocket } from './socket';
 import Toast from './toast';
+import { determineContentType } from './toolsForData';
 
 export const getFile = async (fullPath:string) => {
   const reference = ref(stg, fullPath);
@@ -203,4 +207,12 @@ export const uploadFile = async (
       }
     });
   });
+};
+
+export const getIconForFile = (format:ReturnType<typeof determineContentType>) => {
+  if (format === 'image') return faFileImage;
+  if (format === 'pdf') return faFilePdf;
+  if (format === 'powerpoint') return faFilePowerpoint;
+  if (format === 'word') return faFileWord;
+  return faFileAlt;
 };

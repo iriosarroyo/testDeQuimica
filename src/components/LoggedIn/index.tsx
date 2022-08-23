@@ -1,7 +1,6 @@
 import loadable from '@loadable/component';
 import GeneralContentLoader from 'components/GeneralContentLoader';
 import Header from 'components/Header';
-import LogroComplete from 'components/LogroCompleted';
 import Navbar from 'components/Navbar';
 import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
@@ -62,6 +61,9 @@ const Logros = loadable(() => import('../Logros'), {
   fallback: <GeneralContentLoader />,
 });
 const Clasificacion = loadable(() => import('../Clasificacion'), {
+  fallback: <GeneralContentLoader />,
+});
+const LogroComplete = loadable(() => import('../LogroCompleted'), {
   fallback: <GeneralContentLoader />,
 });
 

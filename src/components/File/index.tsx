@@ -1,8 +1,10 @@
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import UserContext from 'contexts/User';
 import React, { MouseEvent, useContext } from 'react';
 import ContentLoader from 'react-content-loader';
+import { getIconForFile } from 'services/documents';
 import { updateDownloadedDocs } from 'services/logros';
 import { determineContentType } from '../../services/toolsForData';
 import { FileData } from '../../types/interfaces';
@@ -57,13 +59,13 @@ function File({
         onContextMenu={(e) => { onContextMenu(e, name, fullPath, 'file'); }}
       >
         <div className="iconFile">
-          <FontAwesomeIcon icon={`file-${format}`} />
+          <FontAwesomeIcon icon={getIconForFile(format)} />
         </div>
         <div className="nameFile">
           {name}
         </div>
         <Button className="infoFile" onClick={handleClick}>
-          <FontAwesomeIcon icon="info-circle" />
+          <FontAwesomeIcon icon={faInfoCircle} />
         </Button>
         <div className="tooltipFile">{name}</div>
       </a>

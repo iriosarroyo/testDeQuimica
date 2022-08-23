@@ -350,6 +350,8 @@ export default function QuestionEditor() {
     await getFromSocket('main:pregunta', [activeId, preguntas[activeId]]);
     await getFromSocket('main:respuesta', [activeId, corr[activeId]]);
     setIds((prevIds) => (prevIds.includes(activeId) ? prevIds : [...prevIds, activeId]));
+    setActiveIds((prevIds) => ((!prevIds || prevIds.includes(activeId))
+      ? prevIds : [...prevIds, activeId]));
     const ev = new Event(`savedQuestion:${activeId}`);
     document.dispatchEvent(ev);
     Toast.addMsg('Pregunta Guardada', 3000);
@@ -389,12 +391,10 @@ export default function QuestionEditor() {
   }
   if (activeId === undefined) return <GeneralContentLoader />;
   return (
-    <div>
-      <EditPregunta
-        correcta={corr[activeId]}
-        preguntaTest={preguntas[activeId]}
-        saveQuestion={saveLocally}
-      />
-    </div>
+    <EditPregunta
+      correcta={corr[activeId]}
+      preguntaTest={preguntas[activeId]}
+      saveQuestion={saveLocally}
+    />
   );
 }

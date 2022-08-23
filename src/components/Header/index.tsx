@@ -1,3 +1,4 @@
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import Search from 'components/Search';
@@ -9,7 +10,7 @@ export default function Header({ click }:{click?:MouseEventHandler}) {
   return (
     <header className="generalHeader">
       <Button onClick={click} className="iconContainer">
-        <FontAwesomeIcon icon="bars" width="100px" />
+        <FontAwesomeIcon icon={faBars} width="100px" />
       </Button>
       <Search />
       <UserIcon />

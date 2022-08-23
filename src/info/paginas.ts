@@ -1,6 +1,16 @@
 import {
+  faArchive,
   faArrowDown19,
-  faEdit, faFilePen, faGraduationCap, faRankingStar, faUpload, faUsers, faVialCircleCheck,
+  faCalendarDay,
+  faEdit,
+  faFilePen,
+  faGraduationCap,
+  faHome,
+  faHSquare,
+  faRankingStar,
+  faUpload,
+  faUsers,
+  faVialCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { Paginas } from 'types/interfaces';
 import { getShortCut } from './shortcutTools';
@@ -9,7 +19,7 @@ const paginas:Paginas = [
   {
     url: '/',
     text: 'Inicio',
-    icon: 'home',
+    icon: faHome,
     id: 'goToInicio',
     get shortcut() {
       return getShortCut(this);
@@ -22,7 +32,7 @@ const paginas:Paginas = [
   {
     url: '/testDeHoy',
     text: 'Test de Hoy',
-    icon: 'calendar-day',
+    icon: faCalendarDay,
     id: 'goToTest',
     get shortcut() {
       return getShortCut(this);
@@ -35,7 +45,7 @@ const paginas:Paginas = [
   {
     url: '/documentos',
     text: 'Documentos',
-    icon: 'archive',
+    icon: faArchive,
     id: 'goToDocuments',
     get shortcut() {
       return getShortCut(this);
@@ -100,7 +110,7 @@ const paginas:Paginas = [
   {
     url: '/tablaPeriodica',
     text: 'Tabla Periódica',
-    icon: 'h-square',
+    icon: faHSquare,
     id: 'goToTabla',
     get shortcut() {
       return getShortCut(this);

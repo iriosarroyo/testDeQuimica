@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentLoader from 'react-content-loader';
 import { sendLogroUpdate } from 'services/logros';
 import UserContext from 'contexts/User';
+import { faFolder } from '@fortawesome/free-solid-svg-icons';
 import { FolderData } from '../../types/interfaces';
 
 export function LoadingFolder() {
@@ -46,7 +47,7 @@ function Folder({ name, url, onContextMenu }:FolderProps) {
           onClick={() => sendLogroUpdate('recursos', user.userDDBB.logros?.recursos)}
         >
           <div>
-            <FontAwesomeIcon icon="folder" />
+            <FontAwesomeIcon icon={faFolder} />
           </div>
           <div>Recursos Química</div>
         </a>
@@ -61,7 +62,7 @@ function Folder({ name, url, onContextMenu }:FolderProps) {
         onContextMenu={(e) => onContextMenu(e, name, url.replace('/admin/documentos/', ''), 'folder')}
       >
         <div>
-          <FontAwesomeIcon icon="folder" />
+          <FontAwesomeIcon icon={faFolder} />
         </div>
         <div>{name}</div>
       </Link>

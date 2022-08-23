@@ -2,7 +2,6 @@ import React, {
   ReactElement, useEffect, useMemo, useState,
 } from 'react';
 import './App.css';
-import MyError from 'components/MyError';
 import MyErrorContext from 'contexts/Error';
 import ContentApp from 'components/ContentApp';
 import shortcuts from 'info/shortcuts';
@@ -15,9 +14,19 @@ import paginas from 'info/paginas';
 import Toast from 'services/toast';
 import { onValueDDBB } from 'services/database';
 import { arrowsEvent, createSwipeEvent } from 'services/customEvents';
+import GeneralContentLoader from 'components/GeneralContentLoader';
 
-const Front = loadable(() => import('../Front'));
-const Mantenimiento = loadable(() => import('../Mantenimiento'));
+const Front = loadable(() => import('../Front'), {
+  fallback: <GeneralContentLoader />,
+});
+
+const Mantenimiento = loadable(() => import('../Mantenimiento'), {
+  fallback: <GeneralContentLoader />,
+});
+
+const MyError = loadable(() => import('../MyError'), {
+  fallback: <GeneralContentLoader />,
+});
 
 const goTo = (shortcut:Shortcut, navigate:Function, shift:boolean) => {
   if (!shortcut.url) return undefined;

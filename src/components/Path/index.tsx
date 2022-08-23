@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import './Path.css';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 function Path({ path, isSearch, admin }:{path:string, isSearch: boolean, admin:boolean}) {
   const descendants = path.split('/').slice(admin ? 2 : 1);
@@ -12,7 +13,7 @@ function Path({ path, isSearch, admin }:{path:string, isSearch: boolean, admin:b
         return (
           <li key={thisPath} className="pathItem">
             <Link to={thisPath}>{idx === 0 ? 'Inicio' : desc}</Link>
-            {idx === descendants.length - 1 ? undefined : <FontAwesomeIcon icon="angle-right" />}
+            {idx === descendants.length - 1 ? undefined : <FontAwesomeIcon icon={faAngleRight} />}
           </li>
         );
       })}

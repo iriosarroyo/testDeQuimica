@@ -5,6 +5,7 @@ import UserIconDropdown from 'components/UserIconDropdown';
 import React, { useRef, useState } from 'react';
 import { auth } from 'services/firebaseApp';
 import './UserIcon.css';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserIcon({ def }:{def?:boolean}) {
   const [show, toggleShow] = useState(false);
@@ -21,7 +22,7 @@ export default function UserIcon({ def }:{def?:boolean}) {
       <Button nextref={ref2} onClick={handleClick} className={className}>
         {user && user.photoURL && !undefIcon
           ? <img loading="lazy" onError={() => setUndefIcon(true)} src={user.photoURL} alt="Profile" referrerPolicy="no-referrer" />
-          : <FontAwesomeIcon icon="user" />}
+          : <FontAwesomeIcon icon={faUser} />}
       </Button>
       {!def && show && <UserIconDropdown nextref={ref} />}
     </>
