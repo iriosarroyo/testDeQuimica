@@ -258,6 +258,7 @@ function Documentos({ admin }:{admin?:boolean}) {
         setSearch((prevSearch) => prevSearch && prevSearch.filter((elem) => !('fullPath' in elem) || elem.fullPath !== fullPath));
         setInfo((prevInfo) => (prevInfo
         && ((prevInfo.fullPath === fullPath) ? undefined : prevInfo)));
+        setVisibilityInfo(false);
         SearchCmd.removeFileOrFolder(fullPath);
       });
     }

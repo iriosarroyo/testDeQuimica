@@ -276,6 +276,9 @@ a.dataInfo {
   .displayDocs.displayedInfoDocs {
     grid-template-columns: 0 1fr;
   }
+  .displayDocs.displayedInfoDocs .documentsEdition{
+    display: none;
+  }
 }
 
 .listaPlaceHolder {

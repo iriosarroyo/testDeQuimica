@@ -3,7 +3,7 @@ import {
   get,
   onChildAdded,
   onChildChanged,
-  onValue, orderByChild, push, query, ref, remove, set, ThenableReference, update,
+  onValue, orderByChild, orderByKey, push, query, ref, remove, set, ThenableReference, update,
 } from 'firebase/database';
 import { PreguntaTestDeQuimica } from 'types/interfaces';
 import { auth, db } from './firebaseApp';
@@ -99,7 +99,8 @@ export const getPreguntaById = async (id:string):Promise<PreguntaTestDeQuimica> 
   return result;
 };
 export const getRespuestaById = async (id:string):Promise<string> => {
-  const [result] = await readDDBB(`respuestas/${id}`);
+  const q = query(ref(db, 'respuestas'), orderByKey(), equalTo(id));
+  const result = get(q).then((snap) => snap.val()[id]);
   return result;
 };
 
@@ -173,3 +174,8 @@ export const readWithSetter = async (path:string, setValue:Function, setError?:F
 };
 
 export const setMantenimiento = (state:boolean) => getFromSocketUID('main:mantenimiento', state);
+
+export const getPreguntasYRespuestas = () => Promise.all([
+  readDDBB('preguntasTestDeQuimica').then((x) => ((console.log(x), x[0]))),
+  readDDBB('respuestas').then((x) => ((console.log(x), x[0]))),
+]);

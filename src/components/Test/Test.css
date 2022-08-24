@@ -159,3 +159,7 @@
   --color1: var(--bg-color);
   --color2: var(--font-color)
 }
+
+.enunciadoPregunta > div:first-child{
+  display: inline;
+}

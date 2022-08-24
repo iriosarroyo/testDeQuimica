@@ -6,7 +6,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import GeneralContentLoader from 'components/GeneralContentLoader';
 import { OpcionGroupTest, PreguntaTestDeQuimica } from 'types/interfaces';
 import Button from 'components/Button';
-import { getFromSocket, getFromSocketUID } from 'services/socket';
+import { getFromSocket } from 'services/socket';
 import { idForOpt } from 'services/uniqueId';
 import setFooter from 'hooks/setFooter';
 import deepEqual from 'services/deepEqual';
@@ -18,6 +18,7 @@ import {
   faAdd, faCheckCircle, faCircleXmark, faFloppyDisk, faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { getPreguntasYRespuestas } from 'services/database';
 
 function InlineEditor({ onChange, initValue }:
   {onChange:(text:string) => void, initValue:string}) {
@@ -364,7 +365,7 @@ export default function QuestionEditor() {
     siguientePregunta={nextPregunta}
   />, [activeId, preguntas, corr, activeIds]);
   useEffect(() => {
-    getFromSocketUID('main:allQuestions')
+    getPreguntasYRespuestas()
       .then((x:[pregs:{[key:string]:PreguntaTestDeQuimica}, solutions:{[key:string]:string}]) => {
         const [pregs, solutions] = x;
         const pregsArray = Object.values(pregs);
