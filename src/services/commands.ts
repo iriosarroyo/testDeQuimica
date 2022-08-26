@@ -292,10 +292,11 @@ class Commands {
     document.dispatchEvent(event);
   }
 
-  runSearchOrCommand(value:string, user:CompleteUser) {
-    const trimmed = value.trim();
-    if (trimmed.startsWith('/')) return this.runCommand(trimmed, user);
-    return this.runSearch(value);
+  runSearchOrCommand(value:string, user:CompleteUser, onlySearch?:boolean) {
+    const trimmed = value.replace(/\s+$/, '');
+    if (trimmed.startsWith('/') && !onlySearch) return this.runCommand(trimmed, user);
+    if (!trimmed.startsWith('/')) return this.runSearch(value);
+    return undefined;
   }
 
   static checkParams(cmd:Comando, params:string[]):[any[], undefined]|[undefined, string] {

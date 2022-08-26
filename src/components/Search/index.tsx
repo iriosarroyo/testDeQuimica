@@ -56,7 +56,7 @@ export default function Search() {
   };
   const handleKeyDown = (e:KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    if (['ArrowUp', 'ArrowDown', 'Tab'].includes(e.code)) e.preventDefault();
+    if (['ArrowUp', 'ArrowDown'].includes(e.code)) e.preventDefault();
     if (e.code === 'Escape') ref.current?.blur();
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -64,9 +64,10 @@ export default function Search() {
     if (autocomplete.length !== 0) return;
     SearchCmd.runSearchOrCommand(search, user);
   };
+  useEffect(() => SearchCmd.runSearchOrCommand(search, user, true), [search]);
   const handleKeyUp = (event:KeyboardEvent<HTMLInputElement>) => {
     const { value, selectionStart } = event.currentTarget;
-    if (['ArrowUp', 'ArrowDown', 'Tab'].includes(event.code) && value.startsWith('/')) {
+    if (['ArrowUp', 'ArrowDown'].includes(event.code) && value.startsWith('/')) {
       setActiveAutocomplete((activeAutoComplete + (event.code === 'ArrowUp' ? -1 : 1) + autocomplete.length) % autocomplete.length);
     } else if (event.code === 'Enter' && value.startsWith('/') && autocomplete.length !== 0) {
       setSearch(SearchCmd.runAutoComplete(

@@ -1,7 +1,8 @@
 import React, {
-  ChangeEvent, FormEvent, useEffect, useState,
+  ChangeEvent, FormEvent, useEffect, useRef, useState,
 } from 'react';
 import editorSetUp from 'services/editorSetUp';
+import { Editor as TinyEditor } from 'tinymce';
 import { Editor } from '@tinymce/tinymce-react';
 import GeneralContentLoader from 'components/GeneralContentLoader';
 import { OpcionGroupTest, PreguntaTestDeQuimica } from 'types/interfaces';
@@ -15,15 +16,45 @@ import Toast from 'services/toast';
 import './QuestionEditor.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faAdd, faCheckCircle, faCircleXmark, faFloppyDisk, faSpinner,
+  faAdd, faCheckCircle, faCircleDot, faCircleXmark, faFloppyDisk, faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCircle, faCircleXmark as faCircleXmarkReg } from '@fortawesome/free-regular-svg-icons';
 import { getPreguntasYRespuestas } from 'services/database';
 
-function InlineEditor({ onChange, initValue }:
-  {onChange:(text:string) => void, initValue:string}) {
+const TAB_IDX = {
+  checks: 3,
+  editor(id:string, tabId:string) {
+    if (tabId === id) return 1;
+    return 1;
+  },
+  inBetweenElem(tabId:string) {
+    if (tabId === 'pregunta') return 1;
+    return 1;
+  },
+  rmOpt: 4,
+  guardar: 5,
+  buttons: 6,
+  rmCat: 7,
+  addOpt: 4,
+};
+
+function InlineEditor({
+  onChange, initValue, id, tabId,
+}:
+  {onChange:(text:string) => void, initValue:string, tabId:string, id:string}) {
   const [value, setValue] = useState(initValue);
+  const ref = useRef<TinyEditor>();
   useEffect(() => setValue(initValue), [initValue]);
+  useEffect(() => {
+    if (!ref.current || !ref.current.bodyElement) return;
+    ref.current.bodyElement.tabIndex = TAB_IDX.editor(id, tabId);
+  }, [tabId, id]);
+  const onFocus = () => {
+    const editor = ref.current;
+    if (editor === undefined) return;
+    editor.selection.select(editor.getBody(), true);
+    editor.selection.collapse(false);
+  };
   const handleChange = (text:string) => {
     setValue(text);
     if (value !== text) onChange(text);
@@ -31,12 +62,19 @@ function InlineEditor({ onChange, initValue }:
   return (
     <Editor
       apiKey="m6t3xlqm61ck0rs6rwpjljwyy23zyz0neghtxujisl42v67b"
+      onInit={(_, editor) => {
+        const { bodyElement } = editor;
+        ref.current = editor;
+        bodyElement.tabIndex = TAB_IDX.editor(id, tabId);
+      }}
+      onFocus={onFocus}
       onEditorChange={handleChange}
       value={value}
       inline
       init={{
         setup: editorSetUp,
         resize: false,
+        browser_spellcheck: true,
         menubar: false,
         forced_root_block: 'div',
         plugins: [
@@ -57,21 +95,26 @@ function InlineEditor({ onChange, initValue }:
   );
 }
 
-function Categorias({ categorias, onChange }:{categorias:string, onChange:Function}) {
+function Categorias({ categorias, onChange, tabIndex }:
+  {categorias:string, onChange:Function, tabIndex:number}) {
   const [newValue, setNewValue] = useState('');
+  const [focused, setFocused] = useState<string|null>(null);
   const onInputChange = (event:ChangeEvent<HTMLInputElement>) => {
     setNewValue(event.currentTarget.value);
   };
 
-  const onDelete = (idx:number) => {
+  const onDelete = (idx:number, key:string) => {
     const cateArra = categorias.split('; ');
     cateArra.splice(idx, 1);
     onChange(cateArra.join('; '));
+    setFocused((prevVal) => (prevVal === key ? null : prevVal));
   };
 
   const onSubmit = (e:FormEvent) => {
     e.preventDefault();
-    const newCategorias = categorias === '' ? newValue : `${categorias}; ${newValue}`;
+    const trimmed = newValue.trim();
+    if (trimmed === '' || categorias.split('; ').includes(trimmed)) return;
+    const newCategorias = categorias === '' ? trimmed : `${categorias}; ${trimmed}`;
     onChange(newCategorias);
     setNewValue('');
   };
@@ -83,23 +126,45 @@ function Categorias({ categorias, onChange }:{categorias:string, onChange:Functi
         return (
           <span key={key} className="categoryQuestionEditor">
             {x}
-            <Button onClick={() => onDelete(i)} className="removeQuestionEditor">
-              <FontAwesomeIcon icon={faCircleXmark} />
+            <Button
+              onFocus={() => setFocused(key)}
+              onBlur={() => setFocused(null)}
+              onClick={() => onDelete(i, key)}
+              className="removeQuestionEditor"
+              tabIndex={TAB_IDX.rmCat}
+            >
+              <FontAwesomeIcon icon={key === focused ? faCircleXmarkReg : faCircleXmark} />
             </Button>
           </span>
         );
       })}
       <form onSubmit={onSubmit}>
-        <input className="inputCategoriasEditor" type="text" id="categoria" value={newValue} onChange={onInputChange} placeholder="Añada una categoría" />
+        <input
+          tabIndex={tabIndex}
+          className="inputCategoriasEditor"
+          type="text"
+          id="categoria"
+          value={newValue}
+          onChange={onInputChange}
+          placeholder="Añada una categoría"
+        />
       </form>
     </div>
   );
 }
 
+const getIconOpts = (id:string, focused:string|null, correcta:string) => {
+  if (focused === id) return faCircleDot;
+  if (correcta === id) return faCheckCircle;
+  return faCircle;
+};
+
 function Options({
-  opciones, correcta, onChangeText, onChangeCorrecta,
+  opciones, correcta, onChangeText, onChangeCorrecta, tabId,
 }:
-  {opciones:OpcionGroupTest, correcta:string, onChangeText:Function, onChangeCorrecta:Function}) {
+  {opciones:OpcionGroupTest, correcta:string, onChangeText:Function, onChangeCorrecta:Function,
+     tabId:string}) {
+  const [focused, setFocused] = useState<string|null>(null);
   const opcionesValues = Object.values(opciones);
   const onChangeOpt = (value:string, id:string) => {
     onChangeText({ ...opciones, [id]: { id, value } });
@@ -121,20 +186,33 @@ function Options({
     <div className="editorQuestionGroup">
       {opcionesValues.map((opt) => (
         <div key={opt.id} className="optionQuestionEditor">
-          <Button className="optionButtonQuestionEditor" onClick={() => onChangeCorrecta(opt.id)}>
-            {correcta === opt.id ? <FontAwesomeIcon icon={faCheckCircle} />
-              : <FontAwesomeIcon icon={faCircle} />}
+          <Button
+            className="optionButtonQuestionEditor"
+            onFocus={() => setFocused(opt.id)}
+            onBlur={() => setFocused(null)}
+            tabIndex={TAB_IDX.checks}
+            onClick={() => onChangeCorrecta(opt.id)}
+          >
+            <FontAwesomeIcon icon={getIconOpts(opt.id, focused, correcta)} />
           </Button>
           <InlineEditor
             initValue={opt.value}
             onChange={(text) => onChangeOpt(text, opt.id)}
+            tabId={tabId}
+            id={opt.id}
           />
-          <Button className="removeQuestionEditor" onClick={() => removeOpt(opt.id)}>
-            <FontAwesomeIcon icon={faCircleXmark} />
+          <Button
+            onFocus={() => setFocused(`xmarkdelete_${opt.id}`)}
+            onBlur={() => setFocused(null)}
+            className="removeQuestionEditor"
+            onClick={() => removeOpt(opt.id)}
+            tabIndex={TAB_IDX.rmOpt}
+          >
+            <FontAwesomeIcon icon={focused === `xmarkdelete_${opt.id}` ? faCircleXmarkReg : faCircleXmark} />
           </Button>
         </div>
       ))}
-      <Button onClick={addOpt} className="addOptionQuestionEditor">
+      <Button onClick={addOpt} className="addOptionQuestionEditor" tabIndex={TAB_IDX.addOpt}>
         <FontAwesomeIcon icon={faAdd} />
         <span>Añadir opción</span>
       </Button>
@@ -178,6 +256,13 @@ const generateNewQuestion = (id:string) => {
   return { preg: newPreg, optCorr: opts[0][0] as string };
 };
 
+const getIdForTabIdx = (preg:PreguntaTestDeQuimica) => {
+  if (preg.pregunta === '') return 'pregunta';
+  const firstEmptyOpt = Object.values(preg.opciones).find(({ value }) => value === '');
+  if (firstEmptyOpt === undefined) return 'pregunta';
+  return firstEmptyOpt.id;
+};
+
 function EditPregunta({ preguntaTest, correcta, saveQuestion }:
   {preguntaTest:PreguntaTestDeQuimica, correcta:string, saveQuestion:Function}) {
   const [saved, setSaved] = useState(true);
@@ -192,6 +277,8 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
   const {
     pregunta, id: uid, tema, year, level, opciones,
   } = preguntaTest;
+
+  const tabIdxId = getIdForTabIdx(preguntaTest);
 
   function changePregunta<
   Type extends keyof PreguntaTestDeQuimica>(key:Type, value: PreguntaTestDeQuimica[Type]) {
@@ -229,7 +316,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="editorTitle">Pregunta:</h4>
-        <InlineEditor initValue={pregunta} onChange={changeTitle} />
+        <InlineEditor initValue={pregunta} onChange={changeTitle} id="pregunta" tabId={tabIdxId} />
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">ID:</h4>
@@ -237,7 +324,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">Tema:</h4>
-        <select className="selectEditorQuestion" value={tema} onChange={changeTema}>
+        <select className="selectEditorQuestion" value={tema} onChange={changeTema} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)}>
           {Array(9).fill(null).map((_, idx) => {
             const esteTema = idx === 8 ? 'Temas 9 y 10' : `Tema ${idx + 1}`;
             const value = idx === 8 ? 'Tema 9' : esteTema;
@@ -247,18 +334,19 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">Nivel:</h4>
-        <select className="selectEditorQuestion" value={level} onChange={changeLevel}>
+        <select className="selectEditorQuestion" value={level} onChange={changeLevel} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)}>
           <option value="1">Nivel 1</option>
           <option value="2">Nivel 2</option>
           <option value="3">Nivel 3</option>
         </select>
       </div>
-      <Categorias categorias={year ?? ''} onChange={changeCategorias} />
+      <Categorias categorias={year ?? ''} onChange={changeCategorias} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)} />
       <Options
         correcta={correcta ?? ''}
         onChangeCorrecta={changeCorrecta}
         opciones={opciones}
         onChangeText={changeOpciones}
+        tabId={tabIdxId}
       />
     </div>
   );
@@ -291,10 +379,10 @@ function FooterEdicion({
   });
   return (
     <div className="footerEditorQuestion">
-      <Button onClick={() => anteriorPregunta()}>Anterior</Button>
-      <Button onClick={() => siguientePregunta()}>Siguiente</Button>
-      <Button onClick={() => nuevaPregunta()}>Nueva</Button>
-      <Button onClick={() => guardarPregunta()}>Guardar</Button>
+      <Button onClick={() => anteriorPregunta()} tabIndex={TAB_IDX.buttons}>Anterior</Button>
+      <Button onClick={() => siguientePregunta()} tabIndex={TAB_IDX.buttons}>Siguiente</Button>
+      <Button onClick={() => nuevaPregunta()} tabIndex={TAB_IDX.buttons}>Nueva</Button>
+      <Button onClick={() => guardarPregunta()} tabIndex={TAB_IDX.guardar}>Guardar</Button>
     </div>
   );
 }

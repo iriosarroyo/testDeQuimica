@@ -41,6 +41,12 @@ const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
   : 'https://testdequimicaserver.glitch.me';
 export const createSocket = (tokenId:string) => {
   socket = io(SERVER_PATH, { auth: { tokenId } });
+  socket.on('disconnect', (reason) => {
+    console.log('reason', reason);
+    if (reason === 'io server disconnect' || reason === 'io client disconnect') {
+      socket.connect();
+    }
+  });
   return socket;
 };
 

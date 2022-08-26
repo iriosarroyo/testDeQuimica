@@ -127,8 +127,8 @@ function App() {
   );
 
   useEffect(() => {
-    const unSubRight = createSwipeEvent('swiperight', -200);
-    const unSubLeft = createSwipeEvent('swipeleft', 200);
+    const unSubRight = createSwipeEvent('swiperight', -150);
+    const unSubLeft = createSwipeEvent('swipeleft', 150);
     const unSubArrows = arrowsEvent();
     return () => { unSubRight(); unSubLeft(); unSubArrows(); };
   }, []);

@@ -5,9 +5,13 @@
     column-gap: 5px;
 }
 
+.optionButtonQuestionEditor:focus{
+    color: var(--bg-color);
+}
+
 .mce-content-body{
     text-align: left;
-    outline: none;
+    outline: none; /* En este caso se ve que está seleccionado */
     padding: 0;
     margin:0;
 }
@@ -22,6 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: none;
 }
 
 .addOptionQuestionEditor{
@@ -40,6 +45,7 @@
 .optionButtonQuestionEditor{
     background-color: inherit;
     color:var(--bg2-color);
+    outline: none;
 }
 
 .categoryQuestionEditor{
@@ -100,6 +106,15 @@
     padding: 3px 10px;
     outline:none;
     border: none;
+}
+
+.selectEditorQuestion:focus, .inputCategoriasEditor:focus,
+.footerEditorQuestion > button:focus{
+    outline: 2px solid white;
+}
+
+.addOptionQuestionEditor:focus{
+    outline: 2px solid white;
 }
 
 .inputCategoriasEditor{
