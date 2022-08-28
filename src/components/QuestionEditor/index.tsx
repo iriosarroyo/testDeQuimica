@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, FormEvent, useEffect, useRef, useState,
+  ChangeEvent, FormEvent, KeyboardEvent, useEffect, useRef, useState,
 } from 'react';
 import editorSetUp from 'services/editorSetUp';
 import { Editor as TinyEditor } from 'tinymce';
@@ -296,7 +296,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
 
   const changeTitle = (text:string) => { changePregunta('pregunta', text); };
 
-  const changeTema = (event:ChangeEvent<HTMLSelectElement>) => changePregunta('tema', event.currentTarget.value);
+  const changeTema = (event:ChangeEvent<HTMLSelectElement>|{currentTarget:{value:string}}) => changePregunta('tema', event.currentTarget.value);
 
   const changeCategorias = (cat:string) => changePregunta('year', cat);
   const changeOpciones = (opts:OpcionGroupTest) => changePregunta('opciones', opts);
@@ -305,6 +305,18 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
     const newLevel = event.currentTarget.value;
     if (newLevel !== '1' && newLevel !== '2' && newLevel !== '3') return;
     changePregunta('level', newLevel);
+  };
+
+  const handleKeyDownSelect = (e:KeyboardEvent<HTMLSelectElement>) => {
+    if (!e.code.startsWith('Digit')) return;
+    if (e.code === 'Digit0') return;
+    const num = parseInt(e.code.replace('Digit', ''), 10);
+    if (Number.isNaN(num) || num < 1 || num > 10) return;
+    changeTema({
+      currentTarget: {
+        value: `Tema ${num}`,
+      },
+    });
   };
   return (
     <div className="questionEditorContainer">
@@ -324,7 +336,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">Tema:</h4>
-        <select className="selectEditorQuestion" value={tema} onChange={changeTema} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)}>
+        <select onKeyDown={handleKeyDownSelect} className="selectEditorQuestion" value={tema} onChange={changeTema} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)}>
           {Array(9).fill(null).map((_, idx) => {
             const esteTema = idx === 8 ? 'Temas 9 y 10' : `Tema ${idx + 1}`;
             const value = idx === 8 ? 'Tema 9' : esteTema;

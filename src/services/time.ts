@@ -16,7 +16,12 @@ export const time2String = (ms:number, show:'hours'|'seconds'|'minutes') => {
   if (show === 'seconds') timeStr = `${segStr}`;
   return [timeStr, `PT${horaStr}H${minStr}M${segStr}S`];
 };
-export const date2String = () => {};
+export const date2String = (time:Date|number) => {
+  const options:Intl.DateTimeFormatOptions = {
+    year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit',
+  };
+  return new Date(time).toLocaleDateString('es-ES', options);
+};
 
 export const getNumOfDays = (time:Date|number) => {
   const date = new Date(time);

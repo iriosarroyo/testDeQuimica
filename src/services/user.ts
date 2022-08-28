@@ -2,6 +2,7 @@ import {
   GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User,
 } from 'firebase/auth';
 import { onValueDDBB, readDDBB } from './database';
+import { SocketError } from './errores';
 import { auth } from './firebaseApp';
 import { createSocket, disconnectSocket } from './socket';
 
@@ -24,7 +25,7 @@ export const logIn = async (setError:Function) => signInWithPopup(auth, provider
 
 export const authState = (setUser:Function, setError:Function) => {
   let off = () => {};
-  onAuthStateChanged(
+  const offAuth = onAuthStateChanged(
     auth,
     async (user) => {
       if (!user) {
@@ -32,7 +33,12 @@ export const authState = (setUser:Function, setError:Function) => {
         off();
         off = () => {};
       } else {
-        await user.getIdToken().then(createSocket);
+        try {
+          await user.getIdToken().then(createSocket);
+        } catch {
+          setError(new SocketError());
+          return;
+        }
         const setValueOff = onValueUser(
           user,
           (userDDBB:any) => setUser({ userDDBB, ...user }),
@@ -46,6 +52,7 @@ export const authState = (setUser:Function, setError:Function) => {
     },
     (error) => setError(error),
   );
+  return () => { off(); offAuth(); };
 };
 
 export const logOut = () => {

@@ -39,16 +39,24 @@ export const eventListenerSocket = (listener:string, cb:Function) => {
 const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
   ? window.location.origin.replace(':3000', ':3001')
   : 'https://testdequimicaserver.glitch.me';
-export const createSocket = (tokenId:string) => {
+export const createSocket = (tokenId:string) => new Promise((res, rej) => {
   socket = io(SERVER_PATH, { auth: { tokenId } });
+  socket.on('connect', () => {
+    res(socket.id);
+  });
+  socket.on('connect_error', (...data) => {
+    console.log(...data);
+    rej();
+  });
   socket.on('disconnect', (reason) => {
     console.log('reason', reason);
-    if (reason === 'io server disconnect' || reason === 'io client disconnect') {
+    if (reason === 'io server disconnect'
+    // || reason === 'io client disconnect'
+    ) {
       socket.connect();
     }
   });
-  return socket;
-};
+});
 
 type Cache = {[key:string]: any}
 type Timers = {[key:string]: number};

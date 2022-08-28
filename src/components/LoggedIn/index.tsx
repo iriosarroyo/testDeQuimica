@@ -268,7 +268,7 @@ export default function LoggedIn() {
               <Routes>
                 <Route path="/" element={<Inicio />} />
                 <Route path="/documentos/*" element={<Documentos />} />
-                <Route path="/perfil" element={<Perfil />} />
+                <Route path="/perfil" element={<Perfil user={user} />} />
                 <Route path="/tablaPeriodica" element={<TablaEditor />} />
                 <Route path="/testDeHoy" element={<CustomTest room="testDelDia" />} />
                 <Route path="/ajustes" element={<Ajustes />} />

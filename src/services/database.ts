@@ -176,6 +176,6 @@ export const readWithSetter = async (path:string, setValue:Function, setError?:F
 export const setMantenimiento = (state:boolean) => getFromSocketUID('main:mantenimiento', state);
 
 export const getPreguntasYRespuestas = () => Promise.all([
-  readDDBB('preguntasTestDeQuimica').then((x) => ((console.log(x), x[0]))),
-  readDDBB('respuestas').then((x) => ((console.log(x), x[0]))),
+  readDDBB('preguntasTestDeQuimica').then((x) => x[0]),
+  readDDBB('respuestas').then((x) => x[0]),
 ]);

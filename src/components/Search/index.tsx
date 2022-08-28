@@ -16,6 +16,7 @@ import SearchCmd, { Comando } from 'services/commands';
 import './Search.css';
 
 export default function Search() {
+  const [firstLoad, setFirstLoad] = useState(true);
   const [search, setSearch] = useState('');
   const user = useContext(UserContext)!;
   const ref = useRef<HTMLInputElement>(null);
@@ -64,7 +65,10 @@ export default function Search() {
     if (autocomplete.length !== 0) return;
     SearchCmd.runSearchOrCommand(search, user);
   };
-  useEffect(() => SearchCmd.runSearchOrCommand(search, user, true), [search]);
+  useEffect(() => {
+    if (!firstLoad) SearchCmd.runSearchOrCommand(search, user, true);
+    else setFirstLoad(false);
+  }, [search]);
   const handleKeyUp = (event:KeyboardEvent<HTMLInputElement>) => {
     const { value, selectionStart } = event.currentTarget;
     if (['ArrowUp', 'ArrowDown'].includes(event.code) && value.startsWith('/')) {

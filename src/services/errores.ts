@@ -53,3 +53,11 @@ export class WriteDDBBError extends Error {
     super('Error al escribir en la base de datos');
   }
 }
+
+export class SocketError extends Error {
+  name = 'Conectar servidor';
+
+  constructor() {
+    super('Error al conectar con el servidor. Intente recargar la página.');
+  }
+}
