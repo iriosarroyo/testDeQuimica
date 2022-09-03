@@ -1,7 +1,7 @@
 import { FormError, NewUserFormData } from 'types/interfaces';
 import errors from 'info/errors.json';
 import general from 'info/general.json';
-import { existsInDDBB } from './database';
+import { getFromSocketUID } from './socket';
 
 export const checkName = (name:string):FormError => {
   if (name.length < 1 || name.length > 30) return errors.NameLength;
@@ -35,7 +35,7 @@ export const checkMobile = (mobile:string):FormError => {
 
 export const checkUsername = async (username:string):Promise<FormError> => {
   if (username.length < 1 || username.length > 20) return errors.UsernameLength;
-  if (await existsInDDBB(`nombresUsuarios/${username}`)) return errors.UsernameExists;
+  if (await getFromSocketUID('main:isUsernameInDDBB', username)) return errors.UsernameExists;
   return undefined;
 };
 

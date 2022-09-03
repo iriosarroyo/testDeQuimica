@@ -1,4 +1,5 @@
 import {
+  faAddressCard,
   faArchive,
   faArrowDown19,
   faCalendarDay,
@@ -119,6 +120,19 @@ const paginas:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Tabla Periódica</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/perfil',
+    text: 'Perfil',
+    icon: faAddressCard,
+    id: 'goToPerfil',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+U',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Perfil</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

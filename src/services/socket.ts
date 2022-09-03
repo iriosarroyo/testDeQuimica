@@ -39,8 +39,10 @@ export const eventListenerSocket = (listener:string, cb:Function) => {
 const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
   ? window.location.origin.replace(':3000', ':3001')
   : 'https://testdequimicaserver.glitch.me';
+
 export const createSocket = (tokenId:string) => new Promise((res, rej) => {
   socket = io(SERVER_PATH, { auth: { tokenId } });
+  console.log('trying to connect');
   socket.on('connect', () => {
     res(socket.id);
   });

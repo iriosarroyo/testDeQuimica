@@ -54,6 +54,7 @@ export default function NewUserForm() {
   const [formDataTrim, setFormDataTrim] = useState(defaultFormState);
   const [errorForm, setErrorForm] = useState(defaultErrorState);
   const setError = useContext(MyErrorContext);
+  console.log(auth.currentUser);
   const {
     group,
     mobile,

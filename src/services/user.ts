@@ -1,10 +1,13 @@
 import {
-  GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User,
+  deleteUser,
+  GoogleAuthProvider, onAuthStateChanged, reauthenticateWithCredential, signInWithPopup,
+  signOut, User, UserCredential,
 } from 'firebase/auth';
 import { onValueDDBB, readDDBB } from './database';
 import { SocketError } from './errores';
 import { auth } from './firebaseApp';
-import { createSocket, disconnectSocket } from './socket';
+import { createSocket, disconnectSocket, getFromSocketUID } from './socket';
+import Toast from './toast';
 
 export const getUserFromDDBB = async (setUserDDBB:Function, setError:Function, path = '') => {
   const { currentUser } = auth;
@@ -57,4 +60,23 @@ export const authState = (setUser:Function, setError:Function) => {
 
 export const logOut = () => {
   signOut(auth);
+};
+
+export const removeUser = async () => {
+  if (!window.confirm('¿Estás seguro de querer eliminar tu cuenta, se perderán todos tus datps?')) return;
+  if (auth.currentUser === null) return;
+  const deleteProvider = new GoogleAuthProvider();
+  if (auth.currentUser.email) {
+    deleteProvider.setCustomParameters({ login_hint: auth.currentUser.email });
+  }
+  const data = (await signInWithPopup(auth, deleteProvider)) as UserCredential;
+  if (data?.user === undefined) return;
+  const credential = GoogleAuthProvider.credentialFromResult(data);
+  if (credential === null) return;
+  const result = await reauthenticateWithCredential(auth.currentUser, credential);
+  if (!await getFromSocketUID('main:deleteUserFromDDBB', auth.currentUser.uid)) {
+    Toast.addMsg('No se ha podido eliminar el usuario de la base de datos', 3000);
+    return;
+  }
+  deleteUser(result.user);
 };

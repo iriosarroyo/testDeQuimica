@@ -1,6 +1,7 @@
 :root {
   --bg-dark-mode: #44546a;
   --bg2-dark-mode: #9db4d5;
+  --bg2ReducedOpacity-dark-mode: #9db4d5a4;
   --bg3-dark-mode: #798aa3;
   --bgReducedOpacity-dark-mode: #44546ac4;
   --bg-red-dark-mode: #800000;
@@ -15,6 +16,7 @@
   --prin-color: #67a0c6;
   --bg-light-mode: #67a0c6;
   --bg2-light-mode: #1c2833;
+  --bg2ReducedOpacity-light-mode: #1c2833a4;
   --bg3-light-mode: #20403e;
   --bgReducedOpacity-light-mode: #67a0c6c4;
   --bg-red-light-mode: #ff7f7f;
@@ -29,6 +31,7 @@
   --bg2-color: var(--bg2-dark-mode);
   --bg3-color: var(--bg3-dark-mode);
   --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
+  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-dark-mode);
   --bg-red-color: var(--bg-red-dark-mode);
   --font-color: var(--font-dark-mode);
   --font2-color: var(--font2-dark-mode);
@@ -47,6 +50,7 @@
     --bg2-color: var(--bg2-light-mode);
     --bg3-color: var(--bg3-light-mode);
     --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
+    --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-light-mode);
     --bg-red-color: var(--bg-red-light-mode);
     --font-color: var(--font-light-mode);
     --font2-color: var(--font2-light-mode);
@@ -62,6 +66,7 @@
   --bg2-color: var(--bg2-dark-mode);
   --bg3-color: var(--bg3-dark-mode);
   --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
+  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-dark-mode);
   --bg-red-color: var(--bg-red-dark-mode);
   --font-color: var(--font-dark-mode);
   --font2-color: var(--font2-dark-mode);
@@ -76,6 +81,7 @@
   --bg2-color: var(--bg2-light-mode);
   --bg3-color: var(--bg3-light-mode);
   --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
+  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-light-mode);
   --bg-red-color: var(--bg-red-light-mode);
   --font-color: var(--font-light-mode);
   --font2-color: var(--font2-light-mode);

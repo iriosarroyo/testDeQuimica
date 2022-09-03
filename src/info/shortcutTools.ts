@@ -9,7 +9,7 @@ export const setUser = (usuario:MyUser) => {
 export const getUser = () => user;
 
 export const getShortCut = (shortcutObj:Shortcut) => {
-  let result = localStorage.getItem(`shortcut-${shortcutObj.id}`);
+  let result:string|null|undefined = localStorage.getItem(`shortcut-${shortcutObj.id}`);
   if (user) result = user.userDDBB.shortcuts?.[shortcutObj.id];
   if (result) return result;
   return shortcutObj.default;

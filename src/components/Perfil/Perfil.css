@@ -1,0 +1,57 @@
+.perfilContainer{
+    width:100%;
+    max-width: min(100%, 600px);
+    padding: 5px 10px;
+    min-height: 100%;
+    height: max-content;
+}
+.inputPerfil{
+    text-align: left;
+}
+.inputPerfil h3{
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+.buttonInputPerfil > div{
+    word-break: break-word;
+}
+
+.buttonInputPerfil{
+    color: var(--font2-color);
+    background-color: var(--bg2-color);
+    width: 100%;
+    padding: 5px 15px;
+    text-align: left;
+    border-radius: 25px;
+    min-height: 32px;
+}
+
+.buttonPerfil{
+    color: var(--font2-color);
+    background-color: var(--bg2-color);
+    padding: 5px 15px;
+    text-align: left;
+    border-radius: 25px;
+    min-height: 32px;
+    margin:2px 5px;
+}
+
+.buttonInputPerfil .optionInputPerfil{
+    background-color: var(--bg2-color);
+}
+.buttonInputPerfil input,
+.buttonInputPerfil select{
+    width: 100%;
+    background-color: var(--bg2-color);
+    color:inherit;
+    outline: none;
+    border:none;
+}
+.buttonInputPerfil:focus-within,
+.buttonPerfil:focus{
+    outline: 2px solid white;
+}
+
+.buttonInputPerfil.disabledInputPerfil{
+    background-color: var(--bg2ReducedOpacity-color);
+}

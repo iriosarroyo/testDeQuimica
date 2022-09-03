@@ -374,7 +374,7 @@ export default function Online() {
       },
     );
   }, [room]);
-  if (exam) return <CustomTest room={room} exam={exam} />;
+  if (exam && room !== undefined) return <CustomTest room={room} exam={exam} />;
   if (!room) return <NotInGroup />;
   return <InGroup room={room} setExam={setExam} />;
 }

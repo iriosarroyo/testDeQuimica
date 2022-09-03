@@ -139,6 +139,7 @@ export interface PreguntaTestDeQuimica{
   'inView'?:boolean, */
 
 }
+
 export type LogrosIds = keyof typeof logrosJSON;
 export type LogrosKeys = 'numberOf10' | 'testDeHoySeguidos' | 'mensajes' | 'formulario' | 'recursos'
 | 'downloadedDocs' | 'testsDone' | 'onlineDone' | 'testDeHoyMaxPunt' | 'preguntasDone'
@@ -147,8 +148,8 @@ export const logrosTypes = ['General', 'Test De Hoy', 'Documentos', 'Online'] as
 export type LogrosTypes = typeof logrosTypes[number];
 export type Logro = {value:number, data?:any}|undefined
 export interface userDDBB{
-  admin: boolean,
-  room: string,
+  admin: boolean|undefined,
+  room: string|undefined,
   group:string,
   mobile:string,
   name:string,
@@ -156,11 +157,11 @@ export interface userDDBB{
   username:string,
   velocidad:number,
   year:string,
-  mode: string,
+  mode: string|undefined,
   unaPorUna: boolean,
-  shortcuts:{[key:string]:string},
-  notificaciones: boolean
-  lastTest: number,
+  shortcuts:{[key:string]:string}|undefined,
+  notificaciones: boolean|undefined,
+  lastTest: number|undefined,
   stars:number,
   logros:{[key in LogrosKeys]:Logro}|undefined
   temas: {[key:string]:{[key:string]:{aciertos:string, fallos:string, enBlanco:string}}}

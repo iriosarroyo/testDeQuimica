@@ -5,12 +5,16 @@ import React, {
 import { writeUserInfo } from 'services/database';
 import {
   checkGroup,
+  checkMobile,
   checkName, checkSurname, checkUsername, checkYear,
 } from 'services/formChecks';
 import { date2String } from 'services/time';
 import Toast from 'services/toast';
 import { CompleteUser, FormError } from 'types/interfaces';
 import general from 'info/general.json';
+import './Perfil.css';
+import { removeUser } from 'services/user';
+import setFooter from 'hooks/setFooter';
 
 function InputPerfil({
   title, initialValue, onChange = () => false, isDisabled, type = 'text', options, ...extra
@@ -28,7 +32,7 @@ function InputPerfil({
       if (result === undefined || typeof result === 'string') return initialValue;
       return result.text;
     },
-    [options, value],
+    [options, initialValue],
   );
   useEffect(() => {
     const cb = (e:KeyboardEvent) => {
@@ -59,7 +63,10 @@ function InputPerfil({
   return (
     <div className="inputPerfil">
       <h3>{title}</h3>
-      <Button onClick={handleClick} className="buttonInputPerfil">
+      <Button
+        onClick={handleClick}
+        className={`buttonInputPerfil ${isDisabled ? 'disabledInputPerfil' : ''}`}
+      >
         {
           inputActive
             ? (
@@ -140,9 +147,12 @@ function Perfil({ user, setFn = writeUserInfo }:
     }
     return true;
   };
+
+  setFooter(<Button className="buttonPerfil" onClick={() => removeUser()}>Eliminar Cuenta</Button>, []);
   return (
-    <div>
+    <div className="perfilContainer">
       <h2>Mi Perfil</h2>
+      <p>Cuando cambies un campo, pulsa Enter para guardar.</p>
       {admin && <InputPerfil title="Administrador" initialValue="Eres Administrador" isDisabled />}
       <InputPerfil title="Nombre" initialValue={name} onChange={onChangeGen('name', checkName)} />
       <InputPerfil title="Apellidos" initialValue={surname} onChange={onChangeGen('surname', checkSurname)} />
@@ -154,7 +164,7 @@ function Perfil({ user, setFn = writeUserInfo }:
         title="Móvil"
         initialValue={mobile}
         type="number"
-        onChange={onChangeGen('username', checkUsername)}
+        onChange={onChangeGen('mobile', checkMobile)}
         {...{ max: '999999999', min: '100000000' }}
       />
       <InputPerfil title="Logros conseguidos" initialValue={`${stars}`} isDisabled />
