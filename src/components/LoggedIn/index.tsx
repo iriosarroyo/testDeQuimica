@@ -273,7 +273,7 @@ export default function LoggedIn() {
                 <Route path="/testDeHoy" element={<CustomTest room="testDelDia" />} />
                 <Route path="/ajustes" element={<Ajustes />} />
                 <Route path="/online" element={<Online />} />
-                <Route path="/puntuaciones" element={<Puntuaciones />} />
+                <Route path="/puntuaciones" element={<Puntuaciones user={user} />} />
                 <Route path="/logros" element={<Logros starsAndLogros={user.userDDBB} />} />
                 <Route path="/clasificacion" element={<Clasificacion />} />
                 <Route path="/admin/*" element={<Admin />} />

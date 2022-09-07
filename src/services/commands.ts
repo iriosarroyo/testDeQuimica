@@ -37,6 +37,12 @@ class Commands {
 
   documents:(FileData|FolderData)[] = [];
 
+  keysToSearch:(number|string|symbol)[] = [];
+
+  searchIn:undefined|string;
+
+  customData:{[k:string]: any} = {};
+
   preguntas: PreguntaTestDeQuimica[] | null = null;
 
   removeCommand(name:string) {
@@ -119,6 +125,27 @@ class Commands {
     const [, error] = this.execCommand(cmd.replace('/', ''), params);
     if (error !== undefined) Toast.addMsg(error, 5000);
     if (error === undefined) sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
+  }
+
+  onCustomSearch<T>(
+    data:{[k:string]: T},
+    params: string[],
+    cb: (x: string[]) => void,
+    searchIn?: string,
+  ) {
+    this.lastIdSearch = 'CustomSearch';
+    this.keysToSearch = params;
+    this.customData = data;
+    this.searchIn = searchIn;
+    const callback = (e: Event) => {
+      const { detail } = e as CustomEvent<{result:string[]}>;
+      const { result } = detail;
+      cb(result);
+    };
+    document.addEventListener('commands:search', callback, false);
+    return () => {
+      document.removeEventListener('commands:search', callback);
+    };
   }
 
   onSearchPreguntas(cb:Function) {
@@ -204,9 +231,9 @@ class Commands {
 
   static createRegExp(value:string) {
     let finalVal = Commands.HtmlEncode(value.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&'));
-    finalVal = finalVal.replace(/á|a/g, '(á|a|&aacute;)').replace(/é|e/g, '(é|e|&eacute;)').replace(/í|i/g, '(í|i|&iacute;)')
+    finalVal = finalVal.replace(/á|a/g, '(á|a|&aacute;)').replace(/é|(?<!&.acut)e/g, '(é|e|&eacute;)').replace(/í|i/g, '(í|i|&iacute;)')
       .replace(/ó|o/g, '(ó|o|&oacute;)')
-      .replace(/ú|ü|u/g, '(ú|ü|u|&uacute;|&uuml;)')
+      .replace(/ú|ü|(?<!&.ac)u/g, '(ú|ü|u|&uacute;|&uuml;)')
       .replace(/n|ñ/g, '(n|ñ|&ntilde;)')
       .replace(' ', '( |(&nbsp;))');
     return new RegExp(`(${finalVal})(?![^<]*>)`, 'i');
@@ -261,6 +288,20 @@ class Commands {
     document.dispatchEvent(event);
   }
 
+  runCustomSearch(val:string) {
+    const keysOfObject = Object.keys(this.customData);
+    const regExp = Commands.createRegExp(val);
+    const result = val === '' ? keysOfObject : keysOfObject
+      .filter((key) => {
+        const data = this.searchIn === undefined
+          ? this.customData[key] : this.customData[key]?.[this.searchIn];
+        return this.keysToSearch
+          .some((key2) => regExp.test(data?.[key2]));
+      });
+    const event = new CustomEvent('commands:search', { detail: { result } });
+    document.dispatchEvent(event);
+  }
+
   async runDocumentSearch(value:string) {
     if (this.documents.length === 0) {
       this.documents = await getAllDocumentsAndFolders();
@@ -278,6 +319,10 @@ class Commands {
     }
     if (this.lastIdSearch === 'EditorPreguntas') {
       this.runPreguntasSearch(value);
+      return;
+    }
+    if (this.lastIdSearch === 'CustomSearch') {
+      this.runCustomSearch(value);
       return;
     }
     const previousId = this.searchMemo[this.searchParams.item]?.id;

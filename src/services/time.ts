@@ -16,10 +16,15 @@ export const time2String = (ms:number, show:'hours'|'seconds'|'minutes') => {
   if (show === 'seconds') timeStr = `${segStr}`;
   return [timeStr, `PT${horaStr}H${minStr}M${segStr}S`];
 };
-export const date2String = (time:Date|number|undefined) => {
+export const date2String = (time:Date|number|undefined, opts?:Intl.DateTimeFormatOptions) => {
   if (time === undefined) return 'Nunca';
   const options:Intl.DateTimeFormatOptions = {
-    year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    ...(opts ?? {}),
   };
   return new Date(time).toLocaleDateString('es-ES', options);
 };

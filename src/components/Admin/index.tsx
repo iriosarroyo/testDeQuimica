@@ -16,6 +16,9 @@ const TemasOrdering = loadable(() => import('../TemasOrdering'), {
 const Documentos = loadable(() => import('../Documentos'), {
   fallback: <GeneralContentLoader />,
 });
+const PerfilesAdmin = loadable(() => import('../PerfilesAdmin'), {
+  fallback: <GeneralContentLoader />,
+});
 
 export default function Admin() {
   const user = useContext(UserContext)!;
@@ -26,6 +29,7 @@ export default function Admin() {
       <Route path="editarInicio" element={<InicioEditor />} />
       <Route path="ordenarTemas" element={<TemasOrdering />} />
       <Route path="documentos/*" element={<Documentos admin />} />
+      <Route path="perfiles/*" element={<PerfilesAdmin />} />
     </Routes>
   );
 }

@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider, onAuthStateChanged, reauthenticateWithCredential, signInWithPopup,
   signOut, User, UserCredential,
 } from 'firebase/auth';
+import React from 'react';
 import { onValueDDBB, readDDBB } from './database';
 import { SocketError } from './errores';
 import { auth } from './firebaseApp';
@@ -26,7 +27,11 @@ const provider = new GoogleAuthProvider();
 export const logIn = async (setError:Function) => signInWithPopup(auth, provider)
   .catch((e) => (e.code === 'auth/popup-closed-by-user' || setError(e)));
 
-export const authState = (setUser:Function, setError:Function) => {
+export const authState = (
+  setUser:Function,
+  setError:Function,
+  setLoading:React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   let off = () => {};
   const offAuth = onAuthStateChanged(
     auth,
@@ -37,7 +42,7 @@ export const authState = (setUser:Function, setError:Function) => {
         off = () => {};
       } else {
         try {
-          await user.getIdToken().then(createSocket);
+          await user.getIdToken().then((token) => createSocket(token, setLoading));
         } catch {
           setError(new SocketError());
           return;

@@ -1,6 +1,6 @@
 import Button from 'components/Button';
 import React, {
-  FormEvent, useEffect, useMemo, useRef, useState,
+  FormEvent, MouseEventHandler, useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { writeUserInfo } from 'services/database';
 import {
@@ -14,14 +14,18 @@ import { CompleteUser, FormError } from 'types/interfaces';
 import general from 'info/general.json';
 import './Perfil.css';
 import { removeUser } from 'services/user';
-import setFooter from 'hooks/setFooter';
+import Logros from 'components/Logros';
+import FrontContext from 'contexts/Front';
+import { getPuntuacionMedia } from 'services/probability';
+import Puntuaciones from 'components/Puntuaciones';
 
 function InputPerfil({
-  title, initialValue, onChange = () => false, isDisabled, type = 'text', options, ...extra
+  title, initialValue, onChange = () => false, isDisabled, type = 'text', options, onContextMenu, ...extra
 }:
   {title:string, initialValue:string, type?:string,
     options?:(({value:string, text:string}|string)[]),
-    onChange?:(val:string) => (boolean|Promise<boolean>), isDisabled?:boolean}) {
+    onChange?:(val:string) => (boolean|Promise<boolean>), isDisabled?:boolean
+  , onContextMenu?:MouseEventHandler}) {
   const [inputActive, setInputActive] = useState(false);
   const refInput = useRef<HTMLInputElement>(null);
   const refSelect = useRef<HTMLSelectElement>(null);
@@ -65,6 +69,7 @@ function InputPerfil({
       <h3>{title}</h3>
       <Button
         onClick={handleClick}
+        onContextMenu={onContextMenu}
         className={`buttonInputPerfil ${isDisabled ? 'disabledInputPerfil' : ''}`}
       >
         {
@@ -125,14 +130,18 @@ InputPerfil.defaultProps = {
   onChange: () => false,
   type: 'text',
   options: undefined,
+  onContextMenu: () => {},
 };
 
 type CheckFn = (val:string) => (Promise<FormError>|FormError)
-function Perfil({ user, setFn = writeUserInfo }:
-  {user:CompleteUser, setFn?:(val:string, path:string) => Promise<Error|undefined>}) {
+function Perfil({ user, setFn = writeUserInfo, isAdmin }:
+  {user:CompleteUser,
+    setFn?:(val:any, path:string) => Promise<Error|undefined>,
+  isAdmin?:boolean}) {
+  const setFront = useContext(FrontContext);
   const { userDDBB, email } = user;
   const {
-    name, surname, username, mobile, admin, lastTest, stars, group, year,
+    name, surname, username, mobile, admin, lastTest, stars, group, year, logros, temas,
   } = userDDBB;
   const onChangeGen = (param:string, checkFn: CheckFn) => async (val:string) => {
     const check = await checkFn(val);
@@ -141,39 +150,93 @@ function Perfil({ user, setFn = writeUserInfo }:
       return false;
     }
     const error = await setFn(val, param);
-    if (error !== undefined) {
+    if (error !== undefined && error !== null) {
       Toast.addMsg(error.message, 3000);
       return false;
     }
     return true;
   };
 
-  setFooter(<Button className="buttonPerfil" onClick={() => removeUser()}>Eliminar Cuenta</Button>, []);
+  const onChangeStars = async (val:string) => {
+    const num = parseInt(val, 10);
+    if (Number.isNaN(num) || num < 0) {
+      Toast.addMsg('Número de estrellas no válido', 3000);
+      return false;
+    }
+    const error = await setFn(num, 'stars');
+    if (error !== undefined && error !== null) {
+      Toast.addMsg(error.message, 3000);
+      return false;
+    }
+    return true;
+  };
   return (
-    <div className="perfilContainer">
-      <h2>Mi Perfil</h2>
-      <p>Cuando cambies un campo, pulsa Enter para guardar.</p>
-      {admin && <InputPerfil title="Administrador" initialValue="Eres Administrador" isDisabled />}
-      <InputPerfil title="Nombre" initialValue={name} onChange={onChangeGen('name', checkName)} />
-      <InputPerfil title="Apellidos" initialValue={surname} onChange={onChangeGen('surname', checkSurname)} />
-      <InputPerfil title="Correo electrónico" initialValue={email ?? ''} isDisabled />
-      <InputPerfil title="Nombre de Usuario" initialValue={username} onChange={onChangeGen('username', checkUsername)} />
-      <InputPerfil title="Curso" initialValue={year} options={general.cursos} onChange={onChangeGen('year', checkYear)} />
-      <InputPerfil title="Clase" initialValue={group} options={general.clases} onChange={onChangeGen('group', checkGroup)} />
-      <InputPerfil
-        title="Móvil"
-        initialValue={mobile}
-        type="number"
-        onChange={onChangeGen('mobile', checkMobile)}
-        {...{ max: '999999999', min: '100000000' }}
-      />
-      <InputPerfil title="Logros conseguidos" initialValue={`${stars}`} isDisabled />
-      <InputPerfil title="Último Test de Hoy realizado" initialValue={date2String(lastTest)} isDisabled />
+    <div className="perfilContainerContainer">
+      <div className="perfilContainer">
+        {isAdmin || <h2>Mi Perfil</h2>}
+        <p>Cuando cambies un campo, pulsa Enter para guardar.</p>
+        {isAdmin && <p>Puedes hacer click derecho sobre algunos campos.</p>}
+        {admin && <InputPerfil title="Administrador" initialValue={`${isAdmin ? 'Es' : 'Eres'} Administrador`} isDisabled />}
+        <InputPerfil title="Nombre" initialValue={name} onChange={onChangeGen('name', checkName)} />
+        <InputPerfil title="Apellidos" initialValue={surname} onChange={onChangeGen('surname', checkSurname)} />
+        <InputPerfil title="Correo electrónico" initialValue={email ?? ''} isDisabled />
+        <InputPerfil title="Nombre de Usuario" initialValue={username} onChange={onChangeGen('username', checkUsername)} />
+        <InputPerfil title="Curso" initialValue={year} options={general.cursos} onChange={onChangeGen('year', checkYear)} />
+        <InputPerfil title="Clase" initialValue={group} options={general.clases} onChange={onChangeGen('group', checkGroup)} />
+        <InputPerfil
+          title="Móvil"
+          initialValue={mobile}
+          type="number"
+          onChange={onChangeGen('mobile', checkMobile)}
+          {...{ max: '999999999', min: '100000000' }}
+        />
+        <InputPerfil
+          title="Logros conseguidos"
+          initialValue={`${stars}`}
+          isDisabled={!isAdmin}
+          onChange={onChangeStars}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setFront({
+              elem: <Logros
+                starsAndLogros={{ logros, stars, username }}
+              />,
+              cb: () => {},
+            });
+          }}
+          type="number"
+          {...{ min: '0' }}
+        />
+        <InputPerfil title="Último Test de Hoy realizado" initialValue={date2String(lastTest)} isDisabled />
+        {
+          isAdmin
+          && (
+          <InputPerfil
+            title="Puntuación Media"
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setFront({
+                elem: <Puntuaciones user={user} />,
+                cb: () => {},
+              });
+            }}
+            initialValue={`${getPuntuacionMedia(temas)}`}
+            isDisabled
+          />
+          )
+        }
+      </div>
+      <div className="footerPerfil">
+        <Button className="buttonPerfil" onClick={() => removeUser()}>Eliminar Cuenta</Button>
+        { isAdmin && !admin
+          && <Button className="buttonPerfil" onClick={() => setFn(true, 'admin')}>Hacer Administrador</Button>}
+      </div>
     </div>
   );
 }
 
 Perfil.defaultProps = {
   setFn: writeUserInfo,
+  isAdmin: false,
 };
 export default Perfil;

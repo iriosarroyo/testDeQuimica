@@ -11,6 +11,7 @@ import {
   faRankingStar,
   faUpload,
   faUsers,
+  faUsersGear,
   faVialCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { Paginas } from 'types/interfaces';
@@ -188,6 +189,19 @@ export const paginasAdmin:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Ordenar Temas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/admin/perfiles',
+    text: 'Perfiles',
+    icon: faUsersGear,
+    id: 'goToPerfiles',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+Y',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Perfiles</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

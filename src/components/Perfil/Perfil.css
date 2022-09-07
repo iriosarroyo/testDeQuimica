@@ -4,6 +4,8 @@
     padding: 5px 10px;
     min-height: 100%;
     height: max-content;
+    min-height: 100%;
+    margin: 0 auto;
 }
 .inputPerfil{
     text-align: left;
@@ -54,4 +56,18 @@
 
 .buttonInputPerfil.disabledInputPerfil{
     background-color: var(--bg2ReducedOpacity-color);
+}
+
+.footerPerfil{
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    margin-top: 10px;
+    width: 100%;
+    background-color: var(--bg-color);
+}
+
+.perfilContainerContainer{
+    width: 100%;
+    height: 100%;
 }

@@ -1,13 +1,12 @@
-import UserContext from 'contexts/User';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   getPuntuacionDelTema, getPuntuacionLevel1, getPuntuacionLevel2, getTemasInOrder,
 } from 'services/probability';
+import { CompleteUser } from 'types/interfaces';
 import './Puntuaciones.css';
 
-export default function Puntuaciones() {
-  const user = useContext(UserContext)!;
+export default function Puntuaciones({ user }:{user:CompleteUser}) {
   const [temasInOrder, setTemasInOrder] = useState<string[]>([]);
   const { temas, year } = user.userDDBB;
   useEffect(() => {

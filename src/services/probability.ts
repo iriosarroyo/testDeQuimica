@@ -67,6 +67,12 @@ export const getPuntuacionDelTema = (puntPorLevel:userDDBB['temas']['']) => {
   return Math.min(10, level1 + level2 + level3);
 };
 
+export const getPuntuacionMedia = (puntuaciones:userDDBB['temas'], round = 2) => {
+  const arra = Object.values(puntuaciones);
+  const average = arra.reduce((acum, curr) => acum + getPuntuacionDelTema(curr), 0) / arra.length;
+  return Math.round(average * 10 ** round) / 10 ** round;
+};
+
 export const getTemasInOrder = async (year: string) => {
   const orderTemas = await readLocal(`general/ordenDeTemas/${year}`);
   const orderTemasEntries:[string, number][] = Object.entries(orderTemas);

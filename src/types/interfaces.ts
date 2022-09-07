@@ -171,6 +171,15 @@ export interface CompleteUser extends User{
   userDDBB:userDDBB,
 }
 
+export interface UserDDBBAdmin extends userDDBB{
+  connected:boolean,
+  lastConnection: undefined|number
+}
+
+export interface UserForAdmin extends User{
+  userDDBB:UserDDBBAdmin
+}
+
 export type MyUser = CompleteUser | undefined
 
 export interface Logros{

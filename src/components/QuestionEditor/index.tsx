@@ -80,10 +80,10 @@ function InlineEditor({
         plugins: [
           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-          'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount',
+          'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'charmap',
         ],
-        toolbar: 'undo redo | superscript subscript | insertArrow insertDoubleArrow |'
-        + 'bold italic underline | '
+        toolbar: 'superscript subscript | insertArrow insertDoubleArrow | charmap |'
+        + 'undo redo | bold italic underline | '
         + 'bullist numlist outdent indent | '
         + 'removeformat | blocks | help',
         content_style: '',

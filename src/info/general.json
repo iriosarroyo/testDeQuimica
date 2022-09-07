@@ -2,21 +2,32 @@
     "cursos": [
         {
             "value": "eso3",
-            "text": "3º ESO"
+            "text": "3º ESO",
+            "short": "3º ESO"
         },
         {
             "value": "eso4",
-            "text": "4º ESO"
+            "text": "4º ESO",
+            "short": "4º ESO"
         },
         {
             "value": "bach1",
-            "text": "1º bachillerato"
+            "text": "1º bachillerato",
+            "short": "1º bach"
         },
         {
             "value": "bach2",
-            "text": "2º bachillerato"
+            "text": "2º bachillerato",
+            "short": "2º bach"
         }
     ],
+    "cursosOrder":{
+        "bach2": 0,
+        "bach1": 1,
+        "eso4": 2,
+        "eso3": 3,
+        "unknown": 99
+    },
     "clases": [
         "A",
         "B",

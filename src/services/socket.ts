@@ -1,4 +1,6 @@
+import React from 'react';
 import { io, Socket } from 'socket.io-client';
+import Toast from './toast';
 import { getUid } from './uniqueId';
 
 let socket:Socket;
@@ -36,28 +38,54 @@ export const eventListenerSocket = (listener:string, cb:Function) => {
   return () => socket.off(listener, callback);
 };
 
+export const eventListUsers = (cb:Function) => {
+  const clientUID = getUid();
+  const callback = (...params: any[]) => cb(...params);
+  socket.on(`allUsersData:${clientUID}`, callback);
+  socket.emit('allUsersData', clientUID);
+  return () => {
+    socket.emit(`disconnect:${clientUID}`);
+    socket.off(`allUsersData:${clientUID}`, callback);
+  };
+};
+
 const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
   ? window.location.origin.replace(':3000', ':3001')
   : 'https://testdequimicaserver.glitch.me';
 
-export const createSocket = (tokenId:string) => new Promise((res, rej) => {
-  socket = io(SERVER_PATH, { auth: { tokenId } });
+export const createSocket = (
+  tokenId:string,
+  setLoading:React.Dispatch<React.SetStateAction<boolean>>,
+) => new Promise((res, rej) => {
   console.log('trying to connect');
+  socket = io(SERVER_PATH, { auth: { tokenId }, transports: ['websocket'] });
+  let tries = 0;
+  let timeout: number | undefined;
   socket.on('connect', () => {
     res(socket.id);
+    setLoading(false);
   });
   socket.on('connect_error', (...data) => {
     console.log(...data);
     rej();
   });
   socket.on('disconnect', (reason) => {
+    setLoading(true);
+    Toast.addMsg('Se ha desconectado del servidor', 3000);
     console.log('reason', reason);
     if (reason === 'io server disconnect'
     // || reason === 'io client disconnect'
     ) {
-      socket.connect();
+      clearTimeout(timeout);
+      timeout = window.setTimeout(() => { tries = 0; }, 5000);
+      tries++;
+      if (tries === 4) return window.location.reload();
+      setTimeout(() => socket.connect(), 1000);
     }
+    return undefined;
   });
+  const pleaseDisconnectMe = () => socket.emit('disconnectUser');
+  console.log(pleaseDisconnectMe);
 });
 
 type Cache = {[key:string]: any}

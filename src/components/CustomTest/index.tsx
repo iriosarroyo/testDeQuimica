@@ -181,7 +181,7 @@ const getTodaysPreguntas = async (
   }
   let preguntas;
   try {
-    preguntas = await getPreguntas(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'Difícil');
+    preguntas = await getPreguntas(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'User');
   } catch (e) {
     setError(e);
   }
@@ -237,7 +237,7 @@ function TestDelDia() {
       !(lastTest && getNumOfDays(lastTest) === today), // new test a.k.a.: has done test yet?
     );
   }, []);
-  if (preguntas.length === 0) return <div />;
+  if (preguntas === undefined || preguntas.length === 0) return <div />;
   return <Test preguntas={preguntas} unaPorUna={unaPorUna} path={path} startTime={startTime} />;
 }
 

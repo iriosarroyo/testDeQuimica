@@ -3,6 +3,7 @@
     width: 100%;
     height: max-content;
     padding: 25px;
+    margin: 0 auto;
     --level-1-color:var(--bg-red-light-mode);
     --level-2-color:var(--bg3-dark-mode);
     --level-3-color:var(--bg-light-mode);
