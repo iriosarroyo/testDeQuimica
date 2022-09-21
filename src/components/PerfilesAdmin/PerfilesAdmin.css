@@ -17,8 +17,9 @@
 }
 
 .profilePerfilAdmin{
+    --w-img: 50px;
     display: grid;
-    grid-template-columns: 50px calc(100% - 50px);
+    grid-template-columns: var(--w-img, 50px) calc(100% - var(--w-img, 50px));
     align-items: center;
     column-gap: 5px;
     padding: 5px 7px;
@@ -27,6 +28,7 @@
 .listaNoDesplegada .profilePerfilAdmin{
  /*    grid-template-columns: 50px; */
     transition: all 500ms;
+    --w-img: 40px;
 }
 .textContainerPerfilAdmin{
     width: 100%;

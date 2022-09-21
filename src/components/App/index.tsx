@@ -15,6 +15,10 @@ import Toast from 'services/toast';
 import { onValueDDBB } from 'services/database';
 import { arrowsEvent, createSwipeEvent } from 'services/customEvents';
 import GeneralContentLoader from 'components/GeneralContentLoader';
+import { onChangeFullscreen } from 'services/elemenstInViewPort';
+import Button from 'components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExpand } from '@fortawesome/free-solid-svg-icons';
 
 const Front = loadable(() => import('../Front'), {
   fallback: <GeneralContentLoader />,
@@ -109,6 +113,7 @@ const addCommands = (navigate:Function, show:Function) => {
 function App() {
   const [error, setError] = useState(undefined);
   const [toast, setToast] = useState<string|undefined>(undefined);
+  const [buttonFullScreen, setButtonFullscreen] = useState(false);
   const [mantenimiento, setMantenimiento] = useState(false);
   const [frontElement, setFrontElement] = useState<{elem:ReactElement|null,
     cb:Function, unableFocus?:boolean}>({ elem: null, cb: () => {} });
@@ -137,10 +142,23 @@ function App() {
 
   document.body.dataset.mode = localStorage.getItem('mode') ?? 'null';
 
+  useEffect(() => onChangeFullscreen(setButtonFullscreen), []);
+
   return (
     <MyErrorContext.Provider value={setError}>
       <FrontContext.Provider value={setFrontElement}>
         <div className="App">
+          {buttonFullScreen && (
+          <Button
+            className="buttonFullscreen"
+            onClick={() => {
+              document.body.requestFullscreen();
+              setButtonFullscreen(false);
+            }}
+          >
+            <FontAwesomeIcon icon={faExpand} />
+          </Button>
+          )}
           {mantenimiento ? <Mantenimiento /> : <ContentApp />}
           {error && <MyError error={error} setError={setError} />}
           {elem && (

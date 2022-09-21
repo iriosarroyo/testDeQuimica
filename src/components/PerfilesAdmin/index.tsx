@@ -14,6 +14,7 @@ import general from 'info/general.json';
 import Button from 'components/Button';
 import { isKeyOfObj } from 'services/toolsForData';
 import SearchCmd from 'services/commands';
+import { initialUserListValue, LOCAL_USER } from 'services/menus';
 
 type UsersObj = {[k:string]:UserForAdmin|undefined}
 
@@ -95,7 +96,7 @@ function UserList({
     activeUsers: string[],
     users: UsersObj,
     activeUid:string,
-    setVisible:React.Dispatch<React.SetStateAction<boolean>>,
+    setVisible:() => any,
     visible: boolean,
     sorter: SortArray,
     setSorter: React.Dispatch<React.SetStateAction<SortArray>>
@@ -104,7 +105,7 @@ function UserList({
   return (
     <ul className="unlisted userListAdmin">
       <li className="buttonHideContainer">
-        <Button className="buttonHideShow" onClick={() => setVisible((val) => !val)}>
+        <Button className="buttonHideShow" onClick={setVisible}>
           <FontAwesomeIcon icon={visible ? faAngleDoubleRight : faAngleDoubleLeft} />
         </Button>
         <Button
@@ -154,7 +155,7 @@ export default function PerfilesAdmin() {
   const [users, setUsers] = useState<UsersObj>({});
   const [activeUids, setActiveUids] = useState<string[]>([]);
   let currentUid = useParams()['*'];
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(initialUserListValue);
   const [sorter, setSorter] = useState<[keyof typeof SORTERS, boolean]>(['name', false]);
   useEffect(() => {
     const [sortBy, reverse] = sorter;
@@ -201,7 +202,10 @@ export default function PerfilesAdmin() {
         activeUsers={activeUids}
         users={users}
         activeUid={currentUid}
-        setVisible={setVisible}
+        setVisible={() => setVisible((val) => {
+          localStorage.setItem(LOCAL_USER, `${val}`); // Goes the other way around
+          return !val;
+        })}
         visible={visible}
         setSorter={setSorter}
         sorter={sorter}

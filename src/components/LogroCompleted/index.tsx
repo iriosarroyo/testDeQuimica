@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { logros } from 'services/logros';
 
-export default function LogroComplete({ logroId }:{logroId:string}) {
+function LogroComplete({ logroId, fn }:{logroId:string, fn?:() => void}) {
   const logro = useMemo(() => logros.find(({ id }) => id === logroId), [logroId]);
   const setFront = useContext(FrontContext);
   const { height, width } = useWindowSize();
@@ -27,7 +27,7 @@ export default function LogroComplete({ logroId }:{logroId:string}) {
       <Link
         to={`/logros#${logroId}`}
         onClick={
-        () => setFront({ elem: null, cb: () => {} })
+        () => { setFront({ elem: null, cb: () => {} }); if (fn) fn(); }
       }
         className="buttonNotificacion"
       >
@@ -37,3 +37,9 @@ export default function LogroComplete({ logroId }:{logroId:string}) {
     </div>
   );
 }
+
+LogroComplete.defaultProps = {
+  fn: undefined,
+};
+
+export default LogroComplete;

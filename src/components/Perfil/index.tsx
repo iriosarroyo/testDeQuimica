@@ -47,6 +47,10 @@ function InputPerfil({
   }, []);
 
   useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
     if (inputActive) {
       refInput.current?.focus();
       refSelect.current?.focus();

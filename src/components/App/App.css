@@ -226,6 +226,17 @@
   width: 100%;
 }
 
+.buttonFullscreen{
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  background-color: var(--font2-color);
+  color: var(--bg2-color);
+  border-radius: 10px;
+  font-size: 1.5em !important;
+  z-index: 9999999;
+}
+
 .editFormDocs input{
   outline: none;
   background-color: var(--bg2-color);

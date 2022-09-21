@@ -67,6 +67,11 @@ export const getPuntuacionDelTema = (puntPorLevel:userDDBB['temas']['']) => {
   return Math.min(10, level1 + level2 + level3);
 };
 
+export const getAllPuntuaciones = (temas: userDDBB['temas']) => {
+  const puntEntries = Object.entries(temas).map(([k, v]) => ([k, getPuntuacionDelTema(v)]));
+  return Object.fromEntries(puntEntries);
+};
+
 export const getPuntuacionMedia = (puntuaciones:userDDBB['temas'], round = 2) => {
   const arra = Object.values(puntuaciones);
   const average = arra.reduce((acum, curr) => acum + getPuntuacionDelTema(curr), 0) / arra.length;

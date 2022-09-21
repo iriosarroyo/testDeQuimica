@@ -5,15 +5,16 @@ import { getDatabase } from 'firebase/database';
 import { getMessaging, Messaging } from 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCKHffDCCEKPpxgKOTGck_qAqS4BphXp-4',
-  authDomain: 'testdequimica-bcf90.firebaseapp.com',
-  databaseURL: 'https://testdequimica-bcf90-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'testdequimica-bcf90',
-  storageBucket: 'testdequimica-bcf90.appspot.com',
-  messagingSenderId: '87974476070',
-  appId: '1:87974476070:web:aaec0f6560c50f4fe269e7',
-  measurementId: 'G-GEV2TR27PC',
+  apiKey: 'AIzaSyDpqJ3rKKbu4PEAui93s0wkmjgeytu0vf4',
+  authDomain: 'test-de-quimica.firebaseapp.com',
+  databaseURL: 'https://test-de-quimica.firebaseio.com',
+  projectId: 'test-de-quimica',
+  storageBucket: 'test-de-quimica.appspot.com',
+  messagingSenderId: '589609378466',
+  appId: '1:589609378466:web:66e4774fd2103838',
+  measurementId: 'G-G18235H145',
 };
+export const msgToken = 'BJpiUdJsYrYGjBJ0YHGARVlvOeSkBhaeF4X9p2VvQr7_Q0eGvUXPdfUFLIkgOn4q0UDmkEiOyzix26GhSAxwLsg';
 export const app = initializeApp(firebaseConfig);
 export const stg = getStorage(app);
 export const auth = getAuth(app);

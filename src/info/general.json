@@ -58,10 +58,58 @@
         "radius"
     ],
     "translations": {
+        "name":{
+            "default": "Nombre"
+        },
+        "appearance":{
+            "default": "Apariencia"
+        },
+        "discovered_by":{
+            "default": "Descubierto por"
+        },
+        "named_by":{
+            "default": "Nombrado por"
+        },
+        "phase":{
+            "default": "Estado (a temp. ambiente)"
+        },
+        "source":{
+            "default": "Fuente"
+        }, 
+        "period":{
+            "default": "Período"
+        },
+        "spectral_img": {
+            "default": "Espectro"
+        },
+        "summary": {
+            "default": "Resumen"
+        },
+        "symbol": {
+            "default": "Símbolo"
+        },
+        "xpos":{
+            "default": "Columna"
+        },
+        "ypos":{
+            "default": "Fila"
+        },
+        "cpk-hex":{
+            "default": "Color cpk (hexadecimal)"
+        },
+        "series":{
+            "default": "Serie"
+        },
         "phases": {
             "default": "Estados",
             "displayed": "Masa atómica",
             "units": "u"
+        },
+        "electron_configuration":{
+            "default": "Configuración electrónica"
+        },
+        "electron_configuration_semantic":{
+            "default": "Configuración electrónica (gas noble anterior)"
         },
         "category": {
             "default": "Categoría",
@@ -133,6 +181,9 @@
             "displayed": "Electronegatividad escala de Pauling",
             "units": "1"
         },
+        "oxidation":{
+            "default": "Nº de oxidación"
+        },
         "heat": {
             "default": "Calor",
             "specific": "Específico",
@@ -150,6 +201,10 @@
             "index": "$indexª energía de ionización",
             "displayed_index": "$indexª energía de ionización",
             "units_index": "kJ/mol"
+        },
+        "shells": {
+            "default": "Electrones por capa",
+            "index": "capa $index"
         },
         "isotopes": {
             "default": "Nº de isótopos",
@@ -331,7 +386,11 @@
             "gas": "Gas",
             "liquid": "Líquido",
             "solid": "Sólido",
-            "no-data": "Sin datos"
+            "no-data": "Sin datos",
+            "Gas": "Gas",
+            "Liquid": "Líquido",
+            "Solid": "Sólido",
+            "No-data": "Sin datos"
         }
     }
 }

@@ -328,7 +328,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="editorTitle">Pregunta:</h4>
-        <InlineEditor initValue={pregunta} onChange={changeTitle} id="pregunta" tabId={tabIdxId} />
+        {[uid].map((i) => <InlineEditor key={i} initValue={pregunta} onChange={changeTitle} id="pregunta" tabId={tabIdxId} />)}
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">ID:</h4>

@@ -355,7 +355,6 @@ export default function TablaEditor() {
   const [animateTemp, setAnimateTemp] = useState<boolean>(false);
   const changeElement = (element:keyof typeof elementosTabla) => setFront({
     elem: <ElementDetails
-      goBack={() => {}}
       elementData={elementosTabla[element]}
     />,
     cb: () => {},
@@ -376,25 +375,21 @@ export default function TablaEditor() {
   const { hue } = colorData;
   useEffect(() => {
     if (animate) {
-      const timeout = setTimeout(
-        () => {
-          const radianHue = ((hue + 1) * Math.PI) / 180;
-          if (ref.current) setColorData(getColorData(ref.current, 0, 0, radianHue));
-        },
-      );
+      const timeout = setTimeout(() => {
+        const radianHue = ((hue + 1) * Math.PI) / 180;
+        if (ref.current) setColorData(getColorData(ref.current, 0, 0, radianHue));
+      }, 50);
       return () => { clearTimeout(timeout); };
     }
     return () => {};
   }, [animate, hue]);
   useEffect(() => {
     if (animateTemp) {
-      const timeout = setTimeout(
-        () => {
-          if (ref2.current) {
-            setTempData(getHeightTemperature(ref2.current, 0, MAX_TEMP, tempData.T + 20));
-          }
-        },
-      );
+      const timeout = setTimeout(() => {
+        if (ref2.current) {
+          setTempData(getHeightTemperature(ref2.current, 0, MAX_TEMP, tempData.T + 20));
+        }
+      }, 50);
       return () => { clearTimeout(timeout); };
     }
     return () => {};

@@ -57,20 +57,20 @@ export const createSocket = (
   tokenId:string,
   setLoading:React.Dispatch<React.SetStateAction<boolean>>,
 ) => new Promise((res, rej) => {
-  console.log('trying to connect');
   socket = io(SERVER_PATH, { auth: { tokenId }, transports: ['websocket'] });
   let tries = 0;
   let timeout: number | undefined;
+  let timeout2: number | undefined;
   socket.on('connect', () => {
     res(socket.id);
+    clearTimeout(timeout2);
     setLoading(false);
   });
-  socket.on('connect_error', (...data) => {
-    console.log(...data);
+  socket.on('connect_error', () => {
     rej();
   });
   socket.on('disconnect', (reason) => {
-    setLoading(true);
+    timeout2 = window.setTimeout(() => setLoading(true), 500);
     Toast.addMsg('Se ha desconectado del servidor', 3000);
     console.log('reason', reason);
     if (reason === 'io server disconnect'
@@ -84,8 +84,6 @@ export const createSocket = (
     }
     return undefined;
   });
-  const pleaseDisconnectMe = () => socket.emit('disconnectUser');
-  console.log(pleaseDisconnectMe);
 });
 
 type Cache = {[key:string]: any}

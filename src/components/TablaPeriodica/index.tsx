@@ -52,7 +52,8 @@ function TemplateTablaPeriodica({
   }, ['']);
   return (
     <g
-      className="generalText"
+      className="generalText gNoPointer"
+
     >
       <rect
         x={4 * CELL_SIZE_W}
@@ -141,6 +142,7 @@ export default function TablaPeriodica({ properties }:{properties:any}) {
       <TemplateTablaPeriodica color={color} subColor={subColor} />
       <g
         fill="white"
+        className="gNoPointer"
       >
         <rect
           x={8 * CELL_SIZE_W}

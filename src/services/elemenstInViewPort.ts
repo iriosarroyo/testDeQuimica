@@ -1,3 +1,5 @@
+import React from 'react';
+
 const isElementInViewport = (el:HTMLElement) => {
   const {
     top, left, bottom, right,
@@ -25,3 +27,26 @@ export const createIntersectionObserver = (
 };
 
 export default isElementInViewport;
+
+const isMobile = () => (window.innerHeight
+    !== Math.round(document.body.getBoundingClientRect().height));
+
+export const onChangeFullscreen = (
+  setFullscreenButton: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  if (!isMobile()) return () => {};
+  const cbTouch = () => {
+    document.body.requestFullscreen().then(console.log)
+      .catch(() => setFullscreenButton(true));
+    document.removeEventListener('touchend', cbTouch);
+  };
+  document.addEventListener('touchend', cbTouch);
+
+  const cb = () => {
+    console.log('hello');
+    if (document.fullscreenElement) setFullscreenButton(false);
+    else setFullscreenButton(true);
+  };
+  document.body.addEventListener('fullscreenchange', cb);
+  return () => document.body.removeEventListener('fullscreenchange', cb);
+};

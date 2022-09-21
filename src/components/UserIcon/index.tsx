@@ -24,7 +24,7 @@ export default function UserIcon({ def }:{def?:boolean}) {
           ? <img loading="lazy" onError={() => setUndefIcon(true)} src={user.photoURL} alt="Profile" referrerPolicy="no-referrer" />
           : <FontAwesomeIcon icon={faUser} />}
       </Button>
-      {!def && show && <UserIconDropdown nextref={ref} />}
+      {!def && show && <UserIconDropdown nextref={ref} closeDropDown={() => toggleShow(false)} />}
     </>
   );
 }

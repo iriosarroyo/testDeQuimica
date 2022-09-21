@@ -6,6 +6,9 @@ import './TemasOrdering.css';
 import { onValueDDBB } from 'services/database';
 import Toast from 'services/toast';
 import { getFromSocket } from 'services/socket';
+import Button from 'components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 
 type SortElem = {value:string, text:string}
 const LAST_ELEMENT = 'DRAG_LAST_ELEMENT_WE_DO_NOT_WANT_TO_HAVE_SAME_TEXT_XYZAJSHJKA';
@@ -62,6 +65,18 @@ function SortableList({ elements, onChange }:{
     setSortedElements(newOrder);
   };
 
+  const handleClick = (elem:SortElem, dir: 'up'|'down') => {
+    const newOrder = [...orderWhileDragging];
+    const idx = newOrder.findIndex((e) => e.value === elem.value);
+    const idx2 = (idx + (dir === 'up' ? -1 : 1) + newOrder.length) % newOrder.length;
+    const temp = newOrder[idx];
+    newOrder[idx] = newOrder[idx2];
+    newOrder[idx2] = temp;
+    if (onChange) onChange(newOrder);
+    setSortedElements(newOrder);
+    setOrderWhileDragging(newOrder);
+  };
+
   const activeArray = dragging ? orderWhileDragging : sortedElements;
   return (
     <div
@@ -70,16 +85,23 @@ function SortableList({ elements, onChange }:{
       onDragOver={handleDragOver}
     >
       {activeArray.map((elem) => (
-        <div
-          onDragStart={(e) => handleDragStart(e, elem)}
-          onDragEnd={() => handleDragEnd()}
-          onDragEnter={() => handleDragEnter(elem)}
-          key={elem.value}
-          id={elem.value}
-          className={`orderingElem ${(dragging && elem === activeDragging) ? 'draggingElem' : ''}`}
-          draggable
-        >
-          {elem.text}
+        <div className="elemOrderButtons" key={elem.value}>
+          <Button onClick={() => handleClick(elem, 'down')}>
+            <FontAwesomeIcon icon={faDownLong} />
+          </Button>
+          <div
+            onDragStart={(e) => handleDragStart(e, elem)}
+            onDragEnd={() => handleDragEnd()}
+            onDragEnter={() => handleDragEnter(elem)}
+            id={elem.value}
+            className={`orderingElem ${(dragging && elem === activeDragging) ? 'draggingElem' : ''}`}
+            draggable
+          >
+            {elem.text}
+          </div>
+          <Button onClick={() => handleClick(elem, 'up')}>
+            <FontAwesomeIcon icon={faUpLong} />
+          </Button>
         </div>
       ))}
       <div

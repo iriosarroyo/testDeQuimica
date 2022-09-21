@@ -1,6 +1,6 @@
 import { getToken, onMessage } from 'firebase/messaging';
 import React from 'react';
-import { messaging } from './firebaseApp';
+import { messaging, msgToken } from './firebaseApp';
 import { getFromSocket, getSocket } from './socket';
 
 const requestPermission = (curso:string) => {
@@ -11,7 +11,7 @@ const requestPermission = (curso:string) => {
 };
 
 const reqTokenMessaging = (curso:string) => getToken(messaging, {
-  vapidKey: 'BMqChm2QrRhm3r8HOSLPRolCkd5lv-f-_Ahmo9AGKiX5g_Bw_r5TiqFt-Rek53TLxs2Heq6bUWKiWpzCmYGbzwE',
+  vapidKey: msgToken,
 }).then((currentToken) => {
   if (currentToken) {
     getSocket().emit('firebase:messaging:token', currentToken, ['all', curso]);

@@ -20,9 +20,10 @@ import {
 } from 'react-router-dom';
 import SearchCmd from 'services/commands';
 import { setMantenimiento, writeUserInfo } from 'services/database';
+import { onLogroComplete } from 'services/logros';
+import { initialNavValue, LOCAL_NAV } from 'services/menus';
 import reqTokenMessaging, { messagingListener, sendNotification } from 'services/notifications';
 import { connectToRoom, createRoom, exitRoom } from 'services/rooms';
-import { eventListenerSocket } from 'services/socket';
 import Toast from 'services/toast';
 
 const Perfil = loadable(() => import('../Perfil'), {
@@ -63,17 +64,6 @@ const Logros = loadable(() => import('../Logros'), {
 const Clasificacion = loadable(() => import('../Clasificacion'), {
   fallback: <GeneralContentLoader />,
 });
-const LogroComplete = loadable(() => import('../LogroCompleted'), {
-  fallback: <GeneralContentLoader />,
-});
-
-const navContractDefault = window.innerWidth <= 500;
-const localNavValue = localStorage.getItem('TestDeQuimica_NavContract');
-const getInitialNavValue = () => {
-  if (localNavValue === null) return navContractDefault;
-  return localNavValue === 'true';
-};
-const initialNavValue = getInitialNavValue();
 
 const addLoggedInCommands = (navigate:Function, setError:Function) => {
   const cmds = [
@@ -168,7 +158,7 @@ export default function LoggedIn() {
   const location = useLocation();
   const handleClick = useMemo(() => {
     const fn = () => {
-      localStorage.setItem('TestDeQuimica_NavContract', `${!navContract}`);
+      localStorage.setItem(LOCAL_NAV, `${!navContract}`);
       setNav(!navContract);
     };
     removeShortCut('navMenu');
@@ -247,12 +237,7 @@ export default function LoggedIn() {
   useEffect(() => {
     let result = () => {};
     if (user?.userDDBB) {
-      result = eventListenerSocket('onLogroCompletion', (logroId:string) => {
-        setFront({
-          elem: <LogroComplete logroId={logroId} />,
-          cb: () => {},
-        });
-      });
+      result = onLogroComplete(setFront);
     }
     return result;
   }, [user?.userDDBB === undefined]);

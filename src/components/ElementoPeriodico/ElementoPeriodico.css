@@ -1,6 +1,14 @@
 .tablaPeriodica g {
   cursor: pointer;
 }
+
+.tablaPeriodica .gNoPointer{
+  cursor: auto;
+}
+.tablaPeriodica .gNoPointer g{
+  cursor: auto;
+}
+
 .gas rect {
   fill: var(--bg3-color);
 }

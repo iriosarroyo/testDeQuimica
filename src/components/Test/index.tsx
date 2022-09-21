@@ -341,7 +341,7 @@ const addUserQuestions = () => {
         else newTemas[tema][`level${nivel}`].fallos += `${id};`;
       });
       writeUserInfo(newTemas, 'temas');
-      updateLogrosTest(user, !path.includes('room'), preguntas.length, calcularPuntuacion(answers, corrAnswers, puntType));
+      updateLogrosTest(user, !path.includes('room'), preguntas.length, calcularPuntuacion(answers, corrAnswers, puntType), newTemas);
       ableToAdd = false;
     },
   };

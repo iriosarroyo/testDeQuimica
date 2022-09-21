@@ -1,10 +1,17 @@
+import loadable from '@loadable/component';
+import GeneralContentLoader from 'components/GeneralContentLoader';
 import logrosJSON from 'info/logros.json';
-import { MouseEvent } from 'react';
+import React, { MouseEvent } from 'react';
 import {
   CompleteUser, Logro, Logros, LogrosKeys, userDDBB,
 } from 'types/interfaces';
-import { getFromSocket } from './socket';
+import { getAllPuntuaciones } from './probability';
+import { eventListenerSocket, getFromSocket } from './socket';
 import { getNumOfDays } from './time';
+
+const LogroComplete = loadable(() => import('components/LogroCompleted'), {
+  fallback: <GeneralContentLoader />,
+});
 
 export const logros:Logros[] = Object.values(logrosJSON) as Logros[];
 export const getLogrosFrom = (username:string) => getFromSocket('main:getLogrosFromUser', username);
@@ -34,10 +41,43 @@ export const updateLogrosTest = (
   isTestDeHoy:boolean,
   numDePregs:number,
   punt:number,
+  temas: userDDBB['temas'],
 ) => {
   sendLogroUpdate('testsDone', user.logros?.testsDone);
   sendLogroUpdate('preguntasDone', user.logros?.preguntasDone, numDePregs);
+  sendLogroUpdate('numberOf10', user.logros?.numberOf10, getAllPuntuaciones(temas));
   if (isTestDeHoy) sendLogroUpdate('testDeHoySeguidos', user.logros?.testDeHoySeguidos, getNumOfDays(Date.now()));
   if (isTestDeHoy && punt === 5) sendLogroUpdate('testDeHoyMaxPunt', user.logros?.testDeHoyMaxPunt);
   if (!isTestDeHoy) sendLogroUpdate('onlineDone', user.logros?.onlineDone);
 };
+
+const logroCompEvClosure = () => {
+  let frontFn = (a:any) => console.log(a);
+  const ids:string[] = [];
+  let activeId:string|undefined;
+
+  const setActiveId = (id:string | undefined) => { activeId = id; };
+  const showNextLogo = () => {
+    if (activeId !== undefined || ids.length === 0) return;
+    [activeId] = ids;
+    const onEnd = () => {
+      setActiveId(undefined);
+      showNextLogo();
+    };
+    frontFn({
+      elem: <LogroComplete logroId={ids[0]} fn={onEnd} />,
+      cb: onEnd,
+    });
+    ids.shift();
+  };
+
+  const onLogroComplete = (setFront: any) => eventListenerSocket('onLogroCompletion', (logroId:string) => {
+    frontFn = setFront;
+    ids.push(logroId);
+    showNextLogo();
+  });
+
+  return onLogroComplete;
+};
+
+export const onLogroComplete = logroCompEvClosure();

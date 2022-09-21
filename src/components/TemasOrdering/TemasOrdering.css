@@ -2,7 +2,7 @@
     height: 20px;
 }
 
-.orderingElem{
+.orderingElem, .elemOrderButtons button{
     padding: 7px 15px;
     border-radius: 5px;
     margin: 2px 0px;
@@ -12,4 +12,10 @@
 
 .draggingElem{
     opacity: .6;
+}
+
+.elemOrderButtons{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 5px;
 }
