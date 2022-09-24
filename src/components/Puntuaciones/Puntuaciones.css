@@ -21,11 +21,20 @@
     border-radius: 15px;
     display: grid;
     grid-template-columns: 100%;
+    grid-auto-rows: max-content;
     row-gap: 5px;
     padding: 5px 10px;
     background-color: var(--bg2-color);
     color: var(--font2-color);
+    height: max-content;
 }
+
+.puntuacionTemaProgress > button {
+    display: contents;
+    background-color: inherit;
+    color: inherit;
+}
+
 
 .progressPuntuacionesContainer{
     --h: 20px;

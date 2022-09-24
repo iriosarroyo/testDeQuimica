@@ -70,6 +70,7 @@
 .displayDocs {
   display: grid;
   text-align: left;
+  justify-items: center;
   width: 100%;
   max-height: 100%;
   grid-template-areas:
@@ -300,13 +301,44 @@ a.dataInfo {
   padding: 15px;
 }
 
+.draggingActive{
+  position: fixed;
+  bottom: 10px;
+  z-index: 1;
+  background-color: var(--bg2-color);
+  padding: 15px 20px 10px 20px;
+  color: var(--font2-color);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: 5px;
+  align-items: center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 
+  .draggingActive > svg {
+    --bounce: -10px;
+    animation: bounce infinite 900ms linear;
+  }
+
   .displayDocs {
     transition: all 500ms;
+  }
+
+  @keyframes bounce{
+    0%{
+      transform: translate(0, 0);
+    }
+    50%{
+      transform: translate(0, var(--bounce));
+    }
+    /* 67%{
+      transform: translate(0, calc(var(--bounce) * -1));
+    } */
   }
 
   @keyframes slider-text {

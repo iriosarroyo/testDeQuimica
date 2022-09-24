@@ -11,6 +11,7 @@ import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
+import { getAuth } from 'firebase/auth';
 import setFooter from 'hooks/setFooter';
 import { copyAllCmd, copyCmd } from 'info/myCommands';
 import React, {
@@ -26,6 +27,7 @@ import {
 import { createIntersectionObserver } from 'services/elemenstInViewPort';
 import { GrupoNoPermission } from 'services/errores';
 import { updateLogrosTest } from 'services/logros';
+import { getFromSocketUID } from 'services/socket';
 import { Answer, PreguntaTestDeQuimica, userDDBB } from 'types/interfaces';
 import './Test.css';
 
@@ -334,14 +336,37 @@ const addUserQuestions = () => {
     ) => {
       if (!ableToAdd) return;
       const newTemas = JSON.parse(JSON.stringify(temas)); // Deep copy
+      let [blank, correct, incorrect] = Array(3).fill('') as ''[];
       preguntas.forEach(({ nivelYTema, id }) => {
         const [tema, nivel] = nivelYTema.split('_');
-        if (answers[id]?.current === '' || answers[id]?.current === undefined) newTemas[tema][`level${nivel}`].enBlanco += `${id};`;
-        else if (answers[id]?.current === corrAnswers[id]) newTemas[tema][`level${nivel}`].aciertos += `${id};`;
-        else newTemas[tema][`level${nivel}`].fallos += `${id};`;
+        const strId = `${id};`;
+        if (answers[id]?.current === '' || answers[id]?.current === undefined) {
+          newTemas[tema][`level${nivel}`].enBlanco += strId;
+          blank += strId;
+        } else if (answers[id]?.current === corrAnswers[id]) {
+          newTemas[tema][`level${nivel}`].aciertos += strId;
+          correct += strId;
+        } else {
+          newTemas[tema][`level${nivel}`].fallos += strId;
+          incorrect += strId;
+        }
       });
       writeUserInfo(newTemas, 'temas');
-      updateLogrosTest(user, !path.includes('room'), preguntas.length, calcularPuntuacion(answers, corrAnswers, puntType), newTemas);
+      const score = calcularPuntuacion(answers, corrAnswers, puntType);
+      updateLogrosTest(user, !path.includes('room'), preguntas.length, score, newTemas);
+      getFromSocketUID('sendStatsForAdmin', {
+        type: path.includes('room') ? 'online' : 'testDeHoy',
+        time: getStateTime(),
+        date: Date.now(),
+        score,
+        numOfQuestions: preguntas.length,
+        blank,
+        correct,
+        incorrect,
+        answers: Object.fromEntries(preguntas.map(({ id }) => ([id, answers[id]?.current ?? '']))),
+        puntType,
+        uid: getAuth().currentUser?.uid,
+      }).then(console.log);
       ableToAdd = false;
     },
   };

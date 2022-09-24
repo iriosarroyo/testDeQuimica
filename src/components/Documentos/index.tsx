@@ -19,7 +19,9 @@ import SearchCmd from 'services/commands';
 import { FileData, FolderData } from 'types/interfaces';
 import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileUpload, faFolderPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCloudArrowUp, faFileUpload, faFolderPlus, faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import FrontContext from 'contexts/Front';
 import ContextMenu from 'components/ContextMenu';
 
@@ -115,13 +117,13 @@ function UploadProgress({ name, id, setUploads }:
     };
     const cb2 = () => {
       setSubido(true);
-      // window.setTimeout(deleteItem, 5000);
+      window.setTimeout(deleteItem, 5000);
     };
     document.addEventListener(`document:fragment:${id}`, cb);
     document.addEventListener(`document:uploaded:${id}`, cb2);
     return () => {
       document.removeEventListener(`document:fragment:${id}`, cb);
-      document.addEventListener(`document:uploaded:${id}`, cb2);
+      document.removeEventListener(`document:uploaded:${id}`, cb2);
     };
   }, []);
   return (
@@ -200,6 +202,7 @@ function Documentos({ admin }:{admin?:boolean}) {
   const [folders, setFolders] = useState<string[]>([]);
   const [files, setFiles] = useState<FileData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [dragging, setDragging] = useState(0);
   const [info, setInfo] = useState<FileData|undefined>(undefined);
   const [visibilityInfo, setVisibilityInfo] = useState(false);
   const [contextMenu, setContextMenu] = useState<StateContextMenuDocs|null>(null);
@@ -305,12 +308,23 @@ function Documentos({ admin }:{admin?:boolean}) {
     });
   };
 
+  const handleDragLeave = () => {
+    if (!admin || search !== null || folderPath === '') return;
+    setDragging((prevVal) => prevVal - 1);
+  };
   const handleDrop = (e:DragEvent<HTMLDivElement>) => {
     if (!admin || search !== null || folderPath === '') return;
     e.preventDefault();
     e.stopPropagation();
+    handleDragLeave();
     const { files: dropFile } = e.dataTransfer;
     uploadFilesToPath(dropFile);
+  };
+
+  const handleDragEnter = () => {
+    console.log('dragEnter');
+    if (!admin || search !== null || folderPath === '') return;
+    setDragging((prevVal) => prevVal + 1);
   };
 
   const handleFileChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -341,7 +355,19 @@ function Documentos({ admin }:{admin?:boolean}) {
   };
 
   return (
-    <div className={`displayDocs ${infoDisplayed}`} onDrop={handleDrop} onDragOver={handleDragOver}>
+    <div
+      className={`displayDocs ${infoDisplayed}`}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
+      {dragging && (
+      <div className="draggingActive">
+        <FontAwesomeIcon icon={faCloudArrowUp} />
+        <span>Subir Archivo</span>
+      </div>
+      )}
       <Path path={path} isSearch={search !== null} admin={!!admin} />
       <div className="foldersAndFilesContainer">
         {// eslint-disable-next-line no-nested-ternary
