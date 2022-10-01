@@ -72,7 +72,6 @@ export const createSocket = (
   socket.on('disconnect', (reason) => {
     timeout2 = window.setTimeout(() => setLoading(true), 500);
     Toast.addMsg('Se ha desconectado del servidor', 3000);
-    console.log('reason', reason);
     if (reason === 'io server disconnect'
     // || reason === 'io client disconnect'
     ) {

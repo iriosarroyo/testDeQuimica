@@ -1,7 +1,7 @@
 export default class Toast {
   static buffer:{text:string, duration:number}[] = [];
 
-  static setterFn = (text:string|undefined) => { console.log(text); };
+  static setterFn = (text:string|undefined) => { (() => text)(); };
 
   static addMsg(text:string, duration:number) {
     const prevToast = Toast.buffer.find((x) => x.text === text && x.duration === duration);

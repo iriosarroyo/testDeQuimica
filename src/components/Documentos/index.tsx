@@ -322,7 +322,6 @@ function Documentos({ admin }:{admin?:boolean}) {
   };
 
   const handleDragEnter = () => {
-    console.log('dragEnter');
     if (!admin || search !== null || folderPath === '') return;
     setDragging((prevVal) => prevVal + 1);
   };

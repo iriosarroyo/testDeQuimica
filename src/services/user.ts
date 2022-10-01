@@ -68,7 +68,7 @@ export const logOut = () => {
 };
 
 export const removeUser = async () => {
-  if (!window.confirm('¿Estás seguro de querer eliminar tu cuenta, se perderán todos tus datps?')) return;
+  if (!window.confirm('¿Estás seguro de querer eliminar tu cuenta, se perderán todos tus datos?')) return;
   if (auth.currentUser === null) return;
   const deleteProvider = new GoogleAuthProvider();
   if (auth.currentUser.email) {

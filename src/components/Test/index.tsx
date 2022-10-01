@@ -307,7 +307,7 @@ function HeaderTest({
 const calcularPuntuacion = (
   answers:{[key:string]:Answer|undefined},
   corrAnswers:{[key:string]:string},
-  puntType:'Puntos'|'Aciertos'|'Fallos'|undefined,
+  puntType?:'Puntos'|'Aciertos'|'Fallos'|undefined,
 ) => {
   const { aciertos: ac, fallos: fa } = Object.entries(corrAnswers)
     .reduce(({ fallos, aciertos }, [id, ans]) => {
@@ -359,6 +359,7 @@ const addUserQuestions = () => {
         time: getStateTime(),
         date: Date.now(),
         score,
+        defScore: puntType === 'Puntos' || puntType === undefined ? score : calcularPuntuacion(answers, corrAnswers),
         numOfQuestions: preguntas.length,
         blank,
         correct,
@@ -366,7 +367,7 @@ const addUserQuestions = () => {
         answers: Object.fromEntries(preguntas.map(({ id }) => ([id, answers[id]?.current ?? '']))),
         puntType,
         uid: getAuth().currentUser?.uid,
-      }).then(console.log);
+      });
       ableToAdd = false;
     },
   };
