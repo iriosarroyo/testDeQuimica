@@ -22,11 +22,13 @@
         "@types/uuid": "^8.3.4",
         "contrast-color": "1.0.1",
         "firebase": "^9.7.0",
+        "plotly.js": "^2.14.0",
         "random-seed": "^0.3.0",
         "react": "^18.1.0",
         "react-confetti": "^6.1.0",
         "react-content-loader": "6.2.0",
         "react-dom": "^18.1.0",
+        "react-plotly.js": "^2.6.0",
         "react-router-dom": "^6.3.0",
         "react-scripts": "^5.0.1",
         "react-use": "^17.4.0",
@@ -60,7 +62,9 @@
         ]
     },
     "devDependencies": {
+        "@types/plotly.js": "^2.12.5",
         "@types/random-seed": "^0.3.3",
+        "@types/react-plotly.js": "^2.5.2",
         "@typescript-eslint/eslint-plugin": "^5.22.0",
         "@typescript-eslint/parser": "^5.22.0",
         "eslint": "^8.16.0",

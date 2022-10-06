@@ -231,10 +231,10 @@ class Commands {
 
   static createRegExp(value:string) {
     let finalVal = Commands.HtmlEncode(value.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&'));
-    finalVal = finalVal.replace(/á|a/g, '(á|a|&aacute;)').replace(/é|(?<!&.acut)e/g, '(é|e|&eacute;)').replace(/í|i/g, '(í|i|&iacute;)')
-      .replace(/ó|o/g, '(ó|o|&oacute;)')
-      .replace(/ú|ü|(?<!&.ac)u/g, '(ú|ü|u|&uacute;|&uuml;)')
-      .replace(/n|ñ/g, '(n|ñ|&ntilde;)')
+    finalVal = finalVal.replace(/á|a/gi, '(á|a|&aacute;)').replace(/é|(?<!&.acut)e/gi, '(é|e|&eacute;)').replace(/í|i/gi, '(í|i|&iacute;)')
+      .replace(/ó|o/gi, '(ó|o|&oacute;)')
+      .replace(/ú|ü|(?<!&.ac)u/gi, '(ú|ü|u|&uacute;|&uuml;)')
+      .replace(/n|ñ/gi, '(n|ñ|&ntilde;)')
       .replace(' ', '( |(&nbsp;))');
     return new RegExp(`(${finalVal})(?![^<]*>)`, 'i');
   }

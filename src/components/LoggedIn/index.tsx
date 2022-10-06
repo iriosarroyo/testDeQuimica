@@ -64,6 +64,9 @@ const Logros = loadable(() => import('../Logros'), {
 const Clasificacion = loadable(() => import('../Clasificacion'), {
   fallback: <GeneralContentLoader />,
 });
+const Stats = loadable(() => import('../Stats'), {
+  fallback: <GeneralContentLoader />,
+});
 
 const addLoggedInCommands = (navigate:Function, setError:Function) => {
   const cmds = [
@@ -252,6 +255,7 @@ export default function LoggedIn() {
             ? (
               <Routes>
                 <Route path="/" element={<Inicio />} />
+                <Route path="/inicio" element={<Inicio />} />
                 <Route path="/documentos/*" element={<Documentos />} />
                 <Route path="/perfil" element={<Perfil user={user} />} />
                 <Route path="/tablaPeriodica" element={<TablaEditor />} />
@@ -261,6 +265,7 @@ export default function LoggedIn() {
                 <Route path="/puntuaciones" element={<Puntuaciones user={user} />} />
                 <Route path="/logros" element={<Logros starsAndLogros={user.userDDBB} />} />
                 <Route path="/clasificacion" element={<Clasificacion />} />
+                <Route path="/estadisticas" element={<Stats />} />
                 <Route path="/admin/*" element={<Admin />} />
               </Routes>
             )

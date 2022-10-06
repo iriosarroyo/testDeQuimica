@@ -245,3 +245,42 @@ export interface Answer{
   current: string,
   final?: string
 }
+
+export interface TestStats{
+    n_blank: number,
+    n_correct: number,
+    n_incorrect: number,
+    n_incorrect_per_id: {[k:string]: number}
+    n_questions: number,
+    n_tests: number,
+    sum_score: number,
+    sum_defScore: number,
+    sum_time: number,
+    ave_score: number|null,
+    ave_defScore: number|null,
+    ave_time: number|null,
+    ave_defScore_exam: number|null,
+    ave_score_exam:number|null,
+    most_common_incorrect: {max: number|null, argsmax:string[]},
+    uids: Set<string>,
+    statsPerUser: {[k:string]:TestStats&{fullName:string,}},
+    notDoneTest?:string[]
+}
+
+export interface TimeStats {
+    sum_timeConnected: number,
+    num_connections:number,
+    ave_timeConnected:number|null,
+    ave_per_user_timeConnected:number|null
+    uids:Set<string>
+    timesPerUser:{[k:string]:TimeStats&{fullName:string,}}
+    timesPerDay:{[k:string]:TimeStats}
+    notActive?:string[],
+}
+
+export interface Stats{
+  statsTestDeHoy:TestStats,
+  statsOnline:TestStats,
+  statsTime:TimeStats,
+  statsTests:TestStats
+}

@@ -63,7 +63,7 @@ function InlineEditor({
     <Editor
       apiKey="m6t3xlqm61ck0rs6rwpjljwyy23zyz0neghtxujisl42v67b"
       onInit={(_, editor) => {
-        const { bodyElement } = editor;
+        const { bodyElement = { tabIndex: 0 } } = editor;
         ref.current = editor;
         bodyElement.tabIndex = TAB_IDX.editor(id, tabId);
       }}

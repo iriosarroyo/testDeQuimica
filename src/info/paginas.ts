@@ -3,6 +3,8 @@ import {
   faArchive,
   faArrowDown19,
   faCalendarDay,
+  faChartLine,
+  faChartPie,
   faEdit,
   faFilePen,
   faGraduationCap,
@@ -19,7 +21,7 @@ import { getShortCut } from './shortcutTools';
 
 const paginas:Paginas = [
   {
-    url: '/',
+    url: '/inicio',
     text: 'Inicio',
     icon: faHome,
     id: 'goToInicio',
@@ -135,6 +137,19 @@ const paginas:Paginas = [
     action: 'goTo',
     description: 'Abre la página de <em>Perfil</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
+  {
+    url: '/estadisticas',
+    text: 'Estadísticas',
+    icon: faChartLine,
+    id: 'goToStats',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+V',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Estadísticas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
 ];
 
 export const paginasAdmin:Paginas = [
@@ -202,6 +217,19 @@ export const paginasAdmin:Paginas = [
     shift: true,
     action: 'goTo',
     description: 'Abre la página de <em>Perfiles</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
+  },
+  {
+    url: '/admin/estadisticas',
+    text: 'Estadísticas',
+    icon: faChartPie,
+    id: 'goToStatsAdmin',
+    get shortcut() {
+      return getShortCut(this);
+    },
+    default: 'Ctrl+Alt+B',
+    shift: true,
+    action: 'goTo',
+    description: 'Abre la página de <em>Estadísticas</em> en la misma pestaña. Para abrir en una nueva pestaña pulsa <kbd>Shift</kbd>.',
   },
 ];
 

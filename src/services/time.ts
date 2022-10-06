@@ -10,7 +10,7 @@ export const time2String = (ms:number, show:'hours'|'seconds'|'minutes') => {
   const horaStr = hora < 10 ? `0${hora}` : hora;
   const minStr = min < 10 ? `0${min}` : min;
   const segStr = seg < 10 ? `0${seg}` : seg;
-  let timeStr;
+  let timeStr:string = '';
   if (show === 'hours') timeStr = `${horaStr}:${minStr}:${segStr}`;
   if (show === 'minutes') timeStr = `${minStr}:${segStr}`;
   if (show === 'seconds') timeStr = `${segStr}`;
@@ -61,3 +61,9 @@ export const getCETTime = (date:Date|number) => {
 };
 
 export const getNumOfDays = (time:Date|number) => Math.floor(getCETTime(time) / DAY_TO_MS);
+
+export const getDatePlotly = (numOfDays:number) => {
+  const ms = numOfDays * DAY_TO_MS;
+  const date = new Date(ms);
+  return date.toISOString().replace(/T.+/, '');
+};

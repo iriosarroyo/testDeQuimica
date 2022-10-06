@@ -52,7 +52,7 @@ export const updateLogrosTest = (
 };
 
 const logroCompEvClosure = () => {
-  let frontFn = (a:any) => console.log(a);
+  let frontFn = (a:any) => { (() => a)(); };
   const ids:string[] = [];
   let activeId:string|undefined;
 
