@@ -88,7 +88,7 @@
       }
     },
     "respuestas": {
-      ".read": "query.orderByKey &&( root.child('stats').child(auth.uid).child('activeTest').child('preguntas').hasChild(query.equalTo) == true || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('users').child(auth.uid).child('username').val()).child('preguntas').hasChild(query.equalTo)) || root.child('users').child(auth.uid).child('admin').val() === true",
+      ".read": "query.orderByKey &&( root.child('stats').child(auth.uid).child('activeTest').child('preguntas').hasChild(query.equalTo) == true || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('users').child(auth.uid).child('username').val()).child('preguntas').hasChild(query.equalTo)) || root.child('users').child(auth.uid).child('admin').val() === true || root.child('users').child(auth.uid).child('editor').val() == true",
       ".write": false
     },
     "nombresUsuarios": {
