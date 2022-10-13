@@ -1,7 +1,7 @@
 import { logIn } from 'services/user';
 import React, { useContext, useEffect, useState } from 'react';
 import MyErrorContext from 'contexts/Error';
-import { ReactComponent as Logo } from 'logo.svg';
+import { Logo } from 'services/determineApp';
 import { ReactComponent as GoogleLogo } from 'logoGoogle.svg';
 import Button from 'components/Button';
 import './Login.css';
@@ -69,7 +69,11 @@ export default function Login() {
               />
             </a>
             <h2>
-              Esta es la página web de preparación para las Olimpiadas de Química del
+              Esta es la página web de preparación para las Olimpiadas de
+              {' '}
+              {process.env.REACT_APP_ASIGNATURA}
+              {' '}
+              del
               {' '}
               <a
                 href="https://www.retamar.com"

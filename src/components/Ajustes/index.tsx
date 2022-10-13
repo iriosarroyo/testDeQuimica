@@ -45,13 +45,14 @@ function ShortCutsPopUp({ shortcut }:{shortcut:Shortcut}) {
   useEffect(() => {
     if (ref && ref.current) ref.current.focus();
   }, []);
+  if (shortcut.default === undefined || shortcut.shortcut === undefined) return null;
   return (
     <div>
       <h3>Cambia el atajo de teclado</h3>
       <em>Pulsa una tecla para cambiar el siguiente atajo de teclado</em>
       <div>
         <strong>Descripción: </strong>
-        <span dangerouslySetInnerHTML={{ __html: shortcut.description }} />
+        <span>{shortcut.description}</span>
       </div>
       <div>
         <strong>Atajo por defecto: </strong>
@@ -190,14 +191,16 @@ export default function Ajustes() {
             <strong>Atajo de teclado</strong>
           </li>
           {shortcuts.map((shortcut) => (
-            <li key={shortcut.id}>
-              <Button className="shortcutAjusteElement shortcutCombination" onClick={() => handleClick(shortcut)}>
-                <div dangerouslySetInnerHTML={{ __html: shortcut.description }} />
-                <div>
-                  <ShortcutKey shortcut={shortcut.shortcut} />
-                </div>
-              </Button>
-            </li>
+            shortcut.shortcut ? (
+              <li key={shortcut.id}>
+                <Button className="shortcutAjusteElement shortcutCombination" onClick={() => handleClick(shortcut)}>
+                  <div>{shortcut.description}</div>
+                  <div>
+                    <ShortcutKey shortcut={shortcut.shortcut} />
+                  </div>
+                </Button>
+              </li>
+            ) : null
           ))}
         </ul>
       </div>

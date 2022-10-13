@@ -5,9 +5,11 @@ import { FirebaseError } from 'firebase/app';
 import {
   getDownloadURL, getMetadata, listAll, ref, StorageReference,
 } from 'firebase/storage';
-import { FormEvent } from 'react';
-import { FileData, FolderData } from 'types/interfaces';
+import { PATHS_DDBB } from 'info/paths';
+import React, { FormEvent } from 'react';
+import { FileData, FolderData, LinkDocs } from 'types/interfaces';
 import SearchCmd from './commands';
+import { onValueDDBB, readDDBB, writeDDBB } from './database';
 import { stg } from './firebaseApp';
 import { getFromSocket, getFromSocketUID, getSocket } from './socket';
 import Toast from './toast';
@@ -51,11 +53,19 @@ export const getItemsFromPath = async (path:string) => {
   return { folders, files };
 };
 
+export const getDocumentsLink = async () => {
+  const [docsLinks, error] = await readDDBB(PATHS_DDBB.documentsLinks) as [{[k:string]:LinkDocs},
+   Error];
+  if (error) Toast.addMsg(`Error al cargar los link de los documentos ${error.message}`, 3000);
+  return Object.values(docsLinks ?? {}).map((x:LinkDocs) => ({ ...x, isLink: true })) as LinkDocs[];
+};
+
 export const getAllDocumentsAndFolders = async (
   path?:string,
-  result:(Promise<FileData>|FolderData)[] = [{ name: 'Documentos', url: 'Documentos' }, { name: ':__RECURSOS_QUÍMICA__:', url: '' }],
+  result:(Promise<FileData>|FolderData)[] = [{ name: 'Documentos', url: 'Documentos' }],
 ) => {
   const reference = ref(stg, path ?? 'Documentos');
+  if (path === undefined) result.push(...await getDocumentsLink());
   const { prefixes, items } = await listAll(reference);
   const folders = prefixes.map((pre) => ({ name: pre.name, url: pre.fullPath }));
   result.push(...folders);
@@ -215,4 +225,40 @@ export const getIconForFile = (format:ReturnType<typeof determineContentType>) =
   if (format === 'powerpoint') return faFilePowerpoint;
   if (format === 'word') return faFileWord;
   return faFileAlt;
+};
+
+export const onValueDocumentsLink = (
+  setter:React.Dispatch<React.SetStateAction<LinkDocs[]|undefined>>,
+) => onValueDDBB(PATHS_DDBB.documentsLinks, (docsLinks:{[k:string]:LinkDocs}) => {
+  setter(Object.values(docsLinks ?? {}).map((x) => ({ ...x, isLink: true })));
+}, (error:Error) => Toast.addMsg(`Error al cargar los link de los documentos: ${error.message}`, 3000));
+
+export const saveDocumentLinks = async (name:string, url:string) => {
+  if (name === '') {
+    Toast.addMsg('Nombre no válido para la carpeta', 3000);
+    return false;
+  }
+  const error = await writeDDBB(`${PATHS_DDBB.documentsLinks}/${name}`, { name, url });
+  if (error) {
+    Toast.addMsg(`Error al subir el link: ${error.message}`, 3000);
+    return false;
+  }
+  Toast.addMsg('Link creado correctamente', 3000);
+  return true;
+};
+
+export const deleteDocumentLinks = async (name:string) => {
+  const error = await writeDDBB(`${PATHS_DDBB.documentsLinks}/${name}`, null);
+  if (error) {
+    Toast.addMsg(`Error al eliminar el link: ${error.message}`, 3000);
+    return false;
+  }
+  Toast.addMsg('Link eliminado correctamente', 3000);
+  return true;
+};
+
+export const updateDocumentLinks = async (prevName:string, name:string, url:string) => {
+  const del = await deleteDocumentLinks(prevName);
+  const create = await saveDocumentLinks(name, url);
+  return del && create;
 };

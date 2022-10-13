@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {
-  CompleteUser, FileData, FolderData, PreguntaTestDeQuimica,
+  CompleteUser, FileData, FolderData, PreguntaTest,
 } from 'types/interfaces';
 import { getAllDocumentsAndFolders } from './documents';
 import { sendLogroUpdate } from './logros';
@@ -43,7 +43,7 @@ class Commands {
 
   customData:{[k:string]: any} = {};
 
-  preguntas: PreguntaTestDeQuimica[] | null = null;
+  preguntas: PreguntaTest[] | null = null;
 
   removeCommand(name:string) {
     this.commands = this.commands.filter((x) => x.name !== name);
@@ -75,7 +75,7 @@ class Commands {
     this.documents.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  setPreguntasTest(pregs:{[key:string]:PreguntaTestDeQuimica}|PreguntaTestDeQuimica[]) {
+  setPreguntasTest(pregs:{[key:string]:PreguntaTest}|PreguntaTest[]) {
     const newPregs = Array.isArray(pregs) ? pregs : Object.values(pregs);
     this.preguntas = newPregs;
   }
@@ -267,7 +267,7 @@ class Commands {
 
   async runPreguntasSearch(val:string) {
     if (this.preguntas === null) {
-      this.preguntas = Object.values((await getFromSocketUID('main:allQuestions'))?.[0] as {[key:string]:PreguntaTestDeQuimica});
+      this.preguntas = Object.values((await getFromSocketUID('main:allQuestions'))?.[0] as {[key:string]:PreguntaTest});
     }
     const result = val === '' ? [] : this.preguntas.filter((preg) => {
       const regexp = Commands.createRegExp(val);
@@ -331,7 +331,7 @@ class Commands {
       this.lastSearch = value;
     }
     const searchResult = this.search(value);
-    if (searchResult === undefined) Toast.addMsg('No se ha encontrado resultados', 3000);
+    if (searchResult === undefined && value !== '') Toast.addMsg('No se han encontrado resultados', 3000);
     const { html, id } = searchResult ?? { html: '', id: undefined };
     const event = new CustomEvent('commands:search', { detail: { html, id, previousId } });
     document.dispatchEvent(event);

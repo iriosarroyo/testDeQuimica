@@ -1,5 +1,5 @@
-export const LOCAL_NAV = 'TestDeQuimica_NavContract';
-export const LOCAL_USER = 'TestDeQuimica_UserList';
+export const LOCAL_NAV = 'TestRetamar_NavContract';
+export const LOCAL_USER = 'TestRetamar_UserList';
 const localNavValue = localStorage.getItem(LOCAL_NAV);
 const localUserListValue = localStorage.getItem(LOCAL_USER);
 const getInitialValue = (localValue: null| string) => {

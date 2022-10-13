@@ -1,39 +1,15 @@
-import loadable from '@loadable/component';
-import GeneralContentLoader from 'components/GeneralContentLoader';
 import UserContext from 'contexts/User';
+import { paginasAdmin } from 'info/paginas';
+import MyRoutes from 'MyRoutes';
 import React, { useContext } from 'react';
-import { Route, Routes } from 'react-router-dom';
-
-const InicioEditor = loadable(() => import('../InicioEditor'), {
-  fallback: <GeneralContentLoader />,
-});
-const QuestionEditor = loadable(() => import('../QuestionEditor'), {
-  fallback: <GeneralContentLoader />,
-});
-const TemasOrdering = loadable(() => import('../TemasOrdering'), {
-  fallback: <GeneralContentLoader />,
-});
-const Documentos = loadable(() => import('../Documentos'), {
-  fallback: <GeneralContentLoader />,
-});
-const PerfilesAdmin = loadable(() => import('../PerfilesAdmin'), {
-  fallback: <GeneralContentLoader />,
-});
-const StatsAdmin = loadable(() => import('../StatsAdmin'), {
-  fallback: <GeneralContentLoader />,
-});
+import { Routes } from 'react-router-dom';
 
 export default function Admin() {
   const user = useContext(UserContext)!;
   if (!user.userDDBB.admin) return null;
   return (
     <Routes>
-      <Route path="editarPreguntas" element={<QuestionEditor />} />
-      <Route path="editarInicio" element={<InicioEditor />} />
-      <Route path="ordenarTemas" element={<TemasOrdering />} />
-      <Route path="documentos/*" element={<Documentos admin />} />
-      <Route path="perfiles/*" element={<PerfilesAdmin />} />
-      <Route path="estadisticas/*" element={<StatsAdmin />} />
+      {MyRoutes({ pags: paginasAdmin, remove: '/admin' })}
     </Routes>
   );
 }

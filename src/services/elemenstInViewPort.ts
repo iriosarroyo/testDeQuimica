@@ -36,14 +36,13 @@ export const onChangeFullscreen = (
 ) => {
   if (!isMobile()) return () => {};
   const cbTouch = () => {
-    document.body.requestFullscreen().then(console.log)
+    document.body.requestFullscreen()
       .catch(() => setFullscreenButton(true));
     document.removeEventListener('touchend', cbTouch);
   };
   document.addEventListener('touchend', cbTouch);
 
   const cb = () => {
-    console.log('hello');
     if (document.fullscreenElement) setFullscreenButton(false);
     else setFullscreenButton(true);
   };

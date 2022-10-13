@@ -24,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import FrontContext from 'contexts/Front';
 import ContextMenu from 'components/ContextMenu';
+import DocsFront from 'components/DocsFront';
 
 function LoadingDocuments() {
   return (
@@ -361,7 +362,7 @@ function Documentos({ admin }:{admin?:boolean}) {
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      {dragging && (
+      {Boolean(dragging) && (
       <div className="draggingActive">
         <FontAwesomeIcon icon={faCloudArrowUp} />
         <span>Subir Archivo</span>
@@ -382,13 +383,7 @@ function Documentos({ admin }:{admin?:boolean}) {
             />
           ) : (
             folderPath === ''
-              ? (
-                <Folders
-                  path={admin ? '/admin/documentos' : '/documentos'}
-                  folders={['Documentos', ':__RECURSOS_QUÍMICA__:']}
-                  onContextMenu={handleContextMenu}
-                />
-              )
+              ? <DocsFront isAdmin={Boolean(admin)} />
               : (
                 <>
                   {

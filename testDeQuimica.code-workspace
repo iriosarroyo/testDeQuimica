@@ -8,6 +8,7 @@
 		}
 	],
 	"settings": {
-		"svg.preview.background": "transparent"
+		"svg.preview.background": "transparent",
+		"powershell.cwd": "c:\\Users\\Inigo\\Documents\\testDeQuimica"
 	}
 }

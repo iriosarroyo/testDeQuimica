@@ -5,9 +5,12 @@ import {
   onChildChanged,
   onValue, orderByChild, orderByKey, push, query, ref, remove, set, ThenableReference, update,
 } from 'firebase/database';
-import { PreguntaTestDeQuimica } from 'types/interfaces';
+import { PATHS_DDBB } from 'info/paths';
+import React from 'react';
+import { PreguntaTest } from 'types/interfaces';
 import { auth, db } from './firebaseApp';
 import { getFromSocketUID } from './socket';
+import Toast from './toast';
 
 export const readDDBB = async (path:string):Promise<[any, Error|undefined]> => {
   const thisRef = ref(db, path);
@@ -22,7 +25,11 @@ export const readDDBB = async (path:string):Promise<[any, Error|undefined]> => {
 
 export const onValueDDBB = (path:string, setter:Function, setError:Function) => {
   const thisRef = ref(db, path);
-  return onValue(thisRef, (snap) => setter(snap.val()), (error) => setError(error));
+  return onValue(
+    thisRef,
+    (snap) => setter(snap.val()),
+    (error) => { console.log(path, setter); setError(error); },
+  );
 };
 
 export const onChildAddedDDBB = (path:string, setter:Function, setError:Function) => {
@@ -94,8 +101,8 @@ export const writeUserInfo = async (value:any, path = '') => {
   return writeDDBB(`users/${uid}/${path}`, value);
 };
 
-export const getPreguntaById = async (id:string):Promise<PreguntaTestDeQuimica> => {
-  const [result] = await readDDBB(`preguntasTestDeQuimica/${id}`);
+export const getPreguntaById = async (id:string):Promise<PreguntaTest> => {
+  const [result] = await readDDBB(`${PATHS_DDBB.preguntas}/${id}`);
   return result;
 };
 export const getRespuestaById = async (id:string):Promise<string> => {
@@ -134,10 +141,28 @@ export const getInicioWithSetters = async (setValue:Function, setError:Function)
 };
 
 export const getFrasesCuriosasWithSetters = async (callback:Function, setError:Function) => {
-  const [frases, error] = await readDDBB('inicio/datosCuriosos');
+  const [active] = await readDDBB(PATHS_DDBB.activeDatosCuriosos);
+  if (!active) return callback(null);
+  const [frases, error] = await readDDBB(PATHS_DDBB.datosCuriosos);
   if (error) return setError(error);
-  return callback(Object.values(frases));
+  return callback(frases && Object.values(frases));
 };
+
+export const listenFrasesCuriosas = (
+  setter:React.Dispatch<React.SetStateAction<[string, string][]|undefined>>,
+) => onValueDDBB(
+  PATHS_DDBB.datosCuriosos,
+  (val:{[k:string]:string}) => setter(Object.entries(val ?? {})),
+  (val:Error) => Toast.addMsg(val.message, 3000),
+);
+
+export const listenActiveFrasesCuriosas = (
+  setter:React.Dispatch<React.SetStateAction<boolean|undefined>>,
+) => onValueDDBB(
+  PATHS_DDBB.activeDatosCuriosos,
+  setter,
+  (val:Error) => Toast.addMsg(val.message, 3000),
+);
 
 export const existsInDDBB = (path:string) => {
   const thisRef = ref(db, path);
@@ -176,6 +201,6 @@ export const readWithSetter = async (path:string, setValue:Function, setError?:F
 export const setMantenimiento = (state:boolean) => getFromSocketUID('main:mantenimiento', state);
 
 export const getPreguntasYRespuestas = () => Promise.all([
-  readDDBB('preguntasTestDeQuimica').then((x) => x[0]),
-  readDDBB('respuestas').then((x) => x[0]),
+  readDDBB(PATHS_DDBB.preguntas).then((x) => x[0]),
+  readDDBB(PATHS_DDBB.respuestas).then((x) => x[0]),
 ]);

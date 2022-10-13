@@ -20,10 +20,10 @@ export default function Folders({ folders, path, onContextMenu }:
       {folders.map((folder:string|FolderData) => {
         if (typeof folder === 'string') {
           const url = `${path}/${folder}`;
-          return <Folder key={url} name={folder} url={url} onContextMenu={onContextMenu} />;
+          return <Folder key={url} folder={{ name: folder, url }} onContextMenu={onContextMenu} />;
         }
-        const { url, name } = folder;
-        return <Folder key={url} name={name} url={`${path}/${url}`} onContextMenu={onContextMenu} />;
+        const { url, isLink } = folder;
+        return <Folder key={url} folder={{ ...folder, url: isLink ? url : `${path}/${url}` }} onContextMenu={isLink ? () => {} : onContextMenu} />;
       })}
     </ul>
   );

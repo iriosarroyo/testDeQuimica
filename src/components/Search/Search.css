@@ -30,7 +30,7 @@
 }
 
 
-.autocompleteSearcher:hover .activeAuto:not(:hover) {
+.autocompleteSearcher>div:hover .activeAuto:not(:hover) {
     background-color:  var(--bg2-color);
     color: var(--font2-color);
     

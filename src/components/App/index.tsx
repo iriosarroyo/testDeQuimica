@@ -72,7 +72,8 @@ const goToCommand = (navigate:Function) => (path:string, newPage:boolean) => {
   return navigate(finalPath);
 };
 
-const getPosiblePaths = () => paginas.map((x) => (x.url === '/' ? 'inicio' : x.url.slice(1)));
+const getPosiblePaths = () => paginas.map((x) => (!x.icon ? null : x.url.slice(1)))
+  .filter((x) => x) as string[];
 const addCommands = (navigate:Function, show:Function) => {
   const cmdsOff = [SearchCmd.addCommand(
     'goTo',
@@ -107,6 +108,11 @@ const addCommands = (navigate:Function, show:Function) => {
       optional: false,
       type: shortcuts.filter((x) => x.action === 'showFront').map((x) => x.id),
     },
+  ),
+  SearchCmd.addCommand(
+    'version',
+    'Muestra la version de la página web',
+    () => Toast.addMsg(`Versión ${process.env.REACT_APP_VERSION}`, 5000),
   )];
   return () => cmdsOff.forEach((off) => off());
 };

@@ -17,6 +17,6 @@ export const getShortCut = (shortcutObj:Shortcut) => {
 
 export const updateLocalShortCuts = (shortcuts:Shortcut[]) => {
   shortcuts.forEach((x) => {
-    localStorage.setItem(`shortcut-${x.id}`, x.shortcut);
+    if (x.shortcut) localStorage.setItem(`shortcut-${x.id}`, x.shortcut);
   });
 };

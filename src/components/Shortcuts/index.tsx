@@ -7,12 +7,14 @@ export default function Shortcuts() {
   return (
     <ul className="unlisted shortcutGroup">
       {shortcuts.map((x) => (
-        <li className="shortcut" key={x.id}>
-          <div className="shortcutCombination">
-            <ShortcutKey shortcut={x.shortcut} />
-          </div>
-          <div className="shortcutDescription" dangerouslySetInnerHTML={{ __html: x.description }} />
-        </li>
+        x.shortcut ? (
+          <li className="shortcut" key={x.id}>
+            <div className="shortcutCombination">
+              <ShortcutKey shortcut={x.shortcut} />
+            </div>
+            <div className="shortcutDescription">{x.description}</div>
+          </li>
+        ) : null
       ))}
     </ul>
   );

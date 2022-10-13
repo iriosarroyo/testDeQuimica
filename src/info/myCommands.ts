@@ -1,9 +1,9 @@
 import SearchCmd from 'services/commands';
 import { copyAllQuestions, copyQuestion } from 'services/copy';
 import Toast from 'services/toast';
-import { PreguntaTestDeQuimica } from 'types/interfaces';
+import { PreguntaTest } from 'types/interfaces';
 
-export const copyCmd = (preguntas:PreguntaTestDeQuimica[], type:string[]) => SearchCmd.addCommand(
+export const copyCmd = (preguntas:PreguntaTest[], type:string[]) => SearchCmd.addCommand(
   'copy',
   'Copia una pregunta del test activo.',
   (id:string, whatsapp:boolean) => {
@@ -26,7 +26,7 @@ export const copyCmd = (preguntas:PreguntaTestDeQuimica[], type:string[]) => Sea
   },
 );
 
-export const copyAllCmd = (preguntas:PreguntaTestDeQuimica[]) => SearchCmd.addCommand(
+export const copyAllCmd = (preguntas:PreguntaTest[]) => SearchCmd.addCommand(
   'copyAll',
   'Copia todas las preguntas activas',
   (whatsapp:boolean) => copyAllQuestions(preguntas, whatsapp),

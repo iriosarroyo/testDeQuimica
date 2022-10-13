@@ -6,11 +6,12 @@ import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
-import { paginasAdmin } from 'info/paginas';
+import paginas, { paginasAdmin } from 'info/paginas';
 import shortcuts, { addShortCut, removeShortCut } from 'info/shortcuts';
 import {
   getShortCut, getUser, setUser, updateLocalShortCuts,
 } from 'info/shortcutTools';
+import MyRoutes from 'MyRoutes';
 import React, {
   useContext, useEffect, useState, useMemo,
 } from 'react';
@@ -26,45 +27,10 @@ import reqTokenMessaging, { messagingListener, sendNotification } from 'services
 import { connectToRoom, createRoom, exitRoom } from 'services/rooms';
 import Toast from 'services/toast';
 
-const Perfil = loadable(() => import('../Perfil'), {
-  fallback: <GeneralContentLoader />,
-});
-const Inicio = loadable(() => import('../Inicio'), {
-  fallback: <GeneralContentLoader />,
-});
-const Documentos = loadable(() => import('../Documentos'), {
-  fallback: <GeneralContentLoader />,
-});
-const TablaEditor = loadable(() => import('../TablaEditor'), {
-  fallback: <GeneralContentLoader />,
-});
-const CustomTest = loadable(() => import('../CustomTest'), {
-  fallback: <GeneralContentLoader />,
-});
-
-const Ajustes = loadable(() => import('../Ajustes'), {
-  fallback: <GeneralContentLoader />,
-});
-
-const Online = loadable(() => import('../Online'), {
-  fallback: <GeneralContentLoader />,
-});
-
-const Puntuaciones = loadable(() => import('../Puntuaciones'), {
-  fallback: <GeneralContentLoader />,
-});
-
 const Admin = loadable(() => import('../Admin'), {
   fallback: <GeneralContentLoader />,
 });
-
-const Logros = loadable(() => import('../Logros'), {
-  fallback: <GeneralContentLoader />,
-});
-const Clasificacion = loadable(() => import('../Clasificacion'), {
-  fallback: <GeneralContentLoader />,
-});
-const Stats = loadable(() => import('../Stats'), {
+const EditorRole = loadable(() => import('../EditorRole'), {
   fallback: <GeneralContentLoader />,
 });
 
@@ -167,7 +133,7 @@ export default function LoggedIn() {
     removeShortCut('navMenu');
     addShortCut({
       action: () => { fn(); },
-      description: 'Expande o contrae el menú lateral.',
+      description: <>Expande o contrae el menú lateral.</>,
       id: 'navMenu',
       get shortcut() {
         return getShortCut(this);
@@ -191,7 +157,11 @@ export default function LoggedIn() {
     if (user?.userDDBB.admin) {
       let offTypes:Function = () => {};
       try {
-        offTypes = SearchCmd.addTypeToParam('goTo', 'url', ...paginasAdmin.map((x) => x.url.slice(1)));
+        offTypes = SearchCmd.addTypeToParam(
+          'goTo',
+          'url',
+          ...(paginasAdmin.map((x) => x.icon && x.url.slice(1)).filter((x) => x) as string[]),
+        );
       } catch (e) {
         setError(e);
       }
@@ -215,7 +185,7 @@ export default function LoggedIn() {
           name: 'grupo',
           desc: 'Indica el grupo al que mandarle la notificación. Por defecto es a todos.',
           optional: true,
-          type: ['all', 'eso3', 'eso4', 'bach1', 'bach2'],
+          type: ['all', 'eso3', 'eso4', 'bach1', 'bach2', 'test'],
           default: 'all',
         },
       );
@@ -236,7 +206,6 @@ export default function LoggedIn() {
 
     return undefined;
   }, [user?.userDDBB.admin]);
-
   useEffect(() => {
     let result = () => {};
     if (user?.userDDBB) {
@@ -254,19 +223,9 @@ export default function LoggedIn() {
           {user
             ? (
               <Routes>
-                <Route path="/" element={<Inicio />} />
-                <Route path="/inicio" element={<Inicio />} />
-                <Route path="/documentos/*" element={<Documentos />} />
-                <Route path="/perfil" element={<Perfil user={user} />} />
-                <Route path="/tablaPeriodica" element={<TablaEditor />} />
-                <Route path="/testDeHoy" element={<CustomTest room="testDelDia" />} />
-                <Route path="/ajustes" element={<Ajustes />} />
-                <Route path="/online" element={<Online />} />
-                <Route path="/puntuaciones" element={<Puntuaciones user={user} />} />
-                <Route path="/logros" element={<Logros starsAndLogros={user.userDDBB} />} />
-                <Route path="/clasificacion" element={<Clasificacion />} />
-                <Route path="/estadisticas" element={<Stats />} />
+                {MyRoutes({ pags: paginas })}
                 <Route path="/admin/*" element={<Admin />} />
+                <Route path="/editor/*" element={<EditorRole />} />
               </Routes>
             )
             : <GeneralContentLoader />}

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { ReactComponent as Logo } from 'logo.svg';
+import { Logo } from 'services/determineApp';
 import './Mantenimiento.css';
 import { auth } from 'services/firebaseApp';
 import { useLocation } from 'react-router-dom';
 import { logIn } from 'services/user';
 import Toast from 'services/toast';
-import { getFromSocketUID } from 'services/socket';
+import { getFromSocketUID, getSocket } from 'services/socket';
 import ContentApp from 'components/ContentApp';
 
 export default function Mantenimiento() {
   const { pathname } = useLocation();
   const [admin, setAdmin] = useState(false);
   const changeAdmin = async () => {
-    setAdmin(!!(await getFromSocketUID('user:isAdmin')));
+    getSocket().connect();
+    const isAdmin = Boolean(await getFromSocketUID('user:isAdmin'));
+    setAdmin(isAdmin);
   };
   useEffect(() => {
     if (pathname === '/logIn' && auth.currentUser === null) {
@@ -32,7 +34,7 @@ export default function Mantenimiento() {
         Inténtalo de nuevo más tarde.
       </p>
       <p>
-        La página se acutalizará automaticamente una vez se termine el mantenimiento.
+        La página se actualizará automaticamente una vez se termine el mantenimiento.
       </p>
     </div>
   );

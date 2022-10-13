@@ -32,14 +32,14 @@ export const authState = (
   setError:Function,
   setLoading:React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  let off = () => {};
+  let off = () => { };
   const offAuth = onAuthStateChanged(
     auth,
     async (user) => {
+      off();
       if (!user) {
         setUser(user);
-        off();
-        off = () => {};
+        off = () => { };
       } else {
         try {
           await user.getIdToken().then((token) => createSocket(token, setLoading));

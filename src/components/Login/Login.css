@@ -57,7 +57,7 @@
 .loginContainer{
     height: 100%;
     overflow: auto;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
 }
 
 .slide{

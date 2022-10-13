@@ -7,10 +7,17 @@ import { User } from 'firebase/auth';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import tablaJSON from 'info/tablaPeriodica.json';
 import logrosJSON from 'info/logros.json';
+import { apps } from 'services/determineApp';
 
 export interface FolderData{
     name:string,
-    url:string
+    url:string,
+    isLink?:boolean
+}
+
+export interface LinkDocs extends FolderData{
+  logro?:string,
+  isLink: boolean
 }
 
 export interface FileData extends FullMetadata{
@@ -125,7 +132,7 @@ export interface OpcionGroupTest{
   [id:string]:OpcionTest
 }
 
-export interface PreguntaTestDeQuimica{
+export interface PreguntaTest{
   done:boolean,
   opciones:OpcionGroupTest,
   id:string,
@@ -149,6 +156,7 @@ export type LogrosTypes = typeof logrosTypes[number];
 export type Logro = {value:number, data?:any}|undefined
 export interface userDDBB{
   admin: boolean|undefined,
+  editor?:boolean,
   room: string|undefined,
   group:string,
   mobile:string,
@@ -189,14 +197,16 @@ export interface Logros{
   stars:number,
   key:LogrosKeys,
   value:number,
-  type: LogrosTypes
+  type: LogrosTypes,
+  available?:(keyof typeof apps)[]
 }
 
 export interface Shortcut{
   id:string,
-  shortcut: string,
-  description: string,
-  default:string,
+  shortcut: string|undefined,
+  // eslint-disable-next-line no-undef
+  description: JSX.Element,
+  default?:string,
   shift?:boolean,
   action: 'goTo' | 'showFront'| ((shift?:boolean) => void),
   url?:string,
@@ -207,7 +217,11 @@ export interface Shortcut{
 export interface PaginaObject extends Shortcut{
   url:string,
   text:string,
-  icon:IconProp,
+  icon?:IconProp,
+  visible?:boolean|(() => boolean)
+  // eslint-disable-next-line no-undef
+  component: JSX.Element
+  paths:string[]
 }
 
 export type Paginas = PaginaObject[];

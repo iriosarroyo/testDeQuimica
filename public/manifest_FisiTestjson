@@ -1,0 +1,32 @@
+{
+  "short_name": "FisiTest",
+  "name": "Test de Física",
+  "description": "Prueba tus conocimientos de física realizando test de olimpiadas de otros años (para alumnos de Retamar)",
+  "icons": [
+    {
+      "src": "favicon_FisiTest.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192_FisiTest.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512_FisiTest.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "id": "/",
+  "orientation": "portrait",
+  "theme_color": "#67a0c6",
+  "background_color": "#dddddd",
+  "display_override": [
+    "window-control-overlay",
+    "minimal-ui"
+  ]
+}

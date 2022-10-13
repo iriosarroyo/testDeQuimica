@@ -31,7 +31,6 @@ export default function Front({
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      onDoubleClick={() => clearFront()}
     >
       <div>{children}</div>
       <Button onClick={() => {

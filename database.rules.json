@@ -1,7 +1,122 @@
 {
-  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
   "rules": {
-    ".read": false,
-    ".write": false
+    "rooms": {
+      "$room": {
+        ".write": true,
+        ".read": "data.child('members').hasChild(root.child('users').child(auth.uid).child('username').val())",
+        "members": {
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.parent().child('config').child('type').val() == 'Público' || data.val() == null"
+        },
+        "config": {
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.val() == null"
+        },
+        "chat": {
+          ".validate": "data.parent().child('members').hasChild(root.child('users').child(auth.uid).child('username').val())"
+        },
+        "admin": {
+          ".validate": "data.val() == root.child('users').child(auth.uid).child('username').val() || data.val() == null"
+        },
+        "inExam": {
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val()"
+        },
+        "seed": {
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val()"
+        }
+      }
+    },
+    "activeRooms": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "inicio": {
+      "opciones": {
+        "$opcion": {
+          ".read": "$opcion==root.child('inicio').child('active').val()",
+          ".write": false
+        }
+      },
+      "sugerenciasDatosCuriosos": {
+        ".read": "auth!=null",
+        ".write": "auth!=null"
+      },
+      "datosCuriosos": {
+        ".read": "auth!=null",
+        ".write": false
+      },
+      "$other": {
+        ".read": "auth!=null",
+        ".write": false
+      }
+    },
+    "users": {
+      ".indexOn": ["admin", "username"],
+      "$user": {
+        ".read": "$user==auth.uid",
+        ".write": "$user==auth.uid",
+        "admin": {
+          ".validate": "newData.val()==false"
+        }
+      }
+    },
+    "stats": {
+      "$user": {
+        ".read": "$user==auth.uid",
+        ".write": "$user==auth.uid"
+      }
+    },
+    "preguntasTestDeQuimica": {
+      ".indexOn": ["nivelYTema", "done"],
+      ".read": "auth!=null",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() == true || root.child('users').child(auth.uid).child('editor').val() == true"
+    },
+    "preguntas": {
+      ".indexOn": ["nivelYTema", "done"],
+      ".read": "auth!=null",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() == true || root.child('users').child(auth.uid).child('editor').val() == true"
+    },
+    "testDeHoy": {
+      ".read": "auth!=null",
+      ".write": false
+    },
+    "resumenTestDeHoy": {
+      "$user": {
+        ".read": "$user==auth.uid",
+        ".write": "$user==auth.uid",
+        "$id": {
+          ".validate": "data.val()==null"
+        }
+      }
+    },
+    "respuestas": {
+      ".read": "query.orderByKey &&( root.child('stats').child(auth.uid).child('activeTest').child('preguntas').hasChild(query.equalTo) == true || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('users').child(auth.uid).child('username').val()).child('preguntas').hasChild(query.equalTo)) || root.child('users').child(auth.uid).child('admin').val() === true",
+      ".write": false
+    },
+    "nombresUsuarios": {
+      ".read": "auth!=null",
+      ".write": "auth!=null"
+    },
+    "mantenimiento": {
+      ".read": true,
+      ".write": false
+    },
+    "problemas": {
+      ".read": "auth!=null",
+      ".write": false
+    },
+    "general": {
+      "temasActivos": {
+        ".indexOn": [".value"],
+        ".read": false,
+        ".write": false
+      },
+      "ordenDeTemas": {
+        ".read": "auth!=null",
+        ".write": false
+      }
+    },
+    "documentos": {
+      ".read": "auth!=null",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() == true"
+    }
   }
 }

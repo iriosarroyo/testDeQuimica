@@ -1,4 +1,4 @@
-import { PreguntaTestDeQuimica } from 'types/interfaces';
+import { PreguntaTest } from 'types/interfaces';
 import Toast from './toast';
 
 const copyToClipBoard = async (text:string) => {
@@ -77,7 +77,7 @@ const translateToWhatsapp = (text:string, numbers:boolean = false) => {
   return finalText;
 };
 
-const getStrQuestion = (question:PreguntaTestDeQuimica, whatsapp:boolean) => {
+const getStrQuestion = (question:PreguntaTest, whatsapp:boolean) => {
   let strQuestion = `<strong>${question.pregunta}</strong><ol type="a" start="1">`;
   Object.values(question.opciones).forEach((opt) => {
     strQuestion += `<li>${opt.value}</li>`;
@@ -87,7 +87,7 @@ const getStrQuestion = (question:PreguntaTestDeQuimica, whatsapp:boolean) => {
   return strQuestion;
 };
 
-export const copyAllQuestions = (questions:PreguntaTestDeQuimica[], whatsapp:boolean) => {
+export const copyAllQuestions = (questions:PreguntaTest[], whatsapp:boolean) => {
   let strAllQ = '<ol type="1">';
   questions.forEach((preg) => { strAllQ += `<li>${getStrQuestion(preg, whatsapp)}</li><br>`; });
   strAllQ += '</ol>';
@@ -95,7 +95,7 @@ export const copyAllQuestions = (questions:PreguntaTestDeQuimica[], whatsapp:boo
   copyWithStyle(strAllQ);
 };
 
-export const copyQuestion = (question:PreguntaTestDeQuimica, whatsapp:boolean) => {
+export const copyQuestion = (question:PreguntaTest, whatsapp:boolean) => {
   const strQuestion = getStrQuestion(question, whatsapp);
   copyWithStyle(strQuestion);
 };

@@ -11,7 +11,7 @@ function LogroComplete({ logroId, fn }:{logroId:string, fn?:() => void}) {
   const logro = useMemo(() => logros.find(({ id }) => id === logroId), [logroId]);
   const setFront = useContext(FrontContext);
   const { height, width } = useWindowSize();
-  if (logro === undefined) return null;
+  if (logro === undefined) return setFront({ elem: null, cb: () => {} });
   const { name, description, stars } = logro;
   return (
     <div>

@@ -6,7 +6,7 @@ import React, {
 import gen from 'random-seed';
 import { getNumOfDays } from 'services/time';
 import {
-  CompleteUser, difficultyLevels, PreguntaTestDeQuimica, RoomData, RoomMember, userDDBB,
+  CompleteUser, difficultyLevels, PreguntaTest, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
 import {
   getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema, getTemasInOrder,
@@ -28,6 +28,7 @@ import {
   getOnNext, getPreventPrevious,
   getPuntType, getShowPunt, getTime, getTimeToSiguiente, getUnaPorUna,
 } from 'services/conditionsCustomTest';
+import { PATHS_DDBB } from 'info/paths';
 
 interface StatsPerTema{
   tema:string, punt:number, probLevel1:number, probLevel3:number
@@ -100,7 +101,7 @@ const getPosibleQuestionsFor = async (
   const promises = Array(n).fill(null).map(async () => {
     const tema = getTema(completeStatsPerTema, rng);
     const level = getLevel(completeStatsPerTema[tema], rng);
-    const posibleQuestions = await filterByChildCache('preguntasTestDeQuimica', 'nivelYTema', `${tema}_${level}`);
+    const posibleQuestions = await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', `${tema}_${level}`);
     return { tema, level, posibleQuestions };
   });
   return Promise.all(promises);
@@ -225,7 +226,7 @@ function TestDelDia() {
   const { lastTest, unaPorUna } = user.userDDBB;
   const [startTime, setStartTime] = useState(0);
   const today = getNumOfDays(Date.now());
-  const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
+  const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
   const path = `stats/${user.uid}/activeTest`;
   useEffect(() => {
     getTodaysPreguntas(
@@ -247,7 +248,7 @@ function TestPuntuacion({
   // eslint-disable-next-line no-undef
   {config:RoomData, seed:number, room:string, onEnd:Function, showEndButton:boolean}) {
   const setError = useContext(MyErrorContext);
-  const [preguntas, setPreguntas] = useState<PreguntaTestDeQuimica[]>([]);
+  const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
   const [startTime, setStartTime] = useState(0);
   const { username, unaPorUna } = useContext(UserContext)!.userDDBB;
   const {
@@ -272,7 +273,7 @@ function TestPuntuacion({
   }, []);
 
   const onNext = useMemo(() => async (
-    pregs:PreguntaTestDeQuimica[],
+    pregs:PreguntaTest[],
     active:number,
     setActive:Function,
     isCorregido:boolean,

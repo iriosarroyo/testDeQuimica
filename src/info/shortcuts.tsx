@@ -11,7 +11,7 @@ const TablaPeriodica = loadable(() => import('../components/TablaPeriodica'));
 const shortcuts:Shortcut[] = [
   {
     action: 'showFront',
-    description: 'Muestra los atajos de teclado.',
+    description: <>Muestra los atajos de teclado.</>,
     id: 'atajosTeclado',
     get shortcut() {
       return getShortCut(this);
@@ -23,7 +23,7 @@ const shortcuts:Shortcut[] = [
   ...paginas,
   {
     action: 'showFront',
-    description: 'Muestra la Tabla Periódica.',
+    description: <>Muestra la Tabla Periódica.</>,
     id: 'tablaPeriodica',
     get shortcut() {
       return getShortCut(this);
@@ -33,7 +33,7 @@ const shortcuts:Shortcut[] = [
   },
   {
     action: 'showFront',
-    description: 'Muestra las constantes y cambios de unidades.',
+    description: <>Muestra las constantes y cambios de unidades.</>,
     id: 'constantes',
     get shortcut() {
       return getShortCut(this);

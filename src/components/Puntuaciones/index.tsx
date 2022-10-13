@@ -1,6 +1,8 @@
 import Button from 'components/Button';
 import PuntPerTemaStats from 'components/PuntPerTemaStats';
-import React, { useEffect, useState } from 'react';
+import UserContext from 'contexts/User';
+import { TEMAS } from 'info/temas';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
   EXTRA_PER_10,
@@ -20,7 +22,7 @@ function PuntuacionDelTema({ temas, tema, curso }:{temas:userDDBB['temas'], tema
   return (
     <div className="puntuacionTemaProgress" key={tema}>
       <Button onClick={() => setDisplay((v) => !v)}>
-        <strong>{tema.replace('tema9', 'Temas 9 y 10').replace('tema', 'Tema ')}</strong>
+        <strong>{TEMAS[tema]}</strong>
         <div className="progressPuntuacionesContainer">
           <div className="puntuacionProgress">
             Puntuación:
@@ -39,9 +41,10 @@ function PuntuacionDelTema({ temas, tema, curso }:{temas:userDDBB['temas'], tema
   );
 }
 
-export default function Puntuaciones({ user }:{user:CompleteUser}) {
+export default function Puntuaciones({ user }:{user?:CompleteUser}) {
   const [temasInOrder, setTemasInOrder] = useState<string[]>([]);
-  const { temas, year } = user.userDDBB;
+  const defaultUser = useContext(UserContext)!;
+  const { temas, year } = (user ?? defaultUser).userDDBB;
   useEffect(() => {
     getTemasInOrder(year).then(setTemasInOrder);
   }, []);
@@ -100,3 +103,7 @@ export default function Puntuaciones({ user }:{user:CompleteUser}) {
     </div>
   );
 }
+
+Puntuaciones.defaultProps = {
+  user: undefined,
+};

@@ -35,7 +35,7 @@ export default function Search() {
     get shortcut() {
       return getShortCut(this);
     },
-    description: 'Activa la barra de comandos y búsqueda.',
+    description: <>Activa la barra de comandos y búsqueda.</>,
     id: 'focusSearch',
     action: () => ref.current?.focus(),
   }), [ref.current]);

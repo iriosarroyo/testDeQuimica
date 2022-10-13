@@ -18,6 +18,7 @@ import Logros from 'components/Logros';
 import FrontContext from 'contexts/Front';
 import { getPuntuacionMedia } from 'services/probability';
 import Puntuaciones from 'components/Puntuaciones';
+import UserContext from 'contexts/User';
 
 function InputPerfil({
   title, initialValue, onChange = () => false, isDisabled, type = 'text', options, onContextMenu, ...extra
@@ -139,13 +140,14 @@ InputPerfil.defaultProps = {
 
 type CheckFn = (val:string) => (Promise<FormError>|FormError)
 function Perfil({ user, setFn = writeUserInfo, isAdmin }:
-  {user:CompleteUser,
+  {user?:CompleteUser,
     setFn?:(val:any, path:string) => Promise<Error|undefined>,
   isAdmin?:boolean}) {
   const setFront = useContext(FrontContext);
-  const { userDDBB, email } = user;
+  const userDefault = useContext(UserContext)!;
+  const { userDDBB, email } = user ?? userDefault;
   const {
-    name, surname, username, mobile, admin, lastTest, stars, group, year, logros, temas,
+    name, surname, username, mobile, admin, lastTest, stars, group, year, logros, temas, editor,
   } = userDDBB;
   const onChangeGen = (param:string, checkFn: CheckFn) => async (val:string) => {
     const check = await checkFn(val);
@@ -181,6 +183,7 @@ function Perfil({ user, setFn = writeUserInfo, isAdmin }:
         <p>Cuando cambies un campo, pulsa Enter para guardar.</p>
         {isAdmin && <p>Puedes hacer click derecho sobre algunos campos.</p>}
         {admin && <InputPerfil title="Administrador" initialValue={`${isAdmin ? 'Es' : 'Eres'} Administrador`} isDisabled />}
+        {editor && <InputPerfil title="Editor" initialValue={`${isAdmin ? 'Es' : 'Eres'} Editor`} isDisabled />}
         <InputPerfil title="Nombre" initialValue={name} onChange={onChangeGen('name', checkName)} />
         <InputPerfil title="Apellidos" initialValue={surname} onChange={onChangeGen('surname', checkSurname)} />
         <InputPerfil title="Correo electrónico" initialValue={email ?? ''} isDisabled />
@@ -220,7 +223,7 @@ function Perfil({ user, setFn = writeUserInfo, isAdmin }:
             onContextMenu={(e) => {
               e.preventDefault();
               setFront({
-                elem: <Puntuaciones user={user} />,
+                elem: <Puntuaciones user={user ?? userDefault} />,
                 cb: () => {},
               });
             }}
@@ -234,6 +237,14 @@ function Perfil({ user, setFn = writeUserInfo, isAdmin }:
         <Button className="buttonPerfil" onClick={() => removeUser()}>Eliminar Cuenta</Button>
         { isAdmin && !admin
           && <Button className="buttonPerfil" onClick={() => setFn(true, 'admin')}>Hacer Administrador</Button>}
+        { isAdmin
+          && (
+          <Button className="buttonPerfil" onClick={() => setFn(!editor, 'editor')}>
+            {editor ? 'Revocar' : 'Hacer'}
+            {' '}
+            Editor
+          </Button>
+          )}
       </div>
     </div>
   );
@@ -242,5 +253,6 @@ function Perfil({ user, setFn = writeUserInfo, isAdmin }:
 Perfil.defaultProps = {
   setFn: writeUserInfo,
   isAdmin: false,
+  user: undefined,
 };
 export default Perfil;

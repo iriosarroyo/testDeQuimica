@@ -10,7 +10,7 @@ const probabilityLevelGen = (max:number, deviation:number) => {
   return (x: number) => probWithoutNormalizing(x) / maximum;
 };
 
-const getUserProbLevel3 = probabilityLevelGen(10, 3.5); // Tested numbers
+export const getUserProbLevel3 = probabilityLevelGen(10, 3.5); // Tested numbers
 const getUserProbLevel1 = probabilityLevelGen(0, 0.3); // Tested numbers
 
 export const MAX_PUNT_NIV_1 = 2;
@@ -33,6 +33,7 @@ export const getProbLevel3 = (punt: number, type:difficultyLevels = 'User') => {
   if (type === 'Fácil' || type === 'Medio') return 0;
   if (type === 'Difícil') return 1;
   return round(Math.min(getUserProbLevel3(punt), 1 - getProbLevel1(punt)), 8);
+  // return round(Math.min(1, 1 - getProbLevel1(punt)), 8);
 };
 // Prob level 2 is 1-probLevel3-probLevel1
 

@@ -1,4 +1,5 @@
 import { defaultUserTemas } from 'info/defaultData';
+import { getDefaultTemasSelection } from 'info/temas';
 import { CompleteUser, MyUser, RoomData } from 'types/interfaces';
 import {
   deleteDDBB, existsInDDBB, pushDDBB, readDDBB, writeDDBB, writeUserInfo,
@@ -23,17 +24,7 @@ export const defaultRoomConfig:RoomData = {
   difficulty: 'Difícil',
   tema: 'Administrador',
   repetidas: 'Sí',
-  temasPersonalizados: {
-    tema1: 'Sí',
-    tema2: 'Sí',
-    tema3: 'Sí',
-    tema4: 'Sí',
-    tema5: 'Sí',
-    tema6: 'Sí',
-    tema7: 'Sí',
-    tema8: 'Sí',
-    tema9: 'Sí',
-  },
+  temasPersonalizados: getDefaultTemasSelection(),
   adminStats: {
     temas: defaultUserTemas,
     year: 'bach2',

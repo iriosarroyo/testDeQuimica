@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentLoader from 'react-content-loader';
 import { sendLogroUpdate } from 'services/logros';
 import UserContext from 'contexts/User';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
-import { FolderData } from '../../types/interfaces';
+import { faFolder, faLink } from '@fortawesome/free-solid-svg-icons';
+import { FolderData, LinkDocs, LogrosKeys } from '../../types/interfaces';
 
 export function LoadingFolder() {
   return (
@@ -31,25 +31,31 @@ export function LoadingFolder() {
     </li>
   );
 }
-interface FolderProps extends FolderData{
+interface FolderProps {
   onContextMenu: Function
+  folder: FolderData | LinkDocs
 }
-function Folder({ name, url, onContextMenu }:FolderProps) {
+function Folder({
+  onContextMenu, folder,
+}:FolderProps) {
+  const { name, url, isLink } = folder;
   const user = useContext(UserContext)!;
-  if (name === ':__RECURSOS_QUÍMICA__:') {
+  if (isLink) {
     return (
       <li>
         <a
-          href="https://drive.google.com/drive/folders/182DASWji_7fG5crgsYvONkjsZQWaRfsi"
+          href={url}
           className="folder"
           target="_blank"
           rel="noreferrer"
-          onClick={() => sendLogroUpdate('recursos', user.userDDBB.logros?.recursos)}
+          onContextMenu={(e) => onContextMenu(e, name, url)}
+          onClick={() => ('logro' in folder) && folder.logro
+          && sendLogroUpdate(folder.logro as LogrosKeys, user.userDDBB.logros?.recursos)}
         >
           <div>
-            <FontAwesomeIcon icon={faFolder} />
+            <FontAwesomeIcon icon={faLink} />
           </div>
-          <div>Recursos Química</div>
+          <div>{name}</div>
         </a>
       </li>
     );

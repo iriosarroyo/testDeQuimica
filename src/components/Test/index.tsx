@@ -28,7 +28,7 @@ import { createIntersectionObserver } from 'services/elemenstInViewPort';
 import { GrupoNoPermission } from 'services/errores';
 import { updateLogrosTest } from 'services/logros';
 import { getFromSocketUID } from 'services/socket';
-import { Answer, PreguntaTestDeQuimica, userDDBB } from 'types/interfaces';
+import { Answer, PreguntaTest, userDDBB } from 'types/interfaces';
 import './Test.css';
 
 function Cuadrado({
@@ -63,7 +63,7 @@ let startGlobal = 0;
 
 function CuadradoGroup({
   preguntas, inView, refs, setActive, max, min, answers, corrAnswers, preventPrevious, corregido,
-}:{preguntas:PreguntaTestDeQuimica[],
+}:{preguntas:PreguntaTest[],
   inView: {[key:string]:boolean},
   refs: RefObject<HTMLDivElement[]>,
   corrAnswers:{[key:string]:string},
@@ -144,7 +144,7 @@ function TestFooter({
   thisRef, refs, active, unaPorUna, corregirExamen, answers, corrAnswers, corregido,
   preventPrevious, inBlanco, setValue,
 }:
-  {preguntas:PreguntaTestDeQuimica[],
+  {preguntas:PreguntaTest[],
   thisRef:RefObject<HTMLDivElement>,
   refs: RefObject<HTMLDivElement[]>,
    setActive:(idx:number)=>void,
@@ -327,7 +327,7 @@ const addUserQuestions = () => {
     setAbleToAdd: () => { ableToAdd = true; },
     executeAddUser: (
       temas: userDDBB['temas'],
-      preguntas:PreguntaTestDeQuimica[],
+      preguntas:PreguntaTest[],
       answers:{[key:string]:Answer|undefined},
       corrAnswers:{[key:string]:string},
       path:string,
@@ -386,7 +386,7 @@ export default function Test({
     onEnd?:Function,
     onNext?:Function,
     path:string,
-    preguntas:PreguntaTestDeQuimica[],
+    preguntas:PreguntaTest[],
     preventPrevious?:boolean,
     puntType?:'Puntos'|'Aciertos'|'Fallos'
     showEndButton?:boolean

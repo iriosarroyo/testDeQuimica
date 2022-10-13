@@ -5,6 +5,7 @@ import React, { MouseEvent } from 'react';
 import {
   CompleteUser, Logro, Logros, LogrosKeys, userDDBB,
 } from 'types/interfaces';
+import isApp from './determineApp';
 import { getAllPuntuaciones } from './probability';
 import { eventListenerSocket, getFromSocket } from './socket';
 import { getNumOfDays } from './time';
@@ -13,12 +14,14 @@ const LogroComplete = loadable(() => import('components/LogroCompleted'), {
   fallback: <GeneralContentLoader />,
 });
 
-export const logros:Logros[] = Object.values(logrosJSON) as Logros[];
+export const logros:Logros[] = (Object.values(logrosJSON) as Logros[])
+  .filter((x) => x.available === undefined || x.available.some((val) => isApp(val)));
 export const getLogrosFrom = (username:string) => getFromSocket('main:getLogrosFromUser', username);
 
-export const sendLogroUpdate = (logroKey:LogrosKeys, previousValue:Logro, ...params:any[]) => (
-  getFromSocket('main:updateLogros', logroKey, previousValue, ...params)
-);
+export const sendLogroUpdate = (logroKey:LogrosKeys, previousValue:Logro, ...params:any[]) => {
+  if (logros.find((x) => x.key === logroKey) === undefined) return Promise.resolve(false);
+  return getFromSocket('main:updateLogros', logroKey, previousValue, ...params);
+};
 
 const getStarsFromAllUsers = () => getFromSocket('main:starsFromAllUsers');
 
@@ -57,12 +60,12 @@ const logroCompEvClosure = () => {
   let activeId:string|undefined;
 
   const setActiveId = (id:string | undefined) => { activeId = id; };
-  const showNextLogo = () => {
+  const showNextLogro = () => {
     if (activeId !== undefined || ids.length === 0) return;
     [activeId] = ids;
     const onEnd = () => {
       setActiveId(undefined);
-      showNextLogo();
+      showNextLogro();
     };
     frontFn({
       elem: <LogroComplete logroId={ids[0]} fn={onEnd} />,
@@ -74,7 +77,7 @@ const logroCompEvClosure = () => {
   const onLogroComplete = (setFront: any) => eventListenerSocket('onLogroCompletion', (logroId:string) => {
     frontFn = setFront;
     ids.push(logroId);
-    showNextLogo();
+    showNextLogro();
   });
 
   return onLogroComplete;

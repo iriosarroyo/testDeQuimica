@@ -5,6 +5,7 @@ import { PaginaObject } from 'types/interfaces';
 
 export default function NavItem({ item }:{item:PaginaObject}) {
   const { text, url, icon } = item;
+  if (!icon) return null;
   return (
     <li>
       <NavLink

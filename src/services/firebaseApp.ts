@@ -5,16 +5,16 @@ import { getDatabase } from 'firebase/database';
 import { getMessaging, Messaging } from 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDpqJ3rKKbu4PEAui93s0wkmjgeytu0vf4',
-  authDomain: 'test-de-quimica.firebaseapp.com',
-  databaseURL: 'https://test-de-quimica.firebaseio.com',
-  projectId: 'test-de-quimica',
-  storageBucket: 'test-de-quimica.appspot.com',
-  messagingSenderId: '589609378466',
-  appId: '1:589609378466:web:66e4774fd2103838',
-  measurementId: 'G-G18235H145',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
-export const msgToken = 'BJpiUdJsYrYGjBJ0YHGARVlvOeSkBhaeF4X9p2VvQr7_Q0eGvUXPdfUFLIkgOn4q0UDmkEiOyzix26GhSAxwLsg';
+export const msgToken = process.env.REACT_APP_MSG_TOKEN;
 export const app = initializeApp(firebaseConfig);
 export const stg = getStorage(app);
 export const auth = getAuth(app);

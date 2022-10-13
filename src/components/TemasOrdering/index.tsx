@@ -9,6 +9,7 @@ import { getFromSocket } from 'services/socket';
 import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
+import { TEMAS } from 'info/temas';
 
 type SortElem = {value:string, text:string}
 const LAST_ELEMENT = 'DRAG_LAST_ELEMENT_WE_DO_NOT_WANT_TO_HAVE_SAME_TEXT_XYZAJSHJKA';
@@ -120,9 +121,9 @@ function TemasOrderingForCurso({ curso }:{curso:'bach1' | 'bach2' | 'eso3' | 'es
   const [temasOrderObj, setTemasOrderObj] = useState<{[k:string]: number}|null>(null);
   const temasOrderArray = useMemo(() => {
     if (temasOrderObj === null) return [];
-    const entries = Object.entries(temasOrderObj);
-    entries.sort((a, b) => a[1] - b[1]);
-    return entries.map((elem) => ({ text: elem[0] === 'tema9' ? 'Temas 9 y 10' : elem[0].replace('tema', 'Tema '), value: elem[0] }));
+    const entries = Object.keys(TEMAS);
+    entries.sort((a, b) => (temasOrderObj[a] ?? Infinity) - (temasOrderObj[b] ?? Infinity));
+    return entries.map((elem) => ({ text: TEMAS[elem], value: elem }));
   }, [temasOrderObj]);
 
   const handleChange = (elems:SortElem[]) => {

@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "test-de-quimica"
-  }
+    "default": "test-de-quimica",
+    "biologia": "test-de-biologia",
+    "fisica": "test-de-fisica",
+    "quimica": "test-de-quimica"
+  },
+  "targets": {},
+  "etags": {}
 }

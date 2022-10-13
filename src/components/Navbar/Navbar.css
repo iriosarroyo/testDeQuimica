@@ -11,6 +11,11 @@
   background-color: var(--bg2-color);
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: 5px;
+}
+
+.menu::-webkit-scrollbar {
+  max-width: 5px;
 }
 
 .menu a {

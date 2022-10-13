@@ -36,7 +36,10 @@ function InicioFooter({ velocidad }:{velocidad:number}) {
     const callback = (fr:string[]) => {
       setFrases(fr);
     };
-    getFrasesCuriosasWithSetters(callback, setError);
+    getFrasesCuriosasWithSetters(callback, (err:Error) => {
+      if (err.message !== 'Permission denied') return setError(err);
+      return setFrases(null);
+    });
   }, []);
 
   useEffect(() => {
@@ -44,7 +47,7 @@ function InicioFooter({ velocidad }:{velocidad:number}) {
       changeAnimation(ref, frases, velocidad);
     }
   }, [frases, velocidad]);
-
+  if (frases === null) return null;
   return (
     <div className="sliderTextContainer">
       <div ref={ref} onAnimationEnd={() => changeAnimation(ref, frases, velocidad, user)} className="sliderText" />

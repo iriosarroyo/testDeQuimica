@@ -5,7 +5,7 @@ import editorSetUp from 'services/editorSetUp';
 import { Editor as TinyEditor } from 'tinymce';
 import { Editor } from '@tinymce/tinymce-react';
 import GeneralContentLoader from 'components/GeneralContentLoader';
-import { OpcionGroupTest, PreguntaTestDeQuimica } from 'types/interfaces';
+import { OpcionGroupTest, PreguntaTest } from 'types/interfaces';
 import Button from 'components/Button';
 import { getFromSocket } from 'services/socket';
 import { idForOpt } from 'services/uniqueId';
@@ -243,7 +243,7 @@ const idToNum = (id:string|undefined) => {
 
 const generateNewQuestion = (id:string) => {
   const opts = generateNewOpts();
-  const newPreg:PreguntaTestDeQuimica = {
+  const newPreg:PreguntaTest = {
     done: false,
     id,
     level: '1',
@@ -256,7 +256,7 @@ const generateNewQuestion = (id:string) => {
   return { preg: newPreg, optCorr: opts[0][0] as string };
 };
 
-const getIdForTabIdx = (preg:PreguntaTestDeQuimica) => {
+const getIdForTabIdx = (preg:PreguntaTest) => {
   if (preg.pregunta === '') return 'pregunta';
   const firstEmptyOpt = Object.values(preg.opciones).find(({ value }) => value === '');
   if (firstEmptyOpt === undefined) return 'pregunta';
@@ -264,7 +264,7 @@ const getIdForTabIdx = (preg:PreguntaTestDeQuimica) => {
 };
 
 function EditPregunta({ preguntaTest, correcta, saveQuestion }:
-  {preguntaTest:PreguntaTestDeQuimica, correcta:string, saveQuestion:Function}) {
+  {preguntaTest:PreguntaTest, correcta:string, saveQuestion:Function}) {
   const [saved, setSaved] = useState(true);
 
   useEffect(() => {
@@ -281,7 +281,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
   const tabIdxId = getIdForTabIdx(preguntaTest);
 
   function changePregunta<
-  Type extends keyof PreguntaTestDeQuimica>(key:Type, value: PreguntaTestDeQuimica[Type]) {
+  Type extends keyof PreguntaTest>(key:Type, value: PreguntaTest[Type]) {
     const newPreg = { ...preguntaTest, [key]: value };
     newPreg.nivelYTema = `${newPreg.tema.replace('Tema ', 'tema')}_${newPreg.level}`;
     if (deepEqual(newPreg, preguntaTest)) return;
@@ -401,7 +401,7 @@ function FooterEdicion({
 
 export default function QuestionEditor() {
   const [activeId, setActiveId] = useState<string|undefined>('id0001');
-  const [preguntas, setPreguntas] = useState<{[key:string]:PreguntaTestDeQuimica}|null>(null);
+  const [preguntas, setPreguntas] = useState<{[key:string]:PreguntaTest}|null>(null);
   const [corr, setCorr] = useState<{[key:string]:string}>({});
   const [activeIds, setActiveIds] = useState<string[]|null>(null);
   const [ids, setIds] = useState<string[]>([]);
@@ -434,7 +434,7 @@ export default function QuestionEditor() {
     return setActiveId(activeIds[nextIdx]);
   };
 
-  const saveLocally = (preg:PreguntaTestDeQuimica, correcta:string) => {
+  const saveLocally = (preg:PreguntaTest, correcta:string) => {
     setPreguntas((prevPregs) => {
       if (prevPregs === null) return null;
       const newPregs = deepEqual(preg, prevPregs[preg.id]) ? prevPregs
@@ -466,9 +466,9 @@ export default function QuestionEditor() {
   />, [activeId, preguntas, corr, activeIds]);
   useEffect(() => {
     getPreguntasYRespuestas()
-      .then((x:[pregs:{[key:string]:PreguntaTestDeQuimica}, solutions:{[key:string]:string}]) => {
+      .then((x:[pregs:{[key:string]:PreguntaTest}, solutions:{[key:string]:string}]) => {
         const [pregs, solutions] = x;
-        const pregsArray = Object.values(pregs);
+        const pregsArray = Object.values(pregs ?? {});
         const idsArray = pregsArray.map(({ id }) => id);
         idsArray.sort();
         SearchCmd.setPreguntasTest(pregsArray);
@@ -477,7 +477,7 @@ export default function QuestionEditor() {
           setActiveId((prevAct) => (((prevAct && pregsSearch.includes(prevAct))
           || pregsSearch.length === 0) ? prevAct : pregsSearch[0]));
         });
-        setPreguntas(pregs);
+        setPreguntas(pregs ?? {});
         setIds(idsArray);
         setCorr(solutions);
         setActiveIds(idsArray);

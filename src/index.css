@@ -40,6 +40,8 @@
 
   --logo-bg: var(--logo-bg-dark-mode);
   --logo-fg: var(--logo-fg-dark-mode);
+  --logo-bg-op: var(--logo-bg-light-mode);
+  --logo-fg-op: var(--logo-fg-light-mode);
 
   --vh: 1vh;
 }
@@ -58,6 +60,8 @@
     --font-red-color: var(--font-red-light-mode);
     --logo-bg: var(--logo-bg-light-mode);
     --logo-fg: var(--logo-fg-light-mode);
+    --logo-bg-op: var(--logo-bg-dark-mode);
+    --logo-fg-op: var(--logo-fg-dark-mode);
   }
 }
 
@@ -74,6 +78,8 @@
   --font-red-color: var(--font-red-dark-mode);
   --logo-bg: var(--logo-bg-dark-mode);
   --logo-fg: var(--logo-fg-dark-mode);
+  --logo-bg-op: var(--logo-bg-light-mode);
+  --logo-fg-op: var(--logo-fg-light-mode);
 }
 
 [data-mode = light]{
@@ -89,6 +95,8 @@
   --font-red-color: var(--font-red-light-mode);
   --logo-bg: var(--logo-bg-light-mode);
   --logo-fg: var(--logo-fg-light-mode);
+  --logo-bg-op: var(--logo-bg-dark-mode);
+  --logo-fg-op: var(--logo-fg-dark-mode);
 }
 
 .hidden{
@@ -105,10 +113,12 @@ body {
 }
 
 .bgLogo{
+  transition: fill .5s;
   fill:var(--logo-bg);
 }
 
 .fgLogo{
+  transition: all .5s;
   fill:var(--logo-fg);
 }
 

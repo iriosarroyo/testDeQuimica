@@ -20,6 +20,7 @@ import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
+import { getTemasOrder, TEMAS } from 'info/temas';
 import React, {
   ChangeEvent, FormEvent, useContext, useEffect, useState,
 } from 'react';
@@ -69,7 +70,12 @@ function NotInGroup() {
   const setError = useContext(MyErrorContext);
   return (
     <div className="online">
-      <p>Compite contra tus compañeros en preguntas de Química.</p>
+      <p>
+        Compite contra tus compañeros en preguntas de
+        {' '}
+        {process.env.REACT_APP_ASIGNATURA}
+        .
+      </p>
       <p>
         Crea o únete a un grupo para seleccionar el estilo del examen,
         el modo de competición y mucho más.
@@ -110,7 +116,7 @@ const saveTime = saveGen('timePerQuestion');
 function TemasPersonalizados({ temas, room, isRoomAdmin }:
   {temas:{[key:string]:string}, room:string, isRoomAdmin:boolean}) {
   const temasEntries = Object.entries(temas ?? defaultRoomConfig.temasPersonalizados);
-  temasEntries.sort((a, b) => a[0].localeCompare(b[0]));
+  temasEntries.sort((a, b) => getTemasOrder()[a[0]] - getTemasOrder()[b[0]]);
   const isTodoSi = temasEntries.every(([, val]) => val === 'Sí');
   const handleChange = (value:string, tema:string) => {
     if (!isRoomAdmin || timeoutListos !== undefined) return;
@@ -145,7 +151,7 @@ function TemasPersonalizados({ temas, room, isRoomAdmin }:
           <ChangingButton
             className="onlineChanging"
             config={{
-              title: tema.replace('tema9', 'Temas 9 y 10').replace('tema', 'Tema '),
+              title: TEMAS[tema],
               values: ['Sí', 'No'],
               text: show,
               onChange: (val:string) => handleChange(val, tema),

@@ -49,9 +49,7 @@ export const eventListUsers = (cb:Function) => {
   };
 };
 
-const SERVER_PATH = /(localhost)|(192\.168\.)/.test(window.location.origin)
-  ? window.location.origin.replace(':3000', ':3001')
-  : 'https://testdequimicaserver.glitch.me';
+const SERVER_PATH = process.env.REACT_APP_SERVER ?? '';
 
 export const createSocket = (
   tokenId:string,
@@ -119,3 +117,10 @@ const onValueGenerator = () => {
 };
 
 export const { setValueSocket } = onValueGenerator();
+
+export const listenEditorFrasesCuriosas = (
+  setter:React.Dispatch<React.SetStateAction<{[k:string]:string}|undefined>>,
+) => eventListenerSocket(
+  'datosCuriosos:editing',
+  setter,
+);

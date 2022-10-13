@@ -7,7 +7,7 @@ import React, {
 import SearchCmd from 'services/commands';
 
 import decodeHTML from 'services/decodeHTML';
-import { PreguntaTestDeQuimica } from 'types/interfaces';
+import { PreguntaTest } from 'types/interfaces';
 import './Pregunta.css';
 
 function PiePregunta({ correcta, answer, notInBlanco }:
@@ -22,7 +22,7 @@ export default function Pregunta({
   idx, objPreg, myRef, setValue, answer, correctAnswer, notInBlanco,
 }:
   {idx: number,
-    objPreg:PreguntaTestDeQuimica,
+    objPreg:PreguntaTest,
     myRef:(el:HTMLDivElement)=>void,
     setValue:Function,
   answer:string|undefined,
