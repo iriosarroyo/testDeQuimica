@@ -16,4 +16,5 @@ export const apps = {
   biologia: 'BioTest',
 };
 const isApp = (app:keyof typeof apps) => apps[app] === process.env.REACT_APP_NAME;
+export const getApp = () => Object.entries(apps).find((x) => x[1] === process.env.REACT_APP_NAME)?.[0] ?? 'quimica';
 export default isApp;
