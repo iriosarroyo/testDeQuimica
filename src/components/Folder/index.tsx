@@ -16,11 +16,11 @@ export function LoadingFolder() {
         preserveAspectRatio="none"
         width="100%"
         backgroundColor={
-        getComputedStyle(document.documentElement)
+        getComputedStyle(document.body)
           .getPropertyValue('--bg2-color')
       }
         foregroundColor={
-        getComputedStyle(document.documentElement)
+        getComputedStyle(document.body)
           .getPropertyValue('--font2-color')
       }
         style={{ borderRadius: '25px' }}

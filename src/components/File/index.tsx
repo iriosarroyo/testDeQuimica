@@ -19,11 +19,11 @@ export function LoadingFile() {
         preserveAspectRatio="none"
         width="100%"
         backgroundColor={
-        getComputedStyle(document.documentElement)
+        getComputedStyle(document.body)
           .getPropertyValue('--bg-color')
       }
         foregroundColor={
-        getComputedStyle(document.documentElement)
+        getComputedStyle(document.body)
           .getPropertyValue('--font2-color')
       }
         viewBox="0 0 100 100"
