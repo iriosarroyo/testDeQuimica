@@ -20,7 +20,7 @@ const CUSTOM_PROPERTIES: [keyof CustomVarStyles, string][] = [
 const CUSTOM_PROPERTIES_MAP = new Map(CUSTOM_PROPERTIES);
 
 const rgb2Hex = (str:string) => {
-  const rgb = str.split(', ');
+  const rgb = str.split(/,\s?/);
   rgb.length = 3; // remove alpha
   return `#${rgb.map((col) => {
     const num = parseInt(col, 10);
