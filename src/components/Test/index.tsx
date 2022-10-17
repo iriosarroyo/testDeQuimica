@@ -14,6 +14,7 @@ import UserContext from 'contexts/User';
 import { getAuth } from 'firebase/auth';
 import setFooter from 'hooks/setFooter';
 import { copyAllCmd, copyCmd } from 'info/myCommands';
+import { DEFAULT_LEVELS } from 'info/temas';
 import React, {
   useEffect, useRef, useState,
   RefObject,
@@ -335,19 +336,22 @@ const addUserQuestions = () => {
       puntType:'Puntos'|'Aciertos'|'Fallos'|undefined,
     ) => {
       if (!ableToAdd) return;
-      const newTemas = JSON.parse(JSON.stringify(temas)); // Deep copy
+      const newTemas: NonNullable<userDDBB['temas']> = JSON.parse(JSON.stringify(temas ?? {})); // Deep copy
       let [blank, correct, incorrect] = Array(3).fill('') as ''[];
       preguntas.forEach(({ nivelYTema, id }) => {
         const [tema, nivel] = nivelYTema.split('_');
         const strId = `${id};`;
+        if (newTemas[tema] === undefined) {
+          newTemas[tema] = JSON.parse(JSON.stringify(DEFAULT_LEVELS)); // Deep copy
+        }
         if (answers[id]?.current === '' || answers[id]?.current === undefined) {
-          newTemas[tema][`level${nivel}`].enBlanco += strId;
+          newTemas[tema]![`level${nivel}`].enBlanco += strId;
           blank += strId;
         } else if (answers[id]?.current === corrAnswers[id]) {
-          newTemas[tema][`level${nivel}`].aciertos += strId;
+          newTemas[tema]![`level${nivel}`].aciertos += strId;
           correct += strId;
         } else {
-          newTemas[tema][`level${nivel}`].fallos += strId;
+          newTemas[tema]![`level${nivel}`].fallos += strId;
           incorrect += strId;
         }
       });

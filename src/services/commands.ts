@@ -124,7 +124,11 @@ class Commands {
     const [cmd, ...params] = value.split(' ');
     const [, error] = this.execCommand(cmd.replace('/', ''), params);
     if (error !== undefined) Toast.addMsg(error, 5000);
-    if (error === undefined) sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
+    if (error === undefined) {
+      sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
+      const ev = new Event('search:commandSuccessful');
+      document.dispatchEvent(ev);
+    }
   }
 
   onCustomSearch<T>(

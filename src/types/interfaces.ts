@@ -147,6 +147,18 @@ export interface PreguntaTest{
 
 }
 
+export interface CustomVarStyles{
+  '--bg-color': string,
+  '--bg2-color': string,
+  '--bg3-color': string,
+  '--bg-red-color': string,
+  '--font-color': string,
+  '--font2-color': string,
+  '--font-red-color': string,
+  '--logo-bg':string,
+  '--logo-fg':string,
+}
+
 export type LogrosIds = keyof typeof logrosJSON;
 export type LogrosKeys = 'numberOf10' | 'testDeHoySeguidos' | 'mensajes' | 'formulario' | 'recursos'
 | 'downloadedDocs' | 'testsDone' | 'onlineDone' | 'testDeHoyMaxPunt' | 'preguntasDone'
@@ -171,8 +183,9 @@ export interface userDDBB{
   notificaciones: boolean|undefined,
   lastTest: number|undefined,
   stars:number,
-  logros:{[key in LogrosKeys]:Logro}|undefined
-  temas: {[key:string]:{[key:string]:{aciertos:string, fallos:string, enBlanco:string}}}
+  logros:{[key in LogrosKeys]:Logro}|undefined,
+  customStyles?: CustomVarStyles,
+  temas?: {[key:string]:undefined|{[key:string]:{aciertos:string, fallos:string, enBlanco:string}}}
 }
 
 export interface CompleteUser extends User{
@@ -226,15 +239,15 @@ export interface PaginaObject extends Shortcut{
 
 export type Paginas = PaginaObject[];
 
-export type difficultyLevels = 'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
+export type DifficultyLevels = 'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
 export interface RoomData{
   adminStats:{
-    temas:userDDBB['temas']
+    temas?:userDDBB['temas']
     year:userDDBB['year']
   },
   chat: 'Sí' | 'No',
   corregirOnClick: 'Sí' | 'No',
-  difficulty: difficultyLevels,
+  difficulty: DifficultyLevels,
   endTime: number,
   goBack: 'Sí' | 'No',
   inBlanco: 'Sí' | 'No',

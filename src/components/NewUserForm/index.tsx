@@ -9,7 +9,6 @@ import { NewUserFormError, NewUserFormData } from 'types/interfaces';
 import general from 'info/general.json';
 import './NewUserForm.css';
 import Select from 'components/Select';
-import { defaultUserTemas } from 'info/defaultData';
 import { UserErrorEditing, WriteDDBBError } from 'services/errores';
 import { auth } from 'services/firebaseApp';
 
@@ -34,7 +33,6 @@ const defaultErrorState:NewUserFormError = {
 const defaultData = {
   velocidad: 1,
   unaPorUna: true,
-  temas: defaultUserTemas,
   logros: { mensajes: { value: 0 } },
   stars: 0,
 };

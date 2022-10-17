@@ -109,9 +109,13 @@
         ".read": false,
         ".write": false
       },
+      "temas": {
+        ".read": "auth!=null",
+        ".write": "root.child('users').child(auth.uid).child('admin').val() == true"
+      },
       "ordenDeTemas": {
         ".read": "auth!=null",
-        ".write": false
+        ".write": "root.child('users').child(auth.uid).child('admin').val() == true"
       }
     },
     "documentos": {

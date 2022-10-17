@@ -59,7 +59,9 @@ export const createSocket = (
   let tries = 0;
   let timeout: number | undefined;
   let timeout2: number | undefined;
+  let startConection: number;
   socket.on('connect', () => {
+    startConection = Date.now();
     res(socket.id);
     clearTimeout(timeout2);
     setLoading(false);
@@ -73,6 +75,9 @@ export const createSocket = (
     if (reason === 'io server disconnect'
     // || reason === 'io client disconnect'
     ) {
+      if (Date.now() - (startConection ?? Infinity) >= 2 * 3600 * 1000) {
+        return window.location.reload();
+      }
       clearTimeout(timeout);
       timeout = window.setTimeout(() => { tries = 0; }, 5000);
       tries++;

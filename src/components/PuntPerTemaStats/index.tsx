@@ -1,3 +1,4 @@
+import { DEFAULT_LEVELS } from 'info/temas';
 import React, { useEffect, useState } from 'react';
 import {
   count,
@@ -19,7 +20,8 @@ const getTextNivel = (punt = MAX_PUNT_NIV_1) => `Máxima puntuación: ${punt}.
     La probabilidad del nivel depende de la puntuación del tema.`;
 
 export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, temas:userDDBB['temas'], curso:string}) {
-  const puntuacion = getPuntuacionDelTema(temas[tema]);
+  const thisTema = temas?.[tema] ?? DEFAULT_LEVELS;
+  const puntuacion = getPuntuacionDelTema(thisTema);
   const [probTema, setProbTema] = useState<null|number>(null);
   useEffect(() => {
     getProbTemaWithoutTemasInOrder(tema, temas, curso).then(setProbTema);
@@ -62,7 +64,7 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Puntuación:</strong>
           {' '}
-          <span>{getPuntuacionLevel1(temas[tema].level1)}</span>
+          <span>{getPuntuacionLevel1(thisTema.level1)}</span>
         </div>
         <div>
           <strong>Probabilidad:</strong>
@@ -72,17 +74,17 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Aciertos:</strong>
           {' '}
-          <span>{count(temas[tema].level1.aciertos)}</span>
+          <span>{count(thisTema.level1.aciertos)}</span>
         </div>
         <div>
           <strong>Fallos:</strong>
           {' '}
-          <span>{count(temas[tema].level1.fallos)}</span>
+          <span>{count(thisTema.level1.fallos)}</span>
         </div>
         <div>
           <strong>En blanco:</strong>
           {' '}
-          <span>{count(temas[tema].level1.enBlanco)}</span>
+          <span>{count(thisTema.level1.enBlanco)}</span>
         </div>
       </div>
       <div>
@@ -91,7 +93,7 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Puntuación:</strong>
           {' '}
-          <span>{getPuntuacionLevel2(temas[tema].level2)}</span>
+          <span>{getPuntuacionLevel2(thisTema.level2)}</span>
         </div>
         <div>
           <strong>Probabilidad:</strong>
@@ -101,17 +103,17 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Aciertos:</strong>
           {' '}
-          <span>{count(temas[tema].level2.aciertos)}</span>
+          <span>{count(thisTema.level2.aciertos)}</span>
         </div>
         <div>
           <strong>Fallos:</strong>
           {' '}
-          <span>{count(temas[tema].level2.fallos)}</span>
+          <span>{count(thisTema.level2.fallos)}</span>
         </div>
         <div>
           <strong>En blanco:</strong>
           {' '}
-          <span>{count(temas[tema].level2.enBlanco)}</span>
+          <span>{count(thisTema.level2.enBlanco)}</span>
         </div>
       </div>
       <div>
@@ -120,7 +122,7 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Puntuación:</strong>
           {' '}
-          <span>{getPuntuacionLevel3(temas[tema].level3)}</span>
+          <span>{getPuntuacionLevel3(thisTema.level3)}</span>
         </div>
         <div>
           <strong>Probabilidad:</strong>
@@ -130,17 +132,17 @@ export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, t
         <div>
           <strong>Aciertos:</strong>
           {' '}
-          <span>{count(temas[tema].level3.aciertos)}</span>
+          <span>{count(thisTema.level3.aciertos)}</span>
         </div>
         <div>
           <strong>Fallos:</strong>
           {' '}
-          <span>{count(temas[tema].level3.fallos)}</span>
+          <span>{count(thisTema.level3.fallos)}</span>
         </div>
         <div>
           <strong>En blanco:</strong>
           {' '}
-          <span>{count(temas[tema].level3.enBlanco)}</span>
+          <span>{count(thisTema.level3.enBlanco)}</span>
         </div>
       </div>
     </div>

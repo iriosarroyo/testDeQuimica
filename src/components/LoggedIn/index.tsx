@@ -87,7 +87,7 @@ const addLoggedInCommands = (navigate:Function, setError:Function) => {
         name: 'modo',
         desc: 'Elige el estilo',
         optional: false,
-        type: ['dark', 'light', 'default'],
+        type: ['dark', 'light', 'custom', 'default'],
       },
     ),
     SearchCmd.addCommand(
@@ -108,7 +108,7 @@ const addLoggedInCommands = (navigate:Function, setError:Function) => {
   ];
   return () => cmds.forEach((cmd) => cmd());
 };
-
+let pushedAdmin = false;
 export default function LoggedIn() {
   const user = useContext(UserContext);
   const setError = useContext(MyErrorContext);
@@ -122,7 +122,9 @@ export default function LoggedIn() {
     [user === undefined],
   );
   useEffect(() => {
-    if (user?.userDDBB.admin) shortcuts.push(...paginasAdmin);
+    if (user?.userDDBB.admin && !pushedAdmin) {
+      pushedAdmin = true; shortcuts.push(...paginasAdmin);
+    }
   }, [user?.userDDBB.admin]);
   const location = useLocation();
   const handleClick = useMemo(() => {

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import CommandDescription from 'components/CommandDescription';
 import UserContext from 'contexts/User';
+import { useDOMEvent } from 'hooks/general';
 import { addShortCut } from 'info/shortcuts';
 import { getShortCut } from 'info/shortcutTools';
 import React, {
@@ -29,6 +30,10 @@ export default function Search() {
     setAutocomplete([]);
     setActiveAutocomplete(0);
   };
+  useDOMEvent('search:commandSuccessful', () => {
+    setSearch('');
+    setEmpty();
+  });
 
   useEffect(() => addShortCut({
     default: 'F2',

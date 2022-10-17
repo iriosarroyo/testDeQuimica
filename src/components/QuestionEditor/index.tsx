@@ -20,6 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleXmark as faCircleXmarkReg } from '@fortawesome/free-regular-svg-icons';
 import { getPreguntasYRespuestas } from 'services/database';
+import { getTemas } from 'info/temas';
 
 const TAB_IDX = {
   checks: 3,
@@ -283,7 +284,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
   function changePregunta<
   Type extends keyof PreguntaTest>(key:Type, value: PreguntaTest[Type]) {
     const newPreg = { ...preguntaTest, [key]: value };
-    newPreg.nivelYTema = `${newPreg.tema.replace('Tema ', 'tema')}_${newPreg.level}`;
+    newPreg.nivelYTema = `${newPreg.tema}_${newPreg.level}`;
     if (deepEqual(newPreg, preguntaTest)) return;
     setSaved(false);
     saveQuestion(newPreg, correcta);
@@ -337,11 +338,8 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">Tema:</h4>
         <select onKeyDown={handleKeyDownSelect} className="selectEditorQuestion" value={tema} onChange={changeTema} tabIndex={TAB_IDX.inBetweenElem(tabIdxId)}>
-          {Array(9).fill(null).map((_, idx) => {
-            const esteTema = idx === 8 ? 'Temas 9 y 10' : `Tema ${idx + 1}`;
-            const value = idx === 8 ? 'Tema 9' : esteTema;
-            return <option value={value} key={value}>{esteTema}</option>;
-          })}
+          {Object.entries(getTemas()).map(([key, value]) => (
+            <option value={key} key={key}>{value}</option>))}
         </select>
       </div>
       <div className="editorQuestionGroup">

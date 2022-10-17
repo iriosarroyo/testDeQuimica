@@ -13,6 +13,7 @@ import { writeUserInfo } from 'services/database';
 import Toast from 'services/toast';
 import { MyUser, Shortcut } from 'types/interfaces';
 import './Ajustes.css';
+import CustomColors from './CustomColors';
 
 const saveVelGen = () => {
   let lastTimeout:number;
@@ -137,6 +138,14 @@ export default function Ajustes() {
             />
             <span>Modo Claro</span>
           </label>
+          <label htmlFor="customMode">
+            <input type="radio" id="customMode" onChange={handleChange} name="mode" value="custom" checked={mode === 'custom'} />
+            <FontAwesomeIcon icon={
+              mode === 'custom' ? CHECKED_ICON : UNCHECKED_ICON
+            }
+            />
+            <span>Modo Personalizado</span>
+          </label>
           <label htmlFor="defaultMode">
             <input type="radio" id="defaultMode" onChange={handleChange} name="mode" value="null" checked={mode === 'null'} />
             <FontAwesomeIcon icon={
@@ -145,6 +154,7 @@ export default function Ajustes() {
             />
             <span>Modo por defecto (se usará el del sistema)</span>
           </label>
+          {mode === 'custom' && <CustomColors />}
         </form>
       </div>
       <div>

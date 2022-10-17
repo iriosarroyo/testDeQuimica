@@ -28,7 +28,7 @@ export const onValueDDBB = (path:string, setter:Function, setError:Function) => 
   return onValue(
     thisRef,
     (snap) => setter(snap.val()),
-    (error) => { console.log(path, setter); setError(error); },
+    (error) => { setError(error); },
   );
 };
 
@@ -185,10 +185,23 @@ export const filterByChildCache = (path: string, child:string, equal:string) => 
   return result;
 };
 
+export const updateLocal = (path:string, def: any = null) => readDDBB(path)
+  .then(([val]) => {
+    const value = val === null ? def : val;
+    localStorage.setItem(`DDBB:${path}`, JSON.stringify(value));
+    return value;
+  });
+
 export const readLocal = async (path:string) => {
   const result = localStorage.getItem(`DDBB:${path}`);
-  const ddbbVal = readDDBB(path).then(([val]) => (((val && localStorage.setItem(`DDBB:${path}`, JSON.stringify(val))), val)));
-  if (!result) return ddbbVal;
+  const ddbbVal = updateLocal(path);
+  if (result === null) return ddbbVal;
+  return JSON.parse(result);
+};
+
+export const readLocalSync = (path:string, def:any) => {
+  const result = localStorage.getItem(`DDBB:${path}`);
+  if (result === null) return def;
   return JSON.parse(result);
 };
 

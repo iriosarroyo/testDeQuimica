@@ -4,6 +4,8 @@ export const PATHS_DDBB = {
   preguntas: 'preguntas',
   respuestas: 'respuestas',
   documentsLinks: 'documentos/links',
+  temas: 'general/temas',
+  temasOrden: 'general/ordenDeTemas',
 };
 
 export const PATHS_SCKT = {

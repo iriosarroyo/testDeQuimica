@@ -1,7 +1,7 @@
 import Button from 'components/Button';
 import PuntPerTemaStats from 'components/PuntPerTemaStats';
 import UserContext from 'contexts/User';
-import { TEMAS } from 'info/temas';
+import { DEFAULT_LEVELS, getTemas } from 'info/temas';
 import React, { useContext, useEffect, useState } from 'react';
 
 import {
@@ -15,14 +15,15 @@ import './Puntuaciones.css';
 
 function PuntuacionDelTema({ temas, tema, curso }:{temas:userDDBB['temas'], tema:string, curso:string}) {
   const [display, setDisplay] = useState(false);
-  const levels = temas[tema];
+  const levels = temas?.[tema] ?? DEFAULT_LEVELS;
   const percLevel1 = getPuntuacionLevel1(levels.level1) * 10;
   const percLevel2 = getPuntuacionLevel2(levels.level2) * 10;
   const percTotal = getPuntuacionDelTema(levels); // multiplicamos más abajo
+  const TEMAS = getTemas();
   return (
     <div className="puntuacionTemaProgress" key={tema}>
       <Button onClick={() => setDisplay((v) => !v)}>
-        <strong>{TEMAS[tema]}</strong>
+        <strong>{TEMAS[tema as keyof typeof TEMAS]}</strong>
         <div className="progressPuntuacionesContainer">
           <div className="puntuacionProgress">
             Puntuación:

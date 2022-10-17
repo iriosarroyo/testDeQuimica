@@ -1,4 +1,6 @@
-import { difficultyLevels, userDDBB } from 'types/interfaces';
+import { PATHS_DDBB } from 'info/paths';
+import { getTemas } from 'info/temas';
+import { DifficultyLevels, userDDBB } from 'types/interfaces';
 import { readLocal } from './database';
 
 const probabilityLevelGen = (max:number, deviation:number) => {
@@ -21,26 +23,28 @@ export const VAL_PUNT_FALLO = 0.05;
 export const EXTRA_PER_10 = 0.5;
 export const EXTRA_PER_100 = 1;
 
+const ROUND_DECIMALS = 8;
+
 export const round = (num:number, digits = 2) => Math.round(num * 10 ** digits) / 10 ** digits;
 
-export const getProbLevel1 = (punt: number, type:difficultyLevels = 'User') => {
+export const getProbLevel1 = (punt: number, type:DifficultyLevels = 'User') => {
   if (type === 'Difícil' || type === 'Medio') return 0;
   if (type === 'Fácil') return 1;
-  return round(getUserProbLevel1(punt), 8);
+  return round(getUserProbLevel1(punt), ROUND_DECIMALS);
 };
 
-export const getProbLevel3 = (punt: number, type:difficultyLevels = 'User') => {
+export const getProbLevel3 = (punt: number, type:DifficultyLevels = 'User') => {
   if (type === 'Fácil' || type === 'Medio') return 0;
   if (type === 'Difícil') return 1;
-  return round(Math.min(getUserProbLevel3(punt), 1 - getProbLevel1(punt)), 8);
+  return round(Math.min(getUserProbLevel3(punt), 1 - getProbLevel1(punt)), ROUND_DECIMALS);
   // return round(Math.min(1, 1 - getProbLevel1(punt)), 8);
 };
 // Prob level 2 is 1-probLevel3-probLevel1
 
 export const getProbLevel2 = (
   punt: number,
-  type:difficultyLevels = 'User',
-) => round(Math.max(0, 1 - getProbLevel1(punt, type) - getProbLevel3(punt, type)), 8);
+  type:DifficultyLevels = 'User',
+) => round(Math.max(0, 1 - getProbLevel1(punt, type) - getProbLevel3(punt, type)), ROUND_DECIMALS);
 
 export const getProbTema = (punt:number, puntuacionDeTodos:number[]) => {
   const FACTOR = 10; // Number to reduce difference of probabilities
@@ -61,28 +65,31 @@ const getRawPuntuacion = (aciertos:number, fallos:number) => {
 
 export const count = (str:string, sep = ';') => str.match(RegExp(sep, 'g'))?.length ?? 0;
 
+type AciertosYFallos = NonNullable<NonNullable<userDDBB['temas']>['']>['']
+
 const countAciertosYFallos = (
-  { aciertos, fallos }:userDDBB['temas'][''][''],
+  { aciertos, fallos }:AciertosYFallos,
 ) => {
   const aciertosCount = count(aciertos);
   const fallosCount = count(fallos);
   return { aciertos: aciertosCount, fallos: fallosCount };
 };
 
-export const getPuntuacionLevel1 = (aciertosYFallos:userDDBB['temas']['']['']) => {
+export const getPuntuacionLevel1 = (aciertosYFallos:AciertosYFallos) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
   return Math.min(MAX_PUNT_NIV_1, getRawPuntuacion(aciertos, fallos));
 };
-export const getPuntuacionLevel2 = (aciertosYFallos:userDDBB['temas']['']['']) => {
+export const getPuntuacionLevel2 = (aciertosYFallos:AciertosYFallos) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
   return Math.min(MAX_PUNT_NIV_2, getRawPuntuacion(aciertos, fallos));
 };
-export const getPuntuacionLevel3 = (aciertosYFallos:userDDBB['temas']['']['']) => {
+export const getPuntuacionLevel3 = (aciertosYFallos:AciertosYFallos) => {
   const { aciertos, fallos } = countAciertosYFallos(aciertosYFallos);
   return Math.min(MAX_PUNT_NIV_3, getRawPuntuacion(aciertos, fallos));
 };
 
-export const getPuntuacionDelTema = (puntPorLevel:userDDBB['temas']['']) => {
+export const getPuntuacionDelTema = (puntPorLevel:NonNullable<userDDBB['temas']>['']) => {
+  if (puntPorLevel === undefined) return 0; // Return puntuación 0 si no existe el elemento
   const level1 = getPuntuacionLevel1(puntPorLevel.level1);
   const level2 = getPuntuacionLevel2(puntPorLevel.level2);
   const level3 = getPuntuacionLevel3(puntPorLevel.level3);
@@ -90,21 +97,24 @@ export const getPuntuacionDelTema = (puntPorLevel:userDDBB['temas']['']) => {
 };
 
 export const getAllPuntuaciones = (temas: userDDBB['temas']) : {[k:string]: number} => {
-  const puntEntries = Object.entries(temas).map(([k, v]) => ([k, getPuntuacionDelTema(v)]));
+  const puntEntries = Object.keys(getTemas()).map((key) => ([key,
+    getPuntuacionDelTema(temas?.[key])]));
   return Object.fromEntries(puntEntries);
 };
 
 export const getPuntuacionMedia = (puntuaciones:userDDBB['temas'], digits = 2) => {
-  const arra = Object.values(puntuaciones);
-  const average = arra.reduce((acum, curr) => acum + getPuntuacionDelTema(curr), 0) / arra.length;
+  if (puntuaciones === undefined) return 0;
+  const arra = Object.keys(getTemas());
+  const average = arra
+    .reduce((acum, curr) => acum + getPuntuacionDelTema(puntuaciones[curr]), 0) / arra.length;
   return round(average, digits);
 };
 
 export const getTemasInOrder = async (year: string) => {
-  const orderTemas = await readLocal(`general/ordenDeTemas/${year}`);
-  const orderTemasEntries:[string, number][] = Object.entries(orderTemas);
-  orderTemasEntries.sort((a, b) => a[1] - b[1]);
-  return orderTemasEntries.map((x) => x[0]);
+  const orderTemas = await readLocal(`${PATHS_DDBB.temasOrden}/${year}`);
+  const orderTemasEntries = Object.keys(getTemas());
+  orderTemasEntries.sort((a, b) => (orderTemas[a] ?? Infinity) - (orderTemas[b] ?? Infinity));
+  return orderTemasEntries;
 };
 
 export const getProbTemaWithoutTemasInOrder = async (tema:string, temas:userDDBB['temas'], year:string) => {

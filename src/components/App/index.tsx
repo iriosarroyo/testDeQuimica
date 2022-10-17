@@ -19,6 +19,7 @@ import { onChangeFullscreen } from 'services/elemenstInViewPort';
 import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand } from '@fortawesome/free-solid-svg-icons';
+import { setColorsCustom } from 'services/colors';
 
 const Front = loadable(() => import('../Front'), {
   fallback: <GeneralContentLoader />,
@@ -147,6 +148,7 @@ function App() {
   useEffect(() => onValueDDBB('mantenimiento', setMantenimiento, setError), []);
 
   document.body.dataset.mode = localStorage.getItem('mode') ?? 'null';
+  setColorsCustom(JSON.parse(localStorage.getItem('styles:customStyles') ?? '{}'));
 
   useEffect(() => onChangeFullscreen(setButtonFullscreen), []);
 

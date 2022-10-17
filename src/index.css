@@ -1,102 +1,130 @@
 :root {
-  --bg-dark-mode: #44546a;
-  --bg2-dark-mode: #9db4d5;
-  --bg2ReducedOpacity-dark-mode: #9db4d5a4;
-  --bg3-dark-mode: #798aa3;
-  --bgReducedOpacity-dark-mode: #44546ac4;
-  --bg-red-dark-mode: #800000;
-  --font-dark-mode: #b2cce5;
-  --font2-dark-mode: #1c2833;
-  --font2-fore-dark-mode: #2d4052;
-  --font-red-dark-mode: #ff9494;
-  --logo-fg-dark-mode:#222831;
-  --logo-bg-dark-mode:#eee;
+  --bg-opacity: 0.769;
+  --bg2-opacity: 0.643;
+  --bg-dark-mode: 68, 84, 106;
+  --bg2-dark-mode: 157, 180, 213;
+  --bg3-dark-mode: 120, 137, 163;
+  --bg-red-dark-mode: 128, 0, 0;
+  --font-dark-mode: 178, 204, 229;
+  --font2-dark-mode: 28, 40, 51;
+  --font2-fore-dark-mode: 45, 64, 82;
+  --font-red-dark-mode: 255, 148, 148;
+  --logo-fg-dark-mode:34, 40, 49;
+  --logo-bg-dark-mode:238, 238, 238;
 
 
-  --prin-color: #67a0c6;
-  --bg-light-mode: #67a0c6;
-  --bg2-light-mode: #1c2833;
-  --bg2ReducedOpacity-light-mode: #1c2833a4;
-  --bg3-light-mode: #20403e;
-  --bgReducedOpacity-light-mode: #67a0c6c4;
-  --bg-red-light-mode: #ff7f7f;
-  --font-light-mode: #070707;
-  --font2-light-mode: #ddd;
-  --font2-fore-light-mode: #c4c4c4;
-  --font-red-light-mode: #c50101;
-  --logo-fg-light-mode:#eee;
-  --logo-bg-light-mode:#222831;
+  --prin-color: 103, 160, 198;
+  --bg-light-mode: 103, 160, 198;
+  --bg2-light-mode: 28, 40, 51;
+  --bg3-light-mode: 32, 64, 62;
+  --bg-red-light-mode: 255, 127, 127;
+  --font-light-mode: 7, 7, 7;
+  --font2-light-mode: 221, 221, 221;
+  --font2-fore-light-mode: 196, 196, 196;
+  --font-red-light-mode: 197, 1, 1;
+  --logo-fg-light-mode:238, 238, 238;
+  --logo-bg-light-mode:34, 40, 49;
 
-  --bg-color: var(--bg-dark-mode);
-  --bg2-color: var(--bg2-dark-mode);
-  --bg3-color: var(--bg3-dark-mode);
-  --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
-  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-dark-mode);
-  --bg-red-color: var(--bg-red-dark-mode);
-  --font-color: var(--font-dark-mode);
-  --font2-color: var(--font2-dark-mode);
-  --font2-fore-color: var(--font2-fore-dark-mode);
-  --font-red-color: var(--font-red-dark-mode);
+  --bg-color: rgb(var(--bg-dark-mode));
+  --bg2-color: rgb(var(--bg2-dark-mode));
+  --bg3-color: rgb(var(--bg3-dark-mode));
+  --bgReducedOpacity-color: rgba(var(--bg-dark-mode), var(--bg-opacity));
+  --bg2ReducedOpacity-color: rgba(var(--bg2-dark-mode), var(--bg2-opacity));
+  --bg-red-color: rgb(var(--bg-red-dark-mode));
+  --font-color: rgb(var(--font-dark-mode));
+  --font2-color: rgb(var(--font2-dark-mode));
+  --font2-fore-color: rgb(var(--font2-fore-dark-mode));
+  --font-red-color: rgb(var(--font-red-dark-mode));
 
-  --logo-bg: var(--logo-bg-dark-mode);
-  --logo-fg: var(--logo-fg-dark-mode);
-  --logo-bg-op: var(--logo-bg-light-mode);
-  --logo-fg-op: var(--logo-fg-light-mode);
+  --logo-bg: rgb(var(--logo-bg-dark-mode));
+  --logo-fg: rgb(var(--logo-fg-dark-mode));
+  --logo-bg-op: rgb(var(--logo-bg-light-mode));
+  --logo-fg-op: rgb(var(--logo-fg-light-mode));
+
+  --bg-color-custom: var(--bg-light-mode);
+  --bg2-color-custom: var(--bg2-light-mode);
+  --bg3-color-custom: var(--bg3-light-mode);
+  --bg-red-color-custom: var(--bg-red-light-mode);
+  --font-color-custom: var(--font-light-mode);
+  --font2-color-custom: var(--font2-light-mode);
+  --font2-fore-color-custom: var(--font2-fore-light-mode);
+  --font-red-color-custom: var(--font-red-light-mode);
+  --logo-bg-custom: var(--logo-bg-light-mode);
+  --logo-fg-custom: var(--logo-fg-light-mode);
+  --logo-bg-op-custom: var(--logo-fg-custom);
+  --logo-fg-op-custom: var(--logo-bg-custom);
 
   --vh: 1vh;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --bg-color: var(--bg-light-mode);
-    --bg2-color: var(--bg2-light-mode);
-    --bg3-color: var(--bg3-light-mode);
-    --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
-    --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-light-mode);
-    --bg-red-color: var(--bg-red-light-mode);
-    --font-color: var(--font-light-mode);
-    --font2-color: var(--font2-light-mode);
-    --font2-fore-color: var(--font2-fore-light-mode);
-    --font-red-color: var(--font-red-light-mode);
-    --logo-bg: var(--logo-bg-light-mode);
-    --logo-fg: var(--logo-fg-light-mode);
-    --logo-bg-op: var(--logo-bg-dark-mode);
-    --logo-fg-op: var(--logo-fg-dark-mode);
+    --bg-color: rgb(var(--bg-light-mode));
+    --bg2-color: rgb(var(--bg2-light-mode));
+    --bg3-color: rgb(var(--bg3-light-mode));
+    --bg-red-color: rgb(var(--bg-red-light-mode));
+    --font-color: rgb(var(--font-light-mode));
+    --font2-color: rgb(var(--font2-light-mode));
+    --font2-fore-color: rgb(var(--font2-fore-light-mode));
+    --font-red-color: rgb(var(--font-red-light-mode));
+    --logo-bg: rgb(var(--logo-bg-light-mode));
+    --logo-fg: rgb(var(--logo-fg-light-mode));
+    --logo-bg-op: rgb(var(--logo-bg-dark-mode));
+    --logo-fg-op: rgb(var(--logo-fg-dark-mode));
+    --bgReducedOpacity-color: rgba(var(--bg-light-mode), var(--bg-opacity));
+    --bg2ReducedOpacity-color: rgba(var(--bg2-light-mode), var(--bg2-opacity));
   }
 }
 
 [data-mode = dark]{
-  --bg-color: var(--bg-dark-mode);
-  --bg2-color: var(--bg2-dark-mode);
-  --bg3-color: var(--bg3-dark-mode);
-  --bgReducedOpacity-color: var(--bgReducedOpacity-dark-mode);
-  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-dark-mode);
-  --bg-red-color: var(--bg-red-dark-mode);
-  --font-color: var(--font-dark-mode);
-  --font2-color: var(--font2-dark-mode);
-  --font2-fore-color: var(--font2-fore-dark-mode);
-  --font-red-color: var(--font-red-dark-mode);
-  --logo-bg: var(--logo-bg-dark-mode);
-  --logo-fg: var(--logo-fg-dark-mode);
-  --logo-bg-op: var(--logo-bg-light-mode);
-  --logo-fg-op: var(--logo-fg-light-mode);
+  --bg-color: rgb(var(--bg-dark-mode));
+  --bg2-color: rgb(var(--bg2-dark-mode));
+  --bg3-color: rgb(var(--bg3-dark-mode));
+  --bg-red-color: rgb(var(--bg-red-dark-mode));
+  --font-color: rgb(var(--font-dark-mode));
+  --font2-color: rgb(var(--font2-dark-mode));
+  --font2-fore-color: rgb(var(--font2-fore-dark-mode));
+  --font-red-color: rgb(var(--font-red-dark-mode));
+  --logo-bg: rgb(var(--logo-bg-dark-mode));
+  --logo-fg: rgb(var(--logo-fg-dark-mode));
+  --logo-bg-op: rgb(var(--logo-bg-light-mode));
+  --logo-fg-op: rgb(var(--logo-fg-light-mode));
+  --bgReducedOpacity-color: rgba(var(--bg-dark-mode), var(--bg-opacity));
+  --bg2ReducedOpacity-color: rgba(var(--bg2-dark-mode), var(--bg2-opacity));
 }
 
 [data-mode = light]{
-  --bg-color: var(--bg-light-mode);
-  --bg2-color: var(--bg2-light-mode);
-  --bg3-color: var(--bg3-light-mode);
-  --bgReducedOpacity-color: var(--bgReducedOpacity-light-mode);
-  --bg2ReducedOpacity-color: var(--bg2ReducedOpacity-light-mode);
-  --bg-red-color: var(--bg-red-light-mode);
-  --font-color: var(--font-light-mode);
-  --font2-color: var(--font2-light-mode);
-  --font2-fore-color: var(--font2-fore-light-mode);
-  --font-red-color: var(--font-red-light-mode);
-  --logo-bg: var(--logo-bg-light-mode);
-  --logo-fg: var(--logo-fg-light-mode);
-  --logo-bg-op: var(--logo-bg-dark-mode);
-  --logo-fg-op: var(--logo-fg-dark-mode);
+  --bg-color: rgb(var(--bg-light-mode));
+  --bg2-color: rgb(var(--bg2-light-mode));
+  --bg3-color: rgb(var(--bg3-light-mode));
+  --bg-red-color: rgb(var(--bg-red-light-mode));
+  --font-color: rgb(var(--font-light-mode));
+  --font2-color: rgb(var(--font2-light-mode));
+  --font2-fore-color: rgb(var(--font2-fore-light-mode));
+  --font-red-color: rgb(var(--font-red-light-mode));
+  --logo-bg: rgb(var(--logo-bg-light-mode));
+  --logo-fg: rgb(var(--logo-fg-light-mode));
+  --logo-bg-op: rgb(var(--logo-bg-dark-mode));
+  --logo-fg-op: rgb(var(--logo-fg-dark-mode));
+  --bgReducedOpacity-color: rgba(var(--bg-light-mode), var(--bg-opacity));
+  --bg2ReducedOpacity-color: rgba(var(--bg2-light-mode), var(--bg2-opacity));
+}
+
+[data-mode = custom]{
+  --bg-color: rgb(var(--bg-color-custom));
+  --bg2-color: rgb(var(--bg2-color-custom));
+  --bg3-color: rgb(var(--bg3-color-custom));
+  --bg-red-color: rgb(var(--bg-red-color-custom));
+  --font-color: rgb(var(--font-color-custom));
+  --font2-color: rgb(var(--font2-color-custom));
+  --font2-fore-color: rgb(var(--font2-fore-color-custom));
+  --font-red-color: rgb(var(--font-red-color-custom));
+  --logo-bg: rgb(var(--logo-bg-custom));
+  --logo-fg: rgb(var(--logo-fg-custom));
+  --logo-bg-op: var(--logo-fg);
+  --logo-fg-op: var(--logo-bg);
+  --bgReducedOpacity-color: rgba(var(--bg-color-custom), var(--bg-opacity));
+  --bg2ReducedOpacity-color: rgba(var(--bg2-color-custom), var(--bg2-opacity));
 }
 
 .hidden{

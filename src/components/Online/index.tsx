@@ -20,7 +20,7 @@ import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
-import { getTemasOrder, TEMAS } from 'info/temas';
+import { getTemas, getTemasOrder } from 'info/temas';
 import React, {
   ChangeEvent, FormEvent, useContext, useEffect, useState,
 } from 'react';
@@ -115,6 +115,7 @@ const saveTime = saveGen('timePerQuestion');
 
 function TemasPersonalizados({ temas, room, isRoomAdmin }:
   {temas:{[key:string]:string}, room:string, isRoomAdmin:boolean}) {
+  const TEMAS = getTemas();
   const temasEntries = Object.entries(temas ?? defaultRoomConfig.temasPersonalizados);
   temasEntries.sort((a, b) => getTemasOrder()[a[0]] - getTemasOrder()[b[0]]);
   const isTodoSi = temasEntries.every(([, val]) => val === 'Sí');
@@ -151,7 +152,7 @@ function TemasPersonalizados({ temas, room, isRoomAdmin }:
           <ChangingButton
             className="onlineChanging"
             config={{
-              title: TEMAS[tema],
+              title: TEMAS[tema as keyof typeof TEMAS],
               values: ['Sí', 'No'],
               text: show,
               onChange: (val:string) => handleChange(val, tema),

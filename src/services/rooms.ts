@@ -1,4 +1,3 @@
-import { defaultUserTemas } from 'info/defaultData';
 import { getDefaultTemasSelection } from 'info/temas';
 import { CompleteUser, MyUser, RoomData } from 'types/interfaces';
 import {
@@ -26,7 +25,6 @@ export const defaultRoomConfig:RoomData = {
   repetidas: 'Sí',
   temasPersonalizados: getDefaultTemasSelection(),
   adminStats: {
-    temas: defaultUserTemas,
     year: 'bach2',
   },
 };

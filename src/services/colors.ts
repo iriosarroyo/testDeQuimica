@@ -1,3 +1,5 @@
+import { CustomVarStyles } from 'types/interfaces';
+
 const numberToString = (n: number, base:number = 10, digits:number|undefined = undefined) => {
   const value = n.toString(base);
   let digitos = digits ?? value.length;
@@ -33,6 +35,10 @@ const invertColor = (hex:string) => {
   const g = 255 - parseInt(green, 16);
   const b = 255 - parseInt(blue, 16);
   return rgbToHex(r, g, b);
+};
+
+export const setColorsCustom = (colors:CustomVarStyles) => {
+  Object.entries(colors).forEach(([k, v]) => document.body.style.setProperty(`${k}-custom`, v));
 };
 
 export default invertColor;

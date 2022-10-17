@@ -9,7 +9,9 @@ import { getFromSocket } from 'services/socket';
 import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
-import { TEMAS } from 'info/temas';
+import { PATHS_DDBB } from 'info/paths';
+import { getTemas } from 'info/temas';
+import EditarTemas from './EditarTemas';
 
 type SortElem = {value:string, text:string}
 const LAST_ELEMENT = 'DRAG_LAST_ELEMENT_WE_DO_NOT_WANT_TO_HAVE_SAME_TEXT_XYZAJSHJKA';
@@ -121,16 +123,16 @@ function TemasOrderingForCurso({ curso }:{curso:'bach1' | 'bach2' | 'eso3' | 'es
   const [temasOrderObj, setTemasOrderObj] = useState<{[k:string]: number}|null>(null);
   const temasOrderArray = useMemo(() => {
     if (temasOrderObj === null) return [];
-    const entries = Object.keys(TEMAS);
+    const temas = getTemas();
+    const entries = Object.keys(temas);
     entries.sort((a, b) => (temasOrderObj[a] ?? Infinity) - (temasOrderObj[b] ?? Infinity));
-    return entries.map((elem) => ({ text: TEMAS[elem], value: elem }));
-  }, [temasOrderObj]);
-
+    return entries.map((elem) => ({ text: temas[elem as keyof typeof temas], value: elem }));
+  }, [temasOrderObj, getTemas()]);
   const handleChange = (elems:SortElem[]) => {
     const result = Object.fromEntries(elems.map((elem, i) => [elem.value, i]));
-    getFromSocket('write:main', `general/ordenDeTemas/${curso}`, result);
+    getFromSocket('write:main', `${PATHS_DDBB.temasOrden}/${curso}`, result);
   };
-  useEffect(() => onValueDDBB(`general/ordenDeTemas/${curso}`, setTemasOrderObj, Toast.addMsg), []);
+  useEffect(() => onValueDDBB(`${PATHS_DDBB.temasOrden}/${curso}`, setTemasOrderObj, Toast.addMsg), []);
   if (temasOrderObj === null) return null;
   return (
     <SortableList elements={temasOrderArray} onChange={handleChange} />
@@ -138,24 +140,28 @@ function TemasOrderingForCurso({ curso }:{curso:'bach1' | 'bach2' | 'eso3' | 'es
 }
 
 export default function TemasOrdering() {
+  const [, sendUpdate] = useState(false);
   return (
-    <div>
+    <div className="temasOrderingContainer">
+      <EditarTemas sendUpdate={sendUpdate} />
       <h3>Ordenar Temas</h3>
-      <div>
-        <h4>2º BACH</h4>
-        <TemasOrderingForCurso curso="bach2" />
-      </div>
-      <div>
-        <h4>1º BACH</h4>
-        <TemasOrderingForCurso curso="bach1" />
-      </div>
-      <div>
-        <h4>4º ESO</h4>
-        <TemasOrderingForCurso curso="eso4" />
-      </div>
-      <div>
-        <h4>3º ESO</h4>
-        <TemasOrderingForCurso curso="eso3" />
+      <div className="OrdenarTemasAllCursos">
+        <div>
+          <h4>2º BACH</h4>
+          <TemasOrderingForCurso curso="bach2" />
+        </div>
+        <div>
+          <h4>1º BACH</h4>
+          <TemasOrderingForCurso curso="bach1" />
+        </div>
+        <div>
+          <h4>4º ESO</h4>
+          <TemasOrderingForCurso curso="eso4" />
+        </div>
+        <div>
+          <h4>3º ESO</h4>
+          <TemasOrderingForCurso curso="eso3" />
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,9 @@ import {
   GoogleAuthProvider, onAuthStateChanged, reauthenticateWithCredential, signInWithPopup,
   signOut, User, UserCredential,
 } from 'firebase/auth';
+import { updateTemas } from 'info/temas';
 import React from 'react';
+import { userDDBB } from 'types/interfaces';
 import { onValueDDBB, readDDBB } from './database';
 import { SocketError } from './errores';
 import { auth } from './firebaseApp';
@@ -42,14 +44,17 @@ export const authState = (
         off = () => { };
       } else {
         try {
-          await user.getIdToken().then((token) => createSocket(token, setLoading));
+          await Promise.all([
+            user.getIdToken().then((token) => createSocket(token, setLoading)),
+            updateTemas(),
+          ]);
         } catch {
           setError(new SocketError());
           return;
         }
         const setValueOff = onValueUser(
           user,
-          (userDDBB:any) => setUser({ userDDBB, ...user }),
+          (userDatabase:userDDBB) => setUser({ userDDBB: userDatabase, ...user }),
           setError,
         );
         off = () => {

@@ -6,10 +6,10 @@ import React, {
 import gen from 'random-seed';
 import { getNumOfDays } from 'services/time';
 import {
-  CompleteUser, difficultyLevels, PreguntaTest, RoomData, RoomMember, userDDBB,
+  CompleteUser, DifficultyLevels, PreguntaTest, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
 import {
-  getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema, getTemasInOrder,
+  getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema, getTemasInOrder, count,
 } from 'services/probability';
 import {
   changeAllChildren,
@@ -29,6 +29,7 @@ import {
   getPuntType, getShowPunt, getTime, getTimeToSiguiente, getUnaPorUna,
 } from 'services/conditionsCustomTest';
 import { PATHS_DDBB } from 'info/paths';
+import { getTemas } from 'info/temas';
 
 interface StatsPerTema{
   tema:string, punt:number, probLevel1:number, probLevel3:number
@@ -58,8 +59,8 @@ const getLevel = (statsPerTema:CompleteStatsPerTema, rng: gen.RandomSeed) => {
 };
 
 const getStatPerTema = (
-  level:difficultyLevels,
-  [tema, dataByLevel]:[string, userDDBB['temas']['']],
+  level:DifficultyLevels,
+  [tema, dataByLevel]:[string, NonNullable<userDDBB['temas']>['']],
 ):[string, StatsPerTema] => {
   const punt = getPuntuacionDelTema(dataByLevel);
   const probLevel1 = getProbLevel1(punt, level);
@@ -122,9 +123,9 @@ const getPreguntasWithWeights = (
 
     Object.keys(posibleQuestions).forEach((id) => {
       if (!repeatedQuestions && yaPreguntado.includes(id)) { return; }
-      const { aciertos, fallos } = temas[tema][`level${level}`];
-      const numAc = (aciertos.match(new RegExp(id, 'g')) ?? []).length;
-      const numFal = (fallos.match(new RegExp(id, 'g')) ?? []).length;
+      const { aciertos, fallos } = temas?.[tema]?.[`level${level}`] ?? { aciertos: '', fallos: '' };
+      const numAc = count(aciertos);
+      const numFal = count(fallos);
       const weight = allQuestions ? 1 : Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
       weightedIds.push(...Array(weight).fill(id));
     });
@@ -138,18 +139,18 @@ const getPreguntasWithWeights = (
 
 const getPreguntas = async (
   n:number,
-  UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']},
+  UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']},
   rng: gen.RandomSeed,
   temasSeleccionados:string[]|undefined = undefined,
-  level:difficultyLevels = 'User',
+  level:DifficultyLevels = 'User',
   allQuestions = false, // Include questions with high number of correct
   filterIds:string[] = [],
   repeatedQuestions = false,
 ) => {
-  const { temas, year } = UserDDBB;
+  const { temas = {}, year } = UserDDBB;
   const temasInOrder = temasSeleccionados ?? await getTemasInOrder(year);
-  const statsPerTema:[string, StatsPerTema][] = Object.entries(temas)
-    .map((tema) => getStatPerTema(level, tema));
+  const statsPerTema:[string, StatsPerTema][] = Object.keys(getTemas())
+    .map((tema) => getStatPerTema(level, [tema, temas[tema]]));
   const statsPerTemaObj = Object.fromEntries(statsPerTema);
   const activeTemas = temasSeleccionados ?? getActiveTemas(temasInOrder, statsPerTemaObj);
   const completeStatsPerTema = getCompleteStats(
@@ -169,7 +170,7 @@ const getTodaysPreguntas = async (
   path:string,
   newTest:boolean = false,
 ) => {
-  let UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']};
+  let UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']};
   if (newTest) {
     await writeDDBB(path, { temas: user.userDDBB.temas, time: 0 });
     await writeUserInfo(Date.now(), 'lastTest');
@@ -194,10 +195,10 @@ const getPreguntasWithSetter = async (
   setError:Function,
   end:Function,
   n:number,
-  UserDDBB: {temas:userDDBB['temas'], year:userDDBB['year']},
+  UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']},
   rng: gen.RandomSeed,
   temasSeleccionados:string[]|undefined = undefined,
-  level:difficultyLevels = 'User',
+  level:DifficultyLevels = 'User',
   allQuestions = false, // Include questions with high number of correct
   filterIds:string[] = [],
   repeatedQuestions = false,
