@@ -1,6 +1,7 @@
 import { getDefaultTemasSelection } from 'info/temas';
 import { CompleteUser, MyUser, RoomData } from 'types/interfaces';
 import {
+  addOne,
   deleteDDBB, existsInDDBB, pushDDBB, readDDBB, writeDDBB, writeUserInfo,
 } from './database';
 import {
@@ -17,8 +18,8 @@ export const defaultRoomConfig:RoomData = {
   inBlanco: 'Sí',
   timePerQuestion: 3,
   timingMode: 'Sin Temporizador',
-  type: 'Público',
-  chat: 'Sí',
+  type: 'Con invitación',
+  chat: 'Siempre para los observadores',
   numPregs: 5,
   difficulty: 'Difícil',
   tema: 'Administrador',
@@ -28,16 +29,27 @@ export const defaultRoomConfig:RoomData = {
     year: 'bach2',
   },
 };
-
+export const sendAutoMsg = (room:string, username:string, msg:string) => pushDDBB(
+  `rooms/${room}/chat`,
+  {
+    msg, username, time: Date.now(), auto: true,
+  },
+);
 export const createRoom = async (user:MyUser, setError:Function) => {
   const username = user?.userDDBB?.username;
   if (!username) return setError(new SinNombreDeUsuario());
   const [ref, error] = await pushDDBB('rooms', { members: { [username]: { ready: false } }, config: defaultRoomConfig, admin: username });
   if (error || ref === undefined) return setError(new GrupoNoConnected());
   const { key } = ref;
-  await writeDDBB(`activeRooms/${key}`, true);
+  if (key === null) return setError(new GrupoNoConnected());
+  await writeDDBB(`activeRooms/${key}`, {
+    name: 'Nuevo Grupo',
+    public: false,
+    participants: 1,
+  }); // True == 'public'
   try {
     await writeUserInfo(key, 'room');
+    sendAutoMsg(key, username, `${username} ha creado el grupo`);
   } catch (e) {
     setError(new UserErrorEditing('el grupo'));
   }
@@ -58,7 +70,9 @@ export const connectToRoom = async (user:CompleteUser, room:string) => {
   try {
     const writeError = await writeDDBB(`rooms/${room}/members/${username}`, { ready: false });
     if (writeError) throw new GrupoNoConnected();
-    await writeUserInfo(room, 'room');
+    await Promise.all([writeUserInfo(room, 'room'),
+      addOne(`activeRooms/${room}/participants`)]);
+    sendAutoMsg(room, username, `${username} se ha unido`);
     sendLogroUpdate('groupsJoined', user.userDDBB.logros?.groupsJoined);
   } catch (e) {
     throw new GrupoNoConnected();
@@ -76,8 +90,11 @@ export const exitRoom = async (user:CompleteUser) => {
     if (admin === username) {
       const newIdx = (membersUsernames.indexOf(username) + 1) % membersUsernames.length;
       await writeDDBB(`rooms/${room}/admin`, membersUsernames[newIdx]);
-    }
+      await sendAutoMsg(`${room}`, username, `${username} ha abandonado el grupo`);
+      await sendAutoMsg(`${room}`, username, `${membersUsernames[newIdx]} es ahora administrador`);
+    } else await sendAutoMsg(`${room}`, username, `${username} ha abandonado el grupo`);
     deleteDDBB(`rooms/${room}/members/${username}`);
+    addOne(`activeRooms/${room}/participants`, true);
   } else {
     deleteDDBB(`rooms/${room}`);
     deleteDDBB(`activeRooms/${room}`);

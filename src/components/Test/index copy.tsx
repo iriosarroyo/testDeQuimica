@@ -12,6 +12,7 @@ import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
 import { getAuth } from 'firebase/auth';
+import setFooter from 'hooks/setFooter';
 import { copyAllCmd, copyCmd } from 'info/myCommands';
 import { DEFAULT_LEVELS } from 'info/temas';
 import React, {
@@ -218,7 +219,7 @@ function TestFooter({
     return () => observer.disconnect();
   }, [observer, refs, refs.current, active, unaPorUna]);
   return (
-    <div className="footerTest">
+    <div>
 
       <CuadradoGroup
         corrAnswers={corrAnswers}
@@ -496,6 +497,29 @@ export default function Test({
     if (path.includes('room') && !isViewer) writeDDBB(`${path.replace(/activeTest/g, 'members')}/value`, `${calcPunt} ${puntType}`);
   }, [corrAnswers]);
 
+  setFooter(
+    <TestFooter
+      active={active}
+      answers={answers}
+      corrAnswers={corrAnswers}
+      corregido={corregido}
+      corregirExamen={corregirExamen}
+      onEnd={onEnd}
+      onNext={onNext}
+      preguntas={preguntas}
+      preventPrevious={preventPrevious}
+      refs={childrenRef}
+      setActive={setActive}
+      showOnEnd={showEndButton}
+      thisRef={thisRef}
+      unaPorUna={!!unaPorUna}
+      inBlanco={notInBlanco}
+      setValue={setValue}
+      isViewer={isViewer}
+    />,
+    [preguntas, thisRef, childrenRef.current, active, unaPorUna, answers, corregido, isViewer,
+      preventPrevious, corrAnswers, onNext, onEnd, showEndButton, notInBlanco],
+  );
   const setHTMLFooter = useContext(FooterContext);
   useEffect(() => onValueDDBB(`${path}/preguntas`, (val:any) => setAnswers(val ?? {}), () => {
     setError(new GrupoNoPermission());
@@ -551,25 +575,6 @@ export default function Test({
           ))
         }
       </section>
-      <TestFooter
-        active={active}
-        answers={answers}
-        corrAnswers={corrAnswers}
-        corregido={corregido}
-        corregirExamen={corregirExamen}
-        onEnd={onEnd}
-        onNext={onNext}
-        preguntas={preguntas}
-        preventPrevious={preventPrevious}
-        refs={childrenRef}
-        setActive={setActive}
-        showOnEnd={showEndButton}
-        thisRef={thisRef}
-        unaPorUna={!!unaPorUna}
-        inBlanco={notInBlanco}
-        setValue={setValue}
-        isViewer={isViewer}
-      />
     </div>
   );
 }

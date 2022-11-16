@@ -54,8 +54,13 @@ export function ChatChangingButton({ text, handleChange }:{text:string, handleCh
       config={{
         title: 'Chat',
         text,
-        values: ['Sí', 'No'],
-        descriptions: ['Chat activado.', 'Chat desactivado.'],
+        values: ['Siempre', 'Siempre para los observadores',
+          'Solo en el lobby', 'Nunca',
+        ],
+        descriptions: ['Se puede acceder siempre al chat, incluso durante el test.',
+          'Solo los observadores pueden acceder al chat durante el test. Aquí (en el "lobby") todos pueden acceder al chat.',
+          'Solo se puede hacer al chat aquí (no durante el examen)',
+          'Chat desactivado.'],
         onChange: (val:string) => handleChange(val, 'chat'),
       }}
     />
@@ -68,8 +73,9 @@ export function TypeChangingButton({ text, handleChange }:{text:string, handleCh
       config={{
         title: 'Tipo',
         text,
-        values: ['Público', 'Privado'],
+        values: ['Público', 'Con invitación', 'Privado'],
         descriptions: [
+          'Cualquier persona puede unirse.',
           'Cualquier persona con el código puede unirse.',
           'Nadie puede unirse.',
         ],

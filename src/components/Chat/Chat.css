@@ -19,7 +19,7 @@
     background-color: var(--bg2-color);
     display: grid;
     grid-template-rows: 1fr 40px;
-    transition: all 750ms;
+    transition: opacity 750ms;
 }
 
 .chatOculto{
@@ -133,6 +133,21 @@
     background-color: var(--bg-color);
 }
 
+.chatClose[data-numofmsgs]::after{
+    content: attr(data-numofmsgs);
+    position: absolute;
+    right: calc(100% - 10px);
+    background-color: var(--bg-red-color);
+    color: var(--font-color) ;
+    border-radius: 100%;
+    font-size: small;
+    top: -10px;
+    height: 20px;
+    width: 20px;
+    display: grid;
+    align-items: center;
+}
+
 .chatClose{
     display: grid;
     align-items: center;
@@ -155,3 +170,23 @@
     font-size: 16px;
 }
 
+.autoMsgChat{
+    background-color: var(--font2-color);
+    max-width: 80%;
+    margin: 7px auto;
+    border-radius: 25px;
+    padding: 2px 10px;
+    font-size: .8em;
+}
+
+.chatFecha{
+    font-size: .7em;
+    text-align: right;
+    padding-left: 20px;
+}
+
+.chatNumOfUnread{
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    
+}

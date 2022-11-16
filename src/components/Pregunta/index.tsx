@@ -1,5 +1,6 @@
 import ItemPregunta from 'components/ItemPregunta';
 import RadioGroup from 'components/RadioGroup';
+import { getTemas } from 'info/temas';
 import React, {
   useState,
 } from 'react';
@@ -17,6 +18,8 @@ function PiePregunta({ correcta, answer, notInBlanco }:
   if (answer === '' && !notInBlanco) return <div className="piePregunta">Pregunta en blanco</div>;
   return <div className="piePregunta">Pregunta incorrecta</div>;
 }
+
+const TEMAS = getTemas();
 
 export default function Pregunta({
   idx, objPreg, myRef, setValue, answer, correctAnswer, notInBlanco,
@@ -45,7 +48,7 @@ correctAnswer:string|undefined}) {
       />
       <div className="itemGroupPregunta">
         {id && <ItemPregunta title="Id: " text={id} />}
-        {tema && <ItemPregunta title="Tema: " text={tema} /> }
+        {tema && <ItemPregunta title="Tema: " text={TEMAS[tema as keyof typeof TEMAS]} /> }
         {year && <ItemPregunta title="Año: " text={year} /> }
       </div>
       <RadioGroup

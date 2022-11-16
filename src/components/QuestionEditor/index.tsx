@@ -84,8 +84,8 @@ function InlineEditor({
           'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'charmap',
         ],
         toolbar: 'superscript subscript | insertArrow insertDoubleArrow | charmap |'
-        + 'undo redo | bold italic underline | '
-        + 'bullist numlist outdent indent | '
+        + 'undo redo | bold italic underline | alignleft aligncenter '
+        + 'alignright alignjustify | bullist numlist outdent indent | '
         + 'removeformat | blocks | help',
         content_style: '',
         content_langs: [

@@ -245,7 +245,7 @@ export interface RoomData{
     temas?:userDDBB['temas']
     year:userDDBB['year']
   },
-  chat: 'Sí' | 'No',
+  chat: 'Siempre' | 'Nunca' | 'Solo en el "lobby"' | 'Siempre para los observadores',
   corregirOnClick: 'Sí' | 'No',
   difficulty: DifficultyLevels,
   endTime: number,
@@ -259,13 +259,21 @@ export interface RoomData{
   temasPersonalizados:{[key:string]:string},
   timePerQuestion: number,
   timingMode: 'Sin Temporizador' | 'Temporizador Global' | 'Temporizador por Pregunta',
-  type:'Público' | 'Privado',
+  type:'Público' | 'Con invitación' | 'Privado',
+}
+
+export interface ActiveRoomData{
+  public: boolean,
+  participants: number,
+  name:string
 }
 
 export interface RoomMember{
   ready:boolean,
   done:boolean,
-  value?:string
+  value?:string,
+  isViewer?:boolean,
+  viewing?:string
 }
 
 export interface Answer{

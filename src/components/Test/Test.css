@@ -6,6 +6,12 @@
   flex-direction: column;
 }
 
+.footerTest{
+  background-color: var(--bg-color);
+  color: var(--font-color);
+}
+
+
 .testBar {
   display: flex;
   position: sticky;

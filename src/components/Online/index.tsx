@@ -20,19 +20,22 @@ import MyErrorContext from 'contexts/Error';
 import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
+import { useEvent } from 'hooks/general';
 import { getTemas, getTemasOrder } from 'info/temas';
 import React, {
   ChangeEvent, FormEvent, useContext, useEffect, useState,
 } from 'react';
 import copyToClipBoard from 'services/copy';
 import {
-  onValueDDBB, readDDBB, writeDDBB, writeUserInfo,
+  onValueDDBB, onValueQuery, readDDBB, writeDDBB, writeUserInfo,
 } from 'services/database';
 import { GrupoNoPermission } from 'services/errores';
 import {
   connectToRoom, createRoom, defaultRoomConfig, exitRoom,
 } from 'services/rooms';
+import Toast from 'services/toast';
 import {
+  ActiveRoomData,
   CompleteUser, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
 import './Online.css';
@@ -68,6 +71,12 @@ function NotInGroup() {
   const user = useContext(UserContext)!;
   const setFront = useContext(FrontContext);
   const setError = useContext(MyErrorContext);
+  const [publicRooms] = useEvent<{[k:string]:ActiveRoomData}>((val) => onValueQuery(
+    'activeRooms',
+    'public',
+    true,
+    val,
+  ));
   return (
     <div className="online">
       <p>
@@ -98,7 +107,24 @@ function NotInGroup() {
 
         </Button>
       </p>
-
+      <div>
+        <p>
+          También puedes unirte a un grupo público.
+          Tienes la lista de los grupos públicos a continuación:
+        </p>
+        {publicRooms && (
+          <ul className="unlisted">
+            {Object.entries(publicRooms).map(([x, data]) => (
+              <li key={x}>
+                <div>{data.name}</div>
+                <div>{x}</div>
+                <div>{data.participants}</div>
+                <Button onClick={() => connectToRoom(user, x)}>Unirse</Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
@@ -188,11 +214,13 @@ function InGroup({ room, setExam }:
   const [num, setNum] = useState<number|string>(5);
   const [time, setTime] = useState<number|string>(3);
   const [members, setMembers] = useState<{[key:string]:RoomMember}|null>(null);
+  const [name] = useEvent<string>((val) => onValueDDBB(`activeRooms/${room}/name`, val, Toast.addMsg));
   const {
     mode, inBlanco, timingMode, goBack, showPunt, corregirOnClick, timePerQuestion,
     type, chat, difficulty, tema, repetidas, temasPersonalizados, numPregs,
   } = roomData;
-  const todosListos = members !== null && Object.values(members).every((x) => x.ready);
+  const todosListos = members !== null && Object.values(members)
+    .every((x) => x.ready || x.isViewer);
 
   if (todosListos && timeoutListos === undefined) {
     prepareForTest(room, roomAdmin === username, temas, year, roomData);
@@ -201,7 +229,7 @@ function InGroup({ room, setExam }:
         setExam({ isRoomAdmin: roomAdmin === username });
         if (roomAdmin === username) writeDDBB(`rooms/${room}/inExam`, true);
       },
-      3000,
+      3000, // _00000,
     );
   }
 
@@ -214,10 +242,14 @@ function InGroup({ room, setExam }:
 
   const handleChange = (value:string, param:string) => {
     if (user.userDDBB.username !== roomAdmin || timeoutListos !== undefined) return;
+    if (param === 'type') writeDDBB(`activeRooms/${room}/public`, value === 'Público');
     writeDDBB(`rooms/${room}/config/${param}`, value);
   };
   const handleListo = async () => {
-    if ((await readDDBB(`rooms/${room}/inExam`))[0]) return writeDDBB(`rooms/${room}/members/${username}/ready`, true);
+    if ((await readDDBB(`rooms/${room}/inExam`))[0]) {
+      Toast.addMsg('No se puede cancelar un examen que ya se había empezado', 3000);
+      return writeDDBB(`rooms/${room}/members/${username}/ready`, true);
+    }
     return writeDDBB(`rooms/${room}/members/${username}/ready`, !members?.[username]?.ready);
   };
   const handleNumPregsChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -242,17 +274,37 @@ function InGroup({ room, setExam }:
     setError(new GrupoNoPermission());
     writeUserInfo(null, 'room');
   }), []);
+  const isListo = members?.[username]?.ready || members?.[username]?.isViewer;
   return (
     <div className="online">
-      <Button className="exitRoom" title="Salir del Grupo" onClick={() => exitRoom(user)}>
-        <FontAwesomeIcon icon={faPersonWalkingDashedLineArrowRight} />
-      </Button>
+      <div className="fixedContainerOnline">
+
+        <div className="onlineChanging">
+          <strong>Código del grupo: </strong>
+          <span>{room}</span>
+          <Button title="Copiar al portapapeles" onClick={() => copyToClipBoard(room)} className="copiarAlPortapapeles">
+            <FontAwesomeIcon icon={faClipboard} />
+          </Button>
+          <Button className="exitRoom" title="Salir del Grupo" onClick={() => exitRoom(user)}>
+            <FontAwesomeIcon icon={faPersonWalkingDashedLineArrowRight} />
+          </Button>
+        </div>
+        <div className="onlineChanging">
+          <strong>¿Listo?</strong>
+          <Button onClick={handleListo} className={isListo ? 'isReady' : 'isNotReady'}>
+            {isListo ? 'Listo' : 'No Listo'}
+          </Button>
+          <em>PULSA AQUÍ PARA INDICAR QUE ESTÁS PREPARADO O NO</em>
+        </div>
+      </div>
       <div className="onlineChanging">
-        <strong>Código del grupo: </strong>
-        <span>{room}</span>
-        <Button title="Copiar al portapapeles" onClick={() => copyToClipBoard(room)} className="copiarAlPortapapeles">
-          <FontAwesomeIcon icon={faClipboard} />
-        </Button>
+        <strong>Nombre: </strong>
+        {username === roomAdmin ? (
+          <input
+            value={name}
+            onChange={(e) => writeDDBB(`activeRooms/${room}/name`, e.target.value)}
+          />
+        ) : <span>{name}</span>}
       </div>
       <div className="onlineChanging">
         <strong>Administrador: </strong>
@@ -337,19 +389,18 @@ function InGroup({ room, setExam }:
         isRoomAdmin={username === roomAdmin}
         room={room}
       />
-      <Button onClick={handleListo} className={members?.[username]?.ready ? 'isReady' : 'isNotReady'}>
-        {members?.[username]?.ready ? 'Listo' : 'No Listo'}
-      </Button>
+
       {todosListos && (
-      <div>
+      <div className="listoPanel">
         En
         {' '}
         <Temporizador alert={false} className="temporizadorRooms" initial={3 * 1000} format="seconds" />
         {' '}
         segundos empieza el examen
+        <Button onClick={handleListo} className="cancelarListo">Cancelar</Button>
       </div>
       )}
-      {chat === 'Sí' && <Chat room={room} /> }
+      {chat !== 'Nunca' && <Chat room={room} /> }
     </div>
   );
 }

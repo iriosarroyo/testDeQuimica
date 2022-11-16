@@ -30,6 +30,7 @@ import {
 } from 'services/conditionsCustomTest';
 import { PATHS_DDBB } from 'info/paths';
 import { getTemas } from 'info/temas';
+import Chat from 'components/Chat';
 
 interface StatsPerTema{
   tema:string, punt:number, probLevel1:number, probLevel3:number
@@ -244,10 +245,11 @@ function TestDelDia() {
 }
 
 function TestPuntuacion({
-  config, seed, room, onEnd, showEndButton,
+  config, seed, room, onEnd, showEndButton, viewerUser,
 }:
   // eslint-disable-next-line no-undef
-  {config:RoomData, seed:number, room:string, onEnd:Function, showEndButton:boolean}) {
+  {config:RoomData, seed:number, room:string, viewerUser:string
+    onEnd:Function, showEndButton:boolean}) {
   const setError = useContext(MyErrorContext);
   const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
   const [startTime, setStartTime] = useState(0);
@@ -303,7 +305,7 @@ function TestPuntuacion({
       preguntas={preguntas}
       corregirOnClick={getCorregirOnClick(config)}
       unaPorUna={getUnaPorUna(config, unaPorUna)}
-      path={`rooms/${room}/activeTest/${username}`}
+      path={`rooms/${room}/activeTest/${viewerUser}`}
       notInBlanco={getNotInBlanco(config)}
       preventPrevious={getPreventPrevious(config)}
       puntType={getPuntType(config)}
@@ -314,6 +316,7 @@ function TestPuntuacion({
       onEnd={onEnd}
       showEndButton={showEndButton}
       onNext={getOnNext(config) ? onNext : undefined}
+      isViewer={viewerUser !== username}
     />
   );
 }
@@ -334,6 +337,7 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
   const [members, setMembers] = useState<{[key:string]:RoomMember}|null>(null);
   const setError = useContext(MyErrorContext);
   const setFooter = useContext(FooterContext);
+  const [viewerUser, setViewerUser] = useState(username);
 
   const { isRoomAdmin } = exam;
   useEffect(() => onValueDDBB(`rooms/${room}/members`, setMembers, () => {
@@ -349,13 +353,19 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
   }, [room]);
 
   const allMembersEnded = useMemo(() => Object
-    .values(members ?? {}).every((x) => x.done), [members]);
+    .values(members ?? {}).every((x) => x.done || x.isViewer), [members]);
 
   const showEndButton = isRoomAdmin && allMembersEnded;
   useEffect(() => {
     readWithSetter(`rooms/${room}/config`, setConfig);
     readWithSetter(`rooms/${room}/seed`, setSeed);
   }, [room]);
+
+  useEffect(() => onValueDDBB(
+    `rooms/${room}/members/${username}/viewing`,
+    (val:string|null) => setViewerUser(val ?? username),
+    setError,
+  ), []);
 
   if (!config || seed === undefined) return <div />;
   return (
@@ -367,12 +377,15 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
         username={username}
       />
       <TestPuntuacion
+        viewerUser={viewerUser}
         room={room}
         config={config}
         seed={seed}
         onEnd={onEnd}
         showEndButton={showEndButton}
       />
+      {(config.chat === 'Siempre' || (config.chat === 'Siempre para los observadores' && viewerUser !== username))
+      && <Chat room={room} />}
     </>
   );
 }
