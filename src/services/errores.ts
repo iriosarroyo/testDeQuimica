@@ -61,3 +61,11 @@ export class SocketError extends Error {
     super('Error al conectar con el servidor. Intente recargar la página.');
   }
 }
+
+export class QuestionError extends Error {
+  name = 'No suficientes preguntas';
+
+  constructor() {
+    super('Error al buscar preguntas, esto se debe a que no hay suficientes preguntas que cumplan los requisitos indicados.');
+  }
+}

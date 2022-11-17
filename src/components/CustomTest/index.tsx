@@ -3,21 +3,17 @@ import React, {
   useContext, useEffect, useMemo, useState,
 } from 'react';
 
-import gen from 'random-seed';
 import { getNumOfDays } from 'services/time';
 import {
   CompleteUser, DifficultyLevels, PreguntaTest, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
-import {
-  getPuntuacionDelTema, getProbLevel1, getProbLevel3, getProbTema, getTemasInOrder, count,
-} from 'services/probability';
+
 import {
   changeAllChildren,
-  deleteDDBB,
-  filterByChildCache, onValueDDBB, readDDBB, readWithSetter, writeDDBB, writeUserInfo,
+  deleteDDBB, onValueDDBB, readDDBB, readWithSetter, writeDDBB, writeUserInfo,
 } from 'services/database';
 import Test from 'components/Test';
-import { GrupoNoPermission, NotEnoughQuestions } from 'services/errores';
+import { GrupoNoPermission } from 'services/errores';
 import MyErrorContext from 'contexts/Error';
 import RoomParticipants from 'components/RoomParticipants';
 import FooterContext from 'contexts/Footer';
@@ -28,139 +24,8 @@ import {
   getOnNext, getPreventPrevious,
   getPuntType, getShowPunt, getTime, getTimeToSiguiente, getUnaPorUna,
 } from 'services/conditionsCustomTest';
-import { PATHS_DDBB } from 'info/paths';
-import { getTemas } from 'info/temas';
 
-interface StatsPerTema{
-  tema:string, punt:number, probLevel1:number, probLevel3:number
-}
-
-interface CompleteStatsPerTema extends StatsPerTema{
-  probTema: number
-}
-
-const getTema = (statsPerTema:{[key:string]:CompleteStatsPerTema}, rng: gen.RandomSeed) => {
-  let cumulativeProb = 0;
-  const statsPerTemaArray = Object.values(statsPerTema);
-  const random = rng.random();
-  const tema = statsPerTemaArray.find((stats) => {
-    cumulativeProb += stats.probTema;
-    return random < cumulativeProb;
-  })?.tema ?? statsPerTemaArray[0].tema;
-  return tema;
-};
-
-const getLevel = (statsPerTema:CompleteStatsPerTema, rng: gen.RandomSeed) => {
-  const { probLevel1, probLevel3 } = statsPerTema;
-  const random = rng.random();
-  if (random < probLevel1) return 1;
-  if (random > 1 - probLevel3) return 3;
-  return 2;
-};
-
-const getStatPerTema = (
-  level:DifficultyLevels,
-  [tema, dataByLevel]:[string, NonNullable<userDDBB['temas']>['']],
-):[string, StatsPerTema] => {
-  const punt = getPuntuacionDelTema(dataByLevel);
-  const probLevel1 = getProbLevel1(punt, level);
-  const probLevel3 = getProbLevel3(punt, level);
-  return [tema, {
-    tema, punt, probLevel1, probLevel3,
-  }];
-};
-
-const getActiveTemas = (temasInOrder:string[], statsPerTemaObj:{
-  [k: string]: StatsPerTema;
-}) => {
-  const activeTemas:string[] = [];
-  for (let i = 0; i < temasInOrder.length; i++) {
-    if (i !== 0 && statsPerTemaObj[temasInOrder[i - 1]].punt < 4) break;
-    activeTemas.push(temasInOrder[i]);
-  }
-  return activeTemas;
-};
-
-const getCompleteStats = (
-  statsPerTema:[string, StatsPerTema][],
-  activeTemas: string[],
-  equiprobable:boolean,
-) => {
-  const filteredStatsPerTema = statsPerTema.filter((x) => activeTemas.includes(x[1].tema));
-  const puntuaciones = filteredStatsPerTema.map((stats) => stats[1].punt);
-  return Object.fromEntries(filteredStatsPerTema.map((x) => [x[0], {
-    ...x[1],
-    probTema: equiprobable ? 1 / activeTemas.length : getProbTema(x[1].punt, puntuaciones),
-  }]));
-};
-
-const getPosibleQuestionsFor = async (
-  n:number,
-  completeStatsPerTema:{[k: string]: CompleteStatsPerTema},
-  rng:gen.RandomSeed,
-) => {
-  const promises = Array(n).fill(null).map(async () => {
-    const tema = getTema(completeStatsPerTema, rng);
-    const level = getLevel(completeStatsPerTema[tema], rng);
-    const posibleQuestions = await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', `${tema}_${level}`);
-    return { tema, level, posibleQuestions };
-  });
-  return Promise.all(promises);
-};
-
-const getPreguntasWithWeights = (
-  results: { tema: string; level: number; posibleQuestions: any; }[],
-  temas: userDDBB['temas'],
-  rng: gen.RandomSeed,
-  allQuestions: boolean,
-  repeatedQuestions: boolean,
-  filterIds:string[] = [],
-) => {
-  const yaPreguntado: string[] = filterIds;
-  const preguntas = results.map(({ tema, level, posibleQuestions }) => {
-    if (!posibleQuestions) { throw new NotEnoughQuestions(); }
-    const weightedIds: string[] = [];
-
-    Object.keys(posibleQuestions).forEach((id) => {
-      if (!repeatedQuestions && yaPreguntado.includes(id)) { return; }
-      const { aciertos, fallos } = temas?.[tema]?.[`level${level}`] ?? { aciertos: '', fallos: '' };
-      const numAc = count(aciertos);
-      const numFal = count(fallos);
-      const weight = allQuestions ? 1 : Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
-      weightedIds.push(...Array(weight).fill(id));
-    });
-    const idx = rng.intBetween(0, weightedIds.length - 1);
-    const result = posibleQuestions[weightedIds[idx]];
-    yaPreguntado.push(result?.id);
-    return result;
-  });
-  return preguntas.filter((x:any) => x !== undefined);
-};
-
-const getPreguntas = async (
-  n:number,
-  UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']},
-  rng: gen.RandomSeed,
-  temasSeleccionados:string[]|undefined = undefined,
-  level:DifficultyLevels = 'User',
-  allQuestions = false, // Include questions with high number of correct
-  filterIds:string[] = [],
-  repeatedQuestions = false,
-) => {
-  const { temas = {}, year } = UserDDBB;
-  const temasInOrder = temasSeleccionados ?? await getTemasInOrder(year);
-  const statsPerTema:[string, StatsPerTema][] = Object.keys(getTemas())
-    .map((tema) => getStatPerTema(level, [tema, temas[tema]]));
-  const statsPerTemaObj = Object.fromEntries(statsPerTema);
-  const activeTemas = temasSeleccionados ?? getActiveTemas(temasInOrder, statsPerTemaObj);
-  const completeStatsPerTema = getCompleteStats(
-    statsPerTema,
-    activeTemas,
-    temasSeleccionados !== undefined,
-  );
-  const results = await getPosibleQuestionsFor(n, completeStatsPerTema, rng);
-  return getPreguntasWithWeights(results, temas, rng, allQuestions, repeatedQuestions, filterIds);
-};
+import { getNQuestions, getNQuestionsWithSetters } from 'services/preguntasGen';
 
 const getTodaysPreguntas = async (
   user:CompleteUser,
@@ -183,42 +48,18 @@ const getTodaysPreguntas = async (
   }
   let preguntas;
   try {
-    preguntas = await getPreguntas(5, UserDDBB, gen.create(`${getNumOfDays(Date.now())}`), undefined, 'User');
+    [preguntas] = await getNQuestions(5, { userData: UserDDBB });
   } catch (e) {
     setError(e);
   }
   setter(preguntas);
 };
 
-const getPreguntasWithSetter = async (
-  setter:Function,
-  setError:Function,
-  end:Function,
-  n:number,
-  UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']},
-  rng: gen.RandomSeed,
-  temasSeleccionados:string[]|undefined = undefined,
-  level:DifficultyLevels = 'User',
-  allQuestions = false, // Include questions with high number of correct
-  filterIds:string[] = [],
-  repeatedQuestions = false,
-) => {
-  try {
-    const preguntas = await getPreguntas(
-      n,
-      UserDDBB,
-      rng,
-      temasSeleccionados,
-      level,
-      allQuestions,
-      filterIds,
-      repeatedQuestions,
-    );
-    setter(preguntas);
-  } catch (e) {
-    setError(e);
-    end();
-  }
+const getOverWriteLevels = (level:DifficultyLevels) => {
+  if (level === 'Fácil') return { 1: 1, 2: 0, 3: 0 };
+  if (level === 'Medio') return { 1: 0, 2: 1, 3: 0 };
+  if (level === 'Difícil') return { 1: 0, 2: 0, 3: 1 };
+  return undefined;
 };
 
 function TestDelDia() {
@@ -251,6 +92,7 @@ function TestPuntuacion({
   const setError = useContext(MyErrorContext);
   const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
   const [startTime, setStartTime] = useState(0);
+  const [createNext, setCreateNext] = useState<any>(null);
   const { username, unaPorUna } = useContext(UserContext)!.userDDBB;
   const {
     difficulty, repetidas, tema, temasPersonalizados, adminStats,
@@ -260,16 +102,18 @@ function TestPuntuacion({
     : undefined;
   useEffect(() => {
     readWithSetter(`rooms/${room}/activeTest/${username}/time`, setStartTime, setError);
-    getPreguntasWithSetter(
+    getNQuestionsWithSetters(
       setPreguntas,
-      setError,
-      onEnd,
+      (e:any) => { setError(e); onEnd(); },
       getNumOfPregs(config),
-      adminStats,
-      gen.create(`${seed}`),
-      temasSeleccionados,
-      difficulty,
-      repetidas === 'Sí',
+      {
+        seed,
+        userData: adminStats,
+        overwriteTemas: temasSeleccionados,
+        overwriteLevels: getOverWriteLevels(difficulty),
+        allQuestions: repetidas === 'Sí',
+      },
+      setCreateNext,
     );
   }, []);
 
@@ -280,18 +124,10 @@ function TestPuntuacion({
     isCorregido:boolean,
   ) => {
     if (active < pregs.length - 1) return setActive(active + 1);
-    if (isCorregido) return undefined;
-    const prevIds = pregs.map(({ id }) => id);
+    if (isCorregido || createNext === null) return undefined;
+    // const prevIds = pregs.map(({ id }) => id);
     try {
-      const newPreg = await getPreguntas(
-        1,
-        adminStats,
-        gen.create(`${seed * (pregs.length + 1)}`),
-        temasSeleccionados,
-        difficulty,
-        repetidas === 'Sí',
-        prevIds,
-      );
+      const newPreg = await createNext();
       setPreguntas([...pregs, ...newPreg]);
     } catch (e) {
       setError(e);

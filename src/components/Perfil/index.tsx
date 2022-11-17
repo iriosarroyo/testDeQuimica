@@ -19,6 +19,7 @@ import FrontContext from 'contexts/Front';
 import { getPuntuacionMedia } from 'services/probability';
 import Puntuaciones from 'components/Puntuaciones';
 import UserContext from 'contexts/User';
+import copyToClipBoard from 'services/copy';
 
 function InputPerfil({
   title, initialValue, onChange = () => false, isDisabled, type = 'text', options, onContextMenu, ...extra
@@ -61,6 +62,7 @@ function InputPerfil({
   const handleClick = () => {
     if (isDisabled) {
       Toast.addMsg('Este campo no se puede editar', 3000);
+      copyToClipBoard(initialValue);
       return;
     }
     setInputActive(true);

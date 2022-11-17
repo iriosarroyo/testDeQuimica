@@ -130,3 +130,10 @@ export const getProbTemaWithoutTemasInOrder = async (tema:string, temas:userDDBB
   if (!activeTemas.includes(tema)) return 0;
   return round(getProbTema(everyPunt[tema], puntOfActive), 8);
 };
+
+export const getPreguntaWeight = (aciertosYFallos:AciertosYFallos|undefined, id:string) => {
+  const { aciertos, fallos } = aciertosYFallos ?? { aciertos: '', fallos: '' };
+  const numAc = count(aciertos, id);
+  const numFal = count(fallos, id);
+  return Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
+};
