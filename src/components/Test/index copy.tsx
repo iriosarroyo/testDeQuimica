@@ -12,6 +12,7 @@ import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
 import { getAuth } from 'firebase/auth';
+import setFooter from 'hooks/setFooter';
 import { copyAllCmd, copyCmd } from 'info/myCommands';
 import { DEFAULT_LEVELS } from 'info/temas';
 import React, {
@@ -218,7 +219,7 @@ function TestFooter({
     return () => observer.disconnect();
   }, [observer, refs, refs.current, active, unaPorUna]);
   return (
-    <div className="footerTest">
+    <div>
 
       <CuadradoGroup
         corrAnswers={corrAnswers}
@@ -237,7 +238,7 @@ function TestFooter({
         {
         corregido || preguntas.length === 0
           ? showOnEnd && <Button className="testButtonFooter" onClick={() => onEnd()}>Volver al grupo</Button>
-          : (!isViewer && (!onNext || Object.values(answers).length <= preguntas.length) && <Button className="testButtonFooter" onClick={() => corregirExamen()}>Corregir</Button>)
+          : (!isViewer && <Button className="testButtonFooter" onClick={() => corregirExamen()}>Corregir</Button>)
 }
         <Button className="testButtonFooter" onClick={goToSiguiente}>Siguiente</Button>
       </div>
@@ -446,9 +447,7 @@ export default function Test({
     if (!preventPrevious) return undefined;
     const numAnswers = Object.values(answers).length;
     if (!onNext) return setActive(numAnswers);
-    if (preguntas.length < numAnswers) {
-      onNext(preguntas, active, setActive, corregido, numAnswers - preguntas.length);
-    }
+    if (preguntas.length < numAnswers) onNext(preguntas, active, setActive, corregido);
     if (preguntas.length > 0 && preguntas.length === numAnswers && path.includes('room')) {
       readWithSetter(`${path.replace(/activeTest/g, 'members')}/done`, (val:boolean) => {
         if (val) setCorregido(true);
@@ -480,16 +479,6 @@ export default function Test({
   useEffect(() => { setStateTime(startTime); }, [time, startTime]);
 
   useEffect(() => {
-    const interv = setInterval(() => {
-      if (allCorrected || preguntas.length === 0 || corregido) return;
-      updateDDBB(path, {
-        time: getStateTime(),
-      });
-    }, 60 * 1000);
-    return () => clearInterval(interv);
-  }, [allCorrected, preguntas.length, corregido]);
-
-  useEffect(() => {
     if (allCorrected || preguntas.length === 0 || corregido) return;
     updateDDBB(path, {
       time: getStateTime(),
@@ -508,6 +497,29 @@ export default function Test({
     if (path.includes('room') && !isViewer) writeDDBB(`${path.replace(/activeTest/g, 'members')}/value`, `${calcPunt} ${puntType}`);
   }, [corrAnswers]);
 
+  setFooter(
+    <TestFooter
+      active={active}
+      answers={answers}
+      corrAnswers={corrAnswers}
+      corregido={corregido}
+      corregirExamen={corregirExamen}
+      onEnd={onEnd}
+      onNext={onNext}
+      preguntas={preguntas}
+      preventPrevious={preventPrevious}
+      refs={childrenRef}
+      setActive={setActive}
+      showOnEnd={showEndButton}
+      thisRef={thisRef}
+      unaPorUna={!!unaPorUna}
+      inBlanco={notInBlanco}
+      setValue={setValue}
+      isViewer={isViewer}
+    />,
+    [preguntas, thisRef, childrenRef.current, active, unaPorUna, answers, corregido, isViewer,
+      preventPrevious, corrAnswers, onNext, onEnd, showEndButton, notInBlanco],
+  );
   const setHTMLFooter = useContext(FooterContext);
   useEffect(() => onValueDDBB(`${path}/preguntas`, (val:any) => setAnswers(val ?? {}), () => {
     setError(new GrupoNoPermission());
@@ -522,7 +534,7 @@ export default function Test({
   useEffect(() => {
     if (preguntas.length === 0) return undefined;
     const type = preventPrevious && !corregido
-      ? [preguntas[active]?.id]
+      ? [preguntas[active].id]
       : preguntas.map((x) => x.id);
     const copyRm = copyCmd(preguntas, type);
     const copyAllRm = copyAllCmd(preventPrevious && !corregido ? [preguntas[active]] : preguntas);
@@ -563,25 +575,6 @@ export default function Test({
           ))
         }
       </section>
-      <TestFooter
-        active={active}
-        answers={answers}
-        corrAnswers={corrAnswers}
-        corregido={corregido}
-        corregirExamen={corregirExamen}
-        onEnd={onEnd}
-        onNext={onNext}
-        preguntas={preguntas}
-        preventPrevious={preventPrevious}
-        refs={childrenRef}
-        setActive={setActive}
-        showOnEnd={showEndButton}
-        thisRef={thisRef}
-        unaPorUna={!!unaPorUna}
-        inBlanco={notInBlanco}
-        setValue={setValue}
-        isViewer={isViewer}
-      />
     </div>
   );
 }

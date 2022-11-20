@@ -1,3 +1,4 @@
+import { getTemas } from 'info/temas';
 import { PreguntaTest } from 'types/interfaces';
 import Toast from './toast';
 
@@ -82,7 +83,7 @@ const getStrQuestion = (question:PreguntaTest, whatsapp:boolean) => {
   Object.values(question.opciones).forEach((opt) => {
     strQuestion += `<li>${opt.value}</li>`;
   });
-  strQuestion += `</ol>(<em>${question.id}</em>)`;
+  strQuestion += `</ol>(<em>${question.id}, ${(getTemas() as any)[question.tema]}, Nivel ${question.level}</em>)`;
   if (whatsapp) strQuestion = translateToWhatsapp(strQuestion);
   return strQuestion;
 };

@@ -11,6 +11,8 @@ const stopState = () => {
 
 const { setStopState, getStopState } = stopState();
 
+let restartTimer = false;
+export const setRestartTimer = () => { restartTimer = true; };
 const REFRESH_TIMER = 300; // msec
 const timer = (initial:number, changeTime:Function, restart:number|undefined) => {
   let start = Date.now() + initial;
@@ -19,8 +21,10 @@ const timer = (initial:number, changeTime:Function, restart:number|undefined) =>
     const timePassed = start - Date.now();
     changeTime(timePassed);
     if (getStopState()) return;
-    if (timePassed < 0 && restart !== undefined) {
-      start = Date.now() + restart;
+    if ((restartTimer || timePassed < 0) && restart !== undefined) {
+      // Added 1000 to be safe, better to gift seconds than complains
+      start = Date.now() + restart + 1000;
+      restartTimer = false;
     } else if (timePassed < 0) return;
     timeout = window.setTimeout(interval, REFRESH_TIMER);
   };
@@ -50,7 +54,8 @@ export default function Temporizador({
        className:string,
         alert:boolean,
         stop?:boolean,
-         format:'hours'|'minutes'|'seconds', final?:number, onEnd?:Function, stateTime?:Function, startAt?:number}) {
+         format:'hours'|'minutes'|'seconds',
+         final?:number, onEnd?:Function, stateTime?:Function, startAt?:number}) {
   const inicio = useMemo(
     () => initial ?? ((final ?? Date.now() + 3000) - Date.now()),
     [final, initial],

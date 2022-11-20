@@ -239,13 +239,17 @@ export interface PaginaObject extends Shortcut{
 
 export type Paginas = PaginaObject[];
 
-export type DifficultyLevels = 'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
+export type DifficultyLevels = 'Personalizado'|'Fácil'|'Medio'|'Difícil'|'User'|'Administrador';
+type LevelsKeys = '1'|'2'|'3'
 export interface RoomData{
   adminStats:{
     temas?:userDDBB['temas']
     year:userDDBB['year']
   },
-  chat: 'Sí' | 'No',
+  probLevels:{
+    [k in LevelsKeys]: number
+  }
+  chat: 'Siempre' | 'Nunca' | 'Solo en el "lobby"' | 'Siempre para los observadores',
   corregirOnClick: 'Sí' | 'No',
   difficulty: DifficultyLevels,
   endTime: number,
@@ -259,13 +263,22 @@ export interface RoomData{
   temasPersonalizados:{[key:string]:string},
   timePerQuestion: number,
   timingMode: 'Sin Temporizador' | 'Temporizador Global' | 'Temporizador por Pregunta',
-  type:'Público' | 'Privado',
+  type:'Público' | 'Con invitación' | 'Privado',
+}
+
+export interface ActiveRoomData{
+  public: boolean,
+  participants: number,
+  name:string,
+  isViewer?:boolean
 }
 
 export interface RoomMember{
   ready:boolean,
   done:boolean,
-  value?:string
+  value?:string,
+  isViewer?:boolean,
+  viewing?:string
 }
 
 export interface Answer{

@@ -16,6 +16,7 @@ export const time2String = (ms:number, show:'hours'|'seconds'|'minutes') => {
   if (show === 'seconds') timeStr = `${segStr}`;
   return [timeStr, `PT${horaStr}H${minStr}M${segStr}S`];
 };
+
 export const date2String = (time:Date|number|undefined, opts?:Intl.DateTimeFormatOptions) => {
   if (time === undefined) return 'Nunca';
   const options:Intl.DateTimeFormatOptions = {
@@ -27,6 +28,34 @@ export const date2String = (time:Date|number|undefined, opts?:Intl.DateTimeForma
     ...(opts ?? {}),
   };
   return new Date(time).toLocaleDateString('es-ES', options);
+};
+
+const getDateData = (date:Date) => ([
+  date.getFullYear(),
+  date.getMonth(),
+  date.getDate(),
+]);
+
+const getNextMidnight = () => {
+  const [year, month, date] = getDateData(new Date());
+  return (new Date(year, month, date + 1)).getTime();
+};
+
+let memoChats:{[k:string]:string} = {};
+
+setTimeout(() => { memoChats = {}; }, getNextMidnight() - Date.now());
+
+export const timeInChat = (time:number) => {
+  if (time in memoChats) return memoChats[time];
+  const dat = new Date(time);
+  const [year, month, date] = getDateData(dat);
+  const [todaysYear, todaysMonth, todaysDate] = getDateData(new Date());
+  let res;
+  if (year === todaysYear && month === todaysMonth && date === todaysDate) {
+    res = dat.toLocaleString('es-ES', { timeStyle: 'short' });
+  } else res = dat.toLocaleString('es-ES', { dateStyle: 'short' });
+  memoChats[time] = res;
+  return res;
 };
 
 const HRS_TO_MS = 3600 * 1000;

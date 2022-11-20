@@ -18,7 +18,7 @@ export class GrupoNoConnected extends Error {
   name = 'Conexión al grupo fallida';
 
   constructor() {
-    super('No se ha podido conectar al grupo, por favor, vuelva a intentarlo. Puede ser que el grupo sea privado.');
+    super('No se ha podido conectar al grupo, por favor, vuelva a intentarlo. Puede ser que el grupo sea privado o que te hayan banneado.');
   }
 }
 

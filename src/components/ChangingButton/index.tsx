@@ -6,23 +6,30 @@ interface configChangingButton{
     text:string,
     values:string[],
     descriptions?:string[],
-    onChange:Function
+    onChange:Function,
+    notEditable?:boolean|string,
+    notEditableText?:string,
 }
 
 export default function ChangingButton({ className, config }:
     {className:string|undefined, config:configChangingButton}) {
   const {
-    text, values, descriptions, onChange, title,
+    text, values, descriptions, onChange, title, notEditable,
+    notEditableText = '',
   } = config;
-  const idx = values.indexOf(text);
+  const idx = values.indexOf(notEditable ? notEditableText : text);
   const handleClick = () => {
+    if (notEditable) return;
     const newIdx = (idx + 1) % values.length;
     onChange(values[newIdx]);
   };
   return (
-    <div className={className}>
+    <div
+      className={className + (notEditable ? ' changingNotEditable' : '')}
+      title={notEditable && typeof notEditable === 'string' ? notEditable : ''}
+    >
       <strong>{title}</strong>
-      <Button onClick={handleClick}>{text}</Button>
+      <Button onClick={handleClick}>{values[idx]}</Button>
       {descriptions && <em>{descriptions[idx]}</em>}
     </div>
   );
@@ -54,8 +61,13 @@ export function ChatChangingButton({ text, handleChange }:{text:string, handleCh
       config={{
         title: 'Chat',
         text,
-        values: ['Sí', 'No'],
-        descriptions: ['Chat activado.', 'Chat desactivado.'],
+        values: ['Siempre', 'Siempre para los observadores',
+          'Solo en el lobby', 'Nunca',
+        ],
+        descriptions: ['Se puede acceder siempre al chat, incluso durante el test.',
+          'Solo los observadores pueden acceder al chat durante el test. Aquí (en el "lobby") todos pueden acceder al chat.',
+          'Solo se puede hacer al chat aquí (no durante el examen)',
+          'Chat desactivado.'],
         onChange: (val:string) => handleChange(val, 'chat'),
       }}
     />
@@ -68,8 +80,9 @@ export function TypeChangingButton({ text, handleChange }:{text:string, handleCh
       config={{
         title: 'Tipo',
         text,
-        values: ['Público', 'Privado'],
+        values: ['Público', 'Con invitación', 'Privado'],
         descriptions: [
+          'Cualquier persona puede unirse.',
           'Cualquier persona con el código puede unirse.',
           'Nadie puede unirse.',
         ],
@@ -87,11 +100,9 @@ export function DifficultChangingButton({ text, handleChange }:
       config={{
         title: 'Dificultad',
         text,
-        values: ['Fácil', 'Medio', 'Difícil', 'Administrador'],
+        values: ['Personalizado', 'Administrador'],
         descriptions: [
-          'Solo aparecen preguntas de nivel 1.',
-          'Solo aparecen preguntas de nivel 2.',
-          'Solo aparecen preguntas de nivel 3 (preguntas de olimpiada).',
+          'Se usan las probabilidades indicadas a continuación. El administrador puede cambiar los pesos de los niveles, a partir de los cuales se calcula la probabilidad (derecha)',
           'Se usan las estadísticas del administrador para determinar la dificultad.',
         ],
         onChange: (val:string) => handleChange(val, 'difficulty'),
@@ -138,18 +149,23 @@ export function RepetidasChangingButton({ text, handleChange }:
   );
 }
 
-export function EnBlancoChangingButton({ text, handleChange }:
-  {text:string, handleChange:Function}) {
+export function EnBlancoChangingButton({
+  text, notEditable, notEditableText, handleChange,
+}:
+  {text:string, notEditableText:string,
+    notEditable:string|boolean, handleChange:Function}) {
   return (
     <ChangingButton
       className="onlineChanging"
       config={{
-        title: 'En Blanco',
+        title: 'En blanco',
         text,
         values: ['Sí', 'No'],
         descriptions: ['Las preguntas en blanco cuentan 0 puntos.',
           'Las preguntas en blanco cuentan como fallos.'],
         onChange: (val:string) => handleChange(val, 'inBlanco'),
+        notEditable,
+        notEditableText,
       }}
     />
   );
@@ -172,7 +188,10 @@ export function TimingChangingButton({ text, handleChange }:{text:string, handle
   );
 }
 
-export function GoBackChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+export function GoBackChangingButton({
+  text, handleChange, notEditable, notEditableText,
+}:{text:string, notEditableText:string,
+  notEditable:string|boolean, handleChange:Function}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -183,6 +202,8 @@ export function GoBackChangingButton({ text, handleChange }:{text:string, handle
         descriptions: ['Se permite volver hacia atrás.',
           'Se impide volver hacia atrás.'],
         onChange: (val:string) => handleChange(val, 'goBack'),
+        notEditable,
+        notEditableText,
       }}
     />
   );
@@ -194,7 +215,7 @@ export function ShowPuntChangingButton({ text, handleChange }:
     <ChangingButton
       className="onlineChanging"
       config={{
-        title: 'Mostrar puntuación.',
+        title: 'Mostrar puntuación',
         text,
         values: ['Sí', 'No'],
         descriptions: ['Se muestra la puntuación a lo largo de todo el examen. Esto activa Corregir al contestar.',
@@ -205,8 +226,11 @@ export function ShowPuntChangingButton({ text, handleChange }:
   );
 }
 
-export function CorregirOnClickChangingButton({ text, handleChange }:
-  {text:string, handleChange:Function}) {
+export function CorregirOnClickChangingButton({
+  text, handleChange, notEditable, notEditableText,
+}:
+  {text:string, notEditableText:string,
+    notEditable:string|boolean, handleChange:Function}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -219,6 +243,8 @@ export function CorregirOnClickChangingButton({ text, handleChange }:
           'Las preguntas se corrigen al final del examen.',
         ],
         onChange: (val:string) => handleChange(val, 'corregirOnClick'),
+        notEditable,
+        notEditableText,
       }}
     />
   );

@@ -1,5 +1,8 @@
 .online{
     width: 100%;
+    max-width: 800px;
+    min-height: 100%;
+    padding: 10px 15px;
     height: max-content;
 }
 
@@ -31,15 +34,28 @@
     text-align: center;
     border-radius: 25px;
     font-size: 1em;
-    width: 120px;
+    width: 130px;
 }
 
 .onlineChanging > strong{
     max-width: 100px;
 }
 
+.fixedContainerOnline{
+    top: 0;
+    z-index: 1;
+    position: sticky;
+    background-color: var(--font2-color);
+}
+
 .onlineChanging > em{
     font-size: .8em;
+    grid-column-end: -1;
+}
+
+.changingNotEditable.onlineChanging, 
+.notEditableOnline{
+    opacity:.5;
 }
 
 .onlineChanging{
@@ -51,19 +67,13 @@
     gap: 10px;
 }
 
-.exitRoom{
-    position: sticky;
-    top:5px;
-    right: 5px;
-    margin-top: -50px;
-    height: 50px;
-    display: block;
+.onlineChanging > .exitRoom{
+    width: max-content;
     color: var(--font2-color);
     background-color: var(--bg2-color);
     padding: 7px 15px;
     border-radius: 25px;
-    margin-left: auto;
-    font-size: 25px;
+    font-size: 1em;
 }
 
 .onlineChanging > .copiarAlPortapapeles,
@@ -80,7 +90,7 @@
     padding: 2px 10px;
     text-align: center;
     border-radius: 25px;
-    width: 120px;
+    width: 130px;
     font-size: 1em;
     outline:none;
 }
@@ -112,4 +122,56 @@
 .online details{
     text-align: left;
     padding: 5px 10px;
+}
+
+.listoPanel{
+    position: fixed;
+    border: 2px solid var(--bg2-color);
+    border-radius: 15px;
+    z-index: 2;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+    padding: 30px 20px;
+    background-color: var(--font2-color);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cancelarListo{
+    display: block;
+    margin: 4px auto;
+    border-radius: 15px;
+    padding: 2px 10px;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+}
+
+.gruposListItem{
+    display: grid;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 15px;
+    column-gap: 5px;
+    grid-template-columns: 100px 200px 50px 60px;
+}
+.gruposListItem >div{
+    word-break: break-word;
+}
+.gruposListItem>button{
+    background-color: var(--bg2-color);
+    color:var(--font2-color);
+    border-radius: 10px;
+}
+.grupoList{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    overflow-x: auto;
+}
+
+.gruposListTitle{
+    background-color: var(--bg2-color);
+    font-weight: bold;
+    color:var(--font2-color);
 }

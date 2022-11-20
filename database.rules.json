@@ -5,7 +5,7 @@
         ".write": true,
         ".read": "data.child('members').hasChild(root.child('users').child(auth.uid).child('username').val())",
         "members": {
-          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.parent().child('config').child('type').val() == 'Público' || data.val() == null"
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.parent().child('config').child('type').val() != 'Privado' && !data.parent().child('banned').hasChild(root.child('users').child(auth.uid).child('username').val()) || data.val() == null"
         },
         "config": {
           ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val() || data.val() == null"
@@ -19,12 +19,16 @@
         "inExam": {
           ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val()"
         },
+        "banned": {
+          ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val()"
+        },
         "seed": {
           ".validate": "data.parent().child('admin').val() == root.child('users').child(auth.uid).child('username').val()"
         }
       }
     },
     "activeRooms": {
+      ".indexOn": ["public"],
       ".read": "auth != null",
       ".write": "auth != null"
     },
@@ -88,7 +92,7 @@
       }
     },
     "respuestas": {
-      ".read": "query.orderByKey &&( root.child('stats').child(auth.uid).child('activeTest').child('preguntas').hasChild(query.equalTo) == true || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('users').child(auth.uid).child('username').val()).child('preguntas').hasChild(query.equalTo)) || root.child('users').child(auth.uid).child('admin').val() === true || root.child('users').child(auth.uid).child('editor').val() == true",
+      ".read": "query.orderByKey && ( root.child('stats').child(auth.uid).child('activeTest').child('preguntas').hasChild(query.equalTo) == true || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('users').child(auth.uid).child('username').val()).child('preguntas').hasChild(query.equalTo) || root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('activeTest').child(root.child('rooms').child(root.child('users').child(auth.uid).child('room').val()).child('members').child(root.child('users').child(auth.uid).child('username').val()).child('viewing').val()).child('preguntas').hasChild(query.equalTo)) || root.child('users').child(auth.uid).child('admin').val() === true || root.child('users').child(auth.uid).child('editor').val() == true",
       ".write": false
     },
     "nombresUsuarios": {

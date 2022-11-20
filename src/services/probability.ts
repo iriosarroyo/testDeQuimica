@@ -1,7 +1,7 @@
 import { PATHS_DDBB } from 'info/paths';
 import { getTemas } from 'info/temas';
 import { DifficultyLevels, userDDBB } from 'types/interfaces';
-import { readLocal } from './database';
+import { filterByChildCache, readLocal } from './database';
 
 const probabilityLevelGen = (max:number, deviation:number) => {
   const root2PI = Math.sqrt(2 * Math.PI);
@@ -136,4 +136,50 @@ export const getPreguntaWeight = (aciertosYFallos:AciertosYFallos|undefined, id:
   const numAc = count(aciertos, id);
   const numFal = count(fallos, id);
   return Math.trunc((numFal + 2) / (2 ** (numAc - 1)));
+};
+
+const getActiveTemasWithPunt = async (
+  temas:userDDBB['temas'],
+  year:string,
+  overwriteTemas?:string[],
+  preventBreak = true,
+  factor = 1,
+) => {
+  const order = overwriteTemas ?? await getTemasInOrder(year);
+  const temasWithPunt:[string, number][] = [];
+  for (let i = 0; i < order.length; i++) {
+    const punt = Math.min(10, getPuntuacionDelTema(temas?.[order[i]]) * factor);
+    temasWithPunt.push([order[i], punt]);
+    if (!overwriteTemas && (factor !== 1 ? punt === 0 : punt < 4) && !preventBreak) break;
+  }
+  return temasWithPunt;
+};
+
+const FNs = {
+  1: getProbLevel1,
+  2: getProbLevel2,
+  3: getProbLevel3,
+};
+
+export const getProbByPreg = async (user:userDDBB) => {
+  const { year, temas } = user;
+  const levels = ['1', '2', '3'];
+  const resultad = (await Promise.all((await getActiveTemasWithPunt(temas, year)).map(
+    ([tema, punt], _, result) => {
+      const probTema = getProbTema(punt, result.map(([, v]) => v));
+      return Promise.all(levels.map(async (lev) => {
+        const probLevel = FNs[lev as unknown as keyof typeof FNs](punt);
+        const levelYTema = `${tema}_${lev}`;
+        const posibleQuestions = (await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', levelYTema)) ?? {};
+        let total = 0;
+        return Object.keys(posibleQuestions)
+          .map((id) => {
+            const w = getPreguntaWeight(temas?.[tema]?.[`level${lev}`], id);
+            total += w;
+            return [id, probTema * probLevel * w];
+          }).map(([id, val]) => [id, Number(val) / total]);
+      }));
+    },
+  ))).flat(2);
+  return resultad;
 };

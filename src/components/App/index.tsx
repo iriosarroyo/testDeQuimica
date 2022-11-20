@@ -20,6 +20,7 @@ import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand } from '@fortawesome/free-solid-svg-icons';
 import { setColorsCustom } from 'services/colors';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const Front = loadable(() => import('../Front'), {
   fallback: <GeneralContentLoader />,
@@ -117,6 +118,25 @@ const addCommands = (navigate:Function, show:Function) => {
   )];
   return () => cmdsOff.forEach((off) => off());
 };
+
+function FallbackError({ error }: { error: Error }) {
+  return (
+    <div>
+      <p>
+        Ha ocurrido un error inesperado.
+      </p>
+      <p>
+        Por favor, recarga la página.
+        Si el error persiste contacta con el administrador.
+      </p>
+      <p>
+        Error:
+        {error.message}
+      </p>
+    </div>
+  );
+}
+
 function App() {
   const [error, setError] = useState(undefined);
   const [toast, setToast] = useState<string|undefined>(undefined);
@@ -153,35 +173,37 @@ function App() {
   useEffect(() => onChangeFullscreen(setButtonFullscreen), []);
 
   return (
-    <MyErrorContext.Provider value={setError}>
-      <FrontContext.Provider value={setFrontElement}>
-        <div className="App">
-          {buttonFullScreen && (
-          <Button
-            className="buttonFullscreen"
-            onClick={() => {
-              document.body.requestFullscreen();
-              setButtonFullscreen(false);
-            }}
-          >
-            <FontAwesomeIcon icon={faExpand} />
-          </Button>
-          )}
-          {mantenimiento ? <Mantenimiento /> : <ContentApp />}
-          {error && <MyError error={error} setError={setError} />}
-          {elem && (
-          <Front
-            setChildren={setFrontElement}
-            cb={cb}
-            unableFocus={unableFocus}
-          >
-            {elem}
-          </Front>
-          )}
-          {toast && <div className="toast">{toast}</div>}
-        </div>
-      </FrontContext.Provider>
-    </MyErrorContext.Provider>
+    <ErrorBoundary FallbackComponent={FallbackError}>
+      <MyErrorContext.Provider value={setError}>
+        <FrontContext.Provider value={setFrontElement}>
+          <div className="App">
+            {buttonFullScreen && (
+            <Button
+              className="buttonFullscreen"
+              onClick={() => {
+                document.body.requestFullscreen();
+                setButtonFullscreen(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faExpand} />
+            </Button>
+            )}
+            {mantenimiento ? <Mantenimiento /> : <ContentApp />}
+            {error && <MyError error={error} setError={setError} />}
+            {elem && (
+            <Front
+              setChildren={setFrontElement}
+              cb={cb}
+              unableFocus={unableFocus}
+            >
+              {elem}
+            </Front>
+            )}
+            {toast && <div className="toast">{toast}</div>}
+          </div>
+        </FrontContext.Provider>
+      </MyErrorContext.Provider>
+    </ErrorBoundary>
 
   );
 }

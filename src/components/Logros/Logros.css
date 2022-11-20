@@ -50,5 +50,5 @@
 
 .logroProgress{
     height: 100%;
-    background-color: var(--prin-color);
+    background-color: rgb(var(--prin-color));
 }

@@ -373,7 +373,7 @@ class Commands {
     if ((type.includes('number') || type.includes('float')) && !Number.isNaN(float)) return float;
     const int = parseInt(param, 10);
     if ((type.includes('number') || type.includes('int')) && !Number.isNaN(int)) return int;
-    if (type.includes('string')) return param.replace(/-/g, ' ');
+    if (type.includes('string')) return param.replace(/\+/g, ' ');
     if (type.includes(param) && !['boolean', 'number', 'int', 'float'].includes(param)) return param;
     throw new Error(`El tipo del parámetro "${name}" no es correcto, debe ser ${type.join(', ')}.`);
   }

@@ -9,6 +9,7 @@
     width: max-content;
     border-color: var(--font-color);
     overflow: hidden;
+    z-index: 1;
 }
 
 .contextMenu > li{

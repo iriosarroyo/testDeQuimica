@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import LoggedIn from 'components/LoggedIn';
+import GeneralStructure from 'components/GeneralStructure';
 import MyErrorContext from 'contexts/Error';
 import UserContext from 'contexts/User';
 import { User } from 'firebase/auth';
@@ -31,7 +31,7 @@ export default function ContentApp() {
   if (userDDBB || user === undefined) {
     return (
       <UserContext.Provider value={!loading ? user : undefined}>
-        <LoggedIn />
+        <GeneralStructure user={user} />
       </UserContext.Provider>
     );
   }

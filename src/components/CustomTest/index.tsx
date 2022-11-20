@@ -5,7 +5,7 @@ import React, {
 
 import { getNumOfDays } from 'services/time';
 import {
-  CompleteUser, DifficultyLevels, PreguntaTest, RoomData, RoomMember, userDDBB,
+  CompleteUser, PreguntaTest, RoomData, RoomMember, userDDBB,
 } from 'types/interfaces';
 
 import {
@@ -24,8 +24,11 @@ import {
   getOnNext, getPreventPrevious,
   getPuntType, getShowPunt, getTime, getTimeToSiguiente, getUnaPorUna,
 } from 'services/conditionsCustomTest';
+import Chat from 'components/Chat';
 
 import { getNQuestions, getNQuestionsWithSetters } from 'services/preguntasGen';
+import { setRestartTimer } from 'components/Temporizador';
+import Toast from 'services/toast';
 
 const getTodaysPreguntas = async (
   user:CompleteUser,
@@ -55,13 +58,6 @@ const getTodaysPreguntas = async (
   setter(preguntas);
 };
 
-const getOverWriteLevels = (level:DifficultyLevels) => {
-  if (level === 'Fácil') return { 1: 1, 2: 0, 3: 0 };
-  if (level === 'Medio') return { 1: 0, 2: 1, 3: 0 };
-  if (level === 'Difícil') return { 1: 0, 2: 0, 3: 1 };
-  return undefined;
-};
-
 function TestDelDia() {
   const user = useContext(UserContext)!;
   const setError = useContext(MyErrorContext);
@@ -85,23 +81,24 @@ function TestDelDia() {
 }
 
 function TestPuntuacion({
-  config, seed, room, onEnd, showEndButton,
+  config, seed, room, onEnd, showEndButton, viewerUser,
 }:
   // eslint-disable-next-line no-undef
-  {config:RoomData, seed:number, room:string, onEnd:Function, showEndButton:boolean}) {
+  {config:RoomData, seed:number, room:string, viewerUser:string
+    onEnd:Function, showEndButton:boolean}) {
   const setError = useContext(MyErrorContext);
   const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
   const [startTime, setStartTime] = useState(0);
   const [createNext, setCreateNext] = useState<any>(null);
   const { username, unaPorUna } = useContext(UserContext)!.userDDBB;
   const {
-    difficulty, repetidas, tema, temasPersonalizados, adminStats,
+    difficulty, repetidas, tema, temasPersonalizados, adminStats, probLevels,
   } = config;
   const temasSeleccionados = tema === 'Personalizado'
     ? Object.entries(temasPersonalizados).filter(([, val]) => val === 'Sí').map(([key]) => key)
     : undefined;
   useEffect(() => {
-    readWithSetter(`rooms/${room}/activeTest/${username}/time`, setStartTime, setError);
+    readWithSetter(`rooms/${room}/activeTest/${viewerUser}/time`, setStartTime, setError);
     getNQuestionsWithSetters(
       setPreguntas,
       (e:any) => { setError(e); onEnd(); },
@@ -110,7 +107,7 @@ function TestPuntuacion({
         seed,
         userData: adminStats,
         overwriteTemas: temasSeleccionados,
-        overwriteLevels: getOverWriteLevels(difficulty),
+        overwriteLevels: difficulty === 'Personalizado' ? probLevels : undefined,
         allQuestions: repetidas === 'Sí',
       },
       setCreateNext,
@@ -122,24 +119,27 @@ function TestPuntuacion({
     active:number,
     setActive:Function,
     isCorregido:boolean,
+    numOfPregs = 1,
   ) => {
     if (active < pregs.length - 1) return setActive(active + 1);
     if (isCorregido || createNext === null) return undefined;
-    // const prevIds = pregs.map(({ id }) => id);
     try {
-      const newPreg = await createNext();
-      setPreguntas([...pregs, ...newPreg]);
+      const newPreg:PreguntaTest[] = await Promise.all(Array(numOfPregs)
+        .fill(null).map(createNext));
+      setPreguntas((prevPregs) => ([...prevPregs, ...newPreg]));
+      setActive((act:number) => act + numOfPregs);
+      if (config.timingMode === 'Temporizador por Pregunta') setRestartTimer();
     } catch (e) {
       setError(e);
     }
-    return setActive(pregs.length);
-  }, [preguntas, setPreguntas]);
+    return undefined;
+  }, [createNext]);
   return (
     <Test
       preguntas={preguntas}
       corregirOnClick={getCorregirOnClick(config)}
       unaPorUna={getUnaPorUna(config, unaPorUna)}
-      path={`rooms/${room}/activeTest/${username}`}
+      path={`rooms/${room}/activeTest/${viewerUser}`}
       notInBlanco={getNotInBlanco(config)}
       preventPrevious={getPreventPrevious(config)}
       puntType={getPuntType(config)}
@@ -150,16 +150,10 @@ function TestPuntuacion({
       onEnd={onEnd}
       showEndButton={showEndButton}
       onNext={getOnNext(config) ? onNext : undefined}
+      isViewer={viewerUser !== username}
     />
   );
 }
-
-/* function EndButton({ onEnd, isRoomAdmin, members }:
-  {onEnd:Function, isRoomAdmin: boolean, members:{[key:string]:RoomMember}}) {
-  const allMembersEnded = useMemo(() => Object.values(members).every((x) => x.done), [members]);
-  if (!isRoomAdmin || !allMembersEnded) return null;
-  return <Button onClick={() => onEnd()}>Hello</Button>;
-} */
 
 export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }:
   {room:string, exam?:{isRoomAdmin:boolean}}) {
@@ -170,6 +164,7 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
   const [members, setMembers] = useState<{[key:string]:RoomMember}|null>(null);
   const setError = useContext(MyErrorContext);
   const setFooter = useContext(FooterContext);
+  const [viewerUser, setViewerUser] = useState(username);
 
   const { isRoomAdmin } = exam;
   useEffect(() => onValueDDBB(`rooms/${room}/members`, setMembers, () => {
@@ -183,32 +178,62 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
     await writeDDBB(`rooms/${room}/inExam`, false);
     await deleteDDBB(`rooms/${room}/activeTest`);
   }, [room]);
+  if (members && viewerUser !== username
+    && (!members[viewerUser] || members[viewerUser].isViewer)) {
+    const newObservatory = Object.entries(members)
+      .filter(([x, v]) => x !== username && !v.isViewer)[0]?.[0];
+    if (newObservatory === undefined && isRoomAdmin) {
+      writeDDBB(`rooms/${room}/members/${username}/isViewer`, false);
+      deleteDDBB(`rooms/${room}/members/${username}/viewing`);
+      onEnd();
+    } else {
+      writeDDBB(`rooms/${room}/members/${username}/viewing`, newObservatory).then(() => {
+        setViewerUser(newObservatory);
+      });
+    }
+    Toast.addMsg(`Observando a ${newObservatory}`, 3000);
+  }
 
   const allMembersEnded = useMemo(() => Object
-    .values(members ?? {}).every((x) => x.done), [members]);
-
+    .values(members ?? {}).every((x) => x.done || x.isViewer), [members]);
   const showEndButton = isRoomAdmin && allMembersEnded;
   useEffect(() => {
     readWithSetter(`rooms/${room}/config`, setConfig);
     readWithSetter(`rooms/${room}/seed`, setSeed);
   }, [room]);
 
+  useEffect(() => onValueDDBB(
+    `rooms/${room}/members/${username}/viewing`,
+    (val:string|null) => setViewerUser(val ?? username),
+    setError,
+  ), []);
   if (!config || seed === undefined) return <div />;
   return (
     <>
+      {username !== viewerUser && (
+      <div className="viewingUsername">
+        Observando:
+        {' '}
+        {viewerUser}
+      </div>
+      )}
       <RoomParticipants
         isRoomAdmin={isRoomAdmin}
         members={members ?? {}}
         room={room}
         username={username}
+        viewerUser={viewerUser}
       />
       <TestPuntuacion
+        viewerUser={viewerUser}
         room={room}
         config={config}
         seed={seed}
         onEnd={onEnd}
         showEndButton={showEndButton}
       />
+      {(config.chat === 'Siempre' || (config.chat === 'Siempre para los observadores' && viewerUser !== username))
+      && <Chat room={room} />}
     </>
   );
 }

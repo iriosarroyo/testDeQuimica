@@ -3,7 +3,8 @@ import {
   get,
   onChildAdded,
   onChildChanged,
-  onValue, orderByChild, orderByKey, push, query, ref, remove, set, ThenableReference, update,
+  onValue, orderByChild,
+  orderByKey, push, query, ref, remove, runTransaction, set, ThenableReference, update,
 } from 'firebase/database';
 import { PATHS_DDBB } from 'info/paths';
 import React from 'react';
@@ -175,9 +176,21 @@ export const filterByChild = (path: string, child:string, equal:string) => {
   return get(q).then((snap) => snap.val());
 };
 
+export const onValueQuery = (
+  path:string,
+  child:string,
+  equal:any,
+  setter: (val:any) => any,
+) => {
+  const thisRef = ref(db, path);
+  const q = query(thisRef, orderByChild(child), equalTo(equal));
+  return onValue(q, (snap) => setter(snap.val()));
+};
+
 const cache:{[key:string]:{[key:string]:{[key:string]:any}}} = {};
 export const filterByChildCache = (path: string, child:string, equal:string) => {
   if (cache?.[path]?.[child]?.[equal]) return cache[path][child][equal];
+  console.log(cache);
   const result = filterByChild(path, child, equal);
   cache[path] ??= {};
   cache[path][child] ??= {};
@@ -217,3 +230,18 @@ export const getPreguntasYRespuestas = () => Promise.all([
   readDDBB(PATHS_DDBB.preguntas).then((x) => x[0]),
   readDDBB(PATHS_DDBB.respuestas).then((x) => x[0]),
 ]);
+
+export const addOne = (path:string, decrement = false) => {
+  const thisRef = ref(db, path);
+  runTransaction(thisRef, (data:number) => data + (decrement ? -1 : 1));
+};
+/*
+Promise.all(Array(1428).fill(null).map(async (_, i) => {
+  let id = 'id';
+  if (i + 1 < 10) id += '0';
+  if (i + 1 < 100) id += '0';
+  if (i + 1 < 1000) id += '0';
+  id += (i + 1);
+  const [respuesta] = await readDDBB(`respuestas/${id}`);
+  return [id, await existsInDDBB(`preguntas/${id}/opciones/${respuesta}`)];
+})).then((x) => console.log(x.filter(([, exists]) => !exists))); */

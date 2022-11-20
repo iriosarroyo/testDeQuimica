@@ -13,6 +13,7 @@ import {
   faHome,
   faHSquare,
   faRankingStar,
+  faScrewdriverWrench,
   faUpload,
   faUsers,
   faUsersGear,
@@ -85,6 +86,9 @@ const StatsAdmin = loadable(() => import('components/StatsAdmin'), {
 const FrasesCuriosasEditor = loadable(() => import('components/FrasesCuriosasEditor'), {
   fallback: <GeneralContentLoader />,
 });
+const Valoracion = loadable(() => import('components/Valoracion'), {
+  fallback: <GeneralContentLoader />,
+});
 const Error404 = loadable(() => import('components/Error404'), {
   fallback: <GeneralContentLoader />,
 });
@@ -143,6 +147,7 @@ const paginas:Paginas = [
   newPagina('Tabla Periódica', '/tablaPeriodica', faHSquare, 'Ctrl+Alt+P', <TablaEditor />, isApp('quimica')),
   newPagina('Perfil', '/perfil', faAddressCard, 'Ctrl+Alt+U', <Perfil />),
   newPagina('Estadísticas', '/estadisticas', faChartLine, 'Ctrl+Alt+V', <Stats />),
+  newPagina('Herramientas', '/tools', faScrewdriverWrench, 'Ctrl+Alt+H', <Valoracion />, process.env.REACT_APP_ASIGNATURA === '__ASIGNATURA__'),
   newPagina('Ajustes', '/ajustes', undefined, 'Ctrl+Alt+Ñ', <Ajustes />),
   newPagina('Error404', '*', undefined, undefined, <Error404 />),
 ];

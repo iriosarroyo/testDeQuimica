@@ -1,28 +1,22 @@
 import loadable from '@loadable/component';
 import GeneralContentLoader from 'components/GeneralContentLoader';
-import Header from 'components/Header';
-import Navbar from 'components/Navbar';
 import MyErrorContext from 'contexts/Error';
-import FooterContext from 'contexts/Footer';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
 import paginas, { paginasAdmin } from 'info/paginas';
-import shortcuts, { addShortCut, removeShortCut } from 'info/shortcuts';
-import {
-  getShortCut, getUser, setUser, updateLocalShortCuts,
-} from 'info/shortcutTools';
+import shortcuts from 'info/shortcuts';
+import { getUser, setUser, updateLocalShortCuts } from 'info/shortcutTools';
 import MyRoutes from 'MyRoutes';
 import React, {
-  useContext, useEffect, useState, useMemo,
+  useContext, useEffect,
 } from 'react';
 
 import {
-  Route, Routes, useLocation, useNavigate,
+  Route, Routes, useNavigate,
 } from 'react-router-dom';
 import SearchCmd from 'services/commands';
 import { setMantenimiento, writeUserInfo } from 'services/database';
 import { onLogroComplete } from 'services/logros';
-import { initialNavValue, LOCAL_NAV } from 'services/menus';
 import reqTokenMessaging, { messagingListener, sendNotification } from 'services/notifications';
 import { connectToRoom, createRoom, exitRoom } from 'services/rooms';
 import Toast from 'services/toast';
@@ -113,38 +107,21 @@ export default function LoggedIn() {
   const user = useContext(UserContext);
   const setError = useContext(MyErrorContext);
   const setFront = useContext(FrontContext);
-  const [navContract, setNav] = useState(initialNavValue);
-  const [childrenFooter, setChildrenFooter] = useState(null);
   const navigate = useNavigate();
   setUser(user);
   useEffect(
     () => (user === undefined ? undefined : addLoggedInCommands(navigate, setError)),
     [user === undefined],
   );
+  /* if (user?.userDDBB) {
+    getProbByPreg(user.userDDBB).then(console.log);
+  } */
   useEffect(() => {
     if (user?.userDDBB.admin && !pushedAdmin) {
       pushedAdmin = true; shortcuts.push(...paginasAdmin);
     }
   }, [user?.userDDBB.admin]);
-  const location = useLocation();
-  const handleClick = useMemo(() => {
-    const fn = () => {
-      localStorage.setItem(LOCAL_NAV, `${!navContract}`);
-      setNav(!navContract);
-    };
-    removeShortCut('navMenu');
-    addShortCut({
-      action: () => { fn(); },
-      description: <>Expande o contrae el menú lateral.</>,
-      id: 'navMenu',
-      get shortcut() {
-        return getShortCut(this);
-      },
-      default: 'Ctrl+Alt+Z',
-    });
-    return fn;
-  }, [navContract]);
-  useEffect(() => setChildrenFooter(null), [location.pathname]);
+
   useEffect(() => {
     updateLocalShortCuts(shortcuts);
   }, []);
@@ -217,23 +194,10 @@ export default function LoggedIn() {
   }, [user?.userDDBB === undefined]);
 
   return (
-    <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>
-      <FooterContext.Provider value={setChildrenFooter}>
-        <Header click={handleClick} />
-        <Navbar />
-        <main className="principal">
-          {user
-            ? (
-              <Routes>
-                {MyRoutes({ pags: paginas })}
-                <Route path="/admin/*" element={<Admin />} />
-                <Route path="/editor/*" element={<EditorRole />} />
-              </Routes>
-            )
-            : <GeneralContentLoader />}
-        </main>
-        <footer className="myFooter">{childrenFooter}</footer>
-      </FooterContext.Provider>
-    </div>
+    <Routes>
+      {MyRoutes({ pags: paginas })}
+      <Route path="/admin/*" element={<Admin />} />
+      <Route path="/editor/*" element={<EditorRole />} />
+    </Routes>
   );
 }

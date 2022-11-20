@@ -200,7 +200,10 @@ const preguntasGen = async (
   }
 
   const useGen = generator();
-  const getNextQuestion = () => useGen.next().then((x) => x.value);
+  const getNextQuestion = () => useGen.next().then((x) => {
+    if (x.done) throw new QuestionError();
+    return x.value;
+  });
   return getNextQuestion;
 };
 
@@ -214,12 +217,12 @@ export const getNQuestionsWithSetters = async (
   setError:Function,
   n:number,
   param:PreguntasGenParams,
-  setterNextQuestion?:Function,
+  setterNextQuestion?:(a:any) => any,
 ) => {
   try {
     const [preguntas, getNext]:any[] = await getNQuestions(n, param);
     setter(preguntas);
-    if (setterNextQuestion) setterNextQuestion(getNext);
+    if (setterNextQuestion) setterNextQuestion(() => getNext);
   } catch (e) {
     setError(e);
   }

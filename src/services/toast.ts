@@ -3,7 +3,7 @@ export default class Toast {
 
   static setterFn = (text:string|undefined) => { (() => text)(); };
 
-  static addMsg(text:string, duration:number) {
+  static addMsg(text:string, duration:number = 3000) {
     const prevToast = Toast.buffer.find((x) => x.text === text && x.duration === duration);
     if (prevToast !== undefined) return;
     Toast.buffer.push({ text, duration });
