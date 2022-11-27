@@ -3,20 +3,24 @@ import GeneralContentLoader from 'components/GeneralContentLoader';
 import Header from 'components/Header';
 import Navbar from 'components/Navbar';
 import FooterContext from 'contexts/Footer';
+import UserContext from 'contexts/User';
 import { addShortCut, removeShortCut } from 'info/shortcuts';
 import { getShortCut } from 'info/shortcutTools';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 import { useLocation } from 'react-router-dom';
 import { initialNavValue, LOCAL_NAV } from 'services/menus';
 
-interface ParamGeneralStructure {
+/* interface ParamGeneralStructure {
     user: any,
-}
+} */
 const LoggedIn = loadable(() => import('../LoggedIn'), { fallback: <GeneralContentLoader /> });
 
-export default function GeneralStructure({ user }:ParamGeneralStructure) {
+export default function GeneralStructure() {
   const [childrenFooter, setChildrenFooter] = useState(null);
   const [navContract, setNav] = useState(initialNavValue);
+  const user = useContext(UserContext);
 
   const { pathname } = useLocation();
   useEffect(() => setChildrenFooter(null), [pathname]);
@@ -38,14 +42,14 @@ export default function GeneralStructure({ user }:ParamGeneralStructure) {
     });
     return fn;
   }, [navContract]);
-
+  console.log(user?.userDDBB);
   return (
     <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>
       <FooterContext.Provider value={setChildrenFooter}>
         <Header click={handleClick} />
         <Navbar />
         <main className="principal">
-          {user && user.userDDBB ? <LoggedIn /> : <GeneralContentLoader />}
+          {user?.userDDBB ? <LoggedIn /> : <GeneralContentLoader />}
         </main>
         <footer className="myFooter">{childrenFooter}</footer>
       </FooterContext.Provider>

@@ -86,6 +86,7 @@ export const createSocket = (
     }
     return undefined;
   });
+  socket.on('admin:reload', () => window.location.reload());
 });
 
 type Cache = {[key:string]: any}

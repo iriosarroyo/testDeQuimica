@@ -13,7 +13,6 @@ const NewUserForm = loadable(() => import('../NewUserForm'));
 export default function ContentApp() {
   const [user, setUser]:[any, Function] = useState<User|undefined>(undefined);
   const [loading, setLoading] = useState(false);
-
   const setError = useContext(MyErrorContext);
   const { userDDBB } = user ?? {};
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function ContentApp() {
   if (userDDBB || user === undefined) {
     return (
       <UserContext.Provider value={!loading ? user : undefined}>
-        <GeneralStructure user={user} />
+        <GeneralStructure />
       </UserContext.Provider>
     );
   }

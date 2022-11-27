@@ -3,6 +3,10 @@ import GeneralContentLoader from 'components/GeneralContentLoader';
 import MyErrorContext from 'contexts/Error';
 import FrontContext from 'contexts/Front';
 import UserContext from 'contexts/User';
+import {
+  forceReloadAllUsers, forceReloadUser, mantenimientoCommand,
+  notificationCommand, sendDisconnectAllUsers, sendDisconnectUser,
+} from 'info/myCommands';
 import paginas, { paginasAdmin } from 'info/paginas';
 import shortcuts from 'info/shortcuts';
 import { getUser, setUser, updateLocalShortCuts } from 'info/shortcutTools';
@@ -144,43 +148,19 @@ export default function LoggedIn() {
       } catch (e) {
         setError(e);
       }
-      const offSend = SearchCmd.addCommand(
-        'sendNotification',
-        'Envía una notificación a los usuarios de la página.',
-        sendNotification,
-        {
-          name: 'titulo',
-          desc: 'Título de la notificación.',
-          optional: false,
-          type: ['string'],
-        },
-        {
-          name: 'cuerpo',
-          desc: 'Cuerpo de la notificación.',
-          optional: false,
-          type: ['string'],
-        },
-        {
-          name: 'grupo',
-          desc: 'Indica el grupo al que mandarle la notificación. Por defecto es a todos.',
-          optional: true,
-          type: ['all', 'eso3', 'eso4', 'bach1', 'bach2', 'test'],
-          default: 'all',
-        },
-      );
-
-      const offMantenimiento = SearchCmd.addCommand(
-        'setMantenimiento',
-        'Modifica el estado de mantenimiento de la página',
-        setMantenimiento,
-        {
-          name: 'estado',
-          desc: 'Activa (true) o desactiva (false) el estado de mantenimiento.',
-          optional: false,
-          type: ['boolean'],
-        },
-      );
-      return () => { offTypes(); offSend(); offMantenimiento(); };
+      // Turn into array
+      const offSend = notificationCommand(sendNotification);
+      const offMantenimiento = mantenimientoCommand(setMantenimiento);
+      let offDisconnect = () => {};
+      sendDisconnectUser().then((res) => { offDisconnect = res; });
+      let offReload = () => {};
+      forceReloadUser().then((res) => { offReload = res; });
+      const offDisconnectAll = sendDisconnectAllUsers();
+      const offReloadAll = forceReloadAllUsers();
+      return () => {
+        offTypes(); offSend(); offMantenimiento(); offDisconnect();
+        offReload(); offDisconnectAll(); offReloadAll();
+      };
     }
 
     return undefined;
