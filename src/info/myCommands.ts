@@ -4,13 +4,18 @@ import { getFromSocketUID } from 'services/socket';
 import Toast from 'services/toast';
 import { PreguntaTest } from 'types/interfaces';
 
-export const copyCmd = (preguntas:PreguntaTest[], type:string[]) => SearchCmd.addCommand(
+export const copyCmd = (
+  preguntas:PreguntaTest[],
+  answers: {[k:string]:{current:string}|undefined},
+  type:string[],
+) => SearchCmd.addCommand(
   'copy',
   'Copia una pregunta del test activo.',
   (id:string, whatsapp:boolean) => {
     const preg = preguntas.find((x) => x.id === id);
+    const ans = answers[id]?.current;
     if (preg === undefined) return Toast.addMsg('La pregunta con ese id no está activa', 5000);
-    return copyQuestion(preg, whatsapp);
+    return copyQuestion(preg, ans, whatsapp);
   },
   {
     name: 'id',
@@ -27,10 +32,13 @@ export const copyCmd = (preguntas:PreguntaTest[], type:string[]) => SearchCmd.ad
   },
 );
 
-export const copyAllCmd = (preguntas:PreguntaTest[]) => SearchCmd.addCommand(
+export const copyAllCmd = (
+  preguntas:PreguntaTest[],
+  answers: {[k:string]:{current:string}|undefined},
+) => SearchCmd.addCommand(
   'copyAll',
   'Copia todas las preguntas activas',
-  (whatsapp:boolean) => copyAllQuestions(preguntas, whatsapp),
+  (whatsapp:boolean) => copyAllQuestions(preguntas, answers, whatsapp),
   {
     name: 'toWhatsapp',
     desc: 'Introduce si quieres que se copie con estilo para Whatsapp.',

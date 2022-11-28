@@ -524,10 +524,13 @@ export default function Test({
     const type = preventPrevious && !corregido
       ? [preguntas[active]?.id]
       : preguntas.map((x) => x.id);
-    const copyRm = copyCmd(preguntas, type);
-    const copyAllRm = copyAllCmd(preventPrevious && !corregido ? [preguntas[active]] : preguntas);
+    const copyRm = copyCmd(preguntas, answers, type);
+    const copyAllRm = copyAllCmd(
+      preventPrevious && !corregido ? [preguntas[active]] : preguntas,
+      answers,
+    );
     return () => { copyRm(); copyAllRm(); };
-  }, [preguntas, active, corregido, preventPrevious]);
+  }, [preguntas, active, corregido, answers, preventPrevious]);
 
   const activeId = preguntas[active]?.id;
   return (

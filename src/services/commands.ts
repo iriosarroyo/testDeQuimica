@@ -45,6 +45,8 @@ class Commands {
 
   preguntas: PreguntaTest[] | null = null;
 
+  SPACES_MATCH_REG = /[^\s"']+|"([^"]*)"|'([^']*)'/g;
+
   removeCommand(name:string) {
     this.commands = this.commands.filter((x) => x.name !== name);
   }
@@ -121,8 +123,8 @@ class Commands {
   }
 
   runCommand(value:string, user:CompleteUser) {
-    const [cmd, ...params] = value.split(' ');
-    const [, error] = this.execCommand(cmd.replace('/', ''), params);
+    const [cmd, ...params] = value.match(this.SPACES_MATCH_REG) ?? [];
+    const [, error] = this.execCommand(cmd?.replace('/', ''), params);
     if (error !== undefined) Toast.addMsg(error, 5000);
     if (error === undefined) {
       sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
@@ -373,33 +375,36 @@ class Commands {
     if ((type.includes('number') || type.includes('float')) && !Number.isNaN(float)) return float;
     const int = parseInt(param, 10);
     if ((type.includes('number') || type.includes('int')) && !Number.isNaN(int)) return int;
-    if (type.includes('string')) return param.replace(/\+/g, ' ');
-    if (type.includes(param) && !['boolean', 'number', 'int', 'float'].includes(param)) return param;
+    const noQuotes = param.replace(/"|'/g, '');
+    if (type.includes('string')) return noQuotes;
+    if (type.includes(noQuotes) && !['boolean', 'number', 'int', 'float'].includes(param)) return noQuotes;
     throw new Error(`El tipo del parámetro "${name}" no es correcto, debe ser ${type.join(', ')}.`);
   }
 
   runAutoComplete(value:string, index:number) {
-    const elements = value.replace(/^\s*\//, '').split(' ');
+    const elements = value.replace(/^\s*\//, '').match(this.SPACES_MATCH_REG) ?? [];
     const [possibleAutocompletes] = this.getAutoComplete(value);
+    if (value.endsWith(' ')) elements.push(' ');
     elements.splice(-1);
     return `/${elements.join(' ')}${elements.length === 0 ? '' : ' '}${possibleAutocompletes[index].text} `;
   }
 
   getAutoComplete(value:string):[{ text: string, desc: string, cmd?: Comando }[], string] {
     if (!value.startsWith('/')) return [[], ''];
-    const [cmd, ...params] = value.replace(/^(\s*\/)/, '').split(' ');
-    if (params.length === 0) {
+    const [cmd = '', ...params] = value.replace(/^(\s*\/)/, '').match(this.SPACES_MATCH_REG) ?? [];
+    if (params.length === 0 && !value.endsWith(' ')) {
       const result = this.commands.filter((x) => x.name.startsWith(cmd)).map((x) => ({ text: x.name, desc: '', cmd: x }));
       result.sort((a, b) => a.text.localeCompare(b.text));
       return result.length === 1 && result[0].text === cmd ? [[], ''] : [result, 'Elige el comando para ejecutar'];
     }
     const currCmd = this.commands.find((x) => x.name === cmd);
     if (currCmd === undefined) return [[], ''];
-    const currParam = currCmd.params[params.length - 1];
+    const idx = params.length - (value.endsWith(' ') ? 0 : 1);
+    const currParam = currCmd.params[idx];
     if (currParam === undefined) return [[], ''];
     return [Commands.getPossibilitiesFromType(currParam.type)
-      .filter((x) => x.text.startsWith(params[params.length - 1])
-      && (x.text !== params[params.length - 1] || x.text === '')), currParam.desc];
+      .filter((x) => x.text.startsWith(params[idx] ?? '')
+      && (x.text !== (params[idx] ?? '') || x.text === '')), currParam.desc];
   }
 
   static getPossibilitiesFromType(type:string[]) {

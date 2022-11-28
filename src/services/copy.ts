@@ -28,6 +28,11 @@ export const copyWithStyle = (text:string) => {
 
 const tagsToTranslate = [
   {
+    tag: 'div',
+    replaceL: '',
+    replaceR: '',
+  },
+  {
     tag: 'strong',
     replaceL: '*',
     replaceR: '*',
@@ -63,7 +68,7 @@ const translateToWhatsapp = (text:string, numbers:boolean = false) => {
   tagsToTranslate.forEach((elem) => {
     finalText = finalText.replace(
       // eslint-disable-next-line no-useless-escape
-      new RegExp(`<${elem.tag}>(( |(&nbsp;))*)([^<]*?)(( |(&nbsp;))*)</${elem.tag}>`, 'g'),
+      new RegExp(`<${elem.tag}>(( |(&nbsp;))*)(.*?)(( |(&nbsp;))*)</${elem.tag}>`, 'g'),
       `$1${elem.replaceL}$4${elem.replaceR}$5`,
     );
   });
@@ -78,26 +83,31 @@ const translateToWhatsapp = (text:string, numbers:boolean = false) => {
   return finalText;
 };
 
-const getStrQuestion = (question:PreguntaTest, whatsapp:boolean) => {
+const getStrQuestion = (question:PreguntaTest, ans:string|undefined, whatsapp:boolean) => {
   let strQuestion = `<strong>${question.pregunta}</strong><ol type="a" start="1">`;
   Object.values(question.opciones).forEach((opt) => {
-    strQuestion += `<li>${opt.value}</li>`;
+    const val = opt.id === ans ? `<strong>${opt.value}</strong>` : opt.value;
+    strQuestion += `<li>${val}</li>`;
   });
   strQuestion += `</ol>(<em>${question.id}, ${(getTemas() as any)[question.tema]}, Nivel ${question.level}</em>)`;
   if (whatsapp) strQuestion = translateToWhatsapp(strQuestion);
   return strQuestion;
 };
 
-export const copyAllQuestions = (questions:PreguntaTest[], whatsapp:boolean) => {
+export const copyAllQuestions = (
+  questions:PreguntaTest[],
+  answers:{[k:string]:{current:string}|undefined},
+  whatsapp:boolean,
+) => {
   let strAllQ = '<ol type="1">';
-  questions.forEach((preg) => { strAllQ += `<li>${getStrQuestion(preg, whatsapp)}</li><br>`; });
+  questions.forEach((preg) => { strAllQ += `<li>${getStrQuestion(preg, answers[preg.id]?.current, whatsapp)}</li><br>`; });
   strAllQ += '</ol>';
   if (whatsapp) strAllQ = translateToWhatsapp(strAllQ, true);
   copyWithStyle(strAllQ);
 };
 
-export const copyQuestion = (question:PreguntaTest, whatsapp:boolean) => {
-  const strQuestion = getStrQuestion(question, whatsapp);
+export const copyQuestion = (question:PreguntaTest, ans:string|undefined, whatsapp:boolean) => {
+  const strQuestion = getStrQuestion(question, ans, whatsapp);
   copyWithStyle(strQuestion);
 };
 

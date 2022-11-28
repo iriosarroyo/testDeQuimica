@@ -42,7 +42,6 @@ export default function GeneralStructure() {
     });
     return fn;
   }, [navContract]);
-  console.log(user?.userDDBB);
   return (
     <div className={`loggedIn ${navContract ? 'menuContracted' : ''}`}>
       <FooterContext.Provider value={setChildrenFooter}>
