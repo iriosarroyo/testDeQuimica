@@ -19,7 +19,7 @@ function ChatMessages({
   myRef, scrollToBottom, msgs, displayed,
 }:
     {myRef:RefObject<HTMLDivElement>,
-       scrollToBottom: Function, displayed:boolean, msgs:[string, MSG][]}) {
+       scrollToBottom: () => void, displayed:boolean, msgs:[string, MSG][]}) {
   const [end, setEnd] = useState(true);
   const { username } = useContext(UserContext)!.userDDBB;
   const ref = useRef<HTMLDivElement>(null);

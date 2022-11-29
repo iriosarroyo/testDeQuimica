@@ -4,10 +4,10 @@ import UserContext from 'contexts/User';
 import React, { useContext, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { logros } from 'services/logros';
-import { Logros, logrosTypes, userDDBB } from 'types/interfaces';
+import { Logros, logrosTypes, UserDDBB } from 'types/interfaces';
 import './Logros.css';
 
-export default function LogrosComp({ starsAndLogros }: {starsAndLogros?:{stars:number, logros:userDDBB['logros'], username:string}}) {
+export default function LogrosComp({ starsAndLogros }: {starsAndLogros?:{stars:number, logros:UserDDBB['logros'], username:string}}) {
   const defaultUser = useContext(UserContext)!;
   const { logros: logrosUser, stars, username } = starsAndLogros ?? defaultUser.userDDBB;
   const groupedLogros = useMemo(() => {

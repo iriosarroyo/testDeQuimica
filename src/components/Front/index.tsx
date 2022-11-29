@@ -4,10 +4,11 @@ import Button from 'components/Button';
 import React, {
   KeyboardEvent, PropsWithChildren, useEffect, useRef,
 } from 'react';
+import { FrontContextType } from 'types/interfaces';
 
 type FrontProps = {
-  setChildren:Function,
-  cb: Function,
+  setChildren:FrontContextType,
+  cb: () => any,
   unableFocus?: boolean
 }
 

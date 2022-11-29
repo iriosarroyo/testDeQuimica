@@ -10,10 +10,10 @@ import {
   getPuntuacionDelTema, getPuntuacionLevel1, getPuntuacionLevel2, getTemasInOrder,
   MAX_PUNT_NIV_1, MAX_PUNT_NIV_2, VAL_PUNT_ACIERTO, VAL_PUNT_FALLO,
 } from 'services/probability';
-import { CompleteUser, userDDBB } from 'types/interfaces';
+import { CompleteUser, UserDDBB } from 'types/interfaces';
 import './Puntuaciones.css';
 
-function PuntuacionDelTema({ temas, tema, curso }:{temas:userDDBB['temas'], tema:string, curso:string}) {
+function PuntuacionDelTema({ temas, tema, curso }:{temas:UserDDBB['temas'], tema:string, curso:string}) {
   const [display, setDisplay] = useState(false);
   const levels = temas?.[tema] ?? DEFAULT_LEVELS;
   const percLevel1 = getPuntuacionLevel1(levels.level1) * 10;

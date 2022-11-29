@@ -11,7 +11,7 @@ import {
   getPuntuacionLevel1, getPuntuacionLevel2, getPuntuacionLevel3,
   MAX_PUNT_NIV_1, MAX_PUNT_NIV_2, MAX_PUNT_NIV_3, VAL_PUNT_ACIERTO, VAL_PUNT_FALLO,
 } from 'services/probability';
-import { userDDBB } from 'types/interfaces';
+import { UserDDBB } from 'types/interfaces';
 
 const getTextNivel = (punt = MAX_PUNT_NIV_1) => `Máxima puntuación: ${punt}. 
     Es el número de aciertos por ${VAL_PUNT_ACIERTO} menos el número de fallos por
@@ -19,7 +19,7 @@ const getTextNivel = (punt = MAX_PUNT_NIV_1) => `Máxima puntuación: ${punt}.
     por cada 10 preguntas acertadas y ${EXTRA_PER_100} por cada 100 preguntas acertadas.
     La probabilidad del nivel depende de la puntuación del tema.`;
 
-export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, temas:userDDBB['temas'], curso:string}) {
+export default function PuntPerTemaStats({ temas, tema, curso }: {tema:string, temas:UserDDBB['temas'], curso:string}) {
   const thisTema = temas?.[tema] ?? DEFAULT_LEVELS;
   const puntuacion = getPuntuacionDelTema(thisTema);
   const [probTema, setProbTema] = useState<null|number>(null);

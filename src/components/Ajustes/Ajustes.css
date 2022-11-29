@@ -6,6 +6,10 @@
     border:0;
 }
 
+.disabledAjustes{
+    opacity: .5;
+}
+
 .invertedLogo .bgLogo{
     fill:var(--logo-bg-op);
 }
@@ -50,6 +54,8 @@
     border-radius: 15px;
     padding: 3px 10px;
     border:none;
+    width: 150px;
+    max-width: 100%;
 }
 
 .styledInputAjustes:focus{

@@ -40,7 +40,7 @@ import {
 import Toast from 'services/toast';
 import {
   ActiveRoomData,
-  CompleteUser, RoomData, RoomMember, userDDBB,
+  CompleteUser, RoomData, RoomMember, UserDDBB,
 } from 'types/interfaces';
 import './Online.css';
 
@@ -317,7 +317,7 @@ function TemasPersonalizados({
   );
 }
 
-const prepareForTest = async (room: string, isRoomAdmin:boolean, temas:userDDBB['temas'], year:userDDBB['year'], roomData:RoomData) => {
+const prepareForTest = async (room: string, isRoomAdmin:boolean, temas:UserDDBB['temas'], year:UserDDBB['year'], roomData:RoomData) => {
   if (isRoomAdmin) {
     const { timingMode, timePerQuestion, numPregs } = roomData;
     // set seed

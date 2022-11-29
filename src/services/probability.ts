@@ -1,6 +1,6 @@
 import { PATHS_DDBB } from 'info/paths';
 import { getTemas } from 'info/temas';
-import { DifficultyLevels, userDDBB } from 'types/interfaces';
+import { DifficultyLevels, UserDDBB } from 'types/interfaces';
 import { filterByChildCache, readLocal } from './database';
 
 const probabilityLevelGen = (max:number, deviation:number) => {
@@ -65,7 +65,7 @@ const getRawPuntuacion = (aciertos:number, fallos:number) => {
 
 export const count = (str:string, sep = ';') => str.match(RegExp(sep, 'g'))?.length ?? 0;
 
-type AciertosYFallos = NonNullable<NonNullable<userDDBB['temas']>['']>['']
+type AciertosYFallos = NonNullable<NonNullable<UserDDBB['temas']>['']>['']
 
 const countAciertosYFallos = (
   { aciertos, fallos }:AciertosYFallos,
@@ -88,7 +88,7 @@ export const getPuntuacionLevel3 = (aciertosYFallos:AciertosYFallos) => {
   return Math.min(MAX_PUNT_NIV_3, getRawPuntuacion(aciertos, fallos));
 };
 
-export const getPuntuacionDelTema = (puntPorLevel:NonNullable<userDDBB['temas']>['']) => {
+export const getPuntuacionDelTema = (puntPorLevel:NonNullable<UserDDBB['temas']>['']) => {
   if (puntPorLevel === undefined) return 0; // Return puntuación 0 si no existe el elemento
   const level1 = getPuntuacionLevel1(puntPorLevel.level1);
   const level2 = getPuntuacionLevel2(puntPorLevel.level2);
@@ -96,13 +96,13 @@ export const getPuntuacionDelTema = (puntPorLevel:NonNullable<userDDBB['temas']>
   return Math.min(10, level1 + level2 + level3);
 };
 
-export const getAllPuntuaciones = (temas: userDDBB['temas']) : {[k:string]: number} => {
+export const getAllPuntuaciones = (temas: UserDDBB['temas']) : {[k:string]: number} => {
   const puntEntries = Object.keys(getTemas()).map((key) => ([key,
     getPuntuacionDelTema(temas?.[key])]));
   return Object.fromEntries(puntEntries);
 };
 
-export const getPuntuacionMedia = (puntuaciones:userDDBB['temas'], digits = 2) => {
+export const getPuntuacionMedia = (puntuaciones:UserDDBB['temas'], digits = 2) => {
   if (puntuaciones === undefined) return 0;
   const arra = Object.keys(getTemas());
   const average = arra
@@ -117,7 +117,7 @@ export const getTemasInOrder = async (year: string) => {
   return orderTemasEntries;
 };
 
-export const getProbTemaWithoutTemasInOrder = async (tema:string, temas:userDDBB['temas'], year:string) => {
+export const getProbTemaWithoutTemasInOrder = async (tema:string, temas:UserDDBB['temas'], year:string) => {
   const temasInOrder = await getTemasInOrder(year);
   const puntOfActive:number[] = [];
   const activeTemas:string[] = [];
@@ -139,7 +139,7 @@ export const getPreguntaWeight = (aciertosYFallos:AciertosYFallos|undefined, id:
 };
 
 const getActiveTemasWithPunt = async (
-  temas:userDDBB['temas'],
+  temas:UserDDBB['temas'],
   year:string,
   overwriteTemas?:string[],
   preventBreak = true,
@@ -161,7 +161,7 @@ const FNs = {
   3: getProbLevel3,
 };
 
-export const getProbByPreg = async (user:userDDBB) => {
+export const getProbByPreg = async (user:UserDDBB) => {
   const { year, temas } = user;
   const levels = ['1', '2', '3'];
   const resultad = (await Promise.all((await getActiveTemasWithPunt(temas, year)).map(

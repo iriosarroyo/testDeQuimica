@@ -190,7 +190,6 @@ export const onValueQuery = (
 const cache:{[key:string]:{[key:string]:{[key:string]:any}}} = {};
 export const filterByChildCache = (path: string, child:string, equal:string) => {
   if (cache?.[path]?.[child]?.[equal]) return cache[path][child][equal];
-  console.log(cache);
   const result = filterByChild(path, child, equal);
   cache[path] ??= {};
   cache[path][child] ??= {};

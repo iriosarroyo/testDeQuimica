@@ -2,16 +2,16 @@ import loadable from '@loadable/component';
 import GeneralStructure from 'components/GeneralStructure';
 import MyErrorContext from 'contexts/Error';
 import UserContext from 'contexts/User';
-import { User } from 'firebase/auth';
 import React, { useState, useEffect, useContext } from 'react';
 import { setColorsCustom } from 'services/colors';
 import { authState } from 'services/user';
+import { MyUser } from 'types/interfaces';
 
 const Login = loadable(() => import('../Login'));
 const NewUserForm = loadable(() => import('../NewUserForm'));
 
 export default function ContentApp() {
-  const [user, setUser]:[any, Function] = useState<User|undefined>(undefined);
+  const [user, setUser] = useState<MyUser>(undefined);
   const [loading, setLoading] = useState(false);
   const setError = useContext(MyErrorContext);
   const { userDDBB } = user ?? {};

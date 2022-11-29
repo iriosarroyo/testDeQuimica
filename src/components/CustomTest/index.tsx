@@ -5,7 +5,7 @@ import React, {
 
 import { getNumOfDays } from 'services/time';
 import {
-  CompleteUser, PreguntaTest, RoomData, RoomMember, userDDBB,
+  CompleteUser, PreguntaTest, RoomData, RoomMember, UserDDBB,
 } from 'types/interfaces';
 
 import {
@@ -38,20 +38,20 @@ const getTodaysPreguntas = async (
   path:string,
   newTest:boolean = false,
 ) => {
-  let UserDDBB: {temas?:userDDBB['temas'], year:userDDBB['year']};
+  let userDDBB: {temas?:UserDDBB['temas'], year:UserDDBB['year']};
   if (newTest) {
     await writeDDBB(path, { temas: user.userDDBB.temas, time: 0 });
     await writeUserInfo(Date.now(), 'lastTest');
-    UserDDBB = user.userDDBB;
+    userDDBB = user.userDDBB;
   } else {
-    const [temas]:[userDDBB['temas'], Error|undefined] = await readDDBB(`${path}/temas`);
+    const [temas]:[UserDDBB['temas'], Error|undefined] = await readDDBB(`${path}/temas`);
     const [time] = await readDDBB(`${path}/time`);
     setStart(time ?? 0);
-    UserDDBB = { temas, year: user.userDDBB.year };
+    userDDBB = { temas, year: user.userDDBB.year };
   }
   let preguntas;
   try {
-    [preguntas] = await getNQuestions(5, { userData: UserDDBB });
+    [preguntas] = await getNQuestions(5, { userData: userDDBB });
   } catch (e) {
     setError(e);
   }
@@ -130,7 +130,7 @@ function TestPuntuacion({
       setActive((act:number) => act + numOfPregs);
       if (config.timingMode === 'Temporizador por Pregunta') setRestartTimer();
     } catch (e) {
-      setError(e);
+      setError(e as Error);
     }
     return undefined;
   }, [createNext]);

@@ -1,8 +1,12 @@
+import { NavigateFunction } from 'react-router-dom';
 import SearchCmd from 'services/commands';
 import { copyAllQuestions, copyQuestion } from 'services/copy';
+import { writeUserInfo } from 'services/database';
+import { connectToRoom, createRoom, exitRoom } from 'services/rooms';
 import { getFromSocketUID } from 'services/socket';
 import Toast from 'services/toast';
-import { PreguntaTest } from 'types/interfaces';
+import { MyErrorContextType, PreguntaTest } from 'types/interfaces';
+import { getUser } from './shortcutTools';
 
 export const copyCmd = (
   preguntas:PreguntaTest[],
@@ -121,4 +125,131 @@ export const forceReloadAllUsers = () => SearchCmd.addCommand(
   'forceReloadAllUser',
   'Fuerza que se recarguen las páginas de todos los usuarios (sólo válido si están conectados al servidor)',
   () => getFromSocketUID('admin:reloadAllUsers'),
+);
+
+export const joinGroupCmd = (
+  navigate:NavigateFunction,
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'joinGroup',
+  'Únete a un grupo online.',
+  (room:string) => {
+    const user = getUser();
+    navigate('/online');
+    if (user === undefined) return undefined;
+    if (user.userDDBB.room !== undefined) return Toast.addMsg('Ya estás en un grupo', 5000);
+    return connectToRoom(user, room).catch((err) => setError(err));
+  },
+  {
+    name: 'codigo',
+    desc: 'Escribe el código del grupo',
+    optional: false,
+    type: ['string'],
+  },
+);
+
+export const createGroupCmd = (
+  navigate:NavigateFunction,
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'createGroup',
+  'Crea un grupo online.',
+  () => {
+    const user = getUser();
+    navigate('/online');
+    if (user === undefined) return undefined;
+    if (user.userDDBB.room !== undefined) return Toast.addMsg('Ya estás en un grupo', 5000);
+    return createRoom(user, setError);
+  },
+);
+
+export const exitGroupCmd = (
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'exitGroup',
+  'Sal del grupo online.',
+  () => {
+    const user = getUser();
+    if (user === undefined) return undefined;
+    if (user.userDDBB.room === undefined) return Toast.addMsg('No estás en ningún grupo', 5000);
+    return exitRoom(user).catch((err) => setError(err));
+  },
+);
+
+export const changeModeCmd = (
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'mode',
+  'Cambiar el modo de la página',
+  async (mode:string) => {
+    const error = await writeUserInfo(mode === 'default' ? 'null' : mode, 'mode');
+    localStorage.setItem('mode', mode);
+    if (error) setError(error);
+    else Toast.addMsg(`Modo cambiado a ${mode}`, 5000);
+  },
+  {
+    name: 'modo',
+    desc: 'Elige el estilo',
+    optional: false,
+    type: ['dark', 'light', 'custom', 'default'],
+  },
+);
+
+export const setVelocityCmd = (
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'setVelocity',
+  'Cambia la velocidad de los mensajes del pie',
+  async (velocity:number) => {
+    if (velocity < 0) {
+      Toast.addMsg('La velocidad debe ser al menos 0', 3000);
+      return;
+    }
+    const error = await writeUserInfo(velocity, 'velocidad');
+    if (error) setError(error);
+    else Toast.addMsg(`La velocidad ha cambiado a ${velocity}.`, 5000);
+  },
+  {
+    name: 'velocidad',
+    desc: 'Velocidad del mensaje (debe ser mayor que 0).',
+    optional: false,
+    type: ['number'],
+  },
+);
+
+export const setMaxNumOfSquaresCmd = (
+  setError:MyErrorContextType,
+) => SearchCmd.addCommand(
+  'setMaxNumOfSquares',
+  'Cambia el número de cuadrados que aparecen en el pie de página en los tests.',
+  async (n:number, scope:string) => {
+    if (n < 1) {
+      Toast.addMsg('El número de cuadrados debe ser un número natural');
+      return;
+    }
+    if (scope === 'local') {
+      localStorage.setItem('testDeQuimica:maxNumOfSquares', `${n - 1}`);
+      writeUserInfo(n - 1, 'localNumOfSquares');
+      return;
+    }
+    if (scope === 'both') {
+      localStorage.removeItem('testDeQuimica:maxNumOfSquares');
+    }
+    const error = await writeUserInfo(n - 1, 'numOfSquares');
+    if (error) setError(error);
+    else Toast.addMsg(`El número de cuadrados ha cambiado a ${n}.`, 3000);
+  },
+  {
+    name: 'número de cuadrados',
+    desc: 'Número de cuadrados que quieres que aparezcan en el pie (mínimo 1).',
+    optional: false,
+    type: ['int'],
+  },
+  {
+    name: 'alcance',
+    desc: 'Determina a qué afecta este cambio: "local" (solo en este navegador, por defecto), "goblal" (todos los dispositivos que no tengan un valor local determinado) o "both" (es como borrar el valor local y utilizar un nuevo valor global"',
+    optional: true,
+    type: ['local', 'global', 'both'],
+    default: 'local',
+  },
 );

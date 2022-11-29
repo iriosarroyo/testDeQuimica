@@ -5,8 +5,8 @@ import './App.css';
 import MyErrorContext from 'contexts/Error';
 import ContentApp from 'components/ContentApp';
 import shortcuts from 'info/shortcuts';
-import { Shortcut } from 'types/interfaces';
-import { useNavigate } from 'react-router-dom';
+import { FrontContextType, Shortcut } from 'types/interfaces';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
 import FrontContext from 'contexts/Front';
 import SearchCmd from 'services/commands';
@@ -34,25 +34,29 @@ const MyError = loadable(() => import('../MyError'), {
   fallback: <GeneralContentLoader />,
 });
 
-const goTo = (shortcut:Shortcut, navigate:Function, shift:boolean) => {
+const goTo = (shortcut:Shortcut, navigate:NavigateFunction, shift:boolean) => {
   if (!shortcut.url) return undefined;
   if (shift) return window.open(shortcut.url, '_blank');
   return navigate(shortcut.url);
 };
 
-const showFront = (shortcut:Shortcut, show:Function) => {
+const showFront = (shortcut:Shortcut, show:FrontContextType) => {
   if (shortcut.element) show({ elem: shortcut.element(), cb: () => {} });
 };
 
-const executeShortcut = (shortcut:Shortcut, functions:{[key:string]:Function}, shift = false) => {
-  const { navigate, setFrontElement } = functions;
+const executeShortcut = (
+  shortcut:Shortcut,
+  functions:[NavigateFunction, FrontContextType],
+  shift = false,
+) => {
+  const [navigate, setFrontElement] = functions;
   if (shortcut.action === 'goTo') return goTo(shortcut, navigate, shift);
   if (shortcut.action === 'showFront') return showFront(shortcut, setFrontElement);
   if (typeof shortcut.action === 'function') return shortcut.action(shift);
   return undefined;
 };
 
-const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) => {
+const handleKeyDown = (event:KeyboardEvent, functions:[NavigateFunction, FrontContextType]) => {
   const ctrl = event.ctrlKey ? 'Ctrl+' : '';
   const shift = event.shiftKey;
   const alt = event.altKey ? 'Alt+' : '';
@@ -68,7 +72,7 @@ const handleKeyDown = (event:KeyboardEvent, functions:{[key:string]:Function}) =
   return undefined;
 };
 
-const goToCommand = (navigate:Function) => (path:string, newPage:boolean) => {
+const goToCommand = (navigate:NavigateFunction) => (path:string, newPage:boolean) => {
   const finalPath = `/${path === 'inicio' ? '' : path}`;
   if (newPage) return window.open(finalPath, '_blank');
   return navigate(finalPath);
@@ -76,7 +80,7 @@ const goToCommand = (navigate:Function) => (path:string, newPage:boolean) => {
 
 const getPosiblePaths = () => paginas.map((x) => (!x.icon ? null : x.url.slice(1)))
   .filter((x) => x) as string[];
-const addCommands = (navigate:Function, show:Function) => {
+const addCommands = (navigate:NavigateFunction, show:FrontContextType) => {
   const cmdsOff = [SearchCmd.addCommand(
     'goTo',
     'Ve a un apartado de la página web.',
@@ -133,20 +137,24 @@ function FallbackError({ error }: { error: Error }) {
         Error:
         {error.message}
       </p>
+      <p>
+        Stack:
+        {error.stack}
+      </p>
     </div>
   );
 }
 
 function App() {
-  const [error, setError] = useState(undefined);
+  const [error, setError] = useState<Error|undefined>(undefined);
   const [toast, setToast] = useState<string|undefined>(undefined);
   const [buttonFullScreen, setButtonFullscreen] = useState(false);
   const [mantenimiento, setMantenimiento] = useState(false);
   const [frontElement, setFrontElement] = useState<{elem:ReactElement|null,
-    cb:Function, unableFocus?:boolean}>({ elem: null, cb: () => {} });
+    cb:() => any, unableFocus?:boolean}>({ elem: null, cb: () => {} });
   const { elem, cb, unableFocus } = frontElement;
   const navigate = useNavigate();
-  const functions = { navigate, setFrontElement };
+  const functions:[NavigateFunction, FrontContextType] = [navigate, setFrontElement];
   Toast.setterFn = (val:string|undefined) => setToast(val);
   useMemo(() => addCommands(navigate, setFrontElement), []);
   useEffect(
@@ -159,8 +167,8 @@ function App() {
   );
 
   useEffect(() => {
-    const unSubRight = createSwipeEvent('swiperight', -150);
-    const unSubLeft = createSwipeEvent('swipeleft', 150);
+    const unSubRight = createSwipeEvent('swiperight', -100);
+    const unSubLeft = createSwipeEvent('swipeleft', 100);
     const unSubArrows = arrowsEvent();
     return () => { unSubRight(); unSubLeft(); unSubArrows(); };
   }, []);

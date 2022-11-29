@@ -32,7 +32,7 @@ export const getFromSocketUID = (listener:string, ...params:any[]) => new Promis
   socket.emit(listener, clientUID, ...params);
 });
 
-export const eventListenerSocket = (listener:string, cb:Function) => {
+export const eventListenerSocket = (listener:string, cb:(...params: any[]) => any) => {
   const callback = (...params: any[]) => cb(...params);
   socket.on(listener, callback);
   return () => socket.off(listener, callback);

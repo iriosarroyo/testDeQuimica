@@ -1,5 +1,5 @@
-import { faCircle } from '@fortawesome/free-regular-svg-icons';
-import { faCircleDot } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCircleDot, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import ShortcutKey from 'components/ShortcutKey';
@@ -15,15 +15,16 @@ import { MyUser, Shortcut } from 'types/interfaces';
 import './Ajustes.css';
 import CustomColors from './CustomColors';
 
-const saveVelGen = () => {
+const saveParamGen = (param:string) => {
   let lastTimeout:number;
   return (velocity:number) => {
     if (lastTimeout) clearTimeout(lastTimeout);
-    lastTimeout = window.setTimeout(() => writeUserInfo(velocity, 'velocidad'), 500);
+    lastTimeout = window.setTimeout(() => writeUserInfo(velocity, param), 500);
   };
 };
 
-const saveVel = saveVelGen();
+const saveVel = saveParamGen('velocidad');
+const saveNum = saveParamGen('numOfSquares');
 
 const FUN_KEYS = ['F2', 'F4', 'F8', 'F9'];
 const PERMITTED_KEYS = ['Q', 'W', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ',
@@ -70,6 +71,7 @@ function ShortCutsPopUp({ shortcut }:{shortcut:Shortcut}) {
 
 const CHECKED_ICON = faCircleDot;
 const UNCHECKED_ICON = faCircle;
+const LIMIT = 9;
 
 export default function Ajustes() {
   const user = useContext<MyUser>(UserContext);
@@ -77,6 +79,13 @@ export default function Ajustes() {
   const mode = user?.userDDBB?.mode ?? 'null';
   const unaPorUna = user?.userDDBB?.unaPorUna ?? true;
   const [vel, setVel] = useState<number|string>(user?.userDDBB?.velocidad ?? 1);
+  const [num, setNum] = useState<number|string>((user?.userDDBB?.numOfSquares ?? LIMIT) + 1);
+  const [overwrite, setOverwrite] = useState<boolean>(false);
+  const [numLocal, setNumLocal] = useState<number|string>(() => {
+    const local = localStorage.getItem('testDeQuimica:maxNumOfSquares');
+    if (local === null) return num;
+    return Number(local) + 1;
+  });
   const [shortId, setShortId] = useState<string|null>(null);
   const notificaciones = user?.userDDBB?.notificaciones ?? true;
 
@@ -84,6 +93,22 @@ export default function Ajustes() {
     setVel(user?.userDDBB?.velocidad ?? 1);
   }, [user?.userDDBB?.velocidad]);
 
+  useEffect(() => {
+    setNum((user?.userDDBB?.numOfSquares ?? LIMIT) + 1);
+  }, [user?.userDDBB?.numOfSquares]);
+
+  const localMaxNum = localStorage.getItem('testDeQuimica:maxNumOfSquares');
+  useEffect(() => {
+    if (localMaxNum === null) {
+      setNumLocal(num);
+    } else {
+      setNumLocal(Number(localMaxNum) + 1);
+    }
+  }, [num, localMaxNum]);
+
+  useEffect(() => {
+    setOverwrite(localMaxNum !== null);
+  }, [localMaxNum]);
   const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
     const newMode = e.target.value;
     writeUserInfo(newMode, 'mode');
@@ -103,6 +128,24 @@ export default function Ajustes() {
     saveVel(newVel === '' ? 0 : Number(newVel));
   };
 
+  const handleNumCuadrados = (e:ChangeEvent<HTMLInputElement>) => {
+    let newNum:number|'' = parseInt(e.target.value, 10);
+    if (Number.isNaN(newNum)) newNum = '';
+    if (newNum < 1) newNum = 1;
+    setNum(newNum);
+    saveNum(newNum === '' ? 0 : newNum - 1);
+  };
+
+  const handleNumCuadradosLocal = (e:ChangeEvent<HTMLInputElement>) => {
+    if (localStorage.getItem('testDeQuimica:maxNumOfSquares') === null) return;
+    let newNum:number|'' = parseInt(e.target.value, 10);
+    if (Number.isNaN(newNum)) newNum = '';
+    if (newNum < 1) newNum = 1;
+    setNumLocal(newNum);
+    localStorage.setItem('testDeQuimica:maxNumOfSquares', `${newNum === '' ? 0 : newNum - 1}`);
+    writeUserInfo(newNum, 'localNumOfSquares');
+  };
+
   const handleNotificaciones = (e:ChangeEvent<HTMLInputElement>) => {
     const newNot = e.target.checked;
     writeUserInfo(newNot, 'notificaciones');
@@ -110,6 +153,15 @@ export default function Ajustes() {
 
   const handleClick = (shortcut:Shortcut) => {
     setShortId(shortcut.id);
+  };
+
+  const handleOverwrite = () => {
+    setOverwrite((currOver) => {
+      if (!currOver) localStorage.setItem('testDeQuimica:maxNumOfSquares', `${user?.userDDBB?.numOfSquares ?? LIMIT}`);
+      else localStorage.removeItem('testDeQuimica:maxNumOfSquares');
+      writeUserInfo(LIMIT, 'localNumOfSquares');
+      return !currOver;
+    });
   };
 
   useEffect(() => {
@@ -185,6 +237,33 @@ export default function Ajustes() {
           (Medido en px avanzados en 10ms)
         </div>
         <input className="styledInputAjustes" type="number" min="0" step="0.5" value={vel} onChange={handleVelocidad} />
+      </div>
+      <div>
+        <h3 className="titleAjustes">Número de cuadrados</h3>
+        <div>
+          Determina el número de cuadrados que aparecen en el pie de página de los tests.
+        </div>
+        <form className="formAjuste">
+          <label htmlFor="globalNum">
+            <strong>Global</strong>
+            <input className="styledInputAjustes" id="globalNum" type="number" min="1" step="1" value={num} onChange={handleNumCuadrados} />
+          </label>
+          <label htmlFor="localOverwrite">
+            <input className="styledInputAjustes" id="localOverwrite" type="checkbox" onChange={handleOverwrite} checked={overwrite} hidden />
+            <FontAwesomeIcon
+              icon={overwrite ? faSquareCheck : faSquare}
+            />
+            <span>
+              Sobreescribir global
+              {' '}
+              (si está marcado en este navegador se usará la configuración local)
+            </span>
+          </label>
+          <label htmlFor="localNum" className={!overwrite ? 'disabledAjustes' : ''}>
+            <strong>Local</strong>
+            <input className="styledInputAjustes" id="localNum" type="number" min="1" step="1" value={numLocal} onChange={handleNumCuadradosLocal} disabled={!overwrite} />
+          </label>
+        </form>
       </div>
       <div hidden>
         <h3 className="titleAjustes">Notificaciones</h3>

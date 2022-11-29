@@ -1,6 +1,6 @@
 import { PATHS_DDBB } from 'info/paths';
 import gen from 'random-seed';
-import { PreguntaTest, userDDBB } from 'types/interfaces';
+import { PreguntaTest, UserDDBB } from 'types/interfaces';
 import { filterByChildCache } from './database';
 import { QuestionError } from './errores';
 import {
@@ -9,7 +9,7 @@ import {
 } from './probability';
 import { getNumOfDays } from './time';
 
-type UserData = {temas?:userDDBB['temas'], year:userDDBB['year']}
+type UserData = {temas?:UserDDBB['temas'], year:UserDDBB['year']}
 interface PreguntasGenParams {
     userData:UserData,
     seed?: number| string,
@@ -28,7 +28,7 @@ const weightedProbability = <T>(rng: gen.RandomSeed, weights:[T, number][], sum 
 };
 
 const getActiveTemasWithPunt = async (
-  temas:userDDBB['temas'],
+  temas:UserDDBB['temas'],
   year:string,
   overwriteTemas?:string[],
   factor = 1,
@@ -70,7 +70,7 @@ type WeightsPregsPerLevel = {[k:string]:[{[k:string]:number}, number]|undefined}
 const calculateWeightPerQuestion = async (
   levelYTema:string,
   allQuestions:boolean|undefined,
-  temas:userDDBB['temas'],
+  temas:UserDDBB['temas'],
   weightsPregsPerLvl:WeightsPregsPerLevel,
   pregsPerLvl:PregsPerLevel,
   previousIds:Set<string>,
@@ -116,8 +116,8 @@ const NUM_OF_TRIES = 1000; // try 1000 times to get question
 // factor multiplies puntuation by that factor, so new topics are more probable
 // and more difficult questions are also more probable
 const prepareVarsForGen = async (
-  temas:userDDBB['temas'],
-  year:userDDBB['year'],
+  temas:UserDDBB['temas'],
+  year:UserDDBB['year'],
   overwriteTemas:PreguntasGenParams['overwriteTemas'],
   overwriteLevels: PreguntasGenParams['overwriteLevels'],
   factor = 1,

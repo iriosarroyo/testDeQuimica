@@ -1,6 +1,6 @@
 import { FullMetadata } from 'firebase/storage';
 import {
-  ChangeEventHandler, Dispatch, MouseEventHandler, SetStateAction,
+  ChangeEventHandler, Dispatch, MouseEventHandler, ReactElement, SetStateAction,
 } from 'react';
 import maxAndMin from 'info/maxAndMinTabla.json';
 import { User } from 'firebase/auth';
@@ -28,10 +28,14 @@ export interface FileData extends FullMetadata{
     error:string|undefined,
     setError:Dispatch<SetStateAction<undefined>>|void
   } */
-export type MyErrorContextType = Dispatch<SetStateAction<undefined>> |
-                                 Dispatch<SetStateAction<string>> |
-                                 void |
-                                 any
+export type MyErrorContextType = Dispatch<SetStateAction<undefined|Error>>
+
+export type FrontContextType = Dispatch<SetStateAction<{
+  cb: () => any,
+  // eslint-disable-next-line no-undef
+  elem: ReactElement|null,
+  unableFocus?:boolean
+}>>
 
 interface FormErrorObject{
     message: string,
@@ -166,9 +170,10 @@ export type LogrosKeys = 'numberOf10' | 'testDeHoySeguidos' | 'mensajes' | 'form
 export const logrosTypes = ['General', 'Test De Hoy', 'Documentos', 'Online'] as const;
 export type LogrosTypes = typeof logrosTypes[number];
 export type Logro = {value:number, data?:any}|undefined
-export interface userDDBB{
+export interface UserDDBB{
   admin: boolean|undefined,
   editor?:boolean,
+  numOfSquares?:number,
   room: string|undefined,
   group:string,
   mobile:string,
@@ -189,10 +194,10 @@ export interface userDDBB{
 }
 
 export interface CompleteUser extends User{
-  userDDBB:userDDBB,
+  userDDBB:UserDDBB,
 }
 
-export interface UserDDBBAdmin extends userDDBB{
+export interface UserDDBBAdmin extends UserDDBB{
   connected:boolean,
   lastConnection: undefined|number
 }
@@ -243,8 +248,8 @@ export type DifficultyLevels = 'Personalizado'|'Fácil'|'Medio'|'Difícil'|'User
 type LevelsKeys = '1'|'2'|'3'
 export interface RoomData{
   adminStats:{
-    temas?:userDDBB['temas']
-    year:userDDBB['year']
+    temas?:UserDDBB['temas']
+    year:UserDDBB['year']
   },
   probLevels:{
     [k in LevelsKeys]: number
@@ -324,3 +329,5 @@ export interface Stats{
   statsTime:TimeStats,
   statsTests:TestStats
 }
+
+export type HandleChangeOnline<T extends keyof RoomData> = (value:RoomData[T], param:T) => void

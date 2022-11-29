@@ -29,7 +29,7 @@ import { GrupoNoPermission } from 'services/errores';
 import { updateLogrosTest } from 'services/logros';
 import { getFromSocketUID } from 'services/socket';
 import Toast from 'services/toast';
-import { Answer, PreguntaTest, userDDBB } from 'types/interfaces';
+import { Answer, PreguntaTest, UserDDBB } from 'types/interfaces';
 import './Test.css';
 
 function Cuadrado({
@@ -70,12 +70,15 @@ function CuadradoGroup({
   corrAnswers:{[key:string]:string},
   preventPrevious:boolean, corregido: boolean,
   setActive:(idx:number)=>void, max:number, min:number, answers:{[k:string]:Answer|undefined} }) {
+  const { userDDBB: user } = useContext(UserContext)!;
   const [offset, setOffset] = useState(0);
-  const inicio = min - Math.trunc((LIMIT - (max - min)) / 2) + offset * LIMIT;
-  let start = Math.max(Math.min(Math.max(inicio, 0), preguntas.length - LIMIT - 1), 0);
+  const limit = Number((localStorage.getItem('testDeQuimica:maxNumOfSquares') ?? user.numOfSquares) ?? LIMIT);
+  useEffect(() => setOffset(0), [limit]);
+  const inicio = min - Math.trunc((limit - (max - min)) / 2) + offset * (limit + 1);
+  let start = Math.max(Math.min(Math.max(inicio, 0), preguntas.length - limit - 1), 0);
   if (!Number.isFinite(start)) start = startGlobal;
   startGlobal = start;
-  const end = start + LIMIT + 1;
+  const end = start + limit + 1;
   return (
     <div className="testNavegacion">
       {start > 0
@@ -330,16 +333,16 @@ const addUserQuestions = () => {
   return {
     setAbleToAdd: () => { ableToAdd = true; },
     executeAddUser: (
-      temas: userDDBB['temas'],
+      temas: UserDDBB['temas'],
       preguntas:PreguntaTest[],
       answers:{[key:string]:Answer|undefined},
       corrAnswers:{[key:string]:string},
       path:string,
-      user:userDDBB,
+      user:UserDDBB,
       puntType:'Puntos'|'Aciertos'|'Fallos'|undefined,
     ) => {
       if (!ableToAdd) return;
-      const newTemas: NonNullable<userDDBB['temas']> = JSON.parse(JSON.stringify(temas ?? {})); // Deep copy
+      const newTemas: NonNullable<UserDDBB['temas']> = JSON.parse(JSON.stringify(temas ?? {})); // Deep copy
       let [blank, correct, incorrect] = Array(3).fill('') as ''[];
       preguntas.forEach(({ nivelYTema, id }) => {
         const [tema, nivel] = nivelYTema.split('_');

@@ -5,7 +5,7 @@ import {
 } from 'firebase/auth';
 import { updateTemas } from 'info/temas';
 import React from 'react';
-import { userDDBB } from 'types/interfaces';
+import { UserDDBB } from 'types/interfaces';
 import { onValueDDBB, readDDBB } from './database';
 import { SocketError } from './errores';
 import { auth } from './firebaseApp';
@@ -54,7 +54,7 @@ export const authState = (
         }
         const setValueOff = onValueUser(
           user,
-          (userDatabase:userDDBB) => setUser({ userDDBB: userDatabase, ...user }),
+          (userDatabase:UserDDBB) => setUser({ userDDBB: userDatabase, ...user }),
           setError,
         );
         off = () => {

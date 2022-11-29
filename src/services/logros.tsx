@@ -3,7 +3,7 @@ import GeneralContentLoader from 'components/GeneralContentLoader';
 import logrosJSON from 'info/logros.json';
 import React, { MouseEvent } from 'react';
 import {
-  CompleteUser, Logro, Logros, LogrosKeys, userDDBB,
+  CompleteUser, Logro, Logros, LogrosKeys, UserDDBB,
 } from 'types/interfaces';
 import isApp from './determineApp';
 import { getAllPuntuaciones } from './probability';
@@ -40,11 +40,11 @@ export const updateDownloadedDocs = (e:MouseEvent, user:CompleteUser, name:strin
 };
 
 export const updateLogrosTest = (
-  user:userDDBB,
+  user:UserDDBB,
   isTestDeHoy:boolean,
   numDePregs:number,
   punt:number,
-  temas: userDDBB['temas'],
+  temas: UserDDBB['temas'],
 ) => {
   sendLogroUpdate('testsDone', user.logros?.testsDone);
   sendLogroUpdate('preguntasDone', user.logros?.preguntasDone, numDePregs);

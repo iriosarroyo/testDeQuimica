@@ -7,11 +7,14 @@ import { Link } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { logros } from 'services/logros';
 
-function LogroComplete({ logroId, fn }:{logroId:string, fn?:() => void}) {
+export default function LogroComplete({ logroId, fn }:{logroId:string, fn?:() => void}) {
   const logro = useMemo(() => logros.find(({ id }) => id === logroId), [logroId]);
   const setFront = useContext(FrontContext);
   const { height, width } = useWindowSize();
-  if (logro === undefined) return setFront({ elem: null, cb: () => {} });
+  if (logro === undefined) {
+    setFront({ elem: null, cb: () => {} });
+    return null;
+  }
   const { name, description, stars } = logro;
   return (
     <div>
@@ -41,5 +44,3 @@ function LogroComplete({ logroId, fn }:{logroId:string, fn?:() => void}) {
 LogroComplete.defaultProps = {
   fn: undefined,
 };
-
-export default LogroComplete;

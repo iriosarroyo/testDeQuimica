@@ -89,7 +89,7 @@ const getStrQuestion = (question:PreguntaTest, ans:string|undefined, whatsapp:bo
     const val = opt.id === ans ? `<strong>${opt.value}</strong>` : opt.value;
     strQuestion += `<li>${val}</li>`;
   });
-  strQuestion += `</ol>(<em>${question.id}, ${(getTemas() as any)[question.tema]}, Nivel ${question.level}</em>)`;
+  strQuestion += `</ol><em>(${question.id}, ${(getTemas() as any)[question.tema]}, Nivel ${question.level})</em>`;
   if (whatsapp) strQuestion = translateToWhatsapp(strQuestion);
   return strQuestion;
 };

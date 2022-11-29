@@ -1,18 +1,19 @@
 import Button from 'components/Button';
 import React from 'react';
+import { DifficultyLevels, HandleChangeOnline, RoomData } from 'types/interfaces';
 
-interface configChangingButton{
+interface ConfigChangingButton{
     title: string,
     text:string,
     values:string[],
     descriptions?:string[],
-    onChange:Function,
+    onChange:(v:string) => any,
     notEditable?:boolean|string,
     notEditableText?:string,
 }
 
 export default function ChangingButton({ className, config }:
-    {className:string|undefined, config:configChangingButton}) {
+    {className:string|undefined, config:ConfigChangingButton}) {
   const {
     text, values, descriptions, onChange, title, notEditable,
     notEditableText = '',
@@ -35,7 +36,7 @@ export default function ChangingButton({ className, config }:
   );
 }
 
-export function ModoChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+export function ModoChangingButton({ text, handleChange }:{text:string, handleChange:HandleChangeOnline<'mode'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -48,13 +49,13 @@ export function ModoChangingButton({ text, handleChange }:{text:string, handleCh
           'Tu puntuación será igual al número de aciertos.',
           'Tu puntuación será igual al número de fallos. Las preguntas en blanco cuentan como fallo.',
         ],
-        onChange: (val:string) => handleChange(val, 'mode'),
+        onChange: (val) => handleChange(val as RoomData['mode'], 'mode'),
       }}
     />
   );
 }
 
-export function ChatChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+export function ChatChangingButton({ text, handleChange }:{text:string, handleChange:HandleChangeOnline<'chat'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -68,12 +69,12 @@ export function ChatChangingButton({ text, handleChange }:{text:string, handleCh
           'Solo los observadores pueden acceder al chat durante el test. Aquí (en el "lobby") todos pueden acceder al chat.',
           'Solo se puede hacer al chat aquí (no durante el examen)',
           'Chat desactivado.'],
-        onChange: (val:string) => handleChange(val, 'chat'),
+        onChange: (val) => handleChange(val as RoomData['chat'], 'chat'),
       }}
     />
   );
 }
-export function TypeChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+export function TypeChangingButton({ text, handleChange }:{text:string, handleChange:HandleChangeOnline<'type'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -86,14 +87,14 @@ export function TypeChangingButton({ text, handleChange }:{text:string, handleCh
           'Cualquier persona con el código puede unirse.',
           'Nadie puede unirse.',
         ],
-        onChange: (val:string) => handleChange(val, 'type'),
+        onChange: (val) => handleChange(val as RoomData['type'], 'type'),
       }}
     />
   );
 }
 
 export function DifficultChangingButton({ text, handleChange }:
-  {text:string, handleChange:Function}) {
+  {text:string, handleChange:HandleChangeOnline<'difficulty'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -105,14 +106,14 @@ export function DifficultChangingButton({ text, handleChange }:
           'Se usan las probabilidades indicadas a continuación. El administrador puede cambiar los pesos de los niveles, a partir de los cuales se calcula la probabilidad (derecha)',
           'Se usan las estadísticas del administrador para determinar la dificultad.',
         ],
-        onChange: (val:string) => handleChange(val, 'difficulty'),
+        onChange: (val) => handleChange(val as DifficultyLevels, 'difficulty'),
       }}
     />
   );
 }
 
 export function TemasChangingButton({ text, handleChange }:
-  {text:string, handleChange:Function}) {
+  {text:string, handleChange:HandleChangeOnline<'tema'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -124,14 +125,14 @@ export function TemasChangingButton({ text, handleChange }:
           'Se usan las estadísticas del administrador para determinar los temas que deben de aparecer.',
           'Configura los temas que quieres que aparezcan a tu gusto.',
         ],
-        onChange: (val:string) => handleChange(val, 'tema'),
+        onChange: (val) => handleChange(val as RoomData['tema'], 'tema'),
       }}
     />
   );
 }
 
 export function RepetidasChangingButton({ text, handleChange }:
-  {text:string, handleChange:Function}) {
+  {text:string, handleChange:HandleChangeOnline<'repetidas'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -143,7 +144,7 @@ export function RepetidasChangingButton({ text, handleChange }:
           'Pueden aparecen aquellas preguntas que el administrador ha acertado varias veces.',
           'No aparecen aquellas preguntas que el administrador ha acertado varias veces.',
         ],
-        onChange: (val:string) => handleChange(val, 'repetidas'),
+        onChange: (val) => handleChange(val as RoomData['repetidas'], 'repetidas'),
       }}
     />
   );
@@ -153,7 +154,7 @@ export function EnBlancoChangingButton({
   text, notEditable, notEditableText, handleChange,
 }:
   {text:string, notEditableText:string,
-    notEditable:string|boolean, handleChange:Function}) {
+    notEditable:string|boolean, handleChange:HandleChangeOnline<'inBlanco'>}) {
   return (
     <ChangingButton
       className="onlineChanging"
@@ -163,7 +164,7 @@ export function EnBlancoChangingButton({
         values: ['Sí', 'No'],
         descriptions: ['Las preguntas en blanco cuentan 0 puntos.',
           'Las preguntas en blanco cuentan como fallos.'],
-        onChange: (val:string) => handleChange(val, 'inBlanco'),
+        onChange: (val) => handleChange(val as RoomData['inBlanco'], 'inBlanco'),
         notEditable,
         notEditableText,
       }}
@@ -171,7 +172,8 @@ export function EnBlancoChangingButton({
   );
 }
 
-export function TimingChangingButton({ text, handleChange }:{text:string, handleChange:Function}) {
+export function TimingChangingButton({ text, handleChange }:
+  {text:string, handleChange:Function}) {
   return (
     <ChangingButton
       className="onlineChanging"
