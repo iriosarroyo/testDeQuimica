@@ -29,6 +29,7 @@ function EmailBody({ emailData, setVal }:{
   const { html: value = '' } = emailData;
   const user = useContext(UserContext)!;
   const handleChange = (e:string) => {
+    if (e === value) return;
     getFromSocketUID('notification:saveEmail', { ...emailData, html: e });
     setVal((curr) => ({ ...curr, html: e }));
   };
