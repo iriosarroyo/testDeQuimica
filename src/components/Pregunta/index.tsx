@@ -52,14 +52,6 @@ correctAnswer:string|undefined}) {
 
   return (
     <div className={`pregunta ${correctAnswer !== undefined && `preguntaCorregida ${classCorregida}`}`} id={id} ref={myRef}>
-      <Button
-        className="copyPregunta"
-        title="Haz click para copiar la pregunta en formato WhatsApp. Si pulsas ctrl lo copias con formato html (válido para email, Word...)"
-        onClick={handleCopyClick}
-      >
-        <FontAwesomeIcon icon={faClipboard} />
-
-      </Button>
       <h4
         className="enunciadoPregunta"
         dangerouslySetInnerHTML={{ __html: text }}
@@ -78,6 +70,14 @@ correctAnswer:string|undefined}) {
         setter={(val:string) => correctAnswer === undefined && setValue(val, id)}
       />
       <PiePregunta answer={answer} correcta={correctAnswer} notInBlanco={notInBlanco} />
+      <Button
+        className="copyPregunta"
+        title="Haz click para copiar la pregunta en formato WhatsApp. Si pulsas ctrl lo copias con formato html (válido para email, Word...)"
+        onClick={handleCopyClick}
+      >
+        <FontAwesomeIcon icon={faClipboard} />
+
+      </Button>
     </div>
   );
 }

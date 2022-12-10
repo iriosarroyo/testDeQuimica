@@ -331,3 +331,14 @@ export interface Stats{
 }
 
 export type HandleChangeOnline<T extends keyof RoomData> = (value:RoomData[T], param:T) => void
+
+export interface GroupNotif{
+  name:string,
+  id:string,
+  disabled?:boolean
+  people:{
+      completeName?:string,
+      email:string,
+      uid:string,
+  }[]
+}

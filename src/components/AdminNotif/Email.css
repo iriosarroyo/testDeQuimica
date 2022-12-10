@@ -1,0 +1,119 @@
+.emailToList{
+    display: inline;
+}
+
+.emailToList > li{
+    display: inline-block;
+    position: relative;
+    width: max-content;
+    padding: 2px 10px;
+    margin: 2px 5px;
+    border-radius: 25px;
+    color: var(--font2-color);
+    background-color: var(--bg2-color);
+}
+
+.tooltipEmailGroup,
+.tooltipEmailUser{
+    font-size: .8em;
+    position: absolute;
+    left: 0px;
+    background-color: inherit;
+    text-align: left;
+    border-radius: 10px;
+    display: none;
+    z-index: 2;
+    padding: 5px 20px;
+}
+
+.emailToList > li:hover .tooltipEmailGroup,
+.emailToList > li:hover .tooltipEmailUser{
+ display: block;
+}
+
+.deleteItemToList{
+    background-color: inherit;
+    color: var(--bg-red-color);
+}
+
+.emailToList.emailToUser > li,
+.emailToList.emailToEmail > li{
+    background-color: var(--bg3-color);
+}
+
+.titleEmail{
+    margin: 8px 0 2px 0;
+}
+
+.emailContent{
+    padding: 5px 10px;
+    text-align: left;
+    height: max-content;
+    width: 100%;
+    max-width: 600px;
+}
+.infoEmail{
+    font-size: .8em;
+}
+.emailNotValidEmail{
+    background-color: var(--bg-red-color);
+    color: var(--bg2-color);
+    padding: 1px 10px;
+    font-weight: bold;
+    font-size: .8em;
+}
+
+.inputEmail{
+    width: 100%;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border:none;
+    border-radius: 25px;
+    padding: 2px 10px;
+}
+
+.infoEmail:focus{
+    outline:2px solid white;
+}
+.sendButton{
+    display: block;
+    margin: 5px 0 5px auto;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.possForToEmail{
+    max-height: 100px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 2;
+    scrollbar-width: 5px;
+    border-radius: 10px;
+}
+
+.possForToEmail::-webkit-scrollbar {
+    max-width: 5px;
+}
+.possForToEmail button{
+ width: 100%;
+ display: block;
+ text-align: left;
+ font-size: .8em;
+ height: 100%;
+ background-color: inherit;
+ color: var(--font2-color);
+}
+
+.possGroupForToEmail{
+    background-color: var(--bg2-color);
+}
+
+.possUserForToEmail{
+    background-color: var(--bg3-color);
+}
+
+.formForPossibilities{
+    position: relative;
+}

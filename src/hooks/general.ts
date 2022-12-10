@@ -5,13 +5,13 @@ type CbAsync<T, R> = (
     result:T,
      setter:React.Dispatch<React.SetStateAction<R|null>>) => void
 
-export function useAsync<T>(promise:Promise<T>, effects:any[], cb:CbAsync<T, T>):
+export function useAsync<T>(promise:() => Promise<T>, effects?:any[], cb?:CbAsync<T, T>):
      [T, React.Dispatch<React.SetStateAction<T|null>>];
-export function useAsync<T, R>(promise:Promise<T>, effects:any[], cb:CbAsync<T, R>):
+export function useAsync<T, R>(promise:() => Promise<T>, effects?:any[], cb?:CbAsync<T, R>):
 [R, React.Dispatch<React.SetStateAction<R|null>>];
 
 export function useAsync<T>(
-  promise: Promise<T>,
+  promise: () => Promise<T>,
   effects:any[] = [],
   cb: CbAsync<T, T> = (
     res:T,
@@ -20,7 +20,7 @@ export function useAsync<T>(
 ) {
   const [value, setValue] = useState<T|null>(null);
   useEffect(() => {
-    promise.then((res) => cb(res, setValue));
+    promise().then((res) => cb(res, setValue));
   }, effects);
   return [value, setValue];
 }

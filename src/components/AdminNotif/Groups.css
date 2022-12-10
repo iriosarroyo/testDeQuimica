@@ -1,0 +1,171 @@
+.groupsMainContent{
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 600px;
+}
+.createGroupNotif{
+    position: sticky;
+    top: 5px;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 30px;
+    column-gap: 5px;
+}
+
+.createGroupNotif>button,
+.createGroupNotif>input{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border-radius: 12px;
+    padding: 2px 7px;
+    font-size: 1.2em;
+}
+.createGroupNotif>input{
+    border: none;
+    width: 100%;
+}
+.createGroupNotif>input::placeholder{
+    color: var(--font2-color);
+    opacity: .8;
+}
+.headContentGroup{
+    margin: 5px 0;
+}
+.headContentGroup > button{
+    width: 100%;
+    background-color: var(--font2-color);
+    color: var(--bg2-color);
+    text-align: left;
+}
+.headContentGroup span {
+    margin-left: 5px;
+}
+
+.groupList{
+    overflow: hidden;
+    max-height: 0;
+    height: 999999px;
+    text-align: left;
+    transform: translateX(-999px);
+    transition-duration: var(--time);
+    transition-property: transform, max-height, height;
+}
+
+.iconGroups{
+    transition: transform var(--time);
+    transform: rotate(0);
+}
+.iconGroups.visibleIcon{
+    transform: rotate(90deg);
+}
+
+.groupList > li{
+    padding: 2px 0;
+    opacity: 0;
+    transition: all calc(0.75 * var(--time)); 
+}
+
+.groupList > li > div{
+    display: grid;
+    word-break: break-word;
+    grid-template-columns: auto 30px;
+    column-gap: 5px;
+}
+
+.groupList.visibleList > li{
+    opacity: 1;
+    transition-delay: 250ms;
+}
+
+.groupList.visibleList{
+    max-height: 9999px;
+    min-height: 140px;
+    height: auto;
+    transform: translateX(0px);
+
+}
+
+.groupNotif{
+    --time: 1s
+}
+
+.deleteMemberNotif{
+    background-color: var(--bg2-color);
+    color: var(--bg-red-color);
+    border-radius: 5px;
+    padding: 1px 7px;
+    height: 25px;
+}
+
+.listItemForm{
+    list-style: none;
+}
+
+.listItemForm input{
+    border:none;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    border-radius: 25px;
+    width: 100%;
+    font-size: 1.1em;
+    padding: 2px 10px;
+}
+
+.emailNotValidGroup{
+    background-color: var(--bg-red-color);
+    color: var(--bg2-color);
+    padding: 1px 10px;
+    font-weight: bold;
+}
+.formAddMemberNotif{
+    position: relative;
+}
+
+.absoluteFormAddMember{
+    top: 25px;
+    position: absolute;
+    font-size: .9em;
+    overflow: auto;
+    max-height: 100px;
+    z-index: 1;
+    scrollbar-width: 5px;
+    border-radius: 10px;
+}
+.absoluteFormAddMember button{
+    font-size: inherit;
+    color: inherit;
+    background-color: inherit;
+    padding: 0;
+    margin:0;
+    width: 100%;
+    text-align: left;
+}
+
+.absoluteFormAddMember::-webkit-scrollbar {
+  max-width: 5px;
+}
+
+.possListNotif{
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+    padding: 5px 10px;
+}
+.formAddMemberNotif>input::placeholder{
+    color: var(--font2-color);
+    opacity: .8;
+}
+
+.formRenameGroup{
+    display: inline;
+    margin-left: 5px;
+}
+
+.formRenameGroup > input{
+    border: none;
+    border-radius: 10px;
+    padding: 2px 10px;
+    background-color: var(--bg2-color);
+    color: var(--font2-color);
+}

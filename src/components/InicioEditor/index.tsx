@@ -11,10 +11,11 @@ import './InicioEditor.css';
 import { faFloppyDisk, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import editorSetUp from 'services/editorSetUp';
+import GeneralContentLoader from 'components/GeneralContentLoader';
 
 export default function InicioEditor() {
   const user = useContext(UserContext)!;
-  const [text, setText] = useState({ content: 'Escriba aquí para introducir un nuevo texto de inicio' });
+  const [text, setText] = useState<{content:string}|null>(null);
   const editorRef = useRef<Editor>(null);
   const [saved, setSaved] = useState(true);
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function InicioEditor() {
     if (saved) setSaved(false);
     setValueSocket('main:inicio:content', editor.getContent(), 3000);
   };
+  if (text === null) return <GeneralContentLoader />;
   return (
     <div className="inicioEditor">
       <div className="savedIconContainer">
@@ -61,7 +63,6 @@ export default function InicioEditor() {
             { title: 'Spanish', code: 'es' },
           ],
           skin: user.userDDBB.mode === 'dark' ? 'oxide-dark' : 'oxide',
-          content_css: user.userDDBB.mode,
           setup: (editor:TinyEditor) => {
             editorSetUp(editor);
           },

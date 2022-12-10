@@ -395,7 +395,7 @@ a.dataInfo {
   padding: 0;
 }
 
-.unlisted li {
+.unlisted>li {
   list-style: none;
 }
 

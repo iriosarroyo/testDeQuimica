@@ -53,7 +53,7 @@
       }
     },
     "users": {
-      ".indexOn": ["admin", "username"],
+      ".indexOn": ["admin", "username", "year", "editor"],
       "$user": {
         ".read": "$user==auth.uid",
         ".write": "$user==auth.uid",

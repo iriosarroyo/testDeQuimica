@@ -8,6 +8,7 @@ import {
   faChartLine,
   faChartPie,
   faEdit,
+  faEnvelope,
   faFilePen,
   faGraduationCap,
   faHome,
@@ -86,6 +87,9 @@ const StatsAdmin = loadable(() => import('components/StatsAdmin'), {
 const FrasesCuriosasEditor = loadable(() => import('components/FrasesCuriosasEditor'), {
   fallback: <GeneralContentLoader />,
 });
+const AdminNotif = loadable(() => import('components/AdminNotif'), {
+  fallback: <GeneralContentLoader />,
+});
 const Valoracion = loadable(() => import('components/Valoracion'), {
   fallback: <GeneralContentLoader />,
 });
@@ -160,6 +164,8 @@ export const paginasAdmin:Paginas = [
   newPagina('Perfiles', '/admin/perfiles', faUsersGear, 'Ctrl+Alt+Y', <PerfilesAdmin />, true, ['/perfiles/*']),
   newPagina('Estadísticas (admin)', '/admin/estadisticas', faChartPie, 'Ctrl+Alt+B', <StatsAdmin />, true, ['estadisticas/*']),
   newPagina('Datos Curiosos', '/admin/datosCuriosos', faBook, 'Ctrl+Alt+M', <FrasesCuriosasEditor />),
+  newPagina('Notificaciones', '/admin/notificaciones/grupos', faEnvelope, 'Ctrl+Alt+F', <AdminNotif />, true, ['notificaciones/*']),
+  newPagina('Error404', '/admin/*', undefined, undefined, <Error404 />),
 ];
 
 export const paginasEditor:Paginas = [

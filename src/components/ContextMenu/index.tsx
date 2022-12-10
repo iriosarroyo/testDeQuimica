@@ -1,5 +1,7 @@
 import Button from 'components/Button';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, MouseEvent as ME,
+} from 'react';
 import './ContextMenu.css';
 
 export default function ContextMenu({
@@ -7,7 +9,7 @@ export default function ContextMenu({
 }:
     {style:React.CSSProperties,
     setContextMenu:Function,
-    items:{text:string, action:Function}[]
+    items:{text:string, action:(e:ME) => any}[]
      classOfElem:string}) {
   const ref = useRef<HTMLUListElement>(null);
   const [myStyle, setStyle] = useState(style);
