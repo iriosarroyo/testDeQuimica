@@ -50,7 +50,6 @@ export const eventListUsers = (cb:Function) => {
 };
 
 const SERVER_PATH = process.env.REACT_APP_SERVER ?? '';
-console.log(SERVER_PATH);
 export const createSocket = (
   tokenId:string,
   setLoading:React.Dispatch<React.SetStateAction<boolean>>,

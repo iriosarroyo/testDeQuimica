@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import SearchCmd from 'services/commands';
 import { copyAllQuestions, copyQuestion } from 'services/copy';
@@ -253,3 +254,5 @@ export const setMaxNumOfSquaresCmd = (
     default: 'local',
   },
 );
+
+export const statsCmd = (setVisible:Dispatch<SetStateAction<boolean>>) => SearchCmd.addCommand('showStats', 'Muestra la cpu y ram del servidor abajo a la derecha', () => setVisible(true));

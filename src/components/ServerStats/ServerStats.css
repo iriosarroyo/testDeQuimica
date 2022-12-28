@@ -1,0 +1,46 @@
+.serverStats{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    background-color: var(--bg2-color);
+    color:var(--font2-color);
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-size: .9em;
+    width: 150px;
+    z-index: 2;
+    text-align: right;
+}
+.serverStats > div:first-child{
+    margin-bottom: 5px;
+}
+
+.serverStats > button{
+    display: inline-block;
+    background: none;
+    color: var(--font2-color);
+}
+
+.gridServerStats{
+    display: grid;
+    grid-template-columns: 60px auto;
+}
+.gridServerStats > strong{
+    text-align: left;
+}
+.gridServerStats > span{
+    text-align: right;
+}
+
+.percBarServeStats{
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: var(--font2-color);
+}
+
+.percBarServeStats > div{
+    height: 100%;
+    background-color: var(--bg-color);
+}

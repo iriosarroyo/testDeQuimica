@@ -175,7 +175,6 @@ function TestFooter({
     .map(([idx]) => (typeof idx === 'number' ? idx : 0));
   const firstDisplayed = Math.min(...displayedQuestions);
   const lastDisplayed = Math.max(...displayedQuestions);
-
   const goToSiguiente = () => {
   // const lastId = preguntas[preguntas.length - 1]?.id;
     const lastId = preguntas[active]?.id;
@@ -208,7 +207,6 @@ function TestFooter({
     setObserver(createIntersectionObserver(thisRef.current, observerCb));
     return () => observer?.disconnect();
   }, [thisRef, unaPorUna]);
-
   useEffect(() => {
     if (!observer) return undefined;
     if (refs && refs.current) {
@@ -414,6 +412,7 @@ export default function Test({
   const [active, setActive] = useState<number>(0);
   const [corregido, setCorregido] = useState<boolean>(false);
   const childrenRef = useRef<HTMLDivElement[]>([]);
+  const [, updateAfterRef] = useState(0);
   const thisRef = useRef<HTMLDivElement>(null);
   const allCorrected = useMemo(
     () => preguntas.length > 0 && preguntas.every(({ id }) => corrAnswers[id] !== undefined),
@@ -557,7 +556,12 @@ export default function Test({
               ? (
                 <Pregunta
                   idx={idx}
-                  myRef={(el:HTMLDivElement) => { childrenRef.current[idx] = el; }}
+                  myRef={(el:HTMLDivElement) => {
+                    childrenRef.current[idx] = el;
+                    if (idx === preguntas.length - 1) {
+                      updateAfterRef((x) => (x < 2 ? x + 1 : x));
+                    }
+                  }}
                   key={preg.id}
                   objPreg={preg}
                   setValue={setValue}
