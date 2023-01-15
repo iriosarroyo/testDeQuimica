@@ -21,6 +21,8 @@
 .env.production.local
 /.VSCodeCounter
 start.ps1
+database.rules.json
+storage.rules
 
 npm-debug.log*
 yarn-debug.log*

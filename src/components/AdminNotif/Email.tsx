@@ -283,6 +283,7 @@ function ToForm({ allGroups, emailData, setEmailVals }:
 
 export default function Email({ groups }:{groups:GroupNotif[]}) {
   const [emailData, setEmailData] = useAsync<EmailData|null>(() => getFromSocketUID('notification:getStoredEmail'));
+  console.log(emailData);
   const [allUsers] = groups;
   const usersDict = useMemo(() => {
     const dict:{[k:string]:GroupNotif['people'][number]} = {};

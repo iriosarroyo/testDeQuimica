@@ -1,46 +1,13 @@
-# Getting Started with Create React App
+# Test de Química (Client)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the source code for Test de Química!
 
-## Available Scripts
+This is a project that I did for my high school, [Retamar](https://www.retamar.com). It's a web page to prepare the students for the Chemistry Olympiads. You can [click here](https://test-de-quimica.web.app) to see the web page. Bare in mind that everything about the Chemistry Olympiads (at least for the 2 first phases of the contest) is in Spanish and the students study Chemistry in Spanish, so everything on the web page is in Spanish.
 
-In the project directory, you can run:
+Technically, this code is built as a frame for different web pages. So, there is also a version for [Biology](https://test-de-biologia.web.app) and [Physics](https://test-de-fisica.web.app), although they're not being used at the moment since adding questions takes a while.
 
-### `npm start`
+This is the client side of the project, you can check the server side in [@iriosarroyo/testDeQuimicaServer](@iriosarroyo/testDeQuimicaServer)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Disclaimer!
+This is my first project in React and Typescript, but as it's a big ongoing project, you'll see some bad coding (and structuring) from when I started, but also a lot of improvement along the way. I go back little by little to that "bad code" and improve it, but at the same time, I also develop some new features.
