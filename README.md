@@ -6,7 +6,7 @@ This is a project that I did for my high school, [Retamar](https://www.retamar.c
 
 Technically, this code is built as a frame for different web pages. So, there is also a version for [Biology](https://test-de-biologia.web.app) and [Physics](https://test-de-fisica.web.app), although they're not being used at the moment since adding questions takes a while.
 
-This is the client side of the project, you can check the server side in [@iriosarroyo/testDeQuimicaServer](@iriosarroyo/testDeQuimicaServer)
+This is the client side of the project, you can check the server side in [@iriosarroyo/testDeQuimicaServer](https://github.com/iriosarroyo/testDeQuimicaServer)
 
 
 #### Disclaimer!
