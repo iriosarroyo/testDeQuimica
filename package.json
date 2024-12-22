@@ -22,6 +22,7 @@
     "@types/uuid": "^8.3.4",
     "contrast-color": "1.0.1",
     "firebase": "^9.7.0",
+    "mathjs": "^11.5.1",
     "plotly.js": "^2.14.0",
     "random-seed": "^0.3.0",
     "react": "^18.1.0",
@@ -63,7 +64,6 @@
     ]
   },
   "devDependencies": {
-    "@types/firebase": "^3.2.1",
     "@types/plotly.js": "^2.12.5",
     "@types/random-seed": "^0.3.3",
     "@types/react-plotly.js": "^2.5.2",

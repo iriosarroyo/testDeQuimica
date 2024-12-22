@@ -131,6 +131,7 @@ export default function Search() {
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                         <div
                           className="tooltipSearchInfo"
+                          aria-label="Info"
                           role="button"
                           tabIndex={-1}
                           onClick={(e) => {

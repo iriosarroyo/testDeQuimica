@@ -16,6 +16,7 @@ import Button from 'components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Toast from 'services/toast';
+import key from 'services/tinymceKeys';
 
 interface EmailData{
   groups?:string[],
@@ -35,7 +36,7 @@ function EmailBody({ emailData, setVal }:{
   };
   return (
     <Editor
-      apiKey="m6t3xlqm61ck0rs6rwpjljwyy23zyz0neghtxujisl42v67b"
+      apiKey={key}
       value={value}
       onEditorChange={handleChange}
       init={{

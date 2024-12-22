@@ -81,7 +81,7 @@ const calculateWeightPerQuestion = async (
   const posibleQuestions:{[k:string]:PreguntaTest} = await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', levelYTema);
   pregsPerLevel[levelYTema] = posibleQuestions;
   let totalWeight = 0;
-  const weightsArray = Object.keys(posibleQuestions).map((id) => {
+  const weightsArray = Object.keys(posibleQuestions ?? {}).map((id) => {
     if (previousIds.has(id)) return [id, 0]; // Filter afterwards
     const thisQuesWeight = allQuestions ? 1 : getPreguntaWeight(temas?.[tema]?.[`level${level}`], id);
     totalWeight += thisQuesWeight;

@@ -124,7 +124,8 @@ class Commands {
 
   runCommand(value:string, user:CompleteUser) {
     const [cmd, ...params] = value.match(this.SPACES_MATCH_REG) ?? [];
-    const [, error] = this.execCommand(cmd?.replace('/', ''), params);
+    if (!cmd) return;
+    const [, error] = this.execCommand(cmd.replace('/', ''), params);
     if (error !== undefined) Toast.addMsg(error, 5000);
     if (error === undefined) {
       sendLogroUpdate('commandsExecuted', user.userDDBB.logros?.commandsExecuted);
@@ -382,7 +383,7 @@ class Commands {
   }
 
   runAutoComplete(value:string, index:number) {
-    const elements = value.replace(/^\s*\//, '').match(this.SPACES_MATCH_REG) ?? [];
+    const elements:string[] = value.replace(/^\s*\//, '').match(this.SPACES_MATCH_REG) ?? [];
     const [possibleAutocompletes] = this.getAutoComplete(value);
     if (value.endsWith(' ')) elements.push(' ');
     elements.splice(-1);

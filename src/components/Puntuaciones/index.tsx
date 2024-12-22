@@ -85,6 +85,7 @@ export default function Puntuaciones({ user }:{user?:CompleteUser}) {
         tienen el máximo en
         {' '}
         {MAX_PUNT_NIV_2}
+        {' '}
         puntos. Las preguntas de
         {' '}
         <span className="level3Text">nivel 3</span>

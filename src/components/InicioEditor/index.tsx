@@ -12,6 +12,7 @@ import { faFloppyDisk, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import editorSetUp from 'services/editorSetUp';
 import GeneralContentLoader from 'components/GeneralContentLoader';
+import key from 'services/tinymceKeys';
 
 export default function InicioEditor() {
   const user = useContext(UserContext)!;
@@ -41,7 +42,7 @@ export default function InicioEditor() {
         />
       </div>
       <Editor
-        apiKey="m6t3xlqm61ck0rs6rwpjljwyy23zyz0neghtxujisl42v67b"
+        apiKey={key}
         ref={editorRef}
         initialValue={text.content}
         onEditorChange={manageKeyUp}

@@ -13,7 +13,7 @@ const probabilityLevelGen = (max:number, deviation:number) => {
 };
 
 export const getUserProbLevel3 = probabilityLevelGen(10, 3.5); // Tested numbers
-const getUserProbLevel1 = probabilityLevelGen(0, 0.3); // Tested numbers
+const getUserProbLevel1 = probabilityLevelGen(0, 1); // Tested numbers
 
 export const MAX_PUNT_NIV_1 = 2;
 export const MAX_PUNT_NIV_2 = 6;

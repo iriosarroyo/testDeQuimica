@@ -17,4 +17,4 @@ export const sizeToString = (size:number) => {
   }
   return `${Math.round(thisSize * 100) / 100} ${typeOfSize[x]}`;
 };
-export const isKeyOfObj = <T>(key:PropertyKey, obj:T): key is keyof T => key in obj;
+export const isKeyOfObj = <T extends {}>(key:PropertyKey, obj:T): key is keyof T => key in obj;

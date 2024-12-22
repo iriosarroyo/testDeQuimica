@@ -90,7 +90,7 @@ const FrasesCuriosasEditor = loadable(() => import('components/FrasesCuriosasEdi
 const AdminNotif = loadable(() => import('components/AdminNotif'), {
   fallback: <GeneralContentLoader />,
 });
-const Valoracion = loadable(() => import('components/Valoracion'), {
+const AjusteReaccion = loadable(() => import('components/AjusteReaccion'), {
   fallback: <GeneralContentLoader />,
 });
 const Error404 = loadable(() => import('components/Error404'), {
@@ -151,7 +151,7 @@ const paginas:Paginas = [
   newPagina('Tabla Periódica', '/tablaPeriodica', faHSquare, 'Ctrl+Alt+P', <TablaEditor />, isApp('quimica')),
   newPagina('Perfil', '/perfil', faAddressCard, 'Ctrl+Alt+U', <Perfil />),
   newPagina('Estadísticas', '/estadisticas', faChartLine, 'Ctrl+Alt+V', <Stats />),
-  newPagina('Herramientas', '/tools', faScrewdriverWrench, 'Ctrl+Alt+H', <Valoracion />, process.env.REACT_APP_ASIGNATURA === '__ASIGNATURA__'),
+  newPagina('Herramientas', '/tools', faScrewdriverWrench, 'Ctrl+Alt+H', <AjusteReaccion />, process.env.REACT_APP_ASIGNATURA === '__ASIGNATURA__'),
   newPagina('Ajustes', '/ajustes', undefined, 'Ctrl+Alt+Ñ', <Ajustes />),
   newPagina('Error404', '*', undefined, undefined, <Error404 />),
 ];

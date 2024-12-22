@@ -21,6 +21,7 @@ import {
 import { faCircle, faCircleXmark as faCircleXmarkReg } from '@fortawesome/free-regular-svg-icons';
 import { getPreguntasYRespuestas } from 'services/database';
 import { getTemas } from 'info/temas';
+import keyTiny from 'services/tinymceKeys';
 
 const TAB_IDX = {
   checks: 3,
@@ -62,8 +63,10 @@ function InlineEditor({
   };
   return (
     <Editor
-      apiKey="m6t3xlqm61ck0rs6rwpjljwyy23zyz0neghtxujisl42v67b"
+      apiKey={keyTiny}
       onInit={(_, editor) => {
+        console.count('inline');
+
         const { bodyElement = { tabIndex: 0 } } = editor;
         ref.current = editor;
         bodyElement.tabIndex = TAB_IDX.editor(id, tabId);
@@ -186,7 +189,7 @@ function Options({
   return (
     <div className="editorQuestionGroup">
       {opcionesValues.map((opt) => (
-        <div key={opt.id} className="optionQuestionEditor">
+        <div className="optionQuestionEditor">
           <Button
             className="optionButtonQuestionEditor"
             onFocus={() => setFocused(opt.id)}
@@ -248,7 +251,7 @@ const generateNewQuestion = (id:string) => {
     done: false,
     id,
     level: '1',
-    tema: 'Tema 1',
+    tema: 'tema1',
     nivelYTema: 'tema1_1',
     opciones: Object.fromEntries(opts),
     pregunta: '',
@@ -329,7 +332,7 @@ function EditPregunta({ preguntaTest, correcta, saveQuestion }:
       </div>
       <div className="editorQuestionGroup">
         <h4 className="editorTitle">Pregunta:</h4>
-        {[uid].map((i) => <InlineEditor key={i} initValue={pregunta} onChange={changeTitle} id="pregunta" tabId={tabIdxId} />)}
+        <InlineEditor initValue={pregunta} onChange={changeTitle} id="pregunta" tabId={tabIdxId} />
       </div>
       <div className="editorQuestionGroup">
         <h4 className="inlineTitle">ID:</h4>
