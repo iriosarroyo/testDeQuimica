@@ -9,7 +9,9 @@ function Compound({ molecule, coef, state }:
     {molecule:Molecule, coef: number|null|undefined, state:string|null|undefined}) {
   return (
     <span className="compound">
-      {coef !== null && round(coef ?? 0, 2) !== 1 && round(coef ?? 0, 2)}
+      <strong>
+        {coef !== null && round(coef ?? 0, 2) !== 1 && round(coef ?? 0, 2)}
+      </strong>
       {' '}
       <RenderMolecule molecule={molecule} type="Complete" />
       {' '}
@@ -42,6 +44,7 @@ export function RenderReaction({ reaction }:{reaction:Reaction}) {
         </Fragment>
       ))}
       {symbol ? <>&#8644;</> : <>&#8594;</>}
+      {' '}
       {products?.map((molec, idx) => (
         // eslint-disable-next-line react/no-array-index-key
         <Fragment key={`Product${idx}`}>

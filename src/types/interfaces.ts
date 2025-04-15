@@ -138,6 +138,7 @@ export interface OpcionGroupTest{
 
 export interface PreguntaTest{
   done:boolean,
+  created?:number,
   opciones:OpcionGroupTest,
   id:string,
   pregunta: string,

@@ -4,6 +4,7 @@ import { getTotalAtoms, sorterByElectNeg } from 'services/chemBalancing';
 import { Atom, Molecule } from 'types/chemistry';
 import general from 'info/general.json';
 import tablaPeriodica from 'info/tablaPeriodica.json';
+import './Molecule.css';
 
 const { translations } = general;
 
@@ -13,6 +14,7 @@ function RenderAtom({ atom }:{atom:Atom}) {
   const hsl = tablaPeriodica[elemName as keyof typeof tablaPeriodica]?.['cpk-hex'];
   return (
     <span
+      className="atom"
       style={{ color: `#${hsl}` }}
     >
       {atom.elem}

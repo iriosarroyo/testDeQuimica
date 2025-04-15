@@ -193,6 +193,7 @@ const solveSystem = (coefMatrix: number[][], colMatrix: number[]) => {
   amplifiedMatrix.forEach((_, idx) => amplifiedMatrix[idx].push(colMatrix[idx]));
   const echelon = rowEchelon(amplifiedMatrix);
   const solutions = echelon.slice(0, numOfSolutions).map((x) => x.at(-1) ?? NaN);
+  console.log({ echelon, numOfSolutions, solutions });
   return solutions;
 };
 
@@ -202,7 +203,7 @@ export const balanceReaction = (reaction: Reaction):AdjustedReaction => {
   } = reaction;
   if (reactants === undefined || products === undefined
     || coefReact === undefined || coefProd === undefined) {
-    throw Error('Something undefined');
+    throw Error('Faltan reactivos o productos');
   }
   const atomsReact = reactants.map(({ atoms }) => getTotalAtoms(atoms));
   const chargeReact = reactants.map(({ charge }) => charge);
@@ -213,7 +214,7 @@ export const balanceReaction = (reaction: Reaction):AdjustedReaction => {
 
   const symDiffAtoms = symmetricDiff(setAtomsProd, setAtomsReact);
   if (symDiffAtoms.size > 0) {
-    throw Error('Not same atoms in reactants and products');
+    throw Error('No hay los mismos átomos en los reactivos y productos');
   }
   let fixedMolecule:{[k:string]:number};
   let fixedCharge:number;
@@ -261,6 +262,15 @@ export const balanceReaction = (reaction: Reaction):AdjustedReaction => {
       round(coefficientFixed * minCoeff, 2),
     );
   }
+  const chargeReactAfter = newCoefReact.reduce(
+    (acum, coef, i) => acum + coef * reactants[i].charge,
+    0,
+  );
+  const chargeProdAfter = newCoefProd.reduce(
+    (acum, coef, i) => acum + coef * products[i].charge,
+    0,
+  );
+  if (chargeReactAfter !== chargeProdAfter) throw new Error('Cargas no ajustadas');
   return {
     ...reaction,
     stateProd: stateProd ?? newCoefProd.map(() => null),

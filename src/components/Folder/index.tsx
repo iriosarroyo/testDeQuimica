@@ -38,7 +38,9 @@ interface FolderProps {
 function Folder({
   onContextMenu, folder,
 }:FolderProps) {
-  const { name, url, isLink } = folder;
+  const {
+    name, url, isLink,
+  } = folder;
   const user = useContext(UserContext)!;
   if (isLink) {
     return (
@@ -48,7 +50,7 @@ function Folder({
           className="folder"
           target="_blank"
           rel="noreferrer"
-          onContextMenu={(e) => onContextMenu(e, name, url)}
+          onContextMenu={(e) => onContextMenu(e, name, url, 'logro' in folder ? folder.logro : undefined)}
           onClick={() => ('logro' in folder) && folder.logro
           && sendLogroUpdate(folder.logro as LogrosKeys, user.userDDBB.logros?.recursos)}
         >

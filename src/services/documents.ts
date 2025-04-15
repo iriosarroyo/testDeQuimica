@@ -7,7 +7,9 @@ import {
 } from 'firebase/storage';
 import { PATHS_DDBB } from 'info/paths';
 import React, { FormEvent } from 'react';
-import { FileData, FolderData, LinkDocs } from 'types/interfaces';
+import {
+  FileData, FolderData, LinkDocs, LogrosKeys,
+} from 'types/interfaces';
 import SearchCmd from './commands';
 import { onValueDDBB, readDDBB, writeDDBB } from './database';
 import { stg } from './firebaseApp';
@@ -233,12 +235,12 @@ export const onValueDocumentsLink = (
   setter(Object.values(docsLinks ?? {}).map((x) => ({ ...x, isLink: true })));
 }, (error:Error) => Toast.addMsg(`Error al cargar los link de los documentos: ${error.message}`, 3000));
 
-export const saveDocumentLinks = async (name:string, url:string) => {
+export const saveDocumentLinks = async (name:string, url:string, logro?:LogrosKeys) => {
   if (name === '') {
     Toast.addMsg('Nombre no válido para la carpeta', 3000);
     return false;
   }
-  const error = await writeDDBB(`${PATHS_DDBB.documentsLinks}/${name}`, { name, url });
+  const error = await writeDDBB(`${PATHS_DDBB.documentsLinks}/${name}`, { name, url, logro });
   if (error) {
     Toast.addMsg(`Error al subir el link: ${error.message}`, 3000);
     return false;
@@ -257,8 +259,13 @@ export const deleteDocumentLinks = async (name:string) => {
   return true;
 };
 
-export const updateDocumentLinks = async (prevName:string, name:string, url:string) => {
+export const updateDocumentLinks = async (
+  prevName:string,
+  name:string,
+  url:string,
+  logro?:LogrosKeys,
+) => {
   const del = await deleteDocumentLinks(prevName);
-  const create = await saveDocumentLinks(name, url);
+  const create = await saveDocumentLinks(name, url, logro);
   return del && create;
 };

@@ -6,6 +6,7 @@ import { QuestionError } from './errores';
 import {
   getPreguntaWeight,
   getProbLevel1, getProbLevel2, getProbLevel3, getProbTema, getPuntuacionDelTema, getTemasInOrder,
+  MAX_PUNT_NIV_3,
 } from './probability';
 import { getNumOfDays } from './time';
 
@@ -13,6 +14,7 @@ type UserData = {temas?:UserDDBB['temas'], year:UserDDBB['year']}
 interface PreguntasGenParams {
     userData:UserData,
     seed?: number| string,
+    started: number,
     allQuestions?: boolean,
     overwriteTemas?:string[],
     overwriteLevels?:{'1':number, '2':number, '3':number}
@@ -31,12 +33,16 @@ const getActiveTemasWithPunt = async (
   temas:UserDDBB['temas'],
   year:string,
   overwriteTemas?:string[],
-  factor = 1,
+  factor = 0,
 ) => {
   const order = overwriteTemas ?? await getTemasInOrder(year);
   const temasWithPunt:[string, number][] = [];
   for (let i = 0; i < order.length; i++) {
-    const punt = Math.min(10, getPuntuacionDelTema(temas?.[order[i]]) * factor);
+    const puntOriginal = getPuntuacionDelTema(temas?.[order[i]]);
+    const punt = Math.min(
+      10,
+      factor > 0 ? Math.floor(factor + puntOriginal) % MAX_PUNT_NIV_3 : puntOriginal,
+    );
     temasWithPunt.push([order[i], punt]);
     if (!overwriteTemas && (factor !== 1 ? punt === 0 : punt < 4)) break;
   }
@@ -69,6 +75,7 @@ type WeightsPregsPerLevel = {[k:string]:[{[k:string]:number}, number]|undefined}
 // Modifies weightsPregsPerLevel and pregsPerLevel
 const calculateWeightPerQuestion = async (
   levelYTema:string,
+  started: number,
   allQuestions:boolean|undefined,
   temas:UserDDBB['temas'],
   weightsPregsPerLvl:WeightsPregsPerLevel,
@@ -78,7 +85,9 @@ const calculateWeightPerQuestion = async (
   const weightsPregsPerLevel = weightsPregsPerLvl;
   const pregsPerLevel = pregsPerLvl;
   const [tema, level] = levelYTema.split('_');
-  const posibleQuestions:{[k:string]:PreguntaTest} = await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', levelYTema);
+  const posibleQuestions = Object.fromEntries(Object.entries(
+    await filterByChildCache(PATHS_DDBB.preguntas, 'nivelYTema', levelYTema) as {[k:string]:PreguntaTest} ?? {},
+  ).filter(([, v]) => v.created === undefined || v.created < started));
   pregsPerLevel[levelYTema] = posibleQuestions;
   let totalWeight = 0;
   const weightsArray = Object.keys(posibleQuestions ?? {}).map((id) => {
@@ -86,7 +95,7 @@ const calculateWeightPerQuestion = async (
     const thisQuesWeight = allQuestions ? 1 : getPreguntaWeight(temas?.[tema]?.[`level${level}`], id);
     totalWeight += thisQuesWeight;
     return [id, thisQuesWeight];
-  }).filter(([, w]) => w !== 0); // remove weightes with 0
+  }).filter(([, w]) => w !== 0); // remove weights with 0
   weightsPregsPerLevel[levelYTema] = [Object.fromEntries(weightsArray), totalWeight];
 };
 
@@ -129,11 +138,12 @@ const prepareVarsForGen = async (
   return { weights, weightsPregsPerLevel, pregsPerLevel };
 };
 
-const FACTOR = 0.5;
+// const FACTOR = 0.5;
 
 const preguntasGen = async (
   {
     userData,
+    started,
     seed = getNumOfDays(Date.now()),
     overwriteTemas,
     overwriteLevels,
@@ -160,6 +170,7 @@ const preguntasGen = async (
           // eslint-disable-next-line no-await-in-loop
           await calculateWeightPerQuestion(
             levelYTema,
+            started,
             allQuestions,
             temas,
             weightsPregsPerLevel,
@@ -182,15 +193,15 @@ const preguntasGen = async (
       }
       if (question === undefined) {
         if (overwriteTemas || overwriteLevels) throw new QuestionError();
+        if (restart === 11) throw new QuestionError();
         // eslint-disable-next-line no-await-in-loop
         ({ pregsPerLevel, weights, weightsPregsPerLevel } = await prepareVarsForGen(
           temas,
           year,
           overwriteTemas,
           overwriteLevels,
-          1 + restart * FACTOR,
+          restart,
         ));
-        if (restart === 5) throw new QuestionError();
         restart++;
         // eslint-disable-next-line no-continue
         continue;

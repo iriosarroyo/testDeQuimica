@@ -39,19 +39,22 @@ const getTodaysPreguntas = async (
   newTest:boolean = false,
 ) => {
   let userDDBB: {temas?:UserDDBB['temas'], year:UserDDBB['year']};
+  let started = Date.now();
   if (newTest) {
-    await writeDDBB(path, { temas: user.userDDBB.temas, time: 0 });
+    await writeDDBB(path, { temas: user.userDDBB.temas, time: 0, started });
     await writeUserInfo(Date.now(), 'lastTest');
     userDDBB = user.userDDBB;
   } else {
     const [temas]:[UserDDBB['temas'], Error|undefined] = await readDDBB(`${path}/temas`);
-    const [time] = await readDDBB(`${path}/time`);
+    const [data] = await readDDBB(`${path}`);
+    let time;
+    ({ time, started } = data);
     setStart(time ?? 0);
     userDDBB = { temas, year: user.userDDBB.year };
   }
   let preguntas;
   try {
-    [preguntas] = await getNQuestions(5, { userData: userDDBB });
+    [preguntas] = await getNQuestions(5, { userData: userDDBB, started });
   } catch (e) {
     setError(e);
   }
@@ -81,10 +84,10 @@ function TestDelDia() {
 }
 
 function TestPuntuacion({
-  config, seed, room, onEnd, showEndButton, viewerUser,
+  config, seed, room, onEnd, showEndButton, viewerUser, started,
 }:
   // eslint-disable-next-line no-undef
-  {config:RoomData, seed:number, room:string, viewerUser:string
+  {config:RoomData, seed:number, room:string, viewerUser:string, started: number,
     onEnd:Function, showEndButton:boolean}) {
   const setError = useContext(MyErrorContext);
   const [preguntas, setPreguntas] = useState<PreguntaTest[]>([]);
@@ -105,6 +108,7 @@ function TestPuntuacion({
       getNumOfPregs(config),
       {
         seed,
+        started,
         userData: adminStats,
         overwriteTemas: temasSeleccionados,
         overwriteLevels: difficulty === 'Personalizado' ? probLevels : undefined,
@@ -161,6 +165,7 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
   const { username } = useContext(UserContext)!.userDDBB;
   const [config, setConfig] = useState<RoomData>();
   const [seed, setSeed] = useState<number>();
+  const [start, setStart] = useState<number>();
   const [members, setMembers] = useState<{[key:string]:RoomMember}|null>(null);
   const setError = useContext(MyErrorContext);
   const setFooter = useContext(FooterContext);
@@ -199,6 +204,7 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
   const showEndButton = isRoomAdmin && allMembersEnded;
   useEffect(() => {
     readWithSetter(`rooms/${room}/config`, setConfig);
+    readWithSetter(`rooms/${room}/started`, setStart);
     readWithSetter(`rooms/${room}/seed`, setSeed);
   }, [room]);
 
@@ -226,6 +232,7 @@ export default function CustomTest({ room, exam = CustomTest.defaultProps.exam }
       />
       <TestPuntuacion
         viewerUser={viewerUser}
+        started={start ?? Date.now()}
         room={room}
         config={config}
         seed={seed}

@@ -11,30 +11,37 @@ test('Test getting elements output structure', () => {
   expect(getAtomsOfMolec('H2SO4')).toStrictEqual({
     atoms: [{ elem: 'H', num: 2 }, { elem: 'S', num: 1 }, { elem: 'O', num: 4 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('H2')).toStrictEqual({
     atoms: [{ elem: 'H', num: 2 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('H2O')).toStrictEqual({
     atoms: [{ elem: 'H', num: 2 }, { elem: 'O', num: 1 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('NaCl')).toStrictEqual({
     atoms: [{ elem: 'Na', num: 1 }, { elem: 'Cl', num: 1 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('C2H4O')).toStrictEqual({
     atoms: [{ elem: 'C', num: 2 }, { elem: 'H', num: 4 }, { elem: 'O', num: 1 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('CH3COOH')).toStrictEqual({
     atoms: [{ elem: 'C', num: 1 }, { elem: 'H', num: 3 }, { elem: 'C', num: 1 }, { elem: 'O', num: 1 }, { elem: 'O', num: 1 }, { elem: 'H', num: 1 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Na2C10H14N2O8')).toStrictEqual({
     atoms: [{ elem: 'Na', num: 2 }, { elem: 'C', num: 10 }, { elem: 'H', num: 14 }, { elem: 'N', num: 2 }, { elem: 'O', num: 8 }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Al(NO3)3')).toStrictEqual({
     atoms: [{ elem: 'Al', num: 1 }, {
@@ -43,6 +50,7 @@ test('Test getting elements output structure', () => {
       atoms: [{ elem: 'N', num: 1 }, { elem: 'O', num: 3 }],
     }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Al2(SO4)3')).toStrictEqual({
     atoms: [{ elem: 'Al', num: 2 }, {
@@ -51,6 +59,7 @@ test('Test getting elements output structure', () => {
       atoms: [{ elem: 'S', num: 1 }, { elem: 'O', num: 4 }],
     }],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(NH4)2CO3')).toStrictEqual({
     atoms: [{
@@ -60,6 +69,7 @@ test('Test getting elements output structure', () => {
     }, { elem: 'C', num: 1 }, { elem: 'O', num: 3 },
     ],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(CH3CNOH)2')).toStrictEqual({
     atoms: [{
@@ -72,6 +82,7 @@ test('Test getting elements output structure', () => {
     },
     ],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(CH3CNOH)20')).toStrictEqual({
     atoms: [{
@@ -84,6 +95,7 @@ test('Test getting elements output structure', () => {
     },
     ],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(CH3(CN)3OH)2')).toStrictEqual({
     atoms: [{
@@ -96,6 +108,7 @@ test('Test getting elements output structure', () => {
     },
     ],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(CH3(C5N10)3OH)2')).toStrictEqual({
     atoms: [{
@@ -108,6 +121,7 @@ test('Test getting elements output structure', () => {
     },
     ],
     charge: 0,
+    oxNums: [],
   });
   expect(getAtomsOfMolec(' (CH3(C5N10)3OH)2 ')).toStrictEqual({
     atoms: [{
@@ -120,6 +134,7 @@ test('Test getting elements output structure', () => {
     },
     ],
     charge: 0,
+    oxNums: [],
   });
 });
 
@@ -127,62 +142,77 @@ test('Test charges of output', () => {
   expect(getAtomsOfMolec('Na+')).toStrictEqual({
     atoms: [{ elem: 'Na', num: 1 }],
     charge: 1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Na[+]')).toStrictEqual({
     atoms: [{ elem: 'Na', num: 1 }],
     charge: 1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Na[1]')).toStrictEqual({
     atoms: [{ elem: 'Na', num: 1 }],
     charge: 1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Mg[+2]')).toStrictEqual({
     atoms: [{ elem: 'Mg', num: 1 }],
     charge: 2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Mg[2]')).toStrictEqual({
     atoms: [{ elem: 'Mg', num: 1 }],
     charge: 2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Mg+2')).toStrictEqual({
     atoms: [{ elem: 'Mg', num: 1 }],
     charge: 2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Mg[2+]')).toStrictEqual({
     atoms: [{ elem: 'Mg', num: 1 }],
     charge: 2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Cl-')).toStrictEqual({
     atoms: [{ elem: 'Cl', num: 1 }],
     charge: -1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('Cl[-]')).toStrictEqual({
     atoms: [{ elem: 'Cl', num: 1 }],
     charge: -1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('O[-2]')).toStrictEqual({
     atoms: [{ elem: 'O', num: 1 }],
     charge: -2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('O[2-]')).toStrictEqual({
     atoms: [{ elem: 'O', num: 1 }],
     charge: -2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('O-2')).toStrictEqual({
     atoms: [{ elem: 'O', num: 1 }],
     charge: -2,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('O2-')).toStrictEqual({
     atoms: [{ elem: 'O', num: 2 }],
     charge: -1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('O2+')).toStrictEqual({
     atoms: [{ elem: 'O', num: 2 }],
     charge: 1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('CH3COO-')).toStrictEqual({
     atoms: [{ elem: 'C', num: 1 }, { elem: 'H', num: 3 }, { elem: 'C', num: 1 }, { elem: 'O', num: 1 }, { elem: 'O', num: 1 }],
     charge: -1,
+    oxNums: [],
   });
   expect(getAtomsOfMolec('(CH3(C5N10)3OH)2[+2]')).toStrictEqual({
     atoms: [{
@@ -195,6 +225,7 @@ test('Test charges of output', () => {
     },
     ],
     charge: 2,
+    oxNums: [],
   });
 });
 

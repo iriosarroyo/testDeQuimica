@@ -181,7 +181,7 @@ export function TimingChangingButton({ text, handleChange }:
         title: 'Temporizador',
         text,
         values: ['Sin Temporizador', 'Temporizador Global', 'Temporizador por Pregunta'],
-        descriptions: ['No hay cuenta atrás. Si que dispondrás de un cronometro para saber cuánto has tardado.',
+        descriptions: ['No hay cuenta atrás. Sí que dispondrás de un cronometro para saber cuánto has tardado.',
           'El examen termina cuando se acabe el temporizador.',
           'Cuando se acabe el temporizador pasas a la siguiente pregunta. Con este modo se impide volver hacia atrás.'],
         onChange: (val:string) => handleChange(val, 'timingMode'),

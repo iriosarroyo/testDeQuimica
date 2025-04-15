@@ -65,8 +65,6 @@ function InlineEditor({
     <Editor
       apiKey={keyTiny}
       onInit={(_, editor) => {
-        console.count('inline');
-
         const { bodyElement = { tabIndex: 0 } } = editor;
         ref.current = editor;
         bodyElement.tabIndex = TAB_IDX.editor(id, tabId);

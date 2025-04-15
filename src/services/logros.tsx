@@ -18,6 +18,8 @@ export const logros:Logros[] = (Object.values(logrosJSON) as Logros[])
   .filter((x) => x.available === undefined || x.available.some((val) => isApp(val)));
 export const getLogrosFrom = (username:string) => getFromSocket('main:getLogrosFromUser', username);
 
+export const isLogrosKeys = (key:string):key is LogrosKeys => logros.some((x) => x.key === key);
+
 export const sendLogroUpdate = (logroKey:LogrosKeys, previousValue:Logro, ...params:any[]) => {
   if (logros.find((x) => x.key === logroKey) === undefined) return Promise.resolve(false);
   return getFromSocket('main:updateLogros', logroKey, previousValue, ...params);

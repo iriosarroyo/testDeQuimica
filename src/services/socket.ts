@@ -65,8 +65,8 @@ export const createSocket = (
     clearTimeout(timeout2);
     setLoading(false);
   });
-  socket.on('connect_error', () => {
-    rej();
+  socket.on('connect_error', (e) => {
+    rej(e);
   });
   socket.on('disconnect', (reason) => {
     timeout2 = window.setTimeout(() => setLoading(true), 500);

@@ -12,15 +12,18 @@ import React, {
 import {
   deleteDocumentLinks, onValueDocumentsLink, saveDocumentLinks, updateDocumentLinks,
 } from 'services/documents';
+import { isLogrosKeys, logros } from 'services/logros';
+import { LogrosKeys } from 'types/interfaces';
 
-function LinkForm({ name, url }:{name?:string, url?:string}) {
+function LinkForm({ name, url, logro }:{name?:string, url?:string, logro?:LogrosKeys}) {
   const [nameState, setName] = useState(name ?? '');
   const [urlState, setUrl] = useState(url ?? '');
+  const [logroState, setLogro] = useState(logro);
   const setFront = useContext(FrontContext);
   const ref = useRef<HTMLInputElement>(null);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = name === undefined ? await saveDocumentLinks(nameState, urlState)
+    const result = name === undefined ? await saveDocumentLinks(nameState, urlState, logroState)
       : await updateDocumentLinks(name, nameState, urlState);
     if (result) setFront({ elem: null, cb: () => {} });
   };
@@ -43,6 +46,29 @@ function LinkForm({ name, url }:{name?:string, url?:string}) {
           Url
           <input type="url" id="url" value={urlState} onChange={(e) => setUrl(e.currentTarget.value)} placeholder="https://example.com" />
         </label>
+        <label htmlFor="logro">
+          Logro
+          <select
+            id="logro"
+            value={logro}
+            onChange={(e) => {
+              const { value } = e.currentTarget;
+              if (value === '') setLogro(undefined);
+              else if (isLogrosKeys(value)) setLogro(value);
+            }}
+          >
+            <option value="">Ninguno</option>
+            {logros.map((x) => (
+              <option key={x.id} value={x.key}>
+                {x.name}
+                {' '}
+                (
+                {x.key}
+                )
+              </option>
+            ))}
+          </select>
+        </label>
         <Button type="submit">Crear</Button>
       </form>
     </div>
@@ -52,11 +78,13 @@ function LinkForm({ name, url }:{name?:string, url?:string}) {
 LinkForm.defaultProps = {
   name: undefined,
   url: undefined,
+  logro: undefined,
 };
 
 interface DocsFrontContextMenu extends React.CSSProperties{
     name:string,
-    url:string
+    url:string,
+    logro?:LogrosKeys,
 }
 export default function DocsFront({ isAdmin }:{isAdmin:boolean}) {
   const setFront = useContext(FrontContext);
@@ -66,6 +94,7 @@ export default function DocsFront({ isAdmin }:{isAdmin:boolean}) {
     e:MouseEvent<HTMLElement>,
     name:string,
     url:string,
+    logro?:LogrosKeys,
   ) => {
     if (!isAdmin) return;
     e.preventDefault();
@@ -74,6 +103,7 @@ export default function DocsFront({ isAdmin }:{isAdmin:boolean}) {
       left: `${e.clientX}px`,
       name,
       url,
+      logro,
     });
   };
   return (
@@ -108,7 +138,11 @@ export default function DocsFront({ isAdmin }:{isAdmin:boolean}) {
         items={[{
           text: `Actualizar ${constextMenu.name}`,
           action: () => setFront({
-            elem: <LinkForm name={constextMenu.name} url={constextMenu.url} />,
+            elem: <LinkForm
+              name={constextMenu.name}
+              url={constextMenu.url}
+              logro={constextMenu.logro}
+            />,
             cb: () => {},
             unableFocus: true,
           }),
